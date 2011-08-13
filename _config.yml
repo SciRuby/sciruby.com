@@ -67,7 +67,7 @@ delicious_user:
 delicious_count: 3
 
 # Disqus Comments
-disqus_short_name:
+disqus_short_name: sciruby
 
 # Google Analytics
-google_analytics_tracking_id:
+google_analytics_tracking_id: UA-12735432-6
