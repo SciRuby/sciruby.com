@@ -2,7 +2,7 @@
 layout: page
 title: "Documentation"
 date: 2011-08-13 13:57
-comments: true
+comments: false
 sharing: true
 footer: true
 ---
