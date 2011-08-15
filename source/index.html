@@ -7,50 +7,28 @@ footer: false
 
 <p>We are not the first with this idea, but we are trying to bring it to life.</p>
 
-<p>At this point, SciRuby has not much to offer. But if you install this gem, you&#8217;ll get as dependencies all of the libraries that we plan to incorporate into SciRuby.</p>
-
-<h2 id="planned_features">Planned Features</h2>
-
+<p>At this point, SciRuby is not a single gem (there is a sciruby gem, but it's really just a placeholder). If you want to use the numerical, statistical, scientific, and visualization tools that have been written thus far, we recommend you try out the following component gems:</p>
 <ul>
-<li>Visualization (web by way of protovis, otherwise with rubyvis)</li>
-<li>Statistical methods and distributions</li>
-<li>Numeric computation</li>
+<li><em>Visualization:</em> rubyvis</li>
+<li><em>Statistics:</em> statsample</li>
+<li><em>Numerics:</em> <a href="https://github.com/princelab/narray">narray</a>, minimization</li>
+<li><em>Probability:</em> distribution</li>
 </ul>
 
-<h2 id="current_features">Current Features</h2>
+<p>Please note that we are in the process of rewriting NArray, and that none of these are finished products. If you like what you see, or would like to get involved, please join our <a href="http://groups.google.com/group/sciruby-dev">Google Group</a> or find us in #sciruby on IRC (Freenode.net).</p>
 
-<ul>
-<li>SciRuby::Recommend::SetDistance - expert recommendations based on sets of binary associations.</li>
-</ul>
-
-<h2 id="synopsis">Synopsis</h2>
-
-<p>FIX (code sample of usage)</p>
-
-<h2 id="requirements">Requirements</h2>
-
-<ul>
-<li>distribution (and preferably statistics2 or gsl)</li>
-<li>statsample</li>
-<li>rubyvis or protovis</li>
-<li>narray</li>
-</ul>
+<h3 id="roadmap">Roadmap</h3>
+<p>Our roadmap for future development can be found <a href="https://github.com/SciRuby/sciruby/wiki/Roster">here</a>.</p>
 
 <h2 id="installation">Installation</h2>
 
-<pre><code>(sudo) gem install sciruby
+<pre><code>(sudo) gem install rubyvis statsample minimization distribution
 </code></pre>
 
 <h2 id="developers">Developers</h2>
 
-<p>After checking out the source, run:</p>
-
-<pre><code>$ rake newb
-</code></pre>
-
-<p>This task will install any missing dependencies, run the tests/specs,
-and generate the RDoc.</p>
+<p>You can find the <a href="https://github.com/SciRuby/sciruby/wiki/Roster">full roster</a> on our <a href="https://github.com/SciRuby/sciruby/wiki/">project wiki</a>.</p>
 
 <h2 id="license">License</h2>
 
-<p>This will be GPLv2 or GPLv3. For now, see GPLv2.</p>
+<p>SciRuby is <a href="https://github.com/SciRuby/sciruby/wiki/License">licensed</a> under the GNU General Public License, v3.</p>
