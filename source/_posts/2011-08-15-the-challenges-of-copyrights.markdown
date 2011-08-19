@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "The Challenges of Copyrights"
-date: 2011-08-15 18:56
+date: 2011-08-15 19:56
 comments: true
 author: John Woods
 categories: [Algorithms,Licenses,Meta]
