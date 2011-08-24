@@ -2,6 +2,21 @@
 // Add styles here to make changes without digging in too much
 
 span.gem {
-    font-family: monospace;
-    font-size: 1.1em;
+    font-family: Menlo, Monaco, "Andale Mono", "lucida console", "Courier New", monospace;
+}
+
+article .warning {
+    border: .5em solid pink;
+    background-color: pink;
+    font-size: 0.8em;
+    line-height: 1.3em;
+    -khtml-border-radius: 0.4em;
+    border-radius: 0.4em;
+    -webkit-box-shadow: rgba(0,0,0,0.15) 0 1px 4px;
+    -moz-box-shadow: rgba(0,0,0,0.15) 0 1px 4px;
+    -o-box-shadow: rgba(0,0,0,0.15) 0 1px 4px;
+    box-shadow: rgba(0,0,0,0.15) 0 1px 4px;
+    box-sizing: border-box;
+    margin: 0 auto 2em;
+    padding: 0.4em 0.6em;
 }

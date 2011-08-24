@@ -14,11 +14,11 @@ footer: false
 <ul>
 <li><em>Visualization:</em> <span class="gem">rubyvis</span></li>
 <li><em>Statistics:</em> <span class="gem">statsample</span></li>
-<li><em>Numerics:</em> <span class="gem"><a href="https://github.com/princelab/narray">narray</a></span>, <span class="gem">minimization</span></li>
+<li><em>Numeric:</em> <span class="gem"><a href="https://github.com/princelab/narray">narray</a></span>, <span class="gem">minimization</span>, <span class="gem">integration</span></li>
 <li><em>Probability:</em> <span class="gem">distribution</span></li>
 </ul>
 
-<p>Please note that we are in the process of rewriting NArray, and that none of these are finished products. If you like what you see, or would like to get involved, please join our <a href="http://groups.google.com/group/sciruby-dev">Google Group</a> or find us in #sciruby on IRC (Freenode.net).</p>
+<p>Please note that we are in the process of rewriting NArray, and that none of these are finished products. If you like what you see, or would like to get involved, please join our Google Group (see below) or find us in #sciruby on IRC (Freenode.net).</p>
 
 <h3>Subscribe to the SciRuby Google Group</h3>
 <form action="http://groups.google.com/group/sciruby-dev/boxsubscribe">
@@ -31,14 +31,19 @@ footer: false
 
 
 <h3 id="roadmap">Roadmap</h3>
-<p>Our roadmap for future development can be found <a href="https://github.com/SciRuby/sciruby/wiki/Roster">here</a>.</p>
+<p>Our roadmap for future development can be found <a href="https://github.com/SciRuby/sciruby/wiki/Roadmap">here</a>.</p>
 
 <h2 id="installation">Getting SciRuby</h3>
 
-<pre><code>(sudo) gem install rubyvis statsample minimization distribution
+<p class="warning"><strong>Word to the wise:</strong> These gems have been tested, but not extensively. If you're thinking of using SciRuby to write mission critical code, such as for driving a car or flying a space shuttle, you may wish to choose other software (for now).</p>
+
+<pre><code>gem install rubyvis statsample minimization distribution integration
 </code></pre>
 
-<p>Note that <span class="gem">distribution</span> can optionally make use of <span class="gem"><a href="http://rubyforge.org/projects/rb-gsl/">gsl</a></span> and <span class="gem"><a href="https://github.com/abscondment/statistics2">statistics2</a></span>.</p>
+<p>Note that <span class="gem">distribution</span> and <span class="gem">integration</span> can optionally make use of <span class="gem"><a href="http://rubyforge.org/projects/rb-gsl/">gsl</a></span> and <span class="gem"><a href="https://github.com/abscondment/statistics2">statistics2</a></span>, which implement C versions of several of the methods. They may speed things up a bit, and have been tested much more thoroughly. These can be installed like so:</p>
+
+<pre><code>gem install gsl statistics2
+</code></pre>
 
 <h2 id="developers">Developers</h2>
 
