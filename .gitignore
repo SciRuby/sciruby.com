@@ -1,4 +1,5 @@
 .bundle
+.idea
 .DS_Store
 .sass-cache
 _gist_cache
