@@ -12,7 +12,11 @@ footer: false
 <p>We are not the first with this idea, but we are trying to bring it to life.</p>
 
 <h2>Project Status</h2>
-<p>At this point, SciRuby is not a single gem (there is a <span class="gem">sciruby</span> gem, but it's really just a placeholder). If you want to use the numerical, statistical, scientific, and visualization tools that have been written thus far, we recommend you try out the following component gems:</p>
+<p>Our first alpha (hopefully 0.1.3) is nearing release. If you want to play around with it, you can clone the <a href="http://github.com/SciRuby/sciruby">repository</a>. Please note that the version available through RubyGems, 0.1.2, is a placeholder.</p>
+
+<p>The first alpha will include a GUI for Rubyvis, Plotter, written by John Woods; as well as a statistical analysis domain-specific language tool, Analysis, by Claudio Bustos. The second alpha will include Numarray, our NArray rewrite, for which a spec is now being written by John Prince.</p>
+
+<p>If you're impatient, most of the SciRuby components are already available as individual packages. We recommend you try out the following component gems:</p>
 <ul>
 <li><em>Visualization:</em> <span class="gem"><a href="https://github.com/clbustos/rubyvis">rubyvis</a></span></li>
 <li><em>Statistics:</em> <span class="gem"><a href="https://github.com/clbustos/statsample">statsample</a></span></li>
@@ -20,7 +24,7 @@ footer: false
 <li><em>Probability:</em> <span class="gem"><a href="https://github.com/clbustos/distribution">distribution</a></span></li>
 </ul>
 
-<p>Please note that we are in the process of rewriting NArray, and that none of these are finished products. If you like what you see, or would like to get involved, please join our Google Group (see below) or find us in #sciruby on IRC (Freenode.net).</p>
+<p>Please note that we are in the process of rewriting NArray, and most of these are unfinished products. If you like what you see, or would like to get involved, please join our Google Group (see below) or find us in #sciruby on IRC (Freenode.net).</p>
 
 <h3>Subscribe to the SciRuby Google Group</h3>
 <form action="http://groups.google.com/group/sciruby-dev/boxsubscribe">
@@ -44,7 +48,7 @@ footer: false
 
 <p>Note that <span class="gem">distribution</span> and <span class="gem">integration</span> can optionally make use of <span class="gem"><a href="http://rubyforge.org/projects/rb-gsl/">gsl</a></span> and <span class="gem"><a href="https://github.com/abscondment/statistics2">statistics2</a></span>, which implement C versions of several of the methods. They may speed things up a bit, and have been tested much more thoroughly. These can be installed like so:</p>
 
-<pre><code>gem install gsl statistics2
+<pre><code>gem install statsample-optimization
 </code></pre>
 
 <h2 id="developers">Developers</h2>
