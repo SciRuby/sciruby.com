@@ -1,11 +1,23 @@
 ---
 layout: page
 title: "Documentation"
-date: 2011-08-19 16:18
+date: 2011-09-19 20:18
 comments: false
 sharing: true
 footer: true
 ---
+
+Installation
+------------
+Please note that SciRuby requires Ruby 1.9. Individual components may work with Ruby 1.8.
+
+* [Mac OSX](installation/mac.html)
+* [Windows](installation/windows.html)
+* [Linux](installation/linux.html)
+
+
+Project Status
+--------------
 
 We are currently in the process of putting together a spec and documentation. If you want to get involved, please drop by our [Google Group](http://groups.google.com/group/sciruby-dev) or our IRC channel, <tt>#sciruby</tt>.
 
