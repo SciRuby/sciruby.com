@@ -14,9 +14,9 @@ Please note that SciRuby requires Ruby 1.9.2 or higher. Individual components <e
 
 <h3>Platform-specific instructions</h3>
 
-* [Mac OSX](docs/installation/mac.html)
-* [Windows](docs/installation/windows.html)
-* [Linux](docs/installation/linux.html)
+* [Mac OSX](/docs/installation/mac.html)
+* [Windows](/docs/installation/windows.html)
+* [Linux](/docs/installation/linux.html)
 
 <h3>Pre-alpha workaround instructions</h3>
 
