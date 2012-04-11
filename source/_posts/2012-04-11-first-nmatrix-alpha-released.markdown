@@ -4,7 +4,7 @@ title: "First NMatrix Alpha Released"
 date: 2012-04-11 13:36
 comments: true
 author: John Woods
-categories: [Algorithms,Matrices]
+categories: [Algorithms,Matrices,NMatrix]
 ---
 Two months ago, I [mentioned the existence of a prototype Ruby linear algebra library](2012/02/11/numeric-matrix-considerations), written in C.
 
