@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "Windows Install Instructions"
-date: 2011-09-19 20:16
+date: 2012-04-11 15:05
 comments: false
 sharing: true
 footer: true
@@ -13,6 +13,14 @@ Green Shoes
 -----------
 
 You need to start by following the instructions for [installing Green Shoes on Windows 7](https://github.com/ashbb/green_shoes/wiki/Building-Green-Shoes-on-Windows-7).
+
+NMatrix
+-------
+
+ATLAS and LAPACK are required. Detailed instructions for installing these packages are available from [SciPy](http://www.scipy.org/Installing_SciPy/Windows#head-cd37d819e333227e327079e4c2a2298daf625624).
+
+<pre><code>gem install nmatrix
+</code></pre>
 
 SciRuby
 -------

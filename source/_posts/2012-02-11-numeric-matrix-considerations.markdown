@@ -4,13 +4,13 @@ title: "Numeric Matrix Considerations"
 date: 2012-02-11 17:35
 comments: true
 author: John Woods
-categories: [Algorithms,Matrices]
+categories: [Algorithms,Matrices,NMatrix]
 ---
 Maybe you've been wondering why the SciRuby people have been so quiet lately.
 
-Mostly, we've been working on [NMatrix](http://github.com/mohawkjohn/nmatrix), which is our prototype linear algebra library, written as a Ruby C extension.
+Mostly, we've been working on [NMatrix](http://github.com/SciRuby/nmatrix), which is our prototype linear algebra library, written as a Ruby C extension.
 
-So far, we have dense and linked-list-of-linked-lists (or just "list") matrices, which can exist in an essentially unlimited number of dimensions. This week, I implemented the [beginnings of a two-dimensional sparse type known as "new Yale."](https://github.com/mohawkjohn/nmatrix/tree/sparse) If you're curious, check out _[Numerical Recipes in C](http://apps.nrbook.com/c/index.html)_, pp. 78-79.
+So far, we have dense and linked-list-of-linked-lists (or just "list") matrices, which can exist in an essentially unlimited number of dimensions. This week, I implemented the [beginnings of a two-dimensional sparse type known as "new Yale."](https://github.com/SciRuby/nmatrix/blob/sparse/ext/nmatrix/yale.c) If you're curious, check out _[Numerical Recipes in C](http://apps.nrbook.com/c/index.html)_, pp. 78-79.
 
 "New Yale" differs from "old Yale" (which SciPy uses for its CSR type) in that the diagonals are accessible in <tt>O(1)</tt> instead of <tt>O(log(n))</tt> time. Most libraries for Yale matrices include conditionals that permit both types to be used together (e.g., multiplying a new Yale matrix by an old Yale matrix).
 
@@ -24,4 +24,4 @@ Some of this can be templated using generators. But the complexity begins to gro
 
 So, again, we need to set ourselves some limits.
 
-Where those limits might be, however, I know not. Weigh in on the Google Group!
+Where those limits might be, however, I know not. Weigh in on the Google Group, in the comments, or on [our Google+ page](https://plus.google.com/109304769076178160953/posts)!
