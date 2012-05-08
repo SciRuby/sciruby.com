@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Announcing SciRuby Summer Coding Fellowships"
+title: "Announcing SciRuby Summer Coding Fellowship"
 date: 2012-05-08 16:33
 comments: true
 author: John Woods
