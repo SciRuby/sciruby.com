@@ -58,4 +58,4 @@ Email your answers to sciruby.project on gmail. <em>Please include a resume or c
 
 ### Application Deadline
 
-We recommend you submit your application by **May 14th** at the very latest. If you can't meet that deadline, we can try to work with you, but please let us know that you're planning on applying.
+Applications are now closed. We hope to offer the fellowship again next year.
