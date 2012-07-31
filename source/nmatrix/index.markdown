@@ -36,7 +36,23 @@ For complete installation instructions, please see the [SciRuby docs](/docs).
 
 ## Developers
 
+The repositories in the SciRuby account on Github contain only stable code which is ready for release. Since we're in the
+midst of a major refactoring, you're better off forking either [Chris Wailes' repository](http://github.com/chriswailes/nmatrix)
+or [John Woods'](http://github.com/mohawkjohn/nmatrix).
+
+Here's how you would clone the stable version:
+
 <pre><code>git clone git://github.com/SciRuby/nmatrix.git
+</code></pre>
+
+And this is how you would get John Woods' version:
+
+<pre><code>git clone git://github.com/mohawkjohn/nmatrix.git
+</code></pre>
+
+You may also want to play around with the NMatrix fork of rb-gsl:
+
+<pre><code>git clone git://github.com/SciRuby/rb-gsl.git
 </code></pre>
 
 ## Bugs
