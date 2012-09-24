@@ -10,7 +10,9 @@ footer: true
 
 <p class="warning"><strong>Word to the wise:</strong> These gems have been tested, but not extensively. If you're thinking of using SciRuby to write mission critical code, such as for driving a car or flying a space shuttle, you may wish to choose other software (for now).</p>
 
-Please note that SciRuby and NMatrix require Ruby 1.9.2 or higher. Individual components <em>may</em> work with Ruby 1.8, but we may not be able to help you if you have trouble.
+<strong>Thorough instructions for installing NMatrix are available in the [NMatrix wiki](https://github.com/SciRuby/nmatrix/wiki/).</strong>
+
+Please note that SciRuby and NMatrix require Ruby 1.9.2 or higher. Individual components <em>may</em> work with Ruby 1.8, but we may not be able to help you if you have trouble. You'll also need GCC 4.3 or higher.
 
 <h3>Platform-specific instructions</h3>
 
@@ -18,7 +20,7 @@ Please note that SciRuby and NMatrix require Ruby 1.9.2 or higher. Individual co
 * [Windows](/docs/installation/windows.html)
 * [Linux](/docs/installation/linux.html)
 
-<h3>Pre-alpha workaround instructions</h3>
+<h3>Alpha workaround instructions</h3>
 
 If you have any trouble getting SciRuby to work and are too impatient to seek assistance, most of the SciRuby components are already available as individual packages. We recommend you try out the following component gems:
 
@@ -31,7 +33,7 @@ If you have any trouble getting SciRuby to work and are too impatient to seek as
 
 Project Status
 --------------
-As we are currently pre-alpha, documentation is a work in progress. If you want to get involved, please drop by our [Google Group](http://groups.google.com/group/sciruby-dev) or our IRC channel, <tt>#sciruby</tt>.
+As we are currently alpha, documentation is a work in progress. If you want to get involved, please drop by our [Google Group](http://groups.google.com/group/sciruby-dev) or our IRC channel, <tt>#sciruby</tt>.
 
 In the meantime, documentation for existing gems is scattered. You can look through the links below for additional information.
 
