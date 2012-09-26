@@ -10,6 +10,15 @@ footer: true
 GCC
 ---
 
+Mac OSX typically comes with GCC 4.2 or earlier, which does not support the C++0x and C++11 extensions required by
+NMatrix.
+
+You can check this using
+<pre><code>gcc -v</code></pre>
+
+[Extremely detailed instructions](https://github.com/SciRuby/nmatrix/wiki/NMatrix-Installation) are available on the NMatrix
+Wiki.
+
 <h3>Homebrew</h3>
 
 [Homebrew installation instructions are available here.](https://github.com/mxcl/homebrew/wiki/installation)

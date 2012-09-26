@@ -66,3 +66,13 @@ ln -s /usr/local/atlas/liblapack.a /usr/lib/liblapack.so
 mkdir /usr/local/atlas/include/
 cp /home/$USER/ATLAS/include/cblas.h /usr/local/atlas/include/
 </code></pre>
+
+<h3>Ubuntu</h3>
+
+On Ubuntu, you may be able to get away with just installing the ATLAS packages:
+
+<pre><code>sudo apt-get install libatlas-dev libatlas3gf-base
+sudo ln -s /usr/lib/libgslcblas.so.0.0.0 /usr/lib/libcblas.so
+sudo ln -s /usr/lib/atlas-base/libatlas.so.3gf.0 /usr/lib/libatlas.so
+gem install nmatrix
+</code></pre>
