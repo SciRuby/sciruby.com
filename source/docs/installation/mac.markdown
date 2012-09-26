@@ -1,7 +1,6 @@
 ---
 layout: page
 title: "Mac OSX Install Instructions"
-date: 2012-04-11 15:05
 comments: false
 sharing: true
 footer: true

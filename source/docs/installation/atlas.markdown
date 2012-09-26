@@ -1,7 +1,6 @@
 ---
 layout: page
 title: "ATLAS installation instructions"
-date: 2012-09-26 15:28
 comments: false
 sharing: true
 footer: true
