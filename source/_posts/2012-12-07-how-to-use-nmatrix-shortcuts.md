@@ -7,7 +7,7 @@ author: Carlos Agarie
 categories: [NMatrix,Matrices,Documentation,Students]
 ---
 
-John Woods [merged my last pull request to NMatrix](https://github.com/SciRuby/nmatrix/commit/2b480ce0985affc7218fc341fcb4e5024b30545b) recently and I wanted to write about why we created these shortcuts and what can be done with them.
+John Woods [merged my last pull request to NMatrix](https://github.com/SciRuby/nmatrix/commit/2b480ce0985affc7218fc341fcb4e5024b30545b) recently and I wanted to write about why we created these shortcuts and what can be done with them. <!--more-->
 
 ## The need for shortcuts
 
