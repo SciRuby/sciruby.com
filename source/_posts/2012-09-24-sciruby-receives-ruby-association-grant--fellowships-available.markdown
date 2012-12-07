@@ -10,7 +10,7 @@ We are incredibly pleased to announce that the Ruby Association has awarded us a
 
 When we applied, we proposed to build upon our [successful SciRuby Summer of Code](http://sciruby.com/blog/2012/05/08/sciruby-summer-of-code/),
 which we undertook with the support of [Brighter Planet](http://brighterplanet.com). We are pleased to announce applications
-for SciRuby fellowships.
+for SciRuby fellowships.<!--more-->
 
 ## Funding Note
 

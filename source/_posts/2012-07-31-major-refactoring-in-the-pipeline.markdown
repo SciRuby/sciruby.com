@@ -11,7 +11,7 @@ which makes us all very happy.
 
 [Chris Wailes](https://github.com/chriswailes) and I have been working on a major refactoring of [NMatrix](http://github.com/SciRuby/nmatrix),
 our replacement for NArray. You may recall that we released our first alpha (0.0.1) back in April, and that we've been
-relatively silent since then.
+relatively silent since then.<!--more-->
 
 We're pleased to announce that our second alpha, NMatrix v0.0.2, should be available as a gem by mid-August.
 

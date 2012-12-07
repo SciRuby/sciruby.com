@@ -8,7 +8,7 @@ categories: [Algorithms,Matrices,NMatrix]
 ---
 Maybe you've been wondering why the SciRuby people have been so quiet lately.
 
-Mostly, we've been working on [NMatrix](http://github.com/SciRuby/nmatrix), which is our prototype linear algebra library, written as a Ruby C extension.
+Mostly, we've been working on [NMatrix](http://github.com/SciRuby/nmatrix), which is our prototype linear algebra library, written as a Ruby C extension.<!--more-->
 
 So far, we have dense and linked-list-of-linked-lists (or just "list") matrices, which can exist in an essentially unlimited number of dimensions. This week, I implemented the [beginnings of a two-dimensional sparse type known as "new Yale."](https://github.com/SciRuby/nmatrix/blob/sparse/ext/nmatrix/yale.c) If you're curious, check out _[Numerical Recipes in C](http://apps.nrbook.com/c/index.html)_, pp. 78-79.
 

@@ -8,7 +8,7 @@ categories: [Algorithms,Matrices,NMatrix]
 ---
 Two months ago, I [mentioned the existence of a prototype Ruby linear algebra library](2012/02/11/numeric-matrix-considerations), written in C.
 
-I am pleased to announce that yesterday we released our first alpha of said library, [NMatrix](/nmatrix/) v0.0.1.
+I am pleased to announce that yesterday we released our first alpha of said library, [NMatrix](/nmatrix/) v0.0.1.<!--more-->
 
 ## Creating Matrices
 

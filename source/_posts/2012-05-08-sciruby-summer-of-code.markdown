@@ -10,7 +10,7 @@ We are immensely pleased to announce the first ever **SciRuby Summer of Code, sp
 
 ![Brighter Planet logo](http://static.brighterplanet.com/assets/logos/flush-left/inline/green/rasterized/brighter_planet-140.png)
 
-The fellowship is intended for undergraduate and graduate science and engineering students interested in going into research.
+The fellowship is intended for undergraduate and graduate science and engineering students interested in going into research.<!--more-->
 
 Fellowship tenure is full-time, May 18th through August 18th (dates are flexible). The stipend is $1,500.
 

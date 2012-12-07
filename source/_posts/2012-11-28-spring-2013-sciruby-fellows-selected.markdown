@@ -6,7 +6,7 @@ comments: false
 author: John Woods
 categories: [Students]
 ---
-Last week we selected three excellent candidates for [SciRuby fellowships](http://sciruby.com/blog/2012/09/24/sciruby-receives-ruby-association-grant--fellowships-available/). We were incredibly pleased to be able to offer so many fellowships, made possible in part by the generosity of an anonymous contributor.
+Last week we selected three excellent candidates for [SciRuby fellowships](http://sciruby.com/blog/2012/09/24/sciruby-receives-ruby-association-grant--fellowships-available/). We were incredibly pleased to be able to offer so many fellowships, made possible in part by the generosity of an anonymous contributor.<!--more-->
 
 [Carlos Agarie](http://github.com/agarie) will be working half-time starting immediately on providing certain critical functionality to NMatrix and on improving our documentation. Specifically, matrix inversions and determinant calculations both depend upon BLAS, and in some cases CLAPACK. However, the CLAPACK interface is unavailable to most Mac users; and neither BLAS nor LAPACK provides rational support, which is on the NMatrix roadmap. Carlos is a Brazilian exchange student at Embry-Riddle Aeronautical University in Arizona.
 

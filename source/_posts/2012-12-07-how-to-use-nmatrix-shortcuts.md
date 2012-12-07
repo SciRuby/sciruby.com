@@ -1,25 +1,25 @@
 ---
 layout: post
 title: "How to use NMatrix's shortcuts"
-date: 2012-12-06
+date: 2012-12-07 12:30
 comments: true
 author: Carlos Agarie
-categories: [NMatrix]
+categories: [NMatrix,Matrices,Documentation,Students]
 ---
 
 John Woods [merged my last pull request to NMatrix](https://github.com/SciRuby/nmatrix/commit/2b480ce0985affc7218fc341fcb4e5024b30545b) recently and I wanted to write about why we created these shortcuts and what can be done with them.
 
-## The need of shortcuts
+## The need for shortcuts
 
-Originally, the NMatrix shortcuts were written by [Daniel Carrera](https://github.com/dcarrera) and sent to the mailing list, where I started working with them. Some discussions, decisions and 2 pull requests later, we have a working set of methods to create common matrices (`zeros`, `ones`, `random`, etc) and do some cool stuff (`column` and `linspace`) very easily.
+The first iteration of NMatrix shortcuts was written by [Daniel Carrera](https://github.com/dcarrera) and sent to the mailing list, where I started working with them. Some discussions, decisions and two pull requests later, we have a working set of methods to create common matrices (`zeros`, `ones`, `random`, etc) and do some cool stuff (`column` and `linspace`) very easily.
 
-I think that there are at least 2 good reasons to have them: MATLAB users are going to feel at home and they allow us to experiment very rapidly. For example, it's dead simple to create an identify matrix when you need one:
+There are at least two good reasons to have these shortcuts: MATLAB users are going to feel at home, and the shortcuts allow us to prototype and experiment more rapidly. For example, it's dead simple to create an identify matrix when you need one:
 
-	require 'nmatrix'
+	>> require 'nmatrix'
 
-	matrix = NMatrix.identity(3) # 3x3
+	>> matrix = NMatrix.identity(3) # 3x3
 	=> #<NMatrix:0x007faa5b8cda40shape:[3,3] dtype:float64 stype:dense> 
-	matrix.pp
+	>> matrix.pp
 
 	# [1.0, 0.0, 0.0]
 	# [0.0, 1.0, 0.0]
@@ -27,9 +27,9 @@ I think that there are at least 2 good reasons to have them: MATLAB users are go
 
 And a random matrix to test some operation:
 
-	rand_matrix = NMatrix.random(4) # 4x4
+	>> rand_matrix = NMatrix.random(4) # 4x4
 	=> #<NMatrix:0x007faa5b01cdd8shape:[4,4] dtype:float64 stype:dense>
-	rand_matrix.pp
+	>> rand_matrix.pp
 
 	# [0.5933103148378577, 0.8556103970281977, 0.7176768395610358, 0.07160353964395305]
 	# [0.8566365570076784, 0.33925854948960343, 0.5994298479703805, 0.6906794137948586]
@@ -38,7 +38,7 @@ And a random matrix to test some operation:
 
 ## Shortcuts available
 
-The following list is taken from [NMatrix's wiki](https://github.com/SciRuby/nmatrix/wiki/NMatrix).
+The following list is taken from [NMatrix's wiki](https://github.com/SciRuby/nmatrix/wiki/NMatrix). All are class methods on `NMatrix`.
 
 	ones(3,3)                    # A 3x3 matrix of ones.
 	zeros(4,4) or zeroes(4,4)    # Creates a matrix of zeros with dimensions as parameters.
@@ -55,13 +55,13 @@ The following list is taken from [NMatrix's wiki](https://github.com/SciRuby/nma
 
 	linspace(0, pi, 100)         # A vector of 100 values from 0 to pi, inclusive. Only works with NVector.
 
-The method names are mostly from MATLAB. In the future, when more functionality is added, we'll try to create a more "Ruby-like" feel to the API. But as these shortcuts do very primitive tasks, there isn't much room to improvement. (prove me wrong, please!)
+The method names are mostly from MATLAB. In the future, when more functionality is added, we'll try to create a more "Ruby-like" feel to the API. But as these shortcuts do very primitive tasks, there isn't any obvious room for improvement. (Feel free to prove us wrong, however!)
 
-I'll create a separate wiki page for the shortcuts to be able to organize and put more information about how to use them. But I want to create a better RDoc documentation for NMatrix - so the full API will probably be referenced there. I'll post a new article here when something along these lines is done.
+I'll create a separate wiki page for the shortcuts to be able to organize and put more information about how to use them. But I want to create a better RDoc documentation for NMatrix — so the full API will probably be referenced there. I'll write a new blog post here when something along these lines is done.
 
 ## Examples
 
-First, let's try normalizing the columns of a NMatrix.
+First, let's try normalizing the columns of an NMatrix.
 
 	require 'nmatrix'
 
@@ -93,9 +93,9 @@ First, let's try normalizing the columns of a NMatrix.
 	# 1.0
 	# 1.0
 
-Unfortunately, slice by reference isn't working on HEAD, so we can't make this code a bit smarter (see issue [#51](https://github.com/SciRuby/nmatrix/issues/51)).
+Unfortunately, slice by reference isn't working on `HEAD`, or we could make a few additional improvements (see issue [#51](https://github.com/SciRuby/nmatrix/issues/51)).
 
-The other thing that I've wanted to do is to use `linspace` to generate points for plotting sines, cosines, etc. Let me show an example:
+The other thing that I've wanted to do is to use `linspace` to generate points for plotting sines, cosines, etc. Here is an example:
 
 	require 'nmatrix'
 
@@ -130,6 +130,6 @@ The other thing that I've wanted to do is to use `linspace` to generate points f
 	# 0.3420201433256689
 	# 1.2246467991473532e-16
 	
-These results show something good: we are able to use NMatrix for simple tasks already. Of course, there are problems to be solved, e.g. slice by reference, inversion for all dtypes, eigenvalues. But it's going somewhere, it's growing. 
+These results show a happy result, in that we are able to use NMatrix for simple tasks already. Of course, there are problems to be solved, e.g. slice by reference, inversion for all dtypes, eigenvalues. But it's going somewhere, it's growing. 
 
 I hope that by this time next year we'll have a very mature linear algebra library (and much more).

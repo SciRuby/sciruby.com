@@ -10,7 +10,7 @@ Last week, I thought it would be fun to translate some of the _[Numerical Recipe
  specifically those for the Gamma distribution and incomplete gamma function. I got them all working pretty well, and
  they were only a hundred or so lines of code altogether.
 
-But a voice in the back of my head said, "Hey, you should ask Bill Press if he wants to be involved."
+But a voice in the back of my head said, "Hey, you should ask Bill Press if he wants to be involved." <!--more-->
 
 [Bill Press](http://en.wikipedia.org/wiki/William_H._Press), by the way, is a pretty cool astrophysicist who decided he
  wanted to come work here at UT as a computational biologist instead. He also happens to be first author on _Numerical

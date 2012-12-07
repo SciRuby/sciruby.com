@@ -6,7 +6,7 @@ comments: false
 categories: [Media,Introductions,Roadmap]
 ---
 We just had an interview published today over at [Floss for Science](http://www.floss4science.com/interview-sciruby-team/),
- and we're super excited because it's our very first media coverage.
+ and we're super excited because it's our very first media coverage.<!--more-->
 
 If you want to vote it up at [reddit](http://www.reddit.com), that would be outstanding &emdash; or share it however you
  like to share things. Here are the links:

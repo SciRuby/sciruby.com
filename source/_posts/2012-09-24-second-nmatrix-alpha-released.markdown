@@ -9,7 +9,7 @@ categories: [NMatrix]
 On Friday, we released the somewhat overdue second alpha of [NMatrix](http://github.com/SciRuby/nmatrix), version 0.0.2.
 
 This second alpha has boasts a significantly improved and much more maintainable code base, thanks to our Summer 2012
- SciRuby Fellow, [Chris Wailes](https://github.com/chriswailes), and sponsoring organization [Brighter Planet](http://brighterplanet.com).
+ SciRuby Fellow, [Chris Wailes](https://github.com/chriswailes), and sponsoring organization [Brighter Planet](http://brighterplanet.com). <!--more-->
 
 The library has been almost completely rewritten in C++, with API available for both C and C++.
 
