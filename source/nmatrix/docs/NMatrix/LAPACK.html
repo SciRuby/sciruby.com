@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>module NMatrix::LAPACK - RDoc Documentation</title>
+
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>ext/nmatrix/nmatrix.cpp
+    <li>lib/nmatrix/lapack.rb
+    <li>lib/nmatrix/nmatrix.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li ><a href="#method-c-clapack_gesv">::clapack_gesv</a>
+    
+    <li ><a href="#method-c-clapack_getrf">::clapack_getrf</a>
+    
+    <li ><a href="#method-c-clapack_getri">::clapack_getri</a>
+    
+    <li ><a href="#method-c-clapack_getrs">::clapack_getrs</a>
+    
+    <li ><a href="#method-c-clapack_laswp">::clapack_laswp</a>
+    
+    <li ><a href="#method-c-clapack_lauum">::clapack_lauum</a>
+    
+    <li ><a href="#method-c-clapack_posv">::clapack_posv</a>
+    
+    <li ><a href="#method-c-clapack_potrf">::clapack_potrf</a>
+    
+    <li ><a href="#method-c-clapack_potri">::clapack_potri</a>
+    
+    <li ><a href="#method-c-clapack_potrs">::clapack_potrs</a>
+    
+    <li ><a href="#method-c-clapack_scal">::clapack_scal</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../History_txt.html">History</a>
+  
+    <li class="file"><a href="../README_rdoc.html">README</a>
+  
+    <li class="file"><a href="../ext/nmatrix/binary_format_txt.html">binary_format</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../Array.html">Array</a>
+  
+    <li><a href="../DataTypeError.html">DataTypeError</a>
+  
+    <li><a href="../N.html">N</a>
+  
+    <li><a href="../NMatrix.html">NMatrix</a>
+  
+    <li><a href="../NMatrix/BLAS.html">NMatrix::BLAS</a>
+  
+    <li><a href="../NMatrix/IO.html">NMatrix::IO</a>
+  
+    <li><a href="../NMatrix/IO/Market.html">NMatrix::IO::Market</a>
+  
+    <li><a href="../NMatrix/IO/Matlab.html">NMatrix::IO::Matlab</a>
+  
+    <li><a href="../NMatrix/IO/Matlab/Mat5Reader.html">NMatrix::IO::Matlab::Mat5Reader</a>
+  
+    <li><a href="../NMatrix/IO/Matlab/Mat5Reader/Compressed.html">NMatrix::IO::Matlab::Mat5Reader::Compressed</a>
+  
+    <li><a href="../NMatrix/IO/Matlab/Mat5Reader/Element.html">NMatrix::IO::Matlab::Mat5Reader::Element</a>
+  
+    <li><a href="../NMatrix/IO/Matlab/Mat5Reader/ElementDataIOError.html">NMatrix::IO::Matlab::Mat5Reader::ElementDataIOError</a>
+  
+    <li><a href="../NMatrix/IO/Matlab/Mat5Reader/Header.html">NMatrix::IO::Matlab::Mat5Reader::Header</a>
+  
+    <li><a href="../NMatrix/IO/Matlab/Mat5Reader/MatrixData.html">NMatrix::IO::Matlab::Mat5Reader::MatrixData</a>
+  
+    <li><a href="../NMatrix/IO/Matlab/Mat5Reader/RawElement.html">NMatrix::IO::Matlab::Mat5Reader::RawElement</a>
+  
+    <li><a href="../NMatrix/IO/Matlab/Mat5Reader/Tag.html">NMatrix::IO::Matlab::Mat5Reader::Tag</a>
+  
+    <li><a href="../NMatrix/IO/Matlab/MatReader.html">NMatrix::IO::Matlab::MatReader</a>
+  
+    <li><a href="../NMatrix/LAPACK.html">NMatrix::LAPACK</a>
+  
+    <li><a href="../NMatrix/YaleFunctions.html">NMatrix::YaleFunctions</a>
+  
+    <li><a href="../NVector.html">NVector</a>
+  
+    <li><a href="../Object.html">Object</a>
+  
+    <li><a href="../StorageTypeError.html">StorageTypeError</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module NMatrix::LAPACK</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-clapack_gesv" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            clapack_gesv(order, n, nrhs, a, lda, ipiv, b, ldb) &rarr; NMatrix
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Computes the solution to a system of linear equations</p>
+
+<pre>A * X = B,</pre>
+
+<p>where A is an N-by-N matrix and X and B are N-by-NRHS matrices.</p>
+
+<p>The LU factorization used to factor A is dependent on the
+<code>order</code> parameter, as detailed in the leading comments of
+clapack_getrf.</p>
+
+<p>The factored form of A is then used solve the system of equations A * X =
+B.</p>
+
+<p>A is overwritten with the appropriate LU factorization, and B, which
+contains B on input, is overwritten with the solution X on output.</p>
+
+<p>From ATLAS 3.8.0.</p>
+
+<p>Note: Because this function is implemented in Ruby, the ATLAS lib  version
+is never called! For float32, float64, complex64, and  complex128, the
+ATLAS lib versions of getrf and getrs <strong>will</strong> be called.</p>
+<ul><li>
+<p><strong>Arguments</strong> :</p>
+<ul><li>
+<p><code>order</code> -&gt;</p>
+</li><li>
+<p><code>n</code> -&gt;</p>
+</li><li>
+<p><code>nrhs</code> -&gt;</p>
+</li><li>
+<p><code>a</code> -&gt;</p>
+</li><li>
+<p><code>lda</code> -&gt;</p>
+</li><li>
+<p><code>ipiv</code> -&gt;</p>
+</li><li>
+<p><code>b</code> -&gt;</p>
+</li><li>
+<p><code>ldb</code> -&gt;</p>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong> : -</p>
+</li><li>
+<p><strong>Raises</strong> :</p>
+<ul><li>
+<p>++ -&gt;</p>
+</li></ul>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="clapack_gesv-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/lapack.rb, line 75</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">clapack_gesv</span>(<span class="ruby-identifier">order</span>, <span class="ruby-identifier">n</span>, <span class="ruby-identifier">nrhs</span>, <span class="ruby-identifier">a</span>, <span class="ruby-identifier">lda</span>, <span class="ruby-identifier">ipiv</span>, <span class="ruby-identifier">b</span>, <span class="ruby-identifier">ldb</span>)
+  <span class="ruby-identifier">clapack_getrf</span>(<span class="ruby-identifier">order</span>, <span class="ruby-identifier">n</span>, <span class="ruby-identifier">n</span>, <span class="ruby-identifier">a</span>, <span class="ruby-identifier">lda</span>, <span class="ruby-identifier">ipiv</span>)
+  <span class="ruby-identifier">clapack_getrs</span>(<span class="ruby-identifier">order</span>, <span class="ruby-value">:no_transpose</span>, <span class="ruby-identifier">n</span>, <span class="ruby-identifier">nrhs</span>, <span class="ruby-identifier">a</span>, <span class="ruby-identifier">lda</span>, <span class="ruby-identifier">ipiv</span>, <span class="ruby-identifier">b</span>, <span class="ruby-identifier">ldb</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- clapack_gesv-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- clapack_gesv-method -->
+
+    
+      <div id="method-c-clapack_getrf" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">clapack_getrf</span><span
+            class="method-args">(p1, p2, p3, p4, p5)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Call any of the clapack_xgetrf functions as directly as possible.</p>
+
+<p>The <a href="LAPACK.html#method-c-clapack_getrf">::clapack_getrf</a>
+functions (dgetrf, sgetrf, cgetrf, and zgetrf) compute an LU factorization
+of a general M-by-N matrix A using partial pivoting with row interchanges.</p>
+
+<p>The factorization has the form:</p>
+
+<pre>A = P * L * U</pre>
+
+<p>where P is a permutation matrix, L is lower triangular with unit diagonal
+elements (lower trapezoidal if m &gt; n), and U is upper triangular (upper
+trapezoidal if m &lt; n).</p>
+
+<p>This is the right-looking level 3 <a href="BLAS.html">BLAS</a> version of
+the algorithm.</p>
+
+<h2 id="method-c-clapack_getrf-label-Arguments">Arguments<span><a href="#method-c-clapack_getrf-label-Arguments">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<p>See: <a
+href="http://www.netlib.org/lapack/double/dgetrf.f">www.netlib.org/lapack/double/dgetrf.f</a>
+(You don’t need argument 5; this is the value returned by this function.)</p>
+
+<p>You probably don’t want to call this function. Instead, why don’t you try
+<a href="LAPACK.html#method-c-clapack_getrf">::clapack_getrf</a>, which is
+more flexible with its arguments?</p>
+
+<p>This function does almost no type checking. Seriously, be really careful
+when you call it! There’s no exception handling, so you can easily crash
+Ruby!</p>
+
+<p>Returns an array giving the pivot indices (normally these are argument #5).</p>
+          
+          
+
+          
+          <div class="method-source-code" id="clapack_getrf-source">
+            <pre>static VALUE nm_clapack_getrf(VALUE self, VALUE order, VALUE m, VALUE n, VALUE a, VALUE lda) {
+  static int (*ttable[nm::NUM_DTYPES])(const enum CBLAS_ORDER, const int m, const int n, void* a, const int lda, int* ipiv) = {
+      NULL, NULL, NULL, NULL, NULL, // integers not allowed due to division
+      nm::math::clapack_getrf&lt;float&gt;,
+      nm::math::clapack_getrf&lt;double&gt;,
+#ifdef HAVE_CLAPACK_H
+      clapack_cgetrf, clapack_zgetrf, // call directly, same function signature!
+#else // Especially important for Mac OS, which doesn't seem to include the ATLAS clapack interface.
+      nm::math::clapack_getrf&lt;nm::Complex64&gt;,
+      nm::math::clapack_getrf&lt;nm::Complex128&gt;,
+#endif
+      nm::math::clapack_getrf&lt;nm::Rational32&gt;,
+      nm::math::clapack_getrf&lt;nm::Rational64&gt;,
+      nm::math::clapack_getrf&lt;nm::Rational128&gt;,
+      nm::math::clapack_getrf&lt;nm::RubyObject&gt;
+  };
+
+  int M = FIX2INT(m),
+      N = FIX2INT(n);
+
+  // Allocate the pivot index array, which is of size MIN(M, N).
+  size_t ipiv_size = std::min(M,N);
+  int* ipiv = ALLOCA_N(int, ipiv_size);
+
+  if (!ttable[NM_DTYPE(a)]) {
+    rb_raise(nm_eDataTypeError, &quot;this matrix operation undefined for integer matrices&quot;);
+  } else {
+    // Call either our version of getrf or the LAPACK version.
+    ttable[NM_DTYPE(a)](blas_order_sym(order), M, N, NM_STORAGE_DENSE(a)-&gt;elements, FIX2INT(lda), ipiv);
+  }
+
+  // Result will be stored in a. We return ipiv as an array.
+  VALUE ipiv_array = rb_ary_new2(ipiv_size);
+  for (size_t i = 0; i &lt; ipiv_size; ++i) {
+    rb_ary_store(ipiv_array, i, INT2FIX(ipiv[i]));
+  }
+
+  return ipiv_array;
+}</pre>
+          </div><!-- clapack_getrf-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- clapack_getrf-method -->
+
+    
+      <div id="method-c-clapack_getri" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">clapack_getri</span><span
+            class="method-args">(p1, p2, p3, p4, p5)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Call any of the clapack_xgetri functions as directly as possible.</p>
+
+<p>You probably don’t want to call this function. Instead, why don’t you try
+<a href="LAPACK.html#method-c-clapack_getri">::clapack_getri</a>, which is
+more flexible with its arguments?</p>
+
+<p>This function does almost no type checking. Seriously, be really careful
+when you call it! There’s no exception handling, so you can easily crash
+Ruby!</p>
+
+<p>Returns an array giving the pivot indices (normally these are argument #5).</p>
+          
+          
+
+          
+          <div class="method-source-code" id="clapack_getri-source">
+            <pre>static VALUE nm_clapack_getri(VALUE self, VALUE order, VALUE n, VALUE a, VALUE lda, VALUE ipiv) {
+#ifndef HAVE_CLAPACK_H
+  rb_raise(rb_eNotImpError, &quot;getri currently requires LAPACK&quot;);
+#endif
+
+  static int (*ttable[nm::NUM_DTYPES])(const enum CBLAS_ORDER, const int n, void* a, const int lda, const int* ipiv) = {
+      NULL, NULL, NULL, NULL, NULL, // integers not allowed due to division
+      nm::math::clapack_getri&lt;float&gt;,
+      nm::math::clapack_getri&lt;double&gt;,
+#ifdef HAVE_CLAPACK_H
+      clapack_cgetri, clapack_zgetri, // call directly, same function signature!
+#else // Especially important for Mac OS, which doesn't seem to include the ATLAS clapack interface.
+      nm::math::clapack_getri&lt;nm::Complex64&gt;,
+      nm::math::clapack_getri&lt;nm::Complex128&gt;,
+#endif
+      NULL, NULL, NULL, NULL /*
+      nm::math::clapack_getri&lt;nm::Rational32&gt;,
+      nm::math::clapack_getri&lt;nm::Rational64&gt;,
+      nm::math::clapack_getri&lt;nm::Rational128&gt;,
+      nm::math::clapack_getri&lt;nm::RubyObject&gt; */
+  };
+
+  // Allocate the C version of the pivot index array
+  // TODO: Allow for an NVector here also, maybe?
+  int* ipiv_;
+  if (TYPE(ipiv) != T_ARRAY) {
+    rb_raise(rb_eArgError, &quot;ipiv must be of type Array&quot;);
+  } else {
+    ipiv_ = ALLOCA_N(int, RARRAY_LEN(ipiv));
+    for (int index = 0; index &lt; RARRAY_LEN(ipiv); ++index) {
+      ipiv_[index] = FIX2INT( RARRAY_PTR(ipiv)[index] );
+    }
+  }
+
+  if (!ttable[NM_DTYPE(a)]) {
+    rb_raise(rb_eNotImpError, &quot;this operation not yet implemented for non-BLAS dtypes&quot;);
+    // FIXME: Once BLAS dtypes are implemented, replace error above with the error below.
+    //rb_raise(nm_eDataTypeError, &quot;this matrix operation undefined for integer matrices&quot;);
+  } else {
+    // Call either our version of getri or the LAPACK version.
+    ttable[NM_DTYPE(a)](blas_order_sym(order), FIX2INT(n), NM_STORAGE_DENSE(a)-&gt;elements, FIX2INT(lda), ipiv_);
+  }
+
+  return a;
+}</pre>
+          </div><!-- clapack_getri-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- clapack_getri-method -->
+
+    
+      <div id="method-c-clapack_getrs" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">clapack_getrs</span><span
+            class="method-args">(p1, p2, p3, p4, p5, p6, p7, p8, p9)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Call any of the clapack_xgetrs functions as directly as possible.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="clapack_getrs-source">
+            <pre>static VALUE nm_clapack_getrs(VALUE self, VALUE order, VALUE trans, VALUE n, VALUE nrhs, VALUE a, VALUE lda, VALUE ipiv, VALUE b, VALUE ldb) {
+  static int (*ttable[nm::NUM_DTYPES])(const enum CBLAS_ORDER Order, const enum CBLAS_TRANSPOSE Trans, const int N,
+                                       const int NRHS, const void* A, const int lda, const int* ipiv, void* B,
+                                       const int ldb) = {
+      NULL, NULL, NULL, NULL, NULL, // integers not allowed due to division
+      nm::math::clapack_getrs&lt;float&gt;,
+      nm::math::clapack_getrs&lt;double&gt;,
+#ifdef HAVE_CLAPACK_H
+      clapack_cgetrs, clapack_zgetrs, // call directly, same function signature!
+#else // Especially important for Mac OS, which doesn't seem to include the ATLAS clapack interface.
+      nm::math::clapack_getrs&lt;nm::Complex64&gt;,
+      nm::math::clapack_getrs&lt;nm::Complex128&gt;,
+#endif
+      nm::math::clapack_getrs&lt;nm::Rational32&gt;,
+      nm::math::clapack_getrs&lt;nm::Rational64&gt;,
+      nm::math::clapack_getrs&lt;nm::Rational128&gt;,
+      nm::math::clapack_getrs&lt;nm::RubyObject&gt;
+  };
+
+  // Allocate the C version of the pivot index array
+  // TODO: Allow for an NVector here also, maybe?
+  int* ipiv_;
+  if (TYPE(ipiv) != T_ARRAY) {
+    rb_raise(rb_eArgError, &quot;ipiv must be of type Array&quot;);
+  } else {
+    ipiv_ = ALLOCA_N(int, RARRAY_LEN(ipiv));
+    for (int index = 0; index &lt; RARRAY_LEN(ipiv); ++index) {
+      ipiv_[index] = FIX2INT( RARRAY_PTR(ipiv)[index] );
+    }
+  }
+
+  if (!ttable[NM_DTYPE(a)]) {
+    rb_raise(nm_eDataTypeError, &quot;this matrix operation undefined for integer matrices&quot;);
+  } else {
+
+    // Call either our version of getrs or the LAPACK version.
+    ttable[NM_DTYPE(a)](blas_order_sym(order), blas_transpose_sym(trans), FIX2INT(n), FIX2INT(nrhs), NM_STORAGE_DENSE(a)-&gt;elements, FIX2INT(lda),
+                        ipiv_, NM_STORAGE_DENSE(b)-&gt;elements, FIX2INT(ldb));
+  }
+
+  // b is both returned and modified directly in the argument list.
+  return b;
+}</pre>
+          </div><!-- clapack_getrs-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- clapack_getrs-method -->
+
+    
+      <div id="method-c-clapack_laswp" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">clapack_laswp</span><span
+            class="method-args">(p1, p2, p3, p4, p5, p6, p7)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Call any of the clapack_xlaswp functions as directly as possible.</p>
+
+<p>Note that LAPACK’s xlaswp functions accept a column-order matrix, but <a
+href="../NMatrix.html">NMatrix</a> uses row-order. Thus, n should be the
+number of rows and lda should be the number of columns, no matter what it
+says in the documentation for dlaswp.f.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="clapack_laswp-source">
+            <pre>static VALUE nm_clapack_laswp(VALUE self, VALUE n, VALUE a, VALUE lda, VALUE k1, VALUE k2, VALUE ipiv, VALUE incx) {
+  static void (*ttable[nm::NUM_DTYPES])(const int n, void* a, const int lda, const int k1, const int k2, const int* ipiv, const int incx) = {
+      nm::math::clapack_laswp&lt;uint8_t&gt;,
+      nm::math::clapack_laswp&lt;int8_t&gt;,
+      nm::math::clapack_laswp&lt;int16_t&gt;,
+      nm::math::clapack_laswp&lt;int32_t&gt;,
+      nm::math::clapack_laswp&lt;int64_t&gt;,
+      nm::math::clapack_laswp&lt;float&gt;,
+      nm::math::clapack_laswp&lt;double&gt;,
+//#ifdef HAVE_CLAPACK_H // laswp doesn't actually exist in clapack.h!
+//      clapack_claswp, clapack_zlaswp, // call directly, same function signature!
+//#else // Especially important for Mac OS, which doesn't seem to include the ATLAS clapack interface.
+      nm::math::clapack_laswp&lt;nm::Complex64&gt;,
+      nm::math::clapack_laswp&lt;nm::Complex128&gt;,
+//#endif
+      nm::math::clapack_laswp&lt;nm::Rational32&gt;,
+      nm::math::clapack_laswp&lt;nm::Rational64&gt;,
+      nm::math::clapack_laswp&lt;nm::Rational128&gt;,
+      nm::math::clapack_laswp&lt;nm::RubyObject&gt;
+  };
+
+  // Allocate the C version of the pivot index array
+  // TODO: Allow for an NVector here also, maybe?
+  int* ipiv_;
+  if (TYPE(ipiv) != T_ARRAY) {
+    rb_raise(rb_eArgError, &quot;ipiv must be of type Array&quot;);
+  } else {
+    ipiv_ = ALLOCA_N(int, RARRAY_LEN(ipiv));
+    for (int index = 0; index &lt; RARRAY_LEN(ipiv); ++index) {
+      ipiv_[index] = FIX2INT( RARRAY_PTR(ipiv)[index] );
+    }
+  }
+
+  // Call either our version of laswp or the LAPACK version.
+  ttable[NM_DTYPE(a)](FIX2INT(n), NM_STORAGE_DENSE(a)-&gt;elements, FIX2INT(lda), FIX2INT(k1), FIX2INT(k2), ipiv_, FIX2INT(incx));
+
+  // a is both returned and modified directly in the argument list.
+  return a;
+}</pre>
+          </div><!-- clapack_laswp-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- clapack_laswp-method -->
+
+    
+      <div id="method-c-clapack_lauum" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">clapack_lauum</span><span
+            class="method-args">(p1, p2, p3, p4, p5)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="clapack_lauum-source">
+            <pre>static VALUE nm_clapack_lauum(VALUE self, VALUE order, VALUE uplo, VALUE n, VALUE a, VALUE lda) {
+  static int (*ttable[nm::NUM_DTYPES])(const enum CBLAS_ORDER, const enum CBLAS_UPLO, const int n, void* a, const int lda) = {
+      /*nm::math::clapack_lauum&lt;uint8_t, false&gt;,
+      nm::math::clapack_lauum&lt;int8_t, false&gt;,
+      nm::math::clapack_lauum&lt;int16_t, false&gt;,
+      nm::math::clapack_lauum&lt;uint32_t, false&gt;,
+      nm::math::clapack_lauum&lt;uint64_t, false&gt;,*/
+      NULL, NULL, NULL, NULL, NULL,
+      nm::math::clapack_lauum&lt;false, float&gt;,
+      nm::math::clapack_lauum&lt;false, double&gt;,
+#ifdef HAVE_CLAPACK_H
+      clapack_clauum, clapack_zlauum, // call directly, same function signature!
+#else // Especially important for Mac OS, which doesn't seem to include the ATLAS clapack interface.
+      nm::math::clapack_lauum&lt;true, nm::Complex64&gt;,
+      nm::math::clapack_lauum&lt;true, nm::Complex128&gt;,
+#endif
+/*
+      nm::math::clapack_lauum&lt;nm::Rational32, false&gt;,
+      nm::math::clapack_lauum&lt;nm::Rational64, false&gt;,
+      nm::math::clapack_lauum&lt;nm::Rational128, false&gt;,
+      nm::math::clapack_lauum&lt;nm::RubyObject, false&gt;
+
+*/
+  };
+
+  if (!ttable[NM_DTYPE(a)]) {
+    rb_raise(rb_eNotImpError, &quot;does not yet work for non-BLAS dtypes (needs herk, syrk, trmm)&quot;);
+  } else {
+    // Call either our version of lauum or the LAPACK version.
+    ttable[NM_DTYPE(a)](blas_order_sym(order), blas_uplo_sym(uplo), FIX2INT(n), NM_STORAGE_DENSE(a)-&gt;elements, FIX2INT(lda));
+  }
+
+  return a;
+}</pre>
+          </div><!-- clapack_lauum-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- clapack_lauum-method -->
+
+    
+      <div id="method-c-clapack_posv" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            clapack_posv(order, uplo, n ,nrhs, a, lda, b, ldb) &rarr; ...
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>TODO Complete this description.</p>
+
+<p>Computes the solution to a real system of linear equations</p>
+
+<pre>A * X = B,</pre>
+
+<p>where A is an N-by-N symmetric positive definite matrix and X and B are
+N-by-NRHS matrices.</p>
+
+<p>The Cholesky decomposition is used to factor A as</p>
+
+<pre>A = U**T* U,  if UPLO = 'U', or
+A = L * L**T,  if UPLO = 'L',</pre>
+
+<p>where U is an upper triangular matrix and L is a lower triangular matrix. 
+The factored form of A is then used to solve the system of equations A * X
+= B.</p>
+
+<p>From ATLAS 3.8.0.</p>
+
+<p>Note: Because this function is implemented in Ruby, the ATLAS lib version
+is never called! For float32, float64, complex64, and  complex128, the
+ATLAS lib versions of potrf and potrs <strong>will</strong> be called.</p>
+<ul><li>
+<p><strong>Arguments</strong> :</p>
+<ul><li>
+<p><code>order</code> -&gt;</p>
+</li><li>
+<p><code>uplo</code> -&gt;</p>
+</li><li>
+<p><code>n</code> -&gt;</p>
+</li><li>
+<p><code>nrhs</code> -&gt;</p>
+</li><li>
+<p><code>a</code> -&gt;</p>
+</li><li>
+<p><code>lda</code> -&gt;</p>
+</li><li>
+<p><code>b</code> -&gt;</p>
+</li><li>
+<p><code>ldb</code> -&gt;</p>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong> : -</p>
+</li><li>
+<p><strong>Raises</strong> :</p>
+<ul><li>
+<p>++ -&gt;</p>
+</li></ul>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="clapack_posv-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/lapack.rb, line 118</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">clapack_posv</span>(<span class="ruby-identifier">order</span>, <span class="ruby-identifier">uplo</span>, <span class="ruby-identifier">n</span>, <span class="ruby-identifier">nrhs</span>, <span class="ruby-identifier">a</span>, <span class="ruby-identifier">lda</span>, <span class="ruby-identifier">b</span>, <span class="ruby-identifier">ldb</span>)
+  <span class="ruby-identifier">clapack_potrf</span>(<span class="ruby-identifier">order</span>, <span class="ruby-identifier">uplo</span>, <span class="ruby-identifier">n</span>, <span class="ruby-identifier">a</span>, <span class="ruby-identifier">lda</span>)
+  <span class="ruby-identifier">clapack_potrs</span>(<span class="ruby-identifier">order</span>, <span class="ruby-identifier">uplo</span>, <span class="ruby-identifier">n</span>, <span class="ruby-identifier">nrhs</span>, <span class="ruby-identifier">a</span>, <span class="ruby-identifier">lda</span>, <span class="ruby-identifier">b</span>, <span class="ruby-identifier">ldb</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- clapack_posv-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- clapack_posv-method -->
+
+    
+      <div id="method-c-clapack_potrf" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">clapack_potrf</span><span
+            class="method-args">(p1, p2, p3, p4, p5)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Call any of the clapack_xpotrf functions as directly as possible.</p>
+
+<p>You probably don’t want to call this function. Instead, why don’t you try
+<a href="LAPACK.html#method-c-clapack_potrf">::clapack_potrf</a>, which is
+more flexible with its arguments?</p>
+
+<p>This function does almost no type checking. Seriously, be really careful
+when you call it! There’s no exception handling, so you can easily crash
+Ruby!</p>
+
+<p>Returns an array giving the pivot indices (normally these are argument #5).</p>
+          
+          
+
+          
+          <div class="method-source-code" id="clapack_potrf-source">
+            <pre>static VALUE nm_clapack_potrf(VALUE self, VALUE order, VALUE uplo, VALUE n, VALUE a, VALUE lda) {
+#ifndef HAVE_CLAPACK_H
+  rb_raise(rb_eNotImpError, &quot;potrf currently requires LAPACK&quot;);
+#endif
+
+  static int (*ttable[nm::NUM_DTYPES])(const enum CBLAS_ORDER, const enum CBLAS_UPLO, const int n, void* a, const int lda) = {
+      NULL, NULL, NULL, NULL, NULL, // integers not allowed due to division
+      nm::math::clapack_potrf&lt;float&gt;,
+      nm::math::clapack_potrf&lt;double&gt;,
+#ifdef HAVE_CLAPACK_H
+      clapack_cpotrf, clapack_zpotrf, // call directly, same function signature!
+#else // Especially important for Mac OS, which doesn't seem to include the ATLAS clapack interface.
+      nm::math::clapack_potrf&lt;nm::Complex64&gt;,
+      nm::math::clapack_potrf&lt;nm::Complex128&gt;,
+#endif
+      NULL, NULL, NULL, NULL /*
+      nm::math::clapack_potrf&lt;nm::Rational32&gt;,
+      nm::math::clapack_potrf&lt;nm::Rational64&gt;,
+      nm::math::clapack_potrf&lt;nm::Rational128&gt;,
+      nm::math::clapack_potrf&lt;nm::RubyObject&gt; */
+  };
+
+  if (!ttable[NM_DTYPE(a)]) {
+    rb_raise(rb_eNotImpError, &quot;this operation not yet implemented for non-BLAS dtypes&quot;);
+    // FIXME: Once BLAS dtypes are implemented, replace error above with the error below.
+    //rb_raise(nm_eDataTypeError, &quot;this matrix operation undefined for integer matrices&quot;);
+  } else {
+    // Call either our version of potrf or the LAPACK version.
+    ttable[NM_DTYPE(a)](blas_order_sym(order), blas_uplo_sym(uplo), FIX2INT(n), NM_STORAGE_DENSE(a)-&gt;elements, FIX2INT(lda));
+  }
+
+  return a;
+}</pre>
+          </div><!-- clapack_potrf-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- clapack_potrf-method -->
+
+    
+      <div id="method-c-clapack_potri" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">clapack_potri</span><span
+            class="method-args">(p1, p2, p3, p4, p5)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Call any of the clapack_xpotri functions as directly as possible.</p>
+
+<p>You probably don’t want to call this function. Instead, why don’t you try
+<a href="LAPACK.html#method-c-clapack_potri">::clapack_potri</a>, which is
+more flexible with its arguments?</p>
+
+<p>This function does almost no type checking. Seriously, be really careful
+when you call it! There’s no exception handling, so you can easily crash
+Ruby!</p>
+
+<p>Returns an array giving the pivot indices (normally these are argument #5).</p>
+          
+          
+
+          
+          <div class="method-source-code" id="clapack_potri-source">
+            <pre>static VALUE nm_clapack_potri(VALUE self, VALUE order, VALUE uplo, VALUE n, VALUE a, VALUE lda) {
+#ifndef HAVE_CLAPACK_H
+  rb_raise(rb_eNotImpError, &quot;getri currently requires LAPACK&quot;);
+#endif
+
+  static int (*ttable[nm::NUM_DTYPES])(const enum CBLAS_ORDER, const enum CBLAS_UPLO, const int n, void* a, const int lda) = {
+      NULL, NULL, NULL, NULL, NULL, // integers not allowed due to division
+      nm::math::clapack_potri&lt;float&gt;,
+      nm::math::clapack_potri&lt;double&gt;,
+#ifdef HAVE_CLAPACK_H
+      clapack_cpotri, clapack_zpotri, // call directly, same function signature!
+#else // Especially important for Mac OS, which doesn't seem to include the ATLAS clapack interface.
+      nm::math::clapack_potri&lt;nm::Complex64&gt;,
+      nm::math::clapack_potri&lt;nm::Complex128&gt;,
+#endif
+      NULL, NULL, NULL, NULL /*
+      nm::math::clapack_getri&lt;nm::Rational32&gt;,
+      nm::math::clapack_getri&lt;nm::Rational64&gt;,
+      nm::math::clapack_getri&lt;nm::Rational128&gt;,
+      nm::math::clapack_getri&lt;nm::RubyObject&gt; */
+  };
+
+  if (!ttable[NM_DTYPE(a)]) {
+    rb_raise(rb_eNotImpError, &quot;this operation not yet implemented for non-BLAS dtypes&quot;);
+    // FIXME: Once BLAS dtypes are implemented, replace error above with the error below.
+    //rb_raise(nm_eDataTypeError, &quot;this matrix operation undefined for integer matrices&quot;);
+  } else {
+    // Call either our version of getri or the LAPACK version.
+    ttable[NM_DTYPE(a)](blas_order_sym(order), blas_uplo_sym(uplo), FIX2INT(n), NM_STORAGE_DENSE(a)-&gt;elements, FIX2INT(lda));
+  }
+
+  return a;
+}</pre>
+          </div><!-- clapack_potri-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- clapack_potri-method -->
+
+    
+      <div id="method-c-clapack_potrs" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">clapack_potrs</span><span
+            class="method-args">(p1, p2, p3, p4, p5, p6, p7, p8)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Call any of the clapack_xpotrs functions as directly as possible.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="clapack_potrs-source">
+            <pre>static VALUE nm_clapack_potrs(VALUE self, VALUE order, VALUE uplo, VALUE n, VALUE nrhs, VALUE a, VALUE lda, VALUE b, VALUE ldb) {
+  static int (*ttable[nm::NUM_DTYPES])(const enum CBLAS_ORDER Order, const enum CBLAS_UPLO Uplo, const int N,
+                                       const int NRHS, const void* A, const int lda, void* B, const int ldb) = {
+      NULL, NULL, NULL, NULL, NULL, // integers not allowed due to division
+      nm::math::clapack_potrs&lt;float,false&gt;,
+      nm::math::clapack_potrs&lt;double,false&gt;,
+#ifdef HAVE_CLAPACK_H
+      clapack_cpotrs, clapack_zpotrs, // call directly, same function signature!
+#else // Especially important for Mac OS, which doesn't seem to include the ATLAS clapack interface.
+      nm::math::clapack_potrs&lt;nm::Complex64,true&gt;,
+      nm::math::clapack_potrs&lt;nm::Complex128,true&gt;,
+#endif
+      nm::math::clapack_potrs&lt;nm::Rational32,false&gt;,
+      nm::math::clapack_potrs&lt;nm::Rational64,false&gt;,
+      nm::math::clapack_potrs&lt;nm::Rational128,false&gt;,
+      nm::math::clapack_potrs&lt;nm::RubyObject,false&gt;
+  };
+
+
+  if (!ttable[NM_DTYPE(a)]) {
+    rb_raise(nm_eDataTypeError, &quot;this matrix operation undefined for integer matrices&quot;);
+  } else {
+
+    // Call either our version of potrs or the LAPACK version.
+    ttable[NM_DTYPE(a)](blas_order_sym(order), blas_uplo_sym(uplo), FIX2INT(n), FIX2INT(nrhs), NM_STORAGE_DENSE(a)-&gt;elements, FIX2INT(lda),
+                        NM_STORAGE_DENSE(b)-&gt;elements, FIX2INT(ldb));
+  }
+
+  // b is both returned and modified directly in the argument list.
+  return b;
+}</pre>
+          </div><!-- clapack_potrs-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- clapack_potrs-method -->
+
+    
+      <div id="method-c-clapack_scal" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">clapack_scal</span><span
+            class="method-args">(p1, p2, p3, p4)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Based on LAPACK’s dscal function, but for any dtype.</p>
+
+<p>In-place modification; returns the modified vector as well.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="clapack_scal-source">
+            <pre>static VALUE nm_clapack_scal(VALUE self, VALUE n, VALUE scale, VALUE vector, VALUE incx) {
+  nm::dtype_t dtype = NM_DTYPE(vector);
+
+  void* da      = ALLOCA_N(char, DTYPE_SIZES[dtype]);
+  rubyval_to_cval(scale, dtype, da);
+
+  NAMED_DTYPE_TEMPLATE_TABLE(ttable, nm::math::clapack_scal, void, const int n, const void* da, void* dx, const int incx);
+
+  ttable[dtype](FIX2INT(n), da, NM_STORAGE_DENSE(vector)-&gt;elements, FIX2INT(incx));
+
+  return vector;
+}</pre>
+          </div><!-- clapack_scal-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- clapack_scal-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.0.rc.2.1.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

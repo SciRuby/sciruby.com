@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>module NMatrix::IO::Matlab - RDoc Documentation</title>
+
+<link type="text/css" media="screen" href="../../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../../index.html">Home</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>ext/nmatrix/nmatrix.cpp
+    <li>lib/nmatrix/io/mat5_reader.rb
+    <li>lib/nmatrix/io/mat_reader.rb
+    <li>lib/nmatrix/nmatrix.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li ><a href="#method-c-complex_merge">::complex_merge</a>
+    
+    <li ><a href="#method-c-load_mat">::load_mat</a>
+    
+    <li ><a href="#method-c-repack">::repack</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../../History_txt.html">History</a>
+  
+    <li class="file"><a href="../../README_rdoc.html">README</a>
+  
+    <li class="file"><a href="../../ext/nmatrix/binary_format_txt.html">binary_format</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../../Array.html">Array</a>
+  
+    <li><a href="../../DataTypeError.html">DataTypeError</a>
+  
+    <li><a href="../../N.html">N</a>
+  
+    <li><a href="../../NMatrix.html">NMatrix</a>
+  
+    <li><a href="../../NMatrix/BLAS.html">NMatrix::BLAS</a>
+  
+    <li><a href="../../NMatrix/IO.html">NMatrix::IO</a>
+  
+    <li><a href="../../NMatrix/IO/Market.html">NMatrix::IO::Market</a>
+  
+    <li><a href="../../NMatrix/IO/Matlab.html">NMatrix::IO::Matlab</a>
+  
+    <li><a href="../../NMatrix/IO/Matlab/Mat5Reader.html">NMatrix::IO::Matlab::Mat5Reader</a>
+  
+    <li><a href="../../NMatrix/IO/Matlab/Mat5Reader/Compressed.html">NMatrix::IO::Matlab::Mat5Reader::Compressed</a>
+  
+    <li><a href="../../NMatrix/IO/Matlab/Mat5Reader/Element.html">NMatrix::IO::Matlab::Mat5Reader::Element</a>
+  
+    <li><a href="../../NMatrix/IO/Matlab/Mat5Reader/ElementDataIOError.html">NMatrix::IO::Matlab::Mat5Reader::ElementDataIOError</a>
+  
+    <li><a href="../../NMatrix/IO/Matlab/Mat5Reader/Header.html">NMatrix::IO::Matlab::Mat5Reader::Header</a>
+  
+    <li><a href="../../NMatrix/IO/Matlab/Mat5Reader/MatrixData.html">NMatrix::IO::Matlab::Mat5Reader::MatrixData</a>
+  
+    <li><a href="../../NMatrix/IO/Matlab/Mat5Reader/RawElement.html">NMatrix::IO::Matlab::Mat5Reader::RawElement</a>
+  
+    <li><a href="../../NMatrix/IO/Matlab/Mat5Reader/Tag.html">NMatrix::IO::Matlab::Mat5Reader::Tag</a>
+  
+    <li><a href="../../NMatrix/IO/Matlab/MatReader.html">NMatrix::IO::Matlab::MatReader</a>
+  
+    <li><a href="../../NMatrix/LAPACK.html">NMatrix::LAPACK</a>
+  
+    <li><a href="../../NMatrix/YaleFunctions.html">NMatrix::YaleFunctions</a>
+  
+    <li><a href="../../NVector.html">NVector</a>
+  
+    <li><a href="../../Object.html">Object</a>
+  
+    <li><a href="../../StorageTypeError.html">StorageTypeError</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module NMatrix::IO::Matlab</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-complex_merge" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">complex_merge</span><span
+            class="method-args">(p1, p2, p3)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Take two byte-strings (real and imaginary) and treat them as if they
+contain a sequence of data of type dtype. Merge them together and return a
+new string.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="complex_merge-source">
+            <pre>static VALUE nm_rbstring_merge(VALUE self, VALUE rb_real, VALUE rb_imaginary, VALUE rb_dtype) {
+
+  // Sanity check.
+  if (RSTRING_LEN(rb_real) != RSTRING_LEN(rb_imaginary)) {
+    rb_raise(rb_eArgError, &quot;real and imaginary components do not have same length&quot;);
+  }
+
+  nm::dtype_t dtype = nm_dtype_from_rbsymbol(rb_dtype);
+  size_t len        = DTYPE_SIZES[dtype];
+
+  char *real        = RSTRING_PTR(rb_real),
+       *imag        = RSTRING_PTR(rb_imaginary);
+
+  char* merge       = ALLOCA_N(char, RSTRING_LEN(rb_real)*2);
+
+  size_t merge_pos  = 0;
+
+  // Merge the two sequences
+  for (size_t i = 0; i &lt; RSTRING_LEN(rb_real); i += len) {
+
+    // Copy real number
+    memcpy(merge + merge_pos, real + i, len);
+    merge_pos += len;
+
+    // Copy imaginary number
+    memcpy(merge + merge_pos, imag + i, len);
+    merge_pos += len;
+  }
+
+  return rb_str_new(merge, merge_pos);
+}</pre>
+          </div><!-- complex_merge-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- complex_merge-method -->
+
+    
+      <div id="method-c-load_mat" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">load_mat</span><span
+            class="method-args">(file_path)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="load_mat-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/nmatrix.rb, line 39</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">load_mat</span> <span class="ruby-identifier">file_path</span>
+  <span class="ruby-constant">NMatrix</span><span class="ruby-operator">::</span><span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">Matlab</span><span class="ruby-operator">::</span><span class="ruby-constant">Mat5Reader</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">file_path</span>, <span class="ruby-string">&quot;rb+&quot;</span>)).<span class="ruby-identifier">to_ruby</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- load_mat-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- load_mat-method -->
+
+    
+      <div id="method-c-repack" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">repack</span><span
+            class="method-args">(p1, p2, p3)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Take a string of bytes which represent MATLAB data type values and repack
+them into a string of bytes representing values of an <a
+href="../../NMatrix.html">NMatrix</a> dtype (or itype).</p>
+
+<p>Returns what appears to be a Ruby String.</p>
+
+<p>Arguments:</p>
+<ul><li><dl class="rdoc-list note-list"><dt>str        
+<dd>
+<p>the data</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt>from       
+<dd>
+<p>symbol representing MATLAB data type (e.g., :miINT8)</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt>options    
+<dd>
+<p>hash, give either :itype =&gt; some_itype or :dtype =&gt; some_dtype, tells
+function what to give as output.</p>
+</dd></dl>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="repack-source">
+            <pre>static VALUE nm_rbstring_matlab_repack(VALUE self, VALUE str, VALUE from, VALUE options) {
+  nm::io::matlab_dtype_t from_type = matlab_dtype_from_rbsymbol(from);
+  uint8_t to_type;
+
+  if (TYPE(options) != T_HASH) {
+    rb_raise(rb_eArgError, &quot;third argument to repack must be an options hash&quot;);
+  }
+
+  if (RB_HASH_HAS_SYMBOL_KEY(options, &quot;dtype&quot;)) { // Hash#has_key?(:dtype)
+
+    nm::dtype_t to_dtype  = nm_dtype_from_rbsymbol(rb_hash_aref(options, ID2SYM(rb_intern(&quot;dtype&quot;))));
+    to_type               = static_cast&lt;int8_t&gt;(to_dtype);
+
+  } else if (RB_HASH_HAS_SYMBOL_KEY(options, &quot;itype&quot;)) {
+
+    nm::itype_t to_itype  = nm_itype_from_rbsymbol(rb_hash_aref(options, ID2SYM(rb_intern(&quot;itype&quot;))));
+
+    // we're going to cheat and use the DTYPE template table. To do this, we just act like uint8_t
+    // is a dtype (both are 0, itype and dtype), or we add 1 to the other itypes and treat them as
+    // signed.
+    to_type           = static_cast&lt;uint8_t&gt;(to_itype);
+    if (to_itype != nm::UINT8) to_type += 1;
+
+
+  } else {
+    rb_raise(rb_eArgError, &quot;third argument must have either :itype or :dtype as a key&quot;);
+  }
+
+  // For next few lines, see explanation above NM_MATLAB_DTYPE_TEMPLATE_TABLE definition in io.h.
+  if (to_type &gt;= static_cast&lt;uint8_t&gt;(nm::COMPLEX64)) {
+    rb_raise(rb_eArgError, &quot;can only repack into a simple dtype, no complex/rational/VALUE&quot;);
+  }
+
+  // Do the actual repacking -- really simple!
+  NM_MATLAB_DTYPE_TEMPLATE_TABLE(ttable, nm::io::matlab_cstring_to_dtype_string, char*, size_t&amp; result_len, const char* str, size_t bytes);
+
+  size_t repacked_data_length;
+  char* repacked_data = ttable[to_type][from_type](repacked_data_length, RSTRING_PTR(str), RSTRING_LEN(str));
+
+  // Encode as 8-bit ASCII with a length -- don't want to hiccup on \0
+  VALUE result = rb_str_new(repacked_data, repacked_data_length);
+  free(repacked_data); // Don't forget to free what we allocated!
+
+  return result;
+}</pre>
+          </div><!-- repack-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- repack-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.0.rc.2.1.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+
