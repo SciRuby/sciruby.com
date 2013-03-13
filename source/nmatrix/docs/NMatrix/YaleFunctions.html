@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>module NMatrix::YaleFunctions - RDoc Documentation</title>
+
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>ext/nmatrix/nmatrix.cpp
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li ><a href="#method-i-yale_a">#yale_a</a>
+    
+    <li ><a href="#method-i-yale_d">#yale_d</a>
+    
+    <li ><a href="#method-i-yale_ia">#yale_ia</a>
+    
+    <li ><a href="#method-i-yale_ija">#yale_ija</a>
+    
+    <li ><a href="#method-i-yale_ja">#yale_ja</a>
+    
+    <li ><a href="#method-i-yale_lu">#yale_lu</a>
+    
+    <li ><a href="#method-i-yale_size">#yale_size</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../History_txt.html">History</a>
+  
+    <li class="file"><a href="../README_rdoc.html">README</a>
+  
+    <li class="file"><a href="../ext/nmatrix/binary_format_txt.html">binary_format</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../Array.html">Array</a>
+  
+    <li><a href="../DataTypeError.html">DataTypeError</a>
+  
+    <li><a href="../N.html">N</a>
+  
+    <li><a href="../NMatrix.html">NMatrix</a>
+  
+    <li><a href="../NMatrix/BLAS.html">NMatrix::BLAS</a>
+  
+    <li><a href="../NMatrix/IO.html">NMatrix::IO</a>
+  
+    <li><a href="../NMatrix/IO/Market.html">NMatrix::IO::Market</a>
+  
+    <li><a href="../NMatrix/IO/Matlab.html">NMatrix::IO::Matlab</a>
+  
+    <li><a href="../NMatrix/IO/Matlab/Mat5Reader.html">NMatrix::IO::Matlab::Mat5Reader</a>
+  
+    <li><a href="../NMatrix/IO/Matlab/Mat5Reader/Compressed.html">NMatrix::IO::Matlab::Mat5Reader::Compressed</a>
+  
+    <li><a href="../NMatrix/IO/Matlab/Mat5Reader/Element.html">NMatrix::IO::Matlab::Mat5Reader::Element</a>
+  
+    <li><a href="../NMatrix/IO/Matlab/Mat5Reader/ElementDataIOError.html">NMatrix::IO::Matlab::Mat5Reader::ElementDataIOError</a>
+  
+    <li><a href="../NMatrix/IO/Matlab/Mat5Reader/Header.html">NMatrix::IO::Matlab::Mat5Reader::Header</a>
+  
+    <li><a href="../NMatrix/IO/Matlab/Mat5Reader/MatrixData.html">NMatrix::IO::Matlab::Mat5Reader::MatrixData</a>
+  
+    <li><a href="../NMatrix/IO/Matlab/Mat5Reader/RawElement.html">NMatrix::IO::Matlab::Mat5Reader::RawElement</a>
+  
+    <li><a href="../NMatrix/IO/Matlab/Mat5Reader/Tag.html">NMatrix::IO::Matlab::Mat5Reader::Tag</a>
+  
+    <li><a href="../NMatrix/IO/Matlab/MatReader.html">NMatrix::IO::Matlab::MatReader</a>
+  
+    <li><a href="../NMatrix/LAPACK.html">NMatrix::LAPACK</a>
+  
+    <li><a href="../NMatrix/YaleFunctions.html">NMatrix::YaleFunctions</a>
+  
+    <li><a href="../NVector.html">NVector</a>
+  
+    <li><a href="../Object.html">Object</a>
+  
+    <li><a href="../StorageTypeError.html">StorageTypeError</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module NMatrix::YaleFunctions</h1>
+
+  <div id="description" class="description">
+    
+<p>This module stores methods that are useful for debugging Yale matrices,
+i.e. the ones with <code>:yale</code> stype.</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+    <!-- Constants -->
+    <section id="constants-list" class="section">
+      <h3 class="section-header">Constants</h3>
+      <dl>
+      
+        <dt id="YALE_GROWTH_CONSTANT">YALE_GROWTH_CONSTANT
+        
+        <dd class="description">
+        
+      
+      </dl>
+    </section>
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-yale_a" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            yale_a &rarr; Array
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Get the A array of a Yale matrix (which stores the diagonal and the LU
+portions of the matrix).</p>
+          
+          
+
+          
+          <div class="method-source-code" id="yale_a-source">
+            <pre>static VALUE nm_a(VALUE self) {
+  YALE_STORAGE* s = NM_STORAGE_YALE(self);
+
+  size_t size = nm_yale_storage_get_size(s);
+  VALUE* vals = ALLOCA_N(VALUE, size);
+
+  for (size_t i = 0; i &lt; size; ++i) {
+    vals[i] = rubyobj_from_cval((char*)(s-&gt;a) + DTYPE_SIZES[s-&gt;dtype]*i, s-&gt;dtype).rval;
+  }
+  VALUE ary = rb_ary_new4(size, vals);
+
+  for (size_t i = size; i &lt; s-&gt;capacity; ++i)
+    rb_ary_push(ary, Qnil);
+
+  return ary;
+}</pre>
+          </div><!-- yale_a-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- yale_a-method -->
+
+    
+      <div id="method-i-yale_d" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            yale_d &rarr; Array
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Get the diagonal (“D”) portion of the A array of a Yale matrix.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="yale_d-source">
+            <pre>static VALUE nm_d(VALUE self) {
+  YALE_STORAGE* s = NM_STORAGE_YALE(self);
+
+  VALUE* vals = ALLOCA_N(VALUE, s-&gt;shape[0]);
+
+  for (size_t i = 0; i &lt; s-&gt;shape[0]; ++i) {
+    vals[i] = rubyobj_from_cval((char*)(s-&gt;a) + DTYPE_SIZES[s-&gt;dtype]*i, s-&gt;dtype).rval;
+  }
+  return rb_ary_new4(s-&gt;shape[0], vals);
+}</pre>
+          </div><!-- yale_d-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- yale_d-method -->
+
+    
+      <div id="method-i-yale_ia" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            yale_ia &rarr; Array
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Get the IA portion of the IJA array of a Yale matrix. This gives the start
+and end positions of rows in the JA and LU portions of the IJA and A
+arrays, respectively.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="yale_ia-source">
+            <pre>static VALUE nm_ia(VALUE self) {
+  YALE_STORAGE* s = NM_STORAGE_YALE(self);
+
+  VALUE* vals = ALLOCA_N(VALUE, s-&gt;shape[0] + 1);
+
+  for (size_t i = 0; i &lt; s-&gt;shape[0] + 1; ++i) {
+    vals[i] = rubyobj_from_cval_by_itype((char*)(s-&gt;ija) + ITYPE_SIZES[s-&gt;itype]*i, s-&gt;itype).rval;
+  }
+
+  return rb_ary_new4(s-&gt;shape[0]+1, vals);
+}</pre>
+          </div><!-- yale_ia-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- yale_ia-method -->
+
+    
+      <div id="method-i-yale_ija" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            yale_ija &rarr; Array
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Get the IJA array of a Yale matrix.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="yale_ija-source">
+            <pre>static VALUE nm_ija(VALUE self) {
+  YALE_STORAGE* s = NM_STORAGE_YALE(self);
+
+  size_t size = nm_yale_storage_get_size(s);
+
+  VALUE* vals = ALLOCA_N(VALUE, size);
+
+  for (size_t i = 0; i &lt; size; ++i) {
+    vals[i] = rubyobj_from_cval_by_itype((char*)(s-&gt;ija) + ITYPE_SIZES[s-&gt;itype]*i, s-&gt;itype).rval;
+  }
+
+ VALUE ary = rb_ary_new4(size, vals);
+
+  for (size_t i = size; i &lt; s-&gt;capacity; ++i)
+    rb_ary_push(ary, Qnil);
+
+  return ary;
+}</pre>
+          </div><!-- yale_ija-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- yale_ija-method -->
+
+    
+      <div id="method-i-yale_ja" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            yale_ja &rarr; Array
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Get the JA portion of the IJA array of a Yale matrix. This gives the column
+indices for entries in corresponding positions in the LU portion of the A
+array.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="yale_ja-source">
+            <pre>static VALUE nm_ja(VALUE self) {
+  YALE_STORAGE* s = NM_STORAGE_YALE(self);
+
+  size_t size = nm_yale_storage_get_size(s);
+
+  VALUE* vals = ALLOCA_N(VALUE, size - s-&gt;shape[0] - 1);
+
+  for (size_t i = 0; i &lt; size - s-&gt;shape[0] - 1; ++i) {
+    vals[i] = rubyobj_from_cval_by_itype((char*)(s-&gt;ija) + ITYPE_SIZES[s-&gt;itype]*(s-&gt;shape[0] + 1 + i), s-&gt;itype).rval;
+  }
+
+  VALUE ary = rb_ary_new4(size - s-&gt;shape[0] - 1, vals);
+
+  for (size_t i = size; i &lt; s-&gt;capacity; ++i)
+    rb_ary_push(ary, Qnil);
+
+  return ary;
+}</pre>
+          </div><!-- yale_ja-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- yale_ja-method -->
+
+    
+      <div id="method-i-yale_lu" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            yale_lu &rarr; Array
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Get the non-diagonal (“LU”) portion of the A array of a Yale matrix.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="yale_lu-source">
+            <pre>static VALUE nm_lu(VALUE self) {
+  YALE_STORAGE* s = NM_STORAGE_YALE(self);
+
+  size_t size = nm_yale_storage_get_size(s);
+
+  VALUE* vals = ALLOCA_N(VALUE, size - s-&gt;shape[0] - 1);
+
+  for (size_t i = 0; i &lt; size - s-&gt;shape[0] - 1; ++i) {
+    vals[i] = rubyobj_from_cval((char*)(s-&gt;a) + DTYPE_SIZES[s-&gt;dtype]*(s-&gt;shape[0] + 1 + i), s-&gt;dtype).rval;
+  }
+
+  VALUE ary = rb_ary_new4(size - s-&gt;shape[0] - 1, vals);
+
+  for (size_t i = size; i &lt; s-&gt;capacity; ++i)
+    rb_ary_push(ary, Qnil);
+
+  return ary;
+}</pre>
+          </div><!-- yale_lu-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- yale_lu-method -->
+
+    
+      <div id="method-i-yale_size" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            yale_size &rarr; Integer
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Get the size of a Yale matrix (the number of elements actually stored).</p>
+
+<p>For capacity (the maximum number of elements that can be stored without a
+resize), use capacity instead.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="yale_size-source">
+            <pre>static VALUE nm_size(VALUE self) {
+  YALE_STORAGE* s = (YALE_STORAGE*)NM_STORAGE(self);
+
+  return rubyobj_from_cval_by_itype((char*)(s-&gt;ija) + ITYPE_SIZES[s-&gt;itype]*(s-&gt;shape[0]), s-&gt;itype).rval;
+}</pre>
+          </div><!-- yale_size-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- yale_size-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.0.rc.2.1.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+
