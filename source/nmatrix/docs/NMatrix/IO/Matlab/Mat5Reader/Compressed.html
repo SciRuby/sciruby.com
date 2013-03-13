@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class NMatrix::IO::Matlab::Mat5Reader::Compressed - RDoc Documentation</title>
+
+<link type="text/css" media="screen" href="../../../../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../../../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../../../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../../js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../../../../index.html">Home</a>
+    <a href="../../../../table_of_contents.html#classes">Classes</a>
+    <a href="../../../../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/nmatrix/io/mat5_reader.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link"><a href="../../../../Object.html">Object</a>
+  
+</nav>
+
+    <!-- Included Modules -->
+<nav id="includes-section" class="section">
+  <h3 class="section-header">Included Modules</h3>
+
+  <ul class="link-list">
+  
+  
+    <li><span class="include">Packable</span>
+  
+  
+  </ul>
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li ><a href="#method-c-new">::new</a>
+    
+    <li ><a href="#method-i-compressed">#compressed</a>
+    
+    <li ><a href="#method-i-content">#content</a>
+    
+    <li ><a href="#method-i-extract">#extract</a>
+    
+    <li ><a href="#method-i-padded_bytes">#padded_bytes</a>
+    
+    <li ><a href="#method-i-read_packed">#read_packed</a>
+    
+    <li ><a href="#method-i-write_packed">#write_packed</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../../../../History_txt.html">History</a>
+  
+    <li class="file"><a href="../../../../README_rdoc.html">README</a>
+  
+    <li class="file"><a href="../../../../ext/nmatrix/binary_format_txt.html">binary_format</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../../../../Array.html">Array</a>
+  
+    <li><a href="../../../../DataTypeError.html">DataTypeError</a>
+  
+    <li><a href="../../../../N.html">N</a>
+  
+    <li><a href="../../../../NMatrix.html">NMatrix</a>
+  
+    <li><a href="../../../../NMatrix/BLAS.html">NMatrix::BLAS</a>
+  
+    <li><a href="../../../../NMatrix/IO.html">NMatrix::IO</a>
+  
+    <li><a href="../../../../NMatrix/IO/Market.html">NMatrix::IO::Market</a>
+  
+    <li><a href="../../../../NMatrix/IO/Matlab.html">NMatrix::IO::Matlab</a>
+  
+    <li><a href="../../../../NMatrix/IO/Matlab/Mat5Reader.html">NMatrix::IO::Matlab::Mat5Reader</a>
+  
+    <li><a href="../../../../NMatrix/IO/Matlab/Mat5Reader/Compressed.html">NMatrix::IO::Matlab::Mat5Reader::Compressed</a>
+  
+    <li><a href="../../../../NMatrix/IO/Matlab/Mat5Reader/Element.html">NMatrix::IO::Matlab::Mat5Reader::Element</a>
+  
+    <li><a href="../../../../NMatrix/IO/Matlab/Mat5Reader/ElementDataIOError.html">NMatrix::IO::Matlab::Mat5Reader::ElementDataIOError</a>
+  
+    <li><a href="../../../../NMatrix/IO/Matlab/Mat5Reader/Header.html">NMatrix::IO::Matlab::Mat5Reader::Header</a>
+  
+    <li><a href="../../../../NMatrix/IO/Matlab/Mat5Reader/MatrixData.html">NMatrix::IO::Matlab::Mat5Reader::MatrixData</a>
+  
+    <li><a href="../../../../NMatrix/IO/Matlab/Mat5Reader/RawElement.html">NMatrix::IO::Matlab::Mat5Reader::RawElement</a>
+  
+    <li><a href="../../../../NMatrix/IO/Matlab/Mat5Reader/Tag.html">NMatrix::IO::Matlab::Mat5Reader::Tag</a>
+  
+    <li><a href="../../../../NMatrix/IO/Matlab/MatReader.html">NMatrix::IO::Matlab::MatReader</a>
+  
+    <li><a href="../../../../NMatrix/LAPACK.html">NMatrix::LAPACK</a>
+  
+    <li><a href="../../../../NMatrix/YaleFunctions.html">NMatrix::YaleFunctions</a>
+  
+    <li><a href="../../../../NVector.html">NVector</a>
+  
+    <li><a href="../../../../Object.html">Object</a>
+  
+    <li><a href="../../../../StorageTypeError.html">StorageTypeError</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class NMatrix::IO::Matlab::Mat5Reader::Compressed</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+    <!-- Attributes -->
+    <section id="attribute-method-details" class="method-section section">
+      <h3 class="section-header">Attributes</h3>
+
+      
+      <div id="attribute-i-byte_order" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">byte_order</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        <p>include TaggedDataEnumerable</p>
+        
+        </div>
+      </div>
+      
+    </section><!-- attribute-method-details -->
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            new(stream = nil, byte_order = nil, content_or_bytes = nil) &rarr; Mat5Reader::Compressed
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <ul><li>
+<p><strong>Arguments</strong> :</p>
+<ul><li>
+<p>++ -&gt;</p>
+</li></ul>
+</li><li>
+<p><strong>Raises</strong> :</p>
+<ul><li>
+<p>++ -&gt;</p>
+</li></ul>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 54</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">stream</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">byte_order</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">content_or_bytes</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-ivar">@stream</span>                 = <span class="ruby-identifier">stream</span>
+  <span class="ruby-ivar">@byte_order</span>     = <span class="ruby-identifier">byte_order</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">content_or_bytes</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>)
+    <span class="ruby-ivar">@content</span> = <span class="ruby-identifier">content_or_bytes</span>
+
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">content_or_bytes</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Fixnum</span>)
+    <span class="ruby-ivar">@padded_bytes</span> = <span class="ruby-identifier">content_or_bytes</span>
+  <span class="ruby-comment">#else</span>
+  <span class="ruby-comment">#  raise ArgumentError, &quot;Need a content string or a number of bytes; content_or_bytes is #{content_or_bytes.class.to_s}.&quot;</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- new-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- new-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-compressed" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            compressed &rarr;
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="compressed-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 72</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">compressed</span>
+  <span class="ruby-identifier">require</span> <span class="ruby-string">&quot;zlib&quot;</span>
+  <span class="ruby-comment"># [2..-5] removes headers</span>
+  <span class="ruby-ivar">@compressed</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Zlib</span><span class="ruby-operator">::</span><span class="ruby-constant">Deflate</span>.<span class="ruby-identifier">deflate</span>(<span class="ruby-identifier">content</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- compressed-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- compressed-method -->
+
+    
+      <div id="method-i-content" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            content &rarr;
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="content-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 82</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">content</span>
+  <span class="ruby-ivar">@content</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">extract</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- content-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- content-method -->
+
+    
+      <div id="method-i-padded_bytes" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            padded_bytes &rarr;
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="padded_bytes-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 90</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">padded_bytes</span>
+  <span class="ruby-ivar">@padded_bytes</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">content</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">%</span> <span class="ruby-value">4</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">content</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">:</span> (<span class="ruby-identifier">content</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">/</span> <span class="ruby-value">4</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>) <span class="ruby-operator">*</span> <span class="ruby-value">4</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- padded_bytes-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- padded_bytes-method -->
+
+    
+      <div id="method-i-read_packed" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            read_packed(packedio, options = {}) &rarr;
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <ul><li>
+<p><strong>Arguments</strong> :</p>
+<ul><li>
+<p>++ -&gt;</p>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong> : -</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="read_packed-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 116</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">read_packed</span>(<span class="ruby-identifier">packedio</span>, <span class="ruby-identifier">options</span>)
+  <span class="ruby-ivar">@compressed</span> = (<span class="ruby-identifier">packedio</span> <span class="ruby-operator">&gt;&gt;</span> [<span class="ruby-constant">String</span>, <span class="ruby-identifier">options</span>]).<span class="ruby-identifier">first</span>
+  <span class="ruby-identifier">content</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- read_packed-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- read_packed-method -->
+
+    
+      <div id="method-i-write_packed" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            write_packed(packedio, options = {}) &rarr;
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <ul><li>
+<p><strong>Arguments</strong> :</p>
+<ul><li>
+<p>++ -&gt;</p>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong> : -</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="write_packed-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 103</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">write_packed</span>(<span class="ruby-identifier">packedio</span>, <span class="ruby-identifier">options</span> = {})
+  <span class="ruby-identifier">packedio</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">compressed</span>, {<span class="ruby-value">:bytes</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">padded_bytes</span>}.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">options</span>)]
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- write_packed-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- write_packed-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+     <section id="protected-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Protected Instance Methods</h3>
+
+    
+      <div id="method-i-extract" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            extract &rarr;
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="extract-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 126</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">extract</span>
+  <span class="ruby-identifier">require</span> <span class="ruby-string">'zlib'</span>
+
+  <span class="ruby-identifier">zstream</span> = <span class="ruby-constant">Zlib</span><span class="ruby-operator">::</span><span class="ruby-constant">Inflate</span>.<span class="ruby-identifier">new</span> <span class="ruby-comment">#(-Zlib::MAX_WBITS) # No header</span>
+
+  <span class="ruby-identifier">returning</span>(<span class="ruby-identifier">zstream</span>.<span class="ruby-identifier">inflate</span>(<span class="ruby-ivar">@compressed</span>)) <span class="ruby-keyword">do</span>
+    <span class="ruby-identifier">zstream</span>.<span class="ruby-identifier">finish</span>
+    <span class="ruby-identifier">zstream</span>.<span class="ruby-identifier">close</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- extract-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- extract-method -->
+
+    
+    </section><!-- protected-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.0.rc.2.1.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

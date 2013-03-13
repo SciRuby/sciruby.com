@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class NMatrix::IO::Matlab::MatReader - RDoc Documentation</title>
+
+<link type="text/css" media="screen" href="../../../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../../../index.html">Home</a>
+    <a href="../../../table_of_contents.html#classes">Classes</a>
+    <a href="../../../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/nmatrix/io/mat_reader.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link"><a href="../../../Object.html">Object</a>
+  
+</nav>
+
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li ><a href="#method-c-new">::new</a>
+    
+    <li ><a href="#method-i-guess_byte_order">#guess_byte_order</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../../../History_txt.html">History</a>
+  
+    <li class="file"><a href="../../../README_rdoc.html">README</a>
+  
+    <li class="file"><a href="../../../ext/nmatrix/binary_format_txt.html">binary_format</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../../../Array.html">Array</a>
+  
+    <li><a href="../../../DataTypeError.html">DataTypeError</a>
+  
+    <li><a href="../../../N.html">N</a>
+  
+    <li><a href="../../../NMatrix.html">NMatrix</a>
+  
+    <li><a href="../../../NMatrix/BLAS.html">NMatrix::BLAS</a>
+  
+    <li><a href="../../../NMatrix/IO.html">NMatrix::IO</a>
+  
+    <li><a href="../../../NMatrix/IO/Market.html">NMatrix::IO::Market</a>
+  
+    <li><a href="../../../NMatrix/IO/Matlab.html">NMatrix::IO::Matlab</a>
+  
+    <li><a href="../../../NMatrix/IO/Matlab/Mat5Reader.html">NMatrix::IO::Matlab::Mat5Reader</a>
+  
+    <li><a href="../../../NMatrix/IO/Matlab/Mat5Reader/Compressed.html">NMatrix::IO::Matlab::Mat5Reader::Compressed</a>
+  
+    <li><a href="../../../NMatrix/IO/Matlab/Mat5Reader/Element.html">NMatrix::IO::Matlab::Mat5Reader::Element</a>
+  
+    <li><a href="../../../NMatrix/IO/Matlab/Mat5Reader/ElementDataIOError.html">NMatrix::IO::Matlab::Mat5Reader::ElementDataIOError</a>
+  
+    <li><a href="../../../NMatrix/IO/Matlab/Mat5Reader/Header.html">NMatrix::IO::Matlab::Mat5Reader::Header</a>
+  
+    <li><a href="../../../NMatrix/IO/Matlab/Mat5Reader/MatrixData.html">NMatrix::IO::Matlab::Mat5Reader::MatrixData</a>
+  
+    <li><a href="../../../NMatrix/IO/Matlab/Mat5Reader/RawElement.html">NMatrix::IO::Matlab::Mat5Reader::RawElement</a>
+  
+    <li><a href="../../../NMatrix/IO/Matlab/Mat5Reader/Tag.html">NMatrix::IO::Matlab::Mat5Reader::Tag</a>
+  
+    <li><a href="../../../NMatrix/IO/Matlab/MatReader.html">NMatrix::IO::Matlab::MatReader</a>
+  
+    <li><a href="../../../NMatrix/LAPACK.html">NMatrix::LAPACK</a>
+  
+    <li><a href="../../../NMatrix/YaleFunctions.html">NMatrix::YaleFunctions</a>
+  
+    <li><a href="../../../NVector.html">NVector</a>
+  
+    <li><a href="../../../Object.html">Object</a>
+  
+    <li><a href="../../../StorageTypeError.html">StorageTypeError</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class NMatrix::IO::Matlab::MatReader</h1>
+
+  <div id="description" class="description">
+    
+<p>Class for parsing a .mat file stream.</p>
+
+<p>The full format of .mat files is available here:</p>
+<ul><li>
+<p><a
+href="http://www.mathworks.com/help/pdf_doc/matlab/matfile_format.pdf">www.mathworks.com/help/pdf_doc/matlab/matfile_format.pdf</a></p>
+</li></ul>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+    <!-- Constants -->
+    <section id="constants-list" class="section">
+      <h3 class="section-header">Constants</h3>
+      <dl>
+      
+        <dt id="DTYPE_PACK_ARGS">DTYPE_PACK_ARGS
+        
+        <dd class="description">
+        
+      
+        <dt id="ITYPE_PACK_ARGS">ITYPE_PACK_ARGS
+        
+        <dd class="description">
+        
+      
+        <dt id="MCLASSES">MCLASSES
+        
+        <dd class="description">
+        
+      
+        <dt id="MDTYPES">MDTYPES
+        
+        <dd class="description"><p>Before release v7.1 (release 14) matlab (TM) used the system default
+character encoding scheme padded out to 16-bits. Release 14 and later use
+Unicode. When saving character data, R14 checks if it can be encoded in
+7-bit ascii, and saves in that format if so.</p>
+        
+      
+        <dt id="MDTYPE_TO_DTYPE">MDTYPE_TO_DTYPE
+        
+        <dd class="description"><p>Convert from MATLAB dtype to <a href="../../../NMatrix.html">NMatrix</a>
+dtype.</p>
+        
+      
+        <dt id="MDTYPE_TO_ITYPE">MDTYPE_TO_ITYPE
+        
+        <dd class="description">
+        
+      
+        <dt id="MDTYPE_UNPACK_ARGS">MDTYPE_UNPACK_ARGS
+        
+        <dd class="description">
+        
+      
+        <dt id="NO_REPACK">NO_REPACK
+        
+        <dd class="description">
+        
+      
+      </dl>
+    </section>
+    
+
+    
+    <!-- Attributes -->
+    <section id="attribute-method-details" class="method-section section">
+      <h3 class="section-header">Attributes</h3>
+
+      
+      <div id="attribute-i-byte_order" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">byte_order</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-stream" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">stream</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+    </section><!-- attribute-method-details -->
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            new(stream, options = {}) &rarr; MatReader
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <ul><li>
+<p><strong>Raises</strong> :</p>
+<ul><li>
+<p><code>ArgumentError</code> -&gt; First argument must be <a
+href="../../IO.html">IO</a>.</p>
+</li></ul>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat_reader.rb, line 156</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">stream</span>, <span class="ruby-identifier">options</span> = {})
+        <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">'First arg must be IO.'</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">stream</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-operator">::</span><span class="ruby-constant">IO</span>)
+
+        <span class="ruby-ivar">@stream</span>     = <span class="ruby-identifier">stream</span>
+        <span class="ruby-ivar">@byte_order</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:byte_order</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">guess_byte_order</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- new-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- new-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-guess_byte_order" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            guess_byte_order &rarr; Symbol
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="guess_byte_order-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat_reader.rb, line 167</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">guess_byte_order</span>
+        <span class="ruby-comment"># Assume native, since we don't know what type of file we have.</span>
+        <span class="ruby-value">:native</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- guess_byte_order-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- guess_byte_order-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.0.rc.2.1.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+
