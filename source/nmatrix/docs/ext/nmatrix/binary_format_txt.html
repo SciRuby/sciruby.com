@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>binary_format - RDoc Documentation</title>
+
+<link type="text/css" media="screen" href="../../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/darkfish.js"></script>
+
+
+<body class="file">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../../index.html">Home</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../../History_txt.html">History</a>
+  
+    <li class="file"><a href="../../README_rdoc.html">README</a>
+  
+    <li class="file"><a href="../../ext/nmatrix/binary_format_txt.html">binary_format</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../../Array.html">Array</a>
+  
+    <li><a href="../../DataTypeError.html">DataTypeError</a>
+  
+    <li><a href="../../N.html">N</a>
+  
+    <li><a href="../../NMatrix.html">NMatrix</a>
+  
+    <li><a href="../../NMatrix/BLAS.html">NMatrix::BLAS</a>
+  
+    <li><a href="../../NMatrix/IO.html">NMatrix::IO</a>
+  
+    <li><a href="../../NMatrix/IO/Market.html">NMatrix::IO::Market</a>
+  
+    <li><a href="../../NMatrix/IO/Matlab.html">NMatrix::IO::Matlab</a>
+  
+    <li><a href="../../NMatrix/IO/Matlab/Mat5Reader.html">NMatrix::IO::Matlab::Mat5Reader</a>
+  
+    <li><a href="../../NMatrix/IO/Matlab/Mat5Reader/Compressed.html">NMatrix::IO::Matlab::Mat5Reader::Compressed</a>
+  
+    <li><a href="../../NMatrix/IO/Matlab/Mat5Reader/Element.html">NMatrix::IO::Matlab::Mat5Reader::Element</a>
+  
+    <li><a href="../../NMatrix/IO/Matlab/Mat5Reader/ElementDataIOError.html">NMatrix::IO::Matlab::Mat5Reader::ElementDataIOError</a>
+  
+    <li><a href="../../NMatrix/IO/Matlab/Mat5Reader/Header.html">NMatrix::IO::Matlab::Mat5Reader::Header</a>
+  
+    <li><a href="../../NMatrix/IO/Matlab/Mat5Reader/MatrixData.html">NMatrix::IO::Matlab::Mat5Reader::MatrixData</a>
+  
+    <li><a href="../../NMatrix/IO/Matlab/Mat5Reader/RawElement.html">NMatrix::IO::Matlab::Mat5Reader::RawElement</a>
+  
+    <li><a href="../../NMatrix/IO/Matlab/Mat5Reader/Tag.html">NMatrix::IO::Matlab::Mat5Reader::Tag</a>
+  
+    <li><a href="../../NMatrix/IO/Matlab/MatReader.html">NMatrix::IO::Matlab::MatReader</a>
+  
+    <li><a href="../../NMatrix/LAPACK.html">NMatrix::LAPACK</a>
+  
+    <li><a href="../../NMatrix/YaleFunctions.html">NMatrix::YaleFunctions</a>
+  
+    <li><a href="../../NVector.html">NVector</a>
+  
+    <li><a href="../../Object.html">Object</a>
+  
+    <li><a href="../../StorageTypeError.html">StorageTypeError</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation" class="description">
+  
+<p>This is the proposed binary format for saving and loading <a
+href="../../NMatrix.html">NMatrix</a> objects.</p>
+
+<p>Order is little-endian.</p>
+
+<p>List matrices should be converted to dense or yale matrices. There should
+be no serious need to load or save linked-list matrices, since these exist
+primarily in order to construct efficient yale matrices.</p>
+
+<p>First 64-bit block:</p>
+<ul><li>
+<p>ui16 major (version)</p>
+</li><li>
+<p>ui16 minor</p>
+</li><li>
+<p>ui16 release</p>
+</li><li>
+<p>i16 NULL</p>
+</li></ul>
+
+<p>Second 64-bit block:</p>
+<ul><li>
+<p>ui8 dtype</p>
+</li><li>
+<p>ui8 stype</p>
+</li><li>
+<p>ui8 itype # ui32 for dense</p>
+</li><li>
+<p>ui8 symm</p>
+</li><li>
+<p>i16 NULL</p>
+</li><li>
+<p>ui16 dim    # if 1, <a href="../../NVector.html">NVector</a>; otherwise, <a
+href="../../NMatrix.html">NMatrix</a></p>
+</li></ul>
+
+<p>3rd - nth 64-bit block: shape</p>
+
+<p>itype sets the number of bytes allocated for each shape entry. Since only
+yale uses itype, dense will pretty much always be the UINT32 itype (see
+nmatrix.h). If the total number of bytes occupied by the shape array is
+less than 8, the rest of the 64-bit block will be padded with zeros.</p>
+
+<p>(n+1)th 64-bit block: depends on stype, symm</p>
+
+<p>symm is designed to reduce file size by allowing us to not save certain
+elements in symmetric, hermitian, skew- symmetric, and triangular matrices.
+These values will be defined in nmatrix.h; 0 indicates standard (no
+symmetry). In later versions, additional patterns may be defined which
+might even have less to do with symmetry than upper/lower do.</p>
+
+<p>When storing a symmetric matrix, we will only store the upper portion. If
+the matrix is lower triangular, only the lower portion will be stored.</p>
+
+<p>For dense, we simply store the contents of the matrix exactly as in memory
+(or just the upper-triangular part if symm is set).</p>
+
+<p>For yale, we store:</p>
+<ul><li>
+<p>ui32 ndnz</p>
+</li><li>
+<p>ui32 length (AKA size, the number of elements in A/IJA that aren’t
+nil/undefined)</p>
+</li></ul>
+
+<p>The latter will serve as the capacity when we read a Yale matrix.</p>
+
+<p>Then we store the a array, again padding with zeros so it’s a multiple of 8
+bytes.</p>
+
+<p>Then we store the ija array, padding with zeros so it’s a multiple of 8
+bytes.</p>
+
+</div>
+
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.0.rc.2.1.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

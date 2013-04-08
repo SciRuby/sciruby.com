@@ -6,9 +6,6 @@ sharing: true
 footer: true
 ---
 
-Installation
-------------
-
 <p class="warning"><strong>Word to the wise:</strong> These gems have been tested, but not extensively. If you're thinking of using SciRuby to write mission critical code, such as for driving a car or flying a space shuttle, you may wish to choose other software (for now).</p>
 
 <strong>You might also check out the [NMatrix wiki](https://github.com/SciRuby/nmatrix/wiki/) if you have trouble finding answers here.</strong>

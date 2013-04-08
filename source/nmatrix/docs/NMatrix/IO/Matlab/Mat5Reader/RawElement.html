@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class NMatrix::IO::Matlab::Mat5Reader::RawElement - RDoc Documentation</title>
+
+<link type="text/css" media="screen" href="../../../../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../../../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../../../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../../js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../../../../index.html">Home</a>
+    <a href="../../../../table_of_contents.html#classes">Classes</a>
+    <a href="../../../../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/nmatrix/io/mat5_reader.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link"><a href="Element.html">NMatrix::IO::Matlab::Mat5Reader::Element</a>
+  
+</nav>
+
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li ><a href="#method-i-read_packed">#read_packed</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../../../../History_txt.html">History</a>
+  
+    <li class="file"><a href="../../../../README_rdoc.html">README</a>
+  
+    <li class="file"><a href="../../../../ext/nmatrix/binary_format_txt.html">binary_format</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../../../../Array.html">Array</a>
+  
+    <li><a href="../../../../DataTypeError.html">DataTypeError</a>
+  
+    <li><a href="../../../../N.html">N</a>
+  
+    <li><a href="../../../../NMatrix.html">NMatrix</a>
+  
+    <li><a href="../../../../NMatrix/BLAS.html">NMatrix::BLAS</a>
+  
+    <li><a href="../../../../NMatrix/IO.html">NMatrix::IO</a>
+  
+    <li><a href="../../../../NMatrix/IO/Market.html">NMatrix::IO::Market</a>
+  
+    <li><a href="../../../../NMatrix/IO/Matlab.html">NMatrix::IO::Matlab</a>
+  
+    <li><a href="../../../../NMatrix/IO/Matlab/Mat5Reader.html">NMatrix::IO::Matlab::Mat5Reader</a>
+  
+    <li><a href="../../../../NMatrix/IO/Matlab/Mat5Reader/Compressed.html">NMatrix::IO::Matlab::Mat5Reader::Compressed</a>
+  
+    <li><a href="../../../../NMatrix/IO/Matlab/Mat5Reader/Element.html">NMatrix::IO::Matlab::Mat5Reader::Element</a>
+  
+    <li><a href="../../../../NMatrix/IO/Matlab/Mat5Reader/ElementDataIOError.html">NMatrix::IO::Matlab::Mat5Reader::ElementDataIOError</a>
+  
+    <li><a href="../../../../NMatrix/IO/Matlab/Mat5Reader/Header.html">NMatrix::IO::Matlab::Mat5Reader::Header</a>
+  
+    <li><a href="../../../../NMatrix/IO/Matlab/Mat5Reader/MatrixData.html">NMatrix::IO::Matlab::Mat5Reader::MatrixData</a>
+  
+    <li><a href="../../../../NMatrix/IO/Matlab/Mat5Reader/RawElement.html">NMatrix::IO::Matlab::Mat5Reader::RawElement</a>
+  
+    <li><a href="../../../../NMatrix/IO/Matlab/Mat5Reader/Tag.html">NMatrix::IO::Matlab::Mat5Reader::Tag</a>
+  
+    <li><a href="../../../../NMatrix/IO/Matlab/MatReader.html">NMatrix::IO::Matlab::MatReader</a>
+  
+    <li><a href="../../../../NMatrix/LAPACK.html">NMatrix::LAPACK</a>
+  
+    <li><a href="../../../../NMatrix/YaleFunctions.html">NMatrix::YaleFunctions</a>
+  
+    <li><a href="../../../../NVector.html">NVector</a>
+  
+    <li><a href="../../../../Object.html">Object</a>
+  
+    <li><a href="../../../../StorageTypeError.html">StorageTypeError</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class NMatrix::IO::Matlab::Mat5Reader::RawElement</h1>
+
+  <div id="description" class="description">
+    
+<p>Doesn’t unpack the contents of the element, e.g., if we want to handle
+manually, or pass the raw string of bytes into <a
+href="../../../../NMatrix.html">NMatrix</a>.</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-read_packed" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">read_packed</span><span
+            class="method-args">(packedio, options)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="read_packed-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 661</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">read_packed</span>(<span class="ruby-identifier">packedio</span>, <span class="ruby-identifier">options</span>)
+        <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">'Missing mandatory option :endian.'</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:endian</span>)
+
+        <span class="ruby-keyword">self</span>.<span class="ruby-identifier">tag</span>    = <span class="ruby-identifier">packedio</span>.<span class="ruby-identifier">read</span>([<span class="ruby-constant">Tag</span>,                      {<span class="ruby-value">:endian</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:endian</span>]                                                                                       }])
+        <span class="ruby-keyword">self</span>.<span class="ruby-identifier">data</span>   = <span class="ruby-identifier">packedio</span>.<span class="ruby-identifier">read</span>([<span class="ruby-constant">String</span>,  {<span class="ruby-value">:endian</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:endian</span>], <span class="ruby-value">:bytes</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">tag</span>.<span class="ruby-identifier">bytes</span>        }])
+
+        <span class="ruby-keyword">begin</span>
+                <span class="ruby-identifier">ignore_padding</span>(<span class="ruby-identifier">packedio</span>, (<span class="ruby-identifier">tag</span>.<span class="ruby-identifier">bytes</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">tag</span>.<span class="ruby-identifier">size</span>) <span class="ruby-operator">%</span> <span class="ruby-value">8</span>) <span class="ruby-keyword">unless</span> [<span class="ruby-value">:miMATRIX</span>, <span class="ruby-value">:miCOMPRESSED</span>].<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">tag</span>.<span class="ruby-identifier">data_type</span>)
+                
+        <span class="ruby-keyword">rescue</span> <span class="ruby-constant">EOFError</span>
+                <span class="ruby-constant">STDERR</span>.<span class="ruby-identifier">puts</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">tag</span>.<span class="ruby-identifier">inspect</span>
+                <span class="ruby-identifier">raise</span> <span class="ruby-constant">ElementDataIOError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">tag</span>, <span class="ruby-string">'Ignored too much.'</span>)
+        <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- read_packed-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- read_packed-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.0.rc.2.1.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+
