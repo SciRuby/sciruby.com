@@ -114,7 +114,11 @@
 
   <ul>
   
+    <li class="file"><a href="../../../../CONTRIBUTING_md.html">CONTRIBUTING</a>
+  
     <li class="file"><a href="../../../../History_txt.html">History</a>
+  
+    <li class="file"><a href="../../../../LICENSE_txt.html">LICENSE</a>
   
     <li class="file"><a href="../../../../README_rdoc.html">README</a>
   
@@ -168,9 +172,21 @@
   
     <li><a href="../../../../NVector.html">NVector</a>
   
+    <li><a href="../../../../NVector.html">NVector</a>
+  
     <li><a href="../../../../Object.html">Object</a>
   
+    <li><a href="../../../../RSpec.html">RSpec</a>
+  
+    <li><a href="../../../../RSpec/Matchers.html">RSpec::Matchers</a>
+  
+    <li><a href="../../../../RSpec/Matchers/BuiltIn.html">RSpec::Matchers::BuiltIn</a>
+  
+    <li><a href="../../../../RSpec/Matchers/BuiltIn/BeWithin.html">RSpec::Matchers::BuiltIn::BeWithin</a>
+  
     <li><a href="../../../../StorageTypeError.html">StorageTypeError</a>
+  
+    <li><a href="../../../../unknown.html">unknown</a>
   
   </ul>
 </nav>
@@ -276,7 +292,7 @@ dtypes.</p>
 
           
           <div class="method-source-code" id="ignore_padding-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 431</span>
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 425</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">ignore_padding</span>(<span class="ruby-identifier">packedio</span>, <span class="ruby-identifier">bytes</span>)
   <span class="ruby-identifier">packedio</span>.<span class="ruby-identifier">read</span>([<span class="ruby-constant">Integer</span>, {<span class="ruby-value">:unsigned</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">:bytes</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">bytes</span>}]) <span class="ruby-keyword">if</span> <span class="ruby-identifier">bytes</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
 <span class="ruby-keyword">end</span></pre>
@@ -319,7 +335,7 @@ dtypes.</p>
 
           
           <div class="method-source-code" id="read_packed-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 370</span>
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 364</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">read_packed</span>(<span class="ruby-identifier">packedio</span>, <span class="ruby-identifier">options</span>)
   <span class="ruby-identifier">flags_class</span>, <span class="ruby-keyword">self</span>.<span class="ruby-identifier">nonzero_max</span> = <span class="ruby-identifier">packedio</span>.<span class="ruby-identifier">read</span>([<span class="ruby-constant">Element</span>, <span class="ruby-identifier">options</span>]).<span class="ruby-identifier">data</span>
 
@@ -337,13 +353,13 @@ dtypes.</p>
 
   <span class="ruby-keyword">begin</span>
     <span class="ruby-identifier">name_tag_data</span>                 = <span class="ruby-identifier">packedio</span>.<span class="ruby-identifier">read</span>([<span class="ruby-constant">Element</span>, <span class="ruby-identifier">options</span>])
-    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">matlab_name</span>      = <span class="ruby-identifier">name_tag_data</span>.<span class="ruby-identifier">data</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">name_tag_data</span>.<span class="ruby-identifier">data</span>.<span class="ruby-identifier">collect</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span> <span class="ruby-identifier">i</span>.<span class="ruby-identifier">chr</span> }.<span class="ruby-identifier">join</span>(<span class="ruby-string">''</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">name_tag_data</span>.<span class="ruby-identifier">data</span>.<span class="ruby-identifier">chr</span>
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">matlab_name</span>      = <span class="ruby-identifier">name_tag_data</span>.<span class="ruby-identifier">data</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">name_tag_data</span>.<span class="ruby-identifier">data</span>.<span class="ruby-identifier">collect</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span> <span class="ruby-identifier">i</span>.<span class="ruby-identifier">chr</span> }.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;&#39;</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">name_tag_data</span>.<span class="ruby-identifier">data</span>.<span class="ruby-identifier">chr</span>
 
   <span class="ruby-keyword">rescue</span> <span class="ruby-constant">ElementDataIOError</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
     <span class="ruby-constant">STDERR</span>.<span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;ERROR: Failure while trying to read Matlab variable name: #{name_tag_data.inspect}&quot;</span>
-    <span class="ruby-constant">STDERR</span>.<span class="ruby-identifier">puts</span> <span class="ruby-string">'Element Tag:'</span>
+    <span class="ruby-constant">STDERR</span>.<span class="ruby-identifier">puts</span> <span class="ruby-string">&#39;Element Tag:&#39;</span>
     <span class="ruby-constant">STDERR</span>.<span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;    #{e.tag}&quot;</span>
-    <span class="ruby-constant">STDERR</span>.<span class="ruby-identifier">puts</span> <span class="ruby-string">'Previously, I read these dimensions:'</span>
+    <span class="ruby-constant">STDERR</span>.<span class="ruby-identifier">puts</span> <span class="ruby-string">&#39;Previously, I read these dimensions:&#39;</span>
     <span class="ruby-constant">STDERR</span>.<span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;    #{dimensions_tag_data.inspect}&quot;</span>
     <span class="ruby-constant">STDERR</span>.<span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Unpack options were: #{options.inspect}&quot;</span>
     <span class="ruby-identifier">raise</span>(<span class="ruby-identifier">e</span>)
@@ -433,7 +449,7 @@ io.cpp.</p>
     <span class="ruby-comment"># Make sure we convert both mdtypes do the same dtype</span>
     <span class="ruby-identifier">to_dtype</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">upcast</span>(<span class="ruby-constant">MatReader</span><span class="ruby-operator">::</span><span class="ruby-constant">MDTYPE_TO_DTYPE</span>[<span class="ruby-identifier">real_mdtype</span>], <span class="ruby-constant">MatReader</span><span class="ruby-operator">::</span><span class="ruby-constant">MDTYPE_TO_DTYPE</span>[<span class="ruby-identifier">imag_mdtype</span>])
 
-    <span class="ruby-comment"># Let's make sure we don't try to send NMatrix complex integers. We need complex floating points.</span>
+    <span class="ruby-comment"># Let&#39;s make sure we don&#39;t try to send NMatrix complex integers. We need complex floating points.</span>
     <span class="ruby-keyword">unless</span> [<span class="ruby-value">:float32</span>, <span class="ruby-value">:float64</span>].<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">to_dtype</span>)
       <span class="ruby-identifier">to_dtype</span> = <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">upcast</span>(<span class="ruby-identifier">to_dtype</span>, <span class="ruby-value">:float32</span>)
     <span class="ruby-keyword">end</span>
@@ -446,7 +462,7 @@ io.cpp.</p>
 
     <span class="ruby-identifier">to_dtype</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">MatReader</span><span class="ruby-operator">::</span><span class="ruby-constant">MDTYPE_TO_DTYPE</span>[<span class="ruby-identifier">real_mdtype</span>]
 
-    <span class="ruby-comment"># Sometimes repacking isn't necessary -- sometimes the format is already good</span>
+    <span class="ruby-comment"># Sometimes repacking isn&#39;t necessary -- sometimes the format is already good</span>
     <span class="ruby-keyword">if</span> <span class="ruby-constant">MatReader</span><span class="ruby-operator">::</span><span class="ruby-constant">NO_REPACK</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">real_mdtype</span>)
       <span class="ruby-constant">STDERR</span>.<span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;No repack&quot;</span>
       <span class="ruby-keyword">return</span> [<span class="ruby-keyword">self</span>.<span class="ruby-identifier">real_part</span>.<span class="ruby-identifier">data</span>, <span class="ruby-identifier">to_dtype</span>]
@@ -477,7 +493,7 @@ io.cpp.</p>
         
         <div class="method-heading">
           <span class="method-callseq">
-            repacked_indices(to_itype) &rarr;
+            repacked_indices &rarr;
           </span>
           
           <span class="method-click-advice">click to toggle source</span>
@@ -499,12 +515,9 @@ just returns directly.</p>
           
           <div class="method-source-code" id="repacked_indices-source">
             <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 303</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">repacked_indices</span>(<span class="ruby-identifier">to_itype</span>)
-  <span class="ruby-keyword">return</span> [<span class="ruby-identifier">row_index</span>.<span class="ruby-identifier">data</span>, <span class="ruby-identifier">column_index</span>.<span class="ruby-identifier">data</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">to_itype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:uint32</span> <span class="ruby-comment"># No need to re-pack -- already correct</span>
-
-  <span class="ruby-constant">STDERR</span>.<span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;indices: Requesting itype #{to_itype.inspect}&quot;</span>
-  <span class="ruby-identifier">repacked_row_indices</span> = <span class="ruby-operator">::</span><span class="ruby-constant">NMatrix</span><span class="ruby-operator">::</span><span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">Matlab</span>.<span class="ruby-identifier">repack</span>( <span class="ruby-keyword">self</span>.<span class="ruby-identifier">row_index</span>.<span class="ruby-identifier">data</span>, <span class="ruby-value">:miINT32</span>, <span class="ruby-value">:itype</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">to_itype</span> )
-  <span class="ruby-identifier">repacked_col_indices</span> = <span class="ruby-operator">::</span><span class="ruby-constant">NMatrix</span><span class="ruby-operator">::</span><span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">Matlab</span>.<span class="ruby-identifier">repack</span>( <span class="ruby-keyword">self</span>.<span class="ruby-identifier">column_index</span>.<span class="ruby-identifier">data</span>, <span class="ruby-value">:miINT32</span>, <span class="ruby-value">:itype</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">to_itype</span> )
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">repacked_indices</span>
+  <span class="ruby-identifier">repacked_row_indices</span> = <span class="ruby-operator">::</span><span class="ruby-constant">NMatrix</span><span class="ruby-operator">::</span><span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">Matlab</span>.<span class="ruby-identifier">repack</span>( <span class="ruby-keyword">self</span>.<span class="ruby-identifier">row_index</span>.<span class="ruby-identifier">data</span>, <span class="ruby-value">:miINT32</span>, <span class="ruby-value">:itype</span> )
+  <span class="ruby-identifier">repacked_col_indices</span> = <span class="ruby-operator">::</span><span class="ruby-constant">NMatrix</span><span class="ruby-operator">::</span><span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">Matlab</span>.<span class="ruby-identifier">repack</span>( <span class="ruby-keyword">self</span>.<span class="ruby-identifier">column_index</span>.<span class="ruby-identifier">data</span>, <span class="ruby-value">:miINT32</span>, <span class="ruby-value">:itype</span> )
 
   [<span class="ruby-identifier">repacked_row_indices</span>, <span class="ruby-identifier">repacked_col_indices</span>]
 <span class="ruby-keyword">end</span></pre>
@@ -558,7 +571,7 @@ really complicated format, and lends itself to an object-oriented solution.</p>
 
           
           <div class="method-source-code" id="to_nm-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 334</span>
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 331</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_nm</span>(<span class="ruby-identifier">dtype</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-comment"># Hardest part is figuring out from_dtype, from_index_dtype, and dtype.</span>
   <span class="ruby-identifier">dtype</span>                   <span class="ruby-operator">||=</span> <span class="ruby-identifier">guess_dtype_from_mdtype</span>
@@ -569,14 +582,11 @@ really complicated format, and lends itself to an object-oriented solution.</p>
   <span class="ruby-keyword">when</span> <span class="ruby-value">:mxSPARSE</span>
     <span class="ruby-identifier">raise</span>(<span class="ruby-constant">NotImplementedError</span>, <span class="ruby-string">&quot;expected .mat row indices to be of type :miINT32&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">row_index</span>.<span class="ruby-identifier">tag</span>.<span class="ruby-identifier">data_type</span> <span class="ruby-operator">==</span> <span class="ruby-value">:miINT32</span>
     <span class="ruby-identifier">raise</span>(<span class="ruby-constant">NotImplementedError</span>, <span class="ruby-string">&quot;expected .mat column indices to be of type :miINT32&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">column_index</span>.<span class="ruby-identifier">tag</span>.<span class="ruby-identifier">data_type</span> <span class="ruby-operator">==</span> <span class="ruby-value">:miINT32</span>
-
-    <span class="ruby-identifier">to_itype</span> = <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">itype_by_shape</span>(<span class="ruby-identifier">dimensions</span>)
-
-    <span class="ruby-comment">#require 'pry'</span>
+    <span class="ruby-comment">#require &#39;pry&#39;</span>
     <span class="ruby-comment">#binding.pry</span>
 
     <span class="ruby-comment"># MATLAB always uses :miINT32 for indices according to the spec</span>
-    <span class="ruby-identifier">ia_ja</span>                     = <span class="ruby-identifier">repacked_indices</span>(<span class="ruby-identifier">to_itype</span>)
+    <span class="ruby-identifier">ia_ja</span>                     = <span class="ruby-identifier">repacked_indices</span>
     <span class="ruby-identifier">data_str</span>, <span class="ruby-identifier">repacked_dtype</span>  = <span class="ruby-identifier">repacked_data</span>(<span class="ruby-identifier">dtype</span>)
     <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:yale</span>, <span class="ruby-keyword">self</span>.<span class="ruby-identifier">dimensions</span>.<span class="ruby-identifier">reverse</span>, <span class="ruby-identifier">repacked_dtype</span>, <span class="ruby-identifier">ia_ja</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">ia_ja</span>[<span class="ruby-value">1</span>], <span class="ruby-identifier">data_str</span>, <span class="ruby-identifier">repacked_dtype</span>)
 
@@ -758,7 +768,7 @@ repacked_data.</p>
 
 <footer id="validator-badges">
   <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
-  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.0.rc.2.1.
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.1.
   <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
 </footer>
 

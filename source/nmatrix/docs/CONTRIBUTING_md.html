@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>CONTRIBUTING - RDoc Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body class="file">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  
+<div id="table-of-contents">
+  <nav class="section">
+    <h3 class="section-header">Table of Contents</h3>
+    <ul>
+      <li><a href="#label-How+to+help">How to help</a>
+      <li><a href="#label-Coding">Coding</a>
+      <li><a href="#label-Documentation">Documentation</a>
+      <li><a href="#label-Conclusion">Conclusion</a>
+    </ul>
+  </nav>
+</div>
+
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./CONTRIBUTING_md.html">CONTRIBUTING</a>
+  
+    <li class="file"><a href="./History_txt.html">History</a>
+  
+    <li class="file"><a href="./LICENSE_txt.html">LICENSE</a>
+  
+    <li class="file"><a href="./README_rdoc.html">README</a>
+  
+    <li class="file"><a href="./ext/nmatrix/binary_format_txt.html">binary_format</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./Array.html">Array</a>
+  
+    <li><a href="./DataTypeError.html">DataTypeError</a>
+  
+    <li><a href="./N.html">N</a>
+  
+    <li><a href="./NMatrix.html">NMatrix</a>
+  
+    <li><a href="./NMatrix/BLAS.html">NMatrix::BLAS</a>
+  
+    <li><a href="./NMatrix/IO.html">NMatrix::IO</a>
+  
+    <li><a href="./NMatrix/IO/Market.html">NMatrix::IO::Market</a>
+  
+    <li><a href="./NMatrix/IO/Matlab.html">NMatrix::IO::Matlab</a>
+  
+    <li><a href="./NMatrix/IO/Matlab/Mat5Reader.html">NMatrix::IO::Matlab::Mat5Reader</a>
+  
+    <li><a href="./NMatrix/IO/Matlab/Mat5Reader/Compressed.html">NMatrix::IO::Matlab::Mat5Reader::Compressed</a>
+  
+    <li><a href="./NMatrix/IO/Matlab/Mat5Reader/Element.html">NMatrix::IO::Matlab::Mat5Reader::Element</a>
+  
+    <li><a href="./NMatrix/IO/Matlab/Mat5Reader/ElementDataIOError.html">NMatrix::IO::Matlab::Mat5Reader::ElementDataIOError</a>
+  
+    <li><a href="./NMatrix/IO/Matlab/Mat5Reader/Header.html">NMatrix::IO::Matlab::Mat5Reader::Header</a>
+  
+    <li><a href="./NMatrix/IO/Matlab/Mat5Reader/MatrixData.html">NMatrix::IO::Matlab::Mat5Reader::MatrixData</a>
+  
+    <li><a href="./NMatrix/IO/Matlab/Mat5Reader/RawElement.html">NMatrix::IO::Matlab::Mat5Reader::RawElement</a>
+  
+    <li><a href="./NMatrix/IO/Matlab/Mat5Reader/Tag.html">NMatrix::IO::Matlab::Mat5Reader::Tag</a>
+  
+    <li><a href="./NMatrix/IO/Matlab/MatReader.html">NMatrix::IO::Matlab::MatReader</a>
+  
+    <li><a href="./NMatrix/LAPACK.html">NMatrix::LAPACK</a>
+  
+    <li><a href="./NMatrix/YaleFunctions.html">NMatrix::YaleFunctions</a>
+  
+    <li><a href="./NVector.html">NVector</a>
+  
+    <li><a href="./NVector.html">NVector</a>
+  
+    <li><a href="./Object.html">Object</a>
+  
+    <li><a href="./RSpec.html">RSpec</a>
+  
+    <li><a href="./RSpec/Matchers.html">RSpec::Matchers</a>
+  
+    <li><a href="./RSpec/Matchers/BuiltIn.html">RSpec::Matchers::BuiltIn</a>
+  
+    <li><a href="./RSpec/Matchers/BuiltIn/BeWithin.html">RSpec::Matchers::BuiltIn::BeWithin</a>
+  
+    <li><a href="./StorageTypeError.html">StorageTypeError</a>
+  
+    <li><a href="./unknown.html">unknown</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation" class="description">
+  
+<p><a href="NMatrix.html">NMatrix</a> is part of SciRuby, a collaborative
+effort to bring scientific computation to Ruby. If you want to help, please
+do so!</p>
+
+<p>This guide covers ways in which you can contribute to the development of
+SciRuby and, more specifically, <a href="NMatrix.html">NMatrix</a>.</p>
+
+<h2 id="label-How+to+help">How to help<span><a href="#label-How+to+help">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<p>There are various ways to help NMatrix: bug reports, coding and
+documentation. All of them are important.</p>
+
+<p>First, you can help implement new features or bug fixes. To do that, visit
+our  <a href="https://github.com/SciRuby/nmatrix/wiki/Roadmap">roadmap</a>
+or our <a
+href="https://github.com/sciruby/nmatrix/issues?sort=created&state=open">issue
+tracker</a>. If you find something that you  want to work on, post it in
+the issue or on our <a
+href="https://groups.google.com/forum/?fromgroups#!forum/sciruby-dev">mailing
+list</a>.</p>
+
+<p>You need to send tests together with your code. No exceptions. You can ask
+for our opinion, but we won&#39;t accept patches  without good spec
+coverage.</p>
+
+<p>We use <a href="RSpec.html">RSpec</a> for testing. If you aren&#39;t
+familiar with it, there&#39;s a good  <a
+href="http://betterspecs.org/">guide to better specs with RSpec</a> that
+shows a bit of the syntax and how to use it properly.  However, the best
+resource is probably the specs that already exist – so just read them.</p>
+
+<p>And don&#39;t forget to write documentation (we use RDoc). It&#39;s
+necessary to allow others to know what&#39;s available in the  library.
+There&#39;s a section on it later in this guide.</p>
+
+<p>We only accept bug reports and pull requests in GitHub. You&#39;ll need to
+create a new (free) account if you don&#39;t have one  already. To learn
+how to create a pull request, please see  <a
+href="https://help.github.com/categories/63/articles">this guide on
+collaborating</a>.</p>
+
+<p>If you have a question about how to use <a href="NMatrix.html">NMatrix</a>
+or SciRuby in general or a feature/change in mind, please ask the  <a
+href="https://groups.google.com/forum/?fromgroups#!forum/sciruby-dev">sciruby-dev
+mailing list</a>.</p>
+
+<p>Thanks!</p>
+
+<h2 id="label-Coding">Coding<span><a href="#label-Coding">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<p>To start helping with the code, you need to have all the dependencies in
+place:</p>
+<ul><li>
+<p>ATLAS and LAPACK</p>
+</li><li>
+<p>GCC 4.3+</p>
+</li><li>
+<p>git</p>
+</li><li>
+<p>Ruby 1.9+</p>
+</li><li>
+<p><code>bundler</code> gem</p>
+</li></ul>
+
+<p>Now, you need to clone the git repository:</p>
+
+<pre>git clone git://github.com/SciRuby/nmatrix.git
+            cd nmatrix
+            bundle install
+            rake compile
+            rake spec</pre>
+
+<p>This will install all dependencies, compile the extension and run the
+specs.</p>
+
+<p>As of now (12/31/2012), there should be 25 specs failing, in
+elementwise_spec, lapack_spec and math_spec. If you see more than 25 or
+from different specs, please report on the <a
+href="https://groups.google.com/forum/?fromgroups#!forum/sciruby-dev">mailing
+list</a> or on the <a
+href="https://github.com/sciruby/nmatrix/issues?sort=created&state=open">issue
+tracker</a>.</p>
+
+<p>If everything&#39;s fine until now, you can create a new branch to work on
+your feature:</p>
+
+<pre>git branch new-feature
+git checkout new-feature</pre>
+
+<p>Before commiting any code, please read our <a
+href="http://github.com/SciRuby/sciruby/wiki/Contributor-Agreement">Contributor
+Agreement</a>.</p>
+
+<h2 id="label-Documentation">Documentation<span><a href="#label-Documentation">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<p>There are two ways in which <a href="NMatrix.html">NMatrix</a> is being
+documented: guides and comments, which are converted with RDoc into the
+documentation seen in <a href="http://sciruby.com">sciruby.com</a>.</p>
+
+<p>If you want to write a guide on how to use <a
+href="NMatrix.html">NMatrix</a> to solve some problem or simply showing how
+to use one of its features, write it as a wiki page and send an e-mail on
+the <a
+href="https://groups.google.com/forum/?fromgroups#!forum/sciruby-dev">mailing
+list</a>. We&#39;re working to improve this process.</p>
+
+<p>If you aren&#39;t familiar with RDoc syntax, <a
+href="http://docs.seattlerb.org/rdoc/RDoc/Markup.html">this is the official
+documentation</a>.</p>
+
+<h2 id="label-Conclusion">Conclusion<span><a href="#label-Conclusion">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<p>This guide was heavily based on the <a
+href="http://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html">Contributing
+to Ruby on Rails guide</a>.</p>
+
+</div>
+
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.1.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

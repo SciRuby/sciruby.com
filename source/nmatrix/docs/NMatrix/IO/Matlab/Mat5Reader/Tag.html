@@ -106,7 +106,11 @@
 
   <ul>
   
+    <li class="file"><a href="../../../../CONTRIBUTING_md.html">CONTRIBUTING</a>
+  
     <li class="file"><a href="../../../../History_txt.html">History</a>
+  
+    <li class="file"><a href="../../../../LICENSE_txt.html">LICENSE</a>
   
     <li class="file"><a href="../../../../README_rdoc.html">README</a>
   
@@ -160,9 +164,21 @@
   
     <li><a href="../../../../NVector.html">NVector</a>
   
+    <li><a href="../../../../NVector.html">NVector</a>
+  
     <li><a href="../../../../Object.html">Object</a>
   
+    <li><a href="../../../../RSpec.html">RSpec</a>
+  
+    <li><a href="../../../../RSpec/Matchers.html">RSpec::Matchers</a>
+  
+    <li><a href="../../../../RSpec/Matchers/BuiltIn.html">RSpec::Matchers::BuiltIn</a>
+  
+    <li><a href="../../../../RSpec/Matchers/BuiltIn/BeWithin.html">RSpec::Matchers::BuiltIn::BeWithin</a>
+  
     <li><a href="../../../../StorageTypeError.html">StorageTypeError</a>
+  
+    <li><a href="../../../../unknown.html">unknown</a>
   
   </ul>
 </nav>
@@ -232,9 +248,9 @@
 
           
           <div class="method-source-code" id="inspect-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 578</span>
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 572</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">inspect</span>
-        <span class="ruby-node">&quot;#&lt;#{self.class.to_s} data_type=#{data_type}[#{raw_data_type}][#{raw_data_type.to_s(2)}] bytes=#{bytes} size=#{size}#{small? ? ' small' : ''}&gt;&quot;</span>
+  <span class="ruby-node">&quot;#&lt;#{self.class.to_s} data_type=#{data_type}[#{raw_data_type}][#{raw_data_type.to_s(2)}] bytes=#{bytes} size=#{size}#{small? ? &#39; small&#39; : &#39;&#39;}&gt;&quot;</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- inspect-source -->
           
@@ -265,26 +281,26 @@
 
           
           <div class="method-source-code" id="read_packed-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 557</span>
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 551</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">read_packed</span> <span class="ruby-identifier">packedio</span>, <span class="ruby-identifier">options</span>
-        <span class="ruby-keyword">self</span>.<span class="ruby-identifier">raw_data_type</span> = <span class="ruby-identifier">packedio</span>.<span class="ruby-identifier">read</span>([<span class="ruby-constant">Integer</span>, <span class="ruby-constant">DATA_TYPE_OPTS</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">options</span>)])
-        
-        <span class="ruby-comment"># Borrowed from a SciPy patch</span>
-        <span class="ruby-identifier">upper</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">raw_data_type</span> <span class="ruby-operator">&gt;&gt;</span> <span class="ruby-value">16</span>
-        <span class="ruby-identifier">lower</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">raw_data_type</span> <span class="ruby-operator">&amp;</span> <span class="ruby-value">0xFFFF</span>
-        
-        <span class="ruby-keyword">if</span> <span class="ruby-identifier">upper</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
-                <span class="ruby-comment"># Small data element format</span>
-                <span class="ruby-identifier">raise</span> <span class="ruby-constant">IOError</span>, <span class="ruby-string">'Small data element format indicated, but length is more than 4 bytes!'</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">upper</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">4</span>
-                
-                <span class="ruby-keyword">self</span>.<span class="ruby-identifier">bytes</span>                                 = <span class="ruby-identifier">upper</span>
-                <span class="ruby-keyword">self</span>.<span class="ruby-identifier">raw_data_type</span> = <span class="ruby-identifier">lower</span>
-                
-        <span class="ruby-keyword">else</span>
-                <span class="ruby-keyword">self</span>.<span class="ruby-identifier">bytes</span> = <span class="ruby-identifier">packedio</span>.<span class="ruby-identifier">read</span>([<span class="ruby-constant">Integer</span>, <span class="ruby-constant">BYTES_OPTS</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">options</span>)])
-        <span class="ruby-keyword">end</span>
-        
-        <span class="ruby-keyword">self</span>.<span class="ruby-identifier">data_type</span> = <span class="ruby-constant">MatReader</span><span class="ruby-operator">::</span><span class="ruby-constant">MDTYPES</span>[<span class="ruby-keyword">self</span>.<span class="ruby-identifier">raw_data_type</span>]
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">raw_data_type</span> = <span class="ruby-identifier">packedio</span>.<span class="ruby-identifier">read</span>([<span class="ruby-constant">Integer</span>, <span class="ruby-constant">DATA_TYPE_OPTS</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">options</span>)])
+
+  <span class="ruby-comment"># Borrowed from a SciPy patch</span>
+  <span class="ruby-identifier">upper</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">raw_data_type</span> <span class="ruby-operator">&gt;&gt;</span> <span class="ruby-value">16</span>
+  <span class="ruby-identifier">lower</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">raw_data_type</span> <span class="ruby-operator">&amp;</span> <span class="ruby-value">0xFFFF</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">upper</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
+    <span class="ruby-comment"># Small data element format</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">IOError</span>, <span class="ruby-string">&#39;Small data element format indicated, but length is more than 4 bytes!&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">upper</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">4</span>
+
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">bytes</span>                                    = <span class="ruby-identifier">upper</span>
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">raw_data_type</span>    = <span class="ruby-identifier">lower</span>
+
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">bytes</span> = <span class="ruby-identifier">packedio</span>.<span class="ruby-identifier">read</span>([<span class="ruby-constant">Integer</span>, <span class="ruby-constant">BYTES_OPTS</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">options</span>)])
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">data_type</span> = <span class="ruby-constant">MatReader</span><span class="ruby-operator">::</span><span class="ruby-constant">MDTYPES</span>[<span class="ruby-keyword">self</span>.<span class="ruby-identifier">raw_data_type</span>]
 <span class="ruby-keyword">end</span></pre>
           </div><!-- read_packed-source -->
           
@@ -315,9 +331,9 @@
 
           
           <div class="method-source-code" id="size-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 553</span>
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 547</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">size</span>
-        <span class="ruby-identifier">small?</span> <span class="ruby-operator">?</span> <span class="ruby-value">4</span> <span class="ruby-operator">:</span> <span class="ruby-value">8</span>
+  <span class="ruby-identifier">small?</span> <span class="ruby-operator">?</span> <span class="ruby-value">4</span> <span class="ruby-operator">:</span> <span class="ruby-value">8</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- size-source -->
           
@@ -348,9 +364,9 @@
 
           
           <div class="method-source-code" id="small-3F-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 549</span>
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 543</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">small?</span>
-        <span class="ruby-keyword">self</span>.<span class="ruby-identifier">bytes</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span> <span class="ruby-keyword">and</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">bytes</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-value">4</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">bytes</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span> <span class="ruby-keyword">and</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">bytes</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-value">4</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- small-3F-source -->
           
@@ -381,9 +397,9 @@
 
           
           <div class="method-source-code" id="write_packed-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 545</span>
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 539</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">write_packed</span> <span class="ruby-identifier">packedio</span>, <span class="ruby-identifier">options</span>
-        <span class="ruby-identifier">packedio</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">data_type</span>, <span class="ruby-constant">DATA_TYPE_OPTS</span>] <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">bytes</span>, <span class="ruby-constant">BYTES_OPTS</span>]
+  <span class="ruby-identifier">packedio</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">data_type</span>, <span class="ruby-constant">DATA_TYPE_OPTS</span>] <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">bytes</span>, <span class="ruby-constant">BYTES_OPTS</span>]
 <span class="ruby-keyword">end</span></pre>
           </div><!-- write_packed-source -->
           
@@ -404,7 +420,7 @@
 
 <footer id="validator-badges">
   <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
-  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.0.rc.2.1.
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.1.
   <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
 </footer>
 

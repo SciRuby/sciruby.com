@@ -49,8 +49,8 @@
     <nav id="file-list-section" class="section">
   <h3 class="section-header">Defined In</h3>
   <ul>
-    <li>ext/nmatrix/nmatrix.cpp
     <li>lib/nmatrix/blas.rb
+    <li>lib/nmatrix/nvector.rb
   </ul>
 </nav>
 
@@ -68,27 +68,19 @@
 
   <ul class="link-list">
     
-    <li ><a href="#method-c-cblas_gemm">::cblas_gemm</a>
-    
-    <li ><a href="#method-c-cblas_gemv">::cblas_gemv</a>
-    
-    <li ><a href="#method-c-cblas_herk">::cblas_herk</a>
-    
-    <li ><a href="#method-c-cblas_rot">::cblas_rot</a>
-    
-    <li ><a href="#method-c-cblas_rotg">::cblas_rotg</a>
-    
-    <li ><a href="#method-c-cblas_syrk">::cblas_syrk</a>
-    
-    <li ><a href="#method-c-cblas_trmm">::cblas_trmm</a>
-    
-    <li ><a href="#method-c-cblas_trsm">::cblas_trsm</a>
+    <li ><a href="#method-c-asum">::asum</a>
     
     <li ><a href="#method-c-gemm">::gemm</a>
     
     <li ><a href="#method-c-gemv">::gemv</a>
     
+    <li ><a href="#method-c-nrm2">::nrm2</a>
+    
     <li ><a href="#method-c-rot">::rot</a>
+    
+    <li ><a href="#method-c-rot-21">::rot!</a>
+    
+    <li ><a href="#method-c-rotg">::rotg</a>
     
   </ul>
 </nav>
@@ -101,7 +93,11 @@
 
   <ul>
   
+    <li class="file"><a href="../CONTRIBUTING_md.html">CONTRIBUTING</a>
+  
     <li class="file"><a href="../History_txt.html">History</a>
+  
+    <li class="file"><a href="../LICENSE_txt.html">LICENSE</a>
   
     <li class="file"><a href="../README_rdoc.html">README</a>
   
@@ -155,9 +151,21 @@
   
     <li><a href="../NVector.html">NVector</a>
   
+    <li><a href="../NVector.html">NVector</a>
+  
     <li><a href="../Object.html">Object</a>
   
+    <li><a href="../RSpec.html">RSpec</a>
+  
+    <li><a href="../RSpec/Matchers.html">RSpec::Matchers</a>
+  
+    <li><a href="../RSpec/Matchers/BuiltIn.html">RSpec::Matchers::BuiltIn</a>
+  
+    <li><a href="../RSpec/Matchers/BuiltIn/BeWithin.html">RSpec::Matchers::BuiltIn::BeWithin</a>
+  
     <li><a href="../StorageTypeError.html">StorageTypeError</a>
+  
+    <li><a href="../unknown.html">unknown</a>
   
   </ul>
 </nav>
@@ -190,602 +198,70 @@
       <h3 class="section-header">Public Class Methods</h3>
 
     
-      <div id="method-c-cblas_gemm" class="method-detail ">
+      <div id="method-c-asum" class="method-detail ">
+        
         
         <div class="method-heading">
-          <span class="method-name">cblas_gemm</span><span
-            class="method-args">(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14)</span>
+          <span class="method-callseq">
+            asum(x, incx, n) &rarr; Numeric
+          </span>
           
           <span class="method-click-advice">click to toggle source</span>
           
         </div>
         
-
-        <div class="method-description">
-          
-          <p>Call any of the cblas_xgemm functions as directly as possible.</p>
-
-<p>The cblas_xgemm functions (dgemm, sgemm, cgemm, and zgemm) define the
-following operation:</p>
-
-<pre>C = alpha*op(A)*op(B) + beta*C</pre>
-
-<p>where op(X) is one of <code>op(X) = X</code>, <code>op(X) = X**T</code>, or
-the complex conjugate of X.</p>
-
-<p>Note that this will only work for dense matrices that are of types
-:float32, :float64, :complex64, and :complex128. Other types are not
-implemented in <a href="BLAS.html">BLAS</a>, and while they exist in <a
-href="../NMatrix.html">NMatrix</a>, this method is intended only to expose
-the ultra-optimized ATLAS versions.</p>
-
-<h2 id="method-c-cblas_gemm-label-Arguments">Arguments<span><a href="#method-c-cblas_gemm-label-Arguments">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
-
-<p>See: <a
-href="http://www.netlib.org/blas/dgemm.f">www.netlib.org/blas/dgemm.f</a></p>
-
-<p>You probably don’t want to call this function. Instead, why don’t you try
-gemm, which is more flexible with its arguments?</p>
-
-<p>This function does almost no type checking. Seriously, be really careful
-when you call it! There’s no exception handling, so you can easily crash
-Ruby!</p>
-          
-          
-
-          
-          <div class="method-source-code" id="cblas_gemm-source">
-            <pre>static VALUE nm_cblas_gemm(VALUE self,
-                           VALUE order,
-                           VALUE trans_a, VALUE trans_b,
-                           VALUE m, VALUE n, VALUE k,
-                           VALUE alpha,
-                           VALUE a, VALUE lda,
-                           VALUE b, VALUE ldb,
-                           VALUE beta,
-                           VALUE c, VALUE ldc)
-{
-  NAMED_DTYPE_TEMPLATE_TABLE(ttable, nm::math::cblas_gemm, void, const enum CBLAS_ORDER Order, const enum CBLAS_TRANSPOSE trans_a, const enum CBLAS_TRANSPOSE trans_b, int m, int n, int k, void* alpha, void* a, int lda, void* b, int ldb, void* beta, void* c, int ldc);
-
-  nm::dtype_t dtype = NM_DTYPE(a);
-
-  void *pAlpha = ALLOCA_N(char, DTYPE_SIZES[dtype]),
-       *pBeta  = ALLOCA_N(char, DTYPE_SIZES[dtype]);
-  rubyval_to_cval(alpha, dtype, pAlpha);
-  rubyval_to_cval(beta, dtype, pBeta);
-
-  ttable[dtype](blas_order_sym(order), blas_transpose_sym(trans_a), blas_transpose_sym(trans_b), FIX2INT(m), FIX2INT(n), FIX2INT(k), pAlpha, NM_STORAGE_DENSE(a)-&gt;elements, FIX2INT(lda), NM_STORAGE_DENSE(b)-&gt;elements, FIX2INT(ldb), pBeta, NM_STORAGE_DENSE(c)-&gt;elements, FIX2INT(ldc));
-
-  return c;
-}</pre>
-          </div><!-- cblas_gemm-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- cblas_gemm-method -->
-
-    
-      <div id="method-c-cblas_gemv" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">cblas_gemv</span><span
-            class="method-args">(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
         
 
         <div class="method-description">
           
-          <p>Call any of the cblas_xgemv functions as directly as possible.</p>
-
-<p>The cblas_xgemv functions (dgemv, sgemv, cgemv, and zgemv) define the
-following operation:</p>
-
-<pre>y = alpha*op(A)*x + beta*y</pre>
-
-<p>where op(A) is one of <code>op(A) = A</code>, <code>op(A) = A**T</code>, or
-the complex conjugate of A.</p>
-
-<p>Note that this will only work for dense matrices that are of types
-:float32, :float64, :complex64, and :complex128. Other types are not
-implemented in <a href="BLAS.html">BLAS</a>, and while they exist in <a
-href="../NMatrix.html">NMatrix</a>, this method is intended only to expose
-the ultra-optimized ATLAS versions.</p>
-
-<h2 id="method-c-cblas_gemv-label-Arguments">Arguments<span><a href="#method-c-cblas_gemv-label-Arguments">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
-
-<p>See: <a
-href="http://www.netlib.org/blas/dgemm.f">www.netlib.org/blas/dgemm.f</a></p>
-
-<p>You probably don’t want to call this function. Instead, why don’t you try
-<a href="BLAS.html#method-c-cblas_gemv">::cblas_gemv</a>, which is more
-flexible with its arguments?</p>
-
-<p>This function does almost no type checking. Seriously, be really careful
-when you call it! There’s no exception handling, so you can easily crash
-Ruby!</p>
+          <p>Calculate the sum of absolute values of the entries of a vector
+<code>x</code> of size <code>n</code></p>
+<ul><li>
+<p><strong>Arguments</strong> :</p>
+<ul><li>
+<p><code>x</code> -&gt; an <a href="../NMatrix.html">NMatrix</a> (will also
+allow an <a href="../NMatrix.html">NMatrix</a>, but will treat it as if
+it&#39;s a vector )</p>
+</li><li>
+<p><code>incx</code> -&gt; the skip size (defaults to 1)</p>
+</li><li>
+<p><code>n</code> -&gt; the size of <code>x</code> (defaults to +x.size /
+incx+)</p>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong> :</p>
+<ul><li>
+<p>The sum</p>
+</li></ul>
+</li><li>
+<p><strong>Raises</strong> :</p>
+<ul><li>
+<p><code>ArgumentError</code> -&gt; Expected dense <a
+href="../NMatrix.html">NMatrix</a> for arg 0</p>
+</li><li>
+<p><code>RangeError</code> -&gt; n out of range</p>
+</li></ul>
+</li></ul>
           
           
 
           
-          <div class="method-source-code" id="cblas_gemv-source">
-            <pre>static VALUE nm_cblas_gemv(VALUE self,
-                           VALUE trans_a,
-                           VALUE m, VALUE n,
-                           VALUE alpha,
-                           VALUE a, VALUE lda,
-                           VALUE x, VALUE incx,
-                           VALUE beta,
-                           VALUE y, VALUE incy)
-{
-  NAMED_DTYPE_TEMPLATE_TABLE(ttable, nm::math::cblas_gemv, bool, const enum CBLAS_TRANSPOSE, const int, const int, const void*, const void*, const int, const void*, const int, const void*, void*, const int)
-
-  nm::dtype_t dtype = NM_DTYPE(a);
-
-  void *pAlpha = ALLOCA_N(char, DTYPE_SIZES[dtype]),
-       *pBeta  = ALLOCA_N(char, DTYPE_SIZES[dtype]);
-  rubyval_to_cval(alpha, dtype, pAlpha);
-  rubyval_to_cval(beta, dtype, pBeta);
-
-  return ttable[dtype](blas_transpose_sym(trans_a), FIX2INT(m), FIX2INT(n), pAlpha, NM_STORAGE_DENSE(a)-&gt;elements, FIX2INT(lda), NM_STORAGE_DENSE(x)-&gt;elements, FIX2INT(incx), pBeta, NM_STORAGE_DENSE(y)-&gt;elements, FIX2INT(incy)) ? Qtrue : Qfalse;
-}</pre>
-          </div><!-- cblas_gemv-source -->
+          <div class="method-source-code" id="asum-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/blas.rb, line 253</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">asum</span>(<span class="ruby-identifier">x</span>, <span class="ruby-identifier">incx</span> = <span class="ruby-value">1</span>, <span class="ruby-identifier">n</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">n</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">/</span> <span class="ruby-identifier">incx</span>
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Expected dense NMatrix for arg 0&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">NMatrix</span>)
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">RangeError</span>, <span class="ruby-string">&quot;n out of range&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">n</span><span class="ruby-operator">*</span><span class="ruby-identifier">incx</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">n</span><span class="ruby-operator">*</span><span class="ruby-identifier">incx</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-value">0</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">n</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-value">0</span>
+  <span class="ruby-operator">::</span><span class="ruby-constant">NMatrix</span><span class="ruby-operator">::</span><span class="ruby-constant">BLAS</span>.<span class="ruby-identifier">cblas_asum</span>(<span class="ruby-identifier">n</span>, <span class="ruby-identifier">x</span>, <span class="ruby-identifier">incx</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- asum-source -->
           
         </div>
 
         
 
         
-      </div><!-- cblas_gemv-method -->
-
-    
-      <div id="method-c-cblas_herk" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">cblas_herk</span><span
-            class="method-args">(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="cblas_herk-source">
-            <pre>static VALUE nm_cblas_herk(VALUE self,
-                           VALUE order,
-                           VALUE uplo,
-                           VALUE trans,
-                           VALUE n, VALUE k,
-                           VALUE alpha,
-                           VALUE a, VALUE lda,
-                           VALUE beta,
-                           VALUE c, VALUE ldc)
-{
-
-  nm::dtype_t dtype = NM_DTYPE(a);
-
-  if (dtype == nm::COMPLEX64) {
-    cblas_cherk(blas_order_sym(order), blas_uplo_sym(uplo), blas_transpose_sym(trans), FIX2INT(n), FIX2INT(k), NUM2DBL(alpha), NM_STORAGE_DENSE(a)-&gt;elements, FIX2INT(lda), NUM2DBL(beta), NM_STORAGE_DENSE(c)-&gt;elements, FIX2INT(ldc));
-  } else if (dtype == nm::COMPLEX128) {
-    cblas_zherk(blas_order_sym(order), blas_uplo_sym(uplo), blas_transpose_sym(trans), FIX2INT(n), FIX2INT(k), NUM2DBL(alpha), NM_STORAGE_DENSE(a)-&gt;elements, FIX2INT(lda), NUM2DBL(beta), NM_STORAGE_DENSE(c)-&gt;elements, FIX2INT(ldc));
-  } else
-    rb_raise(rb_eNotImpError, &quot;this matrix operation undefined for non-complex dtypes&quot;);
-
-
-  return Qtrue;
-}</pre>
-          </div><!-- cblas_herk-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- cblas_herk-method -->
-
-    
-      <div id="method-c-cblas_rot" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">cblas_rot</span><span
-            class="method-args">(p1, p2, p3, p4, p5, p6, p7)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          <p>Call any of the cblas_xrot functions as directly as possible.</p>
-
-<p>xROT is a <a href="BLAS.html">BLAS</a> level 1 routine (taking two vectors)
-which applies a plane rotation.</p>
-
-<p>It’s tough to find documentation on xROT. Here are what we think the
-arguments are for:</p>
-
-<pre>* n     :: number of elements to consider in x and y
-* x     :: a vector (expects an NVector)
-* incx  :: stride of x
-* y     :: a vector (expects an NVector)
-* incy  :: stride of y
-* c     :: cosine of the angle of rotation
-* s     :: sine of the angle of rotation</pre>
-
-<p>Note that c and s will be the same dtype as x and y, except when x and y
-are complex. If x and y are complex, c and s will be float for Complex64 or
-double for Complex128.</p>
-
-<p>You probably don’t want to call this function. Instead, why don’t you try
-rot, which is more flexible with its arguments?</p>
-
-<p>This function does almost no type checking. Seriously, be really careful
-when you call it! There’s no exception handling, so you can easily crash
-Ruby!</p>
-          
-          
-
-          
-          <div class="method-source-code" id="cblas_rot-source">
-            <pre>static VALUE nm_cblas_rot(VALUE self, VALUE n, VALUE x, VALUE incx, VALUE y, VALUE incy, VALUE c, VALUE s) {
-  static void (*ttable[nm::NUM_DTYPES])(const int N, void*, const int, void*, const int, const void*, const void*) = {
-      NULL, NULL, NULL, NULL, NULL, // can't represent c and s as integers, so no point in having integer operations.
-      nm::math::cblas_rot&lt;float,float&gt;,
-      nm::math::cblas_rot&lt;double,double&gt;,
-      nm::math::cblas_rot&lt;nm::Complex64,float&gt;,
-      nm::math::cblas_rot&lt;nm::Complex128,double&gt;,
-      nm::math::cblas_rot&lt;nm::Rational32,nm::Rational32&gt;,
-      nm::math::cblas_rot&lt;nm::Rational64,nm::Rational64&gt;,
-      nm::math::cblas_rot&lt;nm::Rational128,nm::Rational128&gt;,
-      nm::math::cblas_rot&lt;nm::RubyObject,nm::RubyObject&gt;
-  };
-
-  nm::dtype_t dtype = NM_DTYPE(x);
-
-
-  if (!ttable[dtype]) {
-    rb_raise(nm_eDataTypeError, &quot;this matrix operation undefined for integer matrices&quot;);
-    return Qfalse;
-  } else {
-    void *pC, *pS;
-
-    // We need to ensure the cosine and sine arguments are the correct dtype -- which may differ from the actual dtype.
-    if (dtype == nm::COMPLEX64) {
-      pC = ALLOCA_N(float,1);
-      pS = ALLOCA_N(float,1);
-      rubyval_to_cval(c, nm::FLOAT32, pC);
-      rubyval_to_cval(s, nm::FLOAT32, pS);
-    } else if (dtype == nm::COMPLEX128) {
-      pC = ALLOCA_N(double,1);
-      pS = ALLOCA_N(double,1);
-      rubyval_to_cval(c, nm::FLOAT64, pC);
-      rubyval_to_cval(s, nm::FLOAT64, pS);
-    } else {
-      pC = ALLOCA_N(char, DTYPE_SIZES[dtype]);
-      pS = ALLOCA_N(char, DTYPE_SIZES[dtype]);
-      rubyval_to_cval(c, dtype, pC);
-      rubyval_to_cval(s, dtype, pS);
-    }
-
-
-    ttable[dtype](FIX2INT(n), NM_STORAGE_DENSE(x)-&gt;elements, FIX2INT(incx), NM_STORAGE_DENSE(y)-&gt;elements, FIX2INT(incy), pC, pS);
-
-    return Qtrue;
-  }
-}</pre>
-          </div><!-- cblas_rot-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- cblas_rot-method -->
-
-    
-      <div id="method-c-cblas_rotg" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">cblas_rotg</span><span
-            class="method-args">(p1)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          <p>Call any of the cblas_xrotg functions as directly as possible.</p>
-
-<p>xROTG computes the elements of a Givens plane rotation matrix such that:</p>
-
-<pre>|  c s |   | a |   | r |
-| -s c | * | b | = | 0 |</pre>
-
-<p>where r = +- sqrt( a**2 + b**2 ) and c**2 + s**2 = 1.</p>
-
-<p>The Givens plane rotation can be used to introduce zero elements into a
-matrix selectively.</p>
-
-<p>This function differs from most of the other raw <a
-href="BLAS.html">BLAS</a> accessors. Instead of providing a, b, c, s as
-arguments, you should only provide a and b (the inputs), and you should
-provide them as a single <a href="../NVector.html">NVector</a> (or the
-first two elements of any dense <a href="../NMatrix.html">NMatrix</a> or <a
-href="../NVector.html">NVector</a> type, specifically).</p>
-
-<p>The outputs [c,s] will be returned in a Ruby <a
-href="../Array.html">Array</a> at the end; the input <a
-href="../NVector.html">NVector</a> will also be modified in-place.</p>
-
-<p>If you provide rationals, be aware that there’s a high probability of an
-error, since rotg includes a square root – and most rationals’ square roots
-are irrational. You’re better off converting to Float first.</p>
-
-<p>This function, like the other cblas_ functions, does minimal type-checking.</p>
-          
-          
-
-          
-          <div class="method-source-code" id="cblas_rotg-source">
-            <pre>static VALUE nm_cblas_rotg(VALUE self, VALUE ab) {
-  static void (*ttable[nm::NUM_DTYPES])(void* a, void* b, void* c, void* s) = {
-      NULL, NULL, NULL, NULL, NULL, // can't represent c and s as integers, so no point in having integer operations.
-      nm::math::cblas_rotg&lt;float&gt;,
-      nm::math::cblas_rotg&lt;double&gt;,
-      nm::math::cblas_rotg&lt;nm::Complex64&gt;,
-      nm::math::cblas_rotg&lt;nm::Complex128&gt;,
-      nm::math::cblas_rotg&lt;nm::Rational32&gt;,
-      nm::math::cblas_rotg&lt;nm::Rational64&gt;,
-      nm::math::cblas_rotg&lt;nm::Rational128&gt;,
-      nm::math::cblas_rotg&lt;nm::RubyObject&gt;
-  };
-
-  nm::dtype_t dtype = NM_DTYPE(ab);
-
-  if (!ttable[dtype]) {
-    rb_raise(nm_eDataTypeError, &quot;this matrix operation undefined for integer matrices&quot;);
-    return Qnil;
-
-  } else {
-    void *pC = ALLOCA_N(char, DTYPE_SIZES[dtype]),
-         *pS = ALLOCA_N(char, DTYPE_SIZES[dtype]);
-
-    // extract A and B from the NVector (first two elements)
-    void* pA = NM_STORAGE_DENSE(ab)-&gt;elements;
-    void* pB = (char*)(NM_STORAGE_DENSE(ab)-&gt;elements) + DTYPE_SIZES[dtype];
-    // c and s are output
-
-    ttable[dtype](pA, pB, pC, pS);
-
-    VALUE result = rb_ary_new2(2);
-    rb_ary_store(result, 0, rubyobj_from_cval(pC, dtype).rval);
-    rb_ary_store(result, 1, rubyobj_from_cval(pS, dtype).rval);
-
-    return result;
-  }
-}</pre>
-          </div><!-- cblas_rotg-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- cblas_rotg-method -->
-
-    
-      <div id="method-c-cblas_syrk" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">cblas_syrk</span><span
-            class="method-args">(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="cblas_syrk-source">
-            <pre>static VALUE nm_cblas_syrk(VALUE self,
-                           VALUE order,
-                           VALUE uplo,
-                           VALUE trans,
-                           VALUE n, VALUE k,
-                           VALUE alpha,
-                           VALUE a, VALUE lda,
-                           VALUE beta,
-                           VALUE c, VALUE ldc)
-{
-  static void (*ttable[nm::NUM_DTYPES])(const enum CBLAS_ORDER, const enum CBLAS_UPLO, const enum CBLAS_TRANSPOSE,
-                                        const int n, const int k, const void* alpha, const void* a,
-                                        const int lda, const void* beta, void* c, const int ldc) = {
-      NULL, NULL, NULL, NULL, NULL, // integers not allowed due to division
-      nm::math::cblas_syrk&lt;float&gt;,
-      nm::math::cblas_syrk&lt;double&gt;,
-      cblas_csyrk, cblas_zsyrk// call directly, same function signature!
-      /*nm::math::cblas_trsm&lt;nm::Rational32&gt;,
-      nm::math::cblas_trsm&lt;nm::Rational64&gt;,
-      nm::math::cblas_trsm&lt;nm::Rational128&gt;,
-      nm::math::cblas_trsm&lt;nm::RubyObject&gt;*/
-  };
-
-  nm::dtype_t dtype = NM_DTYPE(a);
-
-  if (!ttable[dtype]) {
-    rb_raise(nm_eDataTypeError, &quot;this matrix operation undefined for integer matrices&quot;);
-  } else {
-    void *pAlpha = ALLOCA_N(char, DTYPE_SIZES[dtype]),
-         *pBeta = ALLOCA_N(char, DTYPE_SIZES[dtype]);
-    rubyval_to_cval(alpha, dtype, pAlpha);
-    rubyval_to_cval(beta, dtype, pBeta);
-
-    ttable[dtype](blas_order_sym(order), blas_uplo_sym(uplo), blas_transpose_sym(trans), FIX2INT(n), FIX2INT(k), pAlpha, NM_STORAGE_DENSE(a)-&gt;elements, FIX2INT(lda), pBeta, NM_STORAGE_DENSE(c)-&gt;elements, FIX2INT(ldc));
-  }
-
-  return Qtrue;
-}</pre>
-          </div><!-- cblas_syrk-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- cblas_syrk-method -->
-
-    
-      <div id="method-c-cblas_trmm" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">cblas_trmm</span><span
-            class="method-args">(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="cblas_trmm-source">
-            <pre>static VALUE nm_cblas_trmm(VALUE self,
-                           VALUE order,
-                           VALUE side, VALUE uplo,
-                           VALUE trans_a, VALUE diag,
-                           VALUE m, VALUE n,
-                           VALUE alpha,
-                           VALUE a, VALUE lda,
-                           VALUE b, VALUE ldb)
-{
-  static void (*ttable[nm::NUM_DTYPES])(const enum CBLAS_ORDER,
-                                        const enum CBLAS_SIDE, const enum CBLAS_UPLO,
-                                        const enum CBLAS_TRANSPOSE, const enum CBLAS_DIAG,
-                                        const int m, const int n, const void* alpha, const void* a,
-                                        const int lda, void* b, const int ldb) = {
-      NULL, NULL, NULL, NULL, NULL, // integers not allowed due to division
-      nm::math::cblas_trmm&lt;float&gt;,
-      nm::math::cblas_trmm&lt;double&gt;,
-      cblas_ctrmm, cblas_ztrmm // call directly, same function signature!
-      /*
-      nm::math::cblas_trmm&lt;nm::Rational32&gt;,
-      nm::math::cblas_trmm&lt;nm::Rational64&gt;,
-      nm::math::cblas_trmm&lt;nm::Rational128&gt;,
-      nm::math::cblas_trmm&lt;nm::RubyObject&gt;*/
-  };
-
-  nm::dtype_t dtype = NM_DTYPE(a);
-
-  if (!ttable[dtype]) {
-    rb_raise(nm_eDataTypeError, &quot;this matrix operation not yet defined for non-BLAS dtypes&quot;);
-  } else {
-    void *pAlpha = ALLOCA_N(char, DTYPE_SIZES[dtype]);
-    rubyval_to_cval(alpha, dtype, pAlpha);
-
-    ttable[dtype](blas_order_sym(order), blas_side_sym(side), blas_uplo_sym(uplo), blas_transpose_sym(trans_a), blas_diag_sym(diag), FIX2INT(m), FIX2INT(n), pAlpha, NM_STORAGE_DENSE(a)-&gt;elements, FIX2INT(lda), NM_STORAGE_DENSE(b)-&gt;elements, FIX2INT(ldb));
-  }
-
-  return b;
-}</pre>
-          </div><!-- cblas_trmm-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- cblas_trmm-method -->
-
-    
-      <div id="method-c-cblas_trsm" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">cblas_trsm</span><span
-            class="method-args">(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="cblas_trsm-source">
-            <pre>static VALUE nm_cblas_trsm(VALUE self,
-                           VALUE order,
-                           VALUE side, VALUE uplo,
-                           VALUE trans_a, VALUE diag,
-                           VALUE m, VALUE n,
-                           VALUE alpha,
-                           VALUE a, VALUE lda,
-                           VALUE b, VALUE ldb)
-{
-  static void (*ttable[nm::NUM_DTYPES])(const enum CBLAS_ORDER, const enum CBLAS_SIDE, const enum CBLAS_UPLO,
-                                        const enum CBLAS_TRANSPOSE, const enum CBLAS_DIAG,
-                                        const int m, const int n, const void* alpha, const void* a,
-                                        const int lda, void* b, const int ldb) = {
-      NULL, NULL, NULL, NULL, NULL, // integers not allowed due to division
-      nm::math::cblas_trsm&lt;float&gt;,
-      nm::math::cblas_trsm&lt;double&gt;,
-      cblas_ctrsm, cblas_ztrsm, // call directly, same function signature!
-      nm::math::cblas_trsm&lt;nm::Rational32&gt;,
-      nm::math::cblas_trsm&lt;nm::Rational64&gt;,
-      nm::math::cblas_trsm&lt;nm::Rational128&gt;,
-      nm::math::cblas_trsm&lt;nm::RubyObject&gt;
-  };
-
-  nm::dtype_t dtype = NM_DTYPE(a);
-
-  if (!ttable[dtype]) {
-    rb_raise(nm_eDataTypeError, &quot;this matrix operation undefined for integer matrices&quot;);
-  } else {
-    void *pAlpha = ALLOCA_N(char, DTYPE_SIZES[dtype]);
-    rubyval_to_cval(alpha, dtype, pAlpha);
-
-    ttable[dtype](blas_order_sym(order), blas_side_sym(side), blas_uplo_sym(uplo), blas_transpose_sym(trans_a), blas_diag_sym(diag), FIX2INT(m), FIX2INT(n), pAlpha, NM_STORAGE_DENSE(a)-&gt;elements, FIX2INT(lda), NM_STORAGE_DENSE(b)-&gt;elements, FIX2INT(ldb));
-  }
-
-  return Qtrue;
-}</pre>
-          </div><!-- cblas_trsm-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- cblas_trsm-method -->
+      </div><!-- asum-method -->
 
     
       <div id="method-c-gemm" class="method-detail ">
@@ -877,48 +353,48 @@ a dense matrix.</p>
           <div class="method-source-code" id="gemm-source">
             <pre><span class="ruby-comment"># File lib/nmatrix/blas.rb, line 63</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">gemm</span>(<span class="ruby-identifier">a</span>, <span class="ruby-identifier">b</span>, <span class="ruby-identifier">c</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">alpha</span> = <span class="ruby-value">1.0</span>, <span class="ruby-identifier">beta</span> = <span class="ruby-value">0.0</span>, <span class="ruby-identifier">transpose_a</span> = <span class="ruby-keyword">false</span>, <span class="ruby-identifier">transpose_b</span> = <span class="ruby-keyword">false</span>, <span class="ruby-identifier">m</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">n</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">k</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">lda</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">ldb</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">ldc</span> = <span class="ruby-keyword">nil</span>)
-    <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">'Expected dense NMatrices as first two arguments.'</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">NMatrix</span>) <span class="ruby-keyword">and</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">NMatrix</span>) <span class="ruby-keyword">and</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">stype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:dense</span> <span class="ruby-keyword">and</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">stype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:dense</span>
-    <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">'Expected nil or dense NMatrix as third argument.'</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">or</span> (<span class="ruby-identifier">c</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">NMatrix</span>) <span class="ruby-keyword">and</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">stype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:dense</span>)
-    <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">'NMatrix dtype mismatch.'</span>                                                                                                     <span class="ruby-keyword">unless</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">dtype</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">dtype</span> <span class="ruby-keyword">and</span> (<span class="ruby-identifier">c</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">dtype</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">dtype</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">true</span>)
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&#39;Expected dense NMatrices as first two arguments.&#39;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">NMatrix</span>) <span class="ruby-keyword">and</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">NMatrix</span>) <span class="ruby-keyword">and</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">stype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:dense</span> <span class="ruby-keyword">and</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">stype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:dense</span>
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&#39;Expected nil or dense NMatrix as third argument.&#39;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">or</span> (<span class="ruby-identifier">c</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">NMatrix</span>) <span class="ruby-keyword">and</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">stype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:dense</span>)
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&#39;NMatrix dtype mismatch.&#39;</span>)                                                                                                    <span class="ruby-keyword">unless</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">dtype</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">dtype</span> <span class="ruby-keyword">and</span> (<span class="ruby-identifier">c</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">dtype</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">dtype</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">true</span>)
 
-    <span class="ruby-comment"># First, set m, n, and k, which depend on whether we're taking the</span>
-    <span class="ruby-comment"># transpose of a and b.</span>
-    <span class="ruby-keyword">if</span> <span class="ruby-identifier">c</span>
-            <span class="ruby-identifier">m</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>]
-            <span class="ruby-identifier">n</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]
-            <span class="ruby-identifier">k</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">transpose_a</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">:</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]
+  <span class="ruby-comment"># First, set m, n, and k, which depend on whether we&#39;re taking the</span>
+  <span class="ruby-comment"># transpose of a and b.</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">c</span>
+    <span class="ruby-identifier">m</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>]
+    <span class="ruby-identifier">n</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]
+    <span class="ruby-identifier">k</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">transpose_a</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">:</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]
+
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">transpose_a</span>
+      <span class="ruby-comment"># Either :transpose or :complex_conjugate.</span>
+      <span class="ruby-identifier">m</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]
+      <span class="ruby-identifier">k</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>]
 
     <span class="ruby-keyword">else</span>
-            <span class="ruby-keyword">if</span> <span class="ruby-identifier">transpose_a</span>
-                    <span class="ruby-comment"># Either :transpose or :complex_conjugate.</span>
-                    <span class="ruby-identifier">m</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]
-                    <span class="ruby-identifier">k</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>]
-
-            <span class="ruby-keyword">else</span>
-                    <span class="ruby-comment"># No transpose.</span>
-                    <span class="ruby-identifier">m</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>]
-                    <span class="ruby-identifier">k</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]
-            <span class="ruby-keyword">end</span>
-
-            <span class="ruby-identifier">n</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">transpose_b</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">:</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]
-            <span class="ruby-identifier">c</span>         = <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>([<span class="ruby-identifier">m</span>, <span class="ruby-identifier">n</span>], <span class="ruby-identifier">a</span>.<span class="ruby-identifier">dtype</span>)
+      <span class="ruby-comment"># No transpose.</span>
+      <span class="ruby-identifier">m</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>]
+      <span class="ruby-identifier">k</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]
     <span class="ruby-keyword">end</span>
 
-    <span class="ruby-comment"># I think these are independent of whether or not a transpose occurs.</span>
-    <span class="ruby-identifier">lda</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]
-    <span class="ruby-identifier">ldb</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]
-    <span class="ruby-identifier">ldc</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]
+    <span class="ruby-identifier">n</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">transpose_b</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">:</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]
+    <span class="ruby-identifier">c</span>               = <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>([<span class="ruby-identifier">m</span>, <span class="ruby-identifier">n</span>], <span class="ruby-identifier">dtype</span><span class="ruby-operator">:</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">dtype</span>)
+  <span class="ruby-keyword">end</span>
 
-    <span class="ruby-comment"># NM_COMPLEX64 and NM_COMPLEX128 both require complex alpha and beta.</span>
-    <span class="ruby-keyword">if</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">dtype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:complex64</span> <span class="ruby-keyword">or</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">dtype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:complex128</span>
-            <span class="ruby-identifier">alpha</span> = <span class="ruby-constant">Complex</span>(<span class="ruby-value">1.0</span>, <span class="ruby-value">0.0</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">alpha</span> <span class="ruby-operator">==</span> <span class="ruby-value">1.0</span>
-            <span class="ruby-identifier">beta</span>  = <span class="ruby-constant">Complex</span>(<span class="ruby-value">0.0</span>, <span class="ruby-value">0.0</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">beta</span>  <span class="ruby-operator">==</span> <span class="ruby-value">0.0</span>
-    <span class="ruby-keyword">end</span>
+  <span class="ruby-comment"># I think these are independent of whether or not a transpose occurs.</span>
+  <span class="ruby-identifier">lda</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]
+  <span class="ruby-identifier">ldb</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]
+  <span class="ruby-identifier">ldc</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]
 
-    <span class="ruby-comment"># For argument descriptions, see: http://www.netlib.org/blas/dgemm.f</span>
-    <span class="ruby-operator">::</span><span class="ruby-constant">NMatrix</span><span class="ruby-operator">::</span><span class="ruby-constant">BLAS</span>.<span class="ruby-identifier">cblas_gemm</span>(<span class="ruby-value">:row</span>, <span class="ruby-identifier">transpose_a</span>, <span class="ruby-identifier">transpose_b</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">n</span>, <span class="ruby-identifier">k</span>, <span class="ruby-identifier">alpha</span>, <span class="ruby-identifier">a</span>, <span class="ruby-identifier">lda</span>, <span class="ruby-identifier">b</span>, <span class="ruby-identifier">ldb</span>, <span class="ruby-identifier">beta</span>, <span class="ruby-identifier">c</span>, <span class="ruby-identifier">ldc</span>)
+  <span class="ruby-comment"># NM_COMPLEX64 and NM_COMPLEX128 both require complex alpha and beta.</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">dtype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:complex64</span> <span class="ruby-keyword">or</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">dtype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:complex128</span>
+    <span class="ruby-identifier">alpha</span> = <span class="ruby-constant">Complex</span>(<span class="ruby-value">1.0</span>, <span class="ruby-value">0.0</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">alpha</span> <span class="ruby-operator">==</span> <span class="ruby-value">1.0</span>
+    <span class="ruby-identifier">beta</span>  = <span class="ruby-constant">Complex</span>(<span class="ruby-value">0.0</span>, <span class="ruby-value">0.0</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">beta</span>  <span class="ruby-operator">==</span> <span class="ruby-value">0.0</span>
+  <span class="ruby-keyword">end</span>
 
-    <span class="ruby-keyword">return</span> <span class="ruby-identifier">c</span>
+  <span class="ruby-comment"># For argument descriptions, see: http://www.netlib.org/blas/dgemm.f</span>
+  <span class="ruby-operator">::</span><span class="ruby-constant">NMatrix</span><span class="ruby-operator">::</span><span class="ruby-constant">BLAS</span>.<span class="ruby-identifier">cblas_gemm</span>(<span class="ruby-value">:row</span>, <span class="ruby-identifier">transpose_a</span>, <span class="ruby-identifier">transpose_b</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">n</span>, <span class="ruby-identifier">k</span>, <span class="ruby-identifier">alpha</span>, <span class="ruby-identifier">a</span>, <span class="ruby-identifier">lda</span>, <span class="ruby-identifier">b</span>, <span class="ruby-identifier">ldb</span>, <span class="ruby-identifier">beta</span>, <span class="ruby-identifier">c</span>, <span class="ruby-identifier">ldc</span>)
+
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">c</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- gemm-source -->
           
@@ -935,7 +411,7 @@ a dense matrix.</p>
         
         <div class="method-heading">
           <span class="method-callseq">
-            gemv(a, x) &rarr; NVector
+            gemv(a, x) &rarr; NMatrix
           </span>
           
           <span class="method-click-advice">click to toggle source</span>
@@ -944,14 +420,14 @@ a dense matrix.</p>
         
         <div class="method-heading">
           <span class="method-callseq">
-            gemv(a, x, y) &rarr; NVector
+            gemv(a, x, y) &rarr; NMatrix
           </span>
           
         </div>
         
         <div class="method-heading">
           <span class="method-callseq">
-            gemv(a, x, y, alpha, beta) &rarr; NVector
+            gemv(a, x, y, alpha, beta) &rarr; NMatrix
           </span>
           
         </div>
@@ -1005,28 +481,28 @@ a dense matrix.</p>
           <div class="method-source-code" id="gemv-source">
             <pre><span class="ruby-comment"># File lib/nmatrix/blas.rb, line 135</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">gemv</span>(<span class="ruby-identifier">a</span>, <span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">alpha</span> = <span class="ruby-value">1.0</span>, <span class="ruby-identifier">beta</span> = <span class="ruby-value">0.0</span>, <span class="ruby-identifier">transpose_a</span> = <span class="ruby-keyword">false</span>, <span class="ruby-identifier">m</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">n</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">lda</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">incx</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">incy</span> = <span class="ruby-keyword">nil</span>)
-  <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">'Expected dense NMatrices as first two arguments.'</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">NMatrix</span>) <span class="ruby-keyword">and</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">NMatrix</span>) <span class="ruby-keyword">and</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">stype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:dense</span> <span class="ruby-keyword">and</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">stype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:dense</span>
-    <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">'Expected nil or dense NMatrix as third argument.'</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">y</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">or</span> (<span class="ruby-identifier">y</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">NMatrix</span>) <span class="ruby-keyword">and</span> <span class="ruby-identifier">y</span>.<span class="ruby-identifier">stype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:dense</span>)
-    <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">'NMatrix dtype mismatch.'</span>                                                                                                    <span class="ruby-keyword">unless</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">dtype</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">dtype</span> <span class="ruby-keyword">and</span> (<span class="ruby-identifier">y</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">dtype</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">y</span>.<span class="ruby-identifier">dtype</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">true</span>)
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&#39;Expected dense NMatrices as first two arguments.&#39;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">NMatrix</span>) <span class="ruby-keyword">and</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">NMatrix</span>) <span class="ruby-keyword">and</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">stype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:dense</span> <span class="ruby-keyword">and</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">stype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:dense</span>
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&#39;Expected nil or dense NMatrix as third argument.&#39;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">y</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">or</span> (<span class="ruby-identifier">y</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">NMatrix</span>) <span class="ruby-keyword">and</span> <span class="ruby-identifier">y</span>.<span class="ruby-identifier">stype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:dense</span>)
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&#39;NMatrix dtype mismatch.&#39;</span>)                                                                                                    <span class="ruby-keyword">unless</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">dtype</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">dtype</span> <span class="ruby-keyword">and</span> (<span class="ruby-identifier">y</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">dtype</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">y</span>.<span class="ruby-identifier">dtype</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">true</span>)
 
-    <span class="ruby-identifier">m</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">transpose_a</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>] <span class="ruby-operator">:</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>]
-    <span class="ruby-identifier">n</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">transpose_a</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">:</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]
+  <span class="ruby-identifier">m</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">transpose_a</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>] <span class="ruby-operator">:</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>]
+  <span class="ruby-identifier">n</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">transpose_a</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">:</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]
 
-    <span class="ruby-identifier">lda</span>                <span class="ruby-operator">||=</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]
-    <span class="ruby-identifier">incx</span>       <span class="ruby-operator">||=</span> <span class="ruby-value">1</span>
-    <span class="ruby-identifier">incy</span>       <span class="ruby-operator">||=</span> <span class="ruby-value">1</span>
+  <span class="ruby-identifier">lda</span>               <span class="ruby-operator">||=</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]
+  <span class="ruby-identifier">incx</span>      <span class="ruby-operator">||=</span> <span class="ruby-value">1</span>
+  <span class="ruby-identifier">incy</span>      <span class="ruby-operator">||=</span> <span class="ruby-value">1</span>
 
-    <span class="ruby-comment"># NM_COMPLEX64 and NM_COMPLEX128 both require complex alpha and beta.</span>
-    <span class="ruby-keyword">if</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">dtype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:complex64</span> <span class="ruby-keyword">or</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">dtype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:complex128</span>
-            <span class="ruby-identifier">alpha</span> = <span class="ruby-constant">Complex</span>(<span class="ruby-value">1.0</span>, <span class="ruby-value">0.0</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">alpha</span> <span class="ruby-operator">==</span> <span class="ruby-value">1.0</span>
-            <span class="ruby-identifier">beta</span>  = <span class="ruby-constant">Complex</span>(<span class="ruby-value">0.0</span>, <span class="ruby-value">0.0</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">beta</span>  <span class="ruby-operator">==</span> <span class="ruby-value">0.0</span>
+  <span class="ruby-comment"># NM_COMPLEX64 and NM_COMPLEX128 both require complex alpha and beta.</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">dtype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:complex64</span> <span class="ruby-keyword">or</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">dtype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:complex128</span>
+    <span class="ruby-identifier">alpha</span> = <span class="ruby-constant">Complex</span>(<span class="ruby-value">1.0</span>, <span class="ruby-value">0.0</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">alpha</span> <span class="ruby-operator">==</span> <span class="ruby-value">1.0</span>
+    <span class="ruby-identifier">beta</span>  = <span class="ruby-constant">Complex</span>(<span class="ruby-value">0.0</span>, <span class="ruby-value">0.0</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">beta</span>  <span class="ruby-operator">==</span> <span class="ruby-value">0.0</span>
   <span class="ruby-keyword">end</span>
 
-  <span class="ruby-identifier">y</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>([<span class="ruby-identifier">m</span>, <span class="ruby-identifier">n</span>], <span class="ruby-identifier">a</span>.<span class="ruby-identifier">dtype</span>)
+  <span class="ruby-identifier">y</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>([<span class="ruby-identifier">m</span>, <span class="ruby-identifier">n</span>], <span class="ruby-identifier">dtype</span><span class="ruby-operator">:</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">dtype</span>)
 
-    <span class="ruby-operator">::</span><span class="ruby-constant">NMatrix</span><span class="ruby-operator">::</span><span class="ruby-constant">BLAS</span>.<span class="ruby-identifier">cblas_gemv</span>(<span class="ruby-identifier">transpose_a</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">n</span>, <span class="ruby-identifier">alpha</span>, <span class="ruby-identifier">a</span>, <span class="ruby-identifier">lda</span>, <span class="ruby-identifier">x</span>, <span class="ruby-identifier">incx</span>, <span class="ruby-identifier">beta</span>, <span class="ruby-identifier">y</span>, <span class="ruby-identifier">incy</span>)
+  <span class="ruby-operator">::</span><span class="ruby-constant">NMatrix</span><span class="ruby-operator">::</span><span class="ruby-constant">BLAS</span>.<span class="ruby-identifier">cblas_gemv</span>(<span class="ruby-identifier">transpose_a</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">n</span>, <span class="ruby-identifier">alpha</span>, <span class="ruby-identifier">a</span>, <span class="ruby-identifier">lda</span>, <span class="ruby-identifier">x</span>, <span class="ruby-identifier">incx</span>, <span class="ruby-identifier">beta</span>, <span class="ruby-identifier">y</span>, <span class="ruby-identifier">incy</span>)
 
-    <span class="ruby-keyword">return</span> <span class="ruby-identifier">y</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">y</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- gemv-source -->
           
@@ -1038,12 +514,77 @@ a dense matrix.</p>
       </div><!-- gemv-method -->
 
     
+      <div id="method-c-nrm2" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            nrm2(x, incx, n)
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Calculate the 2-norm of a vector <code>x</code> of size <code>n</code></p>
+<ul><li>
+<p><strong>Arguments</strong> :</p>
+<ul><li>
+<p><code>x</code> -&gt; an <a href="../NMatrix.html">NMatrix</a> (will also
+allow an <a href="../NMatrix.html">NMatrix</a>, but will treat it as if
+it&#39;s a vector )</p>
+</li><li>
+<p><code>incx</code> -&gt; the skip size (defaults to 1)</p>
+</li><li>
+<p><code>n</code> -&gt; the size of <code>x</code> (defaults to +x.size /
+incx+)</p>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong> :</p>
+<ul><li>
+<p>The 2-norm</p>
+</li></ul>
+</li><li>
+<p><strong>Raises</strong> :</p>
+<ul><li>
+<p><code>ArgumentError</code> -&gt; Expected dense <a
+href="../NMatrix.html">NMatrix</a> for arg 0</p>
+</li><li>
+<p><code>RangeError</code> -&gt; n out of range</p>
+</li></ul>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="nrm2-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/blas.rb, line 276</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">nrm2</span>(<span class="ruby-identifier">x</span>, <span class="ruby-identifier">incx</span> = <span class="ruby-value">1</span>, <span class="ruby-identifier">n</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">n</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">/</span> <span class="ruby-identifier">incx</span>
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Expected dense NMatrix for arg 0&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">NMatrix</span>)
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">RangeError</span>, <span class="ruby-string">&quot;n out of range&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">n</span><span class="ruby-operator">*</span><span class="ruby-identifier">incx</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">n</span><span class="ruby-operator">*</span><span class="ruby-identifier">incx</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-value">0</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">n</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-value">0</span>
+  <span class="ruby-operator">::</span><span class="ruby-constant">NMatrix</span><span class="ruby-operator">::</span><span class="ruby-constant">BLAS</span>.<span class="ruby-identifier">cblas_nrm2</span>(<span class="ruby-identifier">n</span>, <span class="ruby-identifier">x</span>, <span class="ruby-identifier">incx</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- nrm2-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- nrm2-method -->
+
+    
       <div id="method-c-rot" class="method-detail ">
         
         
         <div class="method-heading">
           <span class="method-callseq">
-            rot(x, y, c, s)
+            rot(x, y, c, s) &rarr; [NMatrix, NMatrix]
           </span>
           
           <span class="method-click-advice">click to toggle source</span>
@@ -1058,19 +599,25 @@ a dense matrix.</p>
 <ul><li>
 <p><strong>Arguments</strong> :</p>
 <ul><li>
-<p><code>x</code> -&gt;</p>
+<p><code>x</code> -&gt; <a href="../NMatrix.html">NMatrix</a></p>
 </li><li>
-<p><code>y</code> -&gt;</p>
+<p><code>y</code> -&gt; <a href="../NMatrix.html">NMatrix</a></p>
 </li><li>
-<p><code>s</code> -&gt;</p>
+<p><code>c</code> -&gt; cosine of the angle of rotation</p>
 </li><li>
-<p><code>c</code> -&gt;</p>
+<p><code>s</code> -&gt; sine of the angle of rotation</p>
 </li><li>
-<p><code>incx</code> -&gt;</p>
+<p><code>incx</code> -&gt; stride of <a href="../NMatrix.html">NMatrix</a>
+<code>x</code></p>
 </li><li>
-<p><code>incy</code> -&gt;</p>
+<p><code>incy</code> -&gt; stride of <a href="../NMatrix.html">NMatrix</a>
+<code>y</code></p>
 </li><li>
-<p><code>n</code> -&gt;</p>
+<p><code>n</code> -&gt; number of elements to consider in x and y</p>
+</li><li>
+<p><code>in_place</code> -&gt; true if it&#39;s okay to modify the supplied
+<code>x</code> and <code>y</code> parameters directly; false if not.
+Default is false.</p>
 </li></ul>
 </li><li>
 <p><strong>Returns</strong> :</p>
@@ -1083,7 +630,8 @@ a dense matrix.</p>
 <p><code>ArgumentError</code> -&gt; Expected dense NMatrices as first two
 arguments.</p>
 </li><li>
-<p><code>ArgumentError</code> -&gt; Nmatrix dtype mismatch.</p>
+<p><code>ArgumentError</code> -&gt; <a href="../NMatrix.html">NMatrix</a>
+dtype mismatch.</p>
 </li><li>
 <p><code>ArgumentError</code> -&gt; Need to supply n for non-standard incx,
 incy values.</p>
@@ -1094,20 +642,25 @@ incy values.</p>
 
           
           <div class="method-source-code" id="rot-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/blas.rb, line 181</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">rot</span>(<span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span>, <span class="ruby-identifier">c</span>, <span class="ruby-identifier">s</span>, <span class="ruby-identifier">incx</span> = <span class="ruby-value">1</span>, <span class="ruby-identifier">incy</span> = <span class="ruby-value">1</span>, <span class="ruby-identifier">n</span> = <span class="ruby-keyword">nil</span>)
-  <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">'Expected dense NMatrices as first two arguments.'</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">NMatrix</span>) <span class="ruby-keyword">and</span> <span class="ruby-identifier">y</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">NMatrix</span>) <span class="ruby-keyword">and</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">stype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:dense</span> <span class="ruby-keyword">and</span> <span class="ruby-identifier">y</span>.<span class="ruby-identifier">stype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:dense</span>
-    <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">'NMatrix dtype mismatch.'</span>                                                                                                    <span class="ruby-keyword">unless</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">dtype</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">y</span>.<span class="ruby-identifier">dtype</span>
-  <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">'Need to supply n for non-standard incx, incy values'</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">n</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">incx</span> <span class="ruby-operator">!=</span> <span class="ruby-value">1</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">incx</span> <span class="ruby-operator">!=</span> <span class="ruby-value">-1</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">incy</span> <span class="ruby-operator">!=</span> <span class="ruby-value">1</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">incy</span> <span class="ruby-operator">!=</span> <span class="ruby-value">-1</span>
+            <pre><span class="ruby-comment"># File lib/nmatrix/blas.rb, line 182</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">rot</span>(<span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span>, <span class="ruby-identifier">c</span>, <span class="ruby-identifier">s</span>, <span class="ruby-identifier">incx</span> = <span class="ruby-value">1</span>, <span class="ruby-identifier">incy</span> = <span class="ruby-value">1</span>, <span class="ruby-identifier">n</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">in_place</span>=<span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&#39;Expected dense NMatrices as first two arguments.&#39;</span>)    <span class="ruby-keyword">unless</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">NMatrix</span>) <span class="ruby-keyword">and</span> <span class="ruby-identifier">y</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">NMatrix</span>) <span class="ruby-keyword">and</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">stype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:dense</span> <span class="ruby-keyword">and</span> <span class="ruby-identifier">y</span>.<span class="ruby-identifier">stype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:dense</span>
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&#39;NMatrix dtype mismatch.&#39;</span>)                                                                                                       <span class="ruby-keyword">unless</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">dtype</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">y</span>.<span class="ruby-identifier">dtype</span>
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&#39;Need to supply n for non-standard incx, incy values&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">n</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">incx</span> <span class="ruby-operator">!=</span> <span class="ruby-value">1</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">incx</span> <span class="ruby-operator">!=</span> <span class="ruby-value">-1</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">incy</span> <span class="ruby-operator">!=</span> <span class="ruby-value">1</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">incy</span> <span class="ruby-operator">!=</span> <span class="ruby-value">-1</span>
 
-  <span class="ruby-identifier">n</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">y</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">y</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">size</span>
+  <span class="ruby-identifier">n</span> <span class="ruby-operator">||=</span> [<span class="ruby-identifier">x</span>.<span class="ruby-identifier">size</span><span class="ruby-operator">/</span><span class="ruby-identifier">incx</span>.<span class="ruby-identifier">abs</span>, <span class="ruby-identifier">y</span>.<span class="ruby-identifier">size</span><span class="ruby-operator">/</span><span class="ruby-identifier">incy</span>.<span class="ruby-identifier">abs</span>].<span class="ruby-identifier">min</span>
 
-  <span class="ruby-identifier">xx</span> = <span class="ruby-identifier">x</span>.<span class="ruby-identifier">clone</span>
-  <span class="ruby-identifier">yy</span> = <span class="ruby-identifier">y</span>.<span class="ruby-identifier">clone</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">in_place</span>
+    <span class="ruby-operator">::</span><span class="ruby-constant">NMatrix</span><span class="ruby-operator">::</span><span class="ruby-constant">BLAS</span>.<span class="ruby-identifier">cblas_rot</span>(<span class="ruby-identifier">n</span>, <span class="ruby-identifier">x</span>, <span class="ruby-identifier">incx</span>, <span class="ruby-identifier">y</span>, <span class="ruby-identifier">incy</span>, <span class="ruby-identifier">c</span>, <span class="ruby-identifier">s</span>)
+    <span class="ruby-keyword">return</span> [<span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span>]
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">xx</span> = <span class="ruby-identifier">x</span>.<span class="ruby-identifier">clone</span>
+    <span class="ruby-identifier">yy</span> = <span class="ruby-identifier">y</span>.<span class="ruby-identifier">clone</span>
 
-  <span class="ruby-operator">::</span><span class="ruby-constant">NMatrix</span><span class="ruby-operator">::</span><span class="ruby-constant">BLAS</span>.<span class="ruby-identifier">cblas_rot</span>(<span class="ruby-identifier">n</span>, <span class="ruby-identifier">xx</span>, <span class="ruby-identifier">incx</span>, <span class="ruby-identifier">yy</span>, <span class="ruby-identifier">incy</span>, <span class="ruby-identifier">c</span>, <span class="ruby-identifier">s</span>)
+    <span class="ruby-operator">::</span><span class="ruby-constant">NMatrix</span><span class="ruby-operator">::</span><span class="ruby-constant">BLAS</span>.<span class="ruby-identifier">cblas_rot</span>(<span class="ruby-identifier">n</span>, <span class="ruby-identifier">xx</span>, <span class="ruby-identifier">incx</span>, <span class="ruby-identifier">yy</span>, <span class="ruby-identifier">incy</span>, <span class="ruby-identifier">c</span>, <span class="ruby-identifier">s</span>)
 
-  <span class="ruby-keyword">return</span> [<span class="ruby-identifier">xx</span>,<span class="ruby-identifier">yy</span>]
+    <span class="ruby-keyword">return</span> [<span class="ruby-identifier">xx</span>,<span class="ruby-identifier">yy</span>]
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- rot-source -->
           
@@ -1119,6 +672,105 @@ incy values.</p>
       </div><!-- rot-method -->
 
     
+      <div id="method-c-rot-21" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            rot!(x, y, c, s) &rarr; [NMatrix, NMatrix]
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Apply plane rotation directly to <code>x</code> and <code>y</code>.</p>
+
+<p>See rot for arguments.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="rot-21-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/blas.rb, line 210</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">rot!</span>(<span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span>, <span class="ruby-identifier">c</span>, <span class="ruby-identifier">s</span>, <span class="ruby-identifier">incx</span> = <span class="ruby-value">1</span>, <span class="ruby-identifier">incy</span> = <span class="ruby-value">1</span>, <span class="ruby-identifier">n</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">rot</span>(<span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span>,<span class="ruby-identifier">c</span>,<span class="ruby-identifier">s</span>,<span class="ruby-identifier">incx</span>,<span class="ruby-identifier">incy</span>,<span class="ruby-identifier">n</span>,<span class="ruby-keyword">true</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- rot-21-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- rot-21-method -->
+
+    
+      <div id="method-c-rotg" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            rotg(ab) &rarr; [Numeric, Numeric]
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Apply givens plane rotation to the coordinates (a,b), returning the cosine
+and sine of the angle theta.</p>
+
+<p>Since the givens rotation includes a square root, integers and rationals
+are disallowed.</p>
+<ul><li>
+<p><strong>Arguments</strong> :</p>
+<ul><li>
+<p><code>ab</code> -&gt; <a href="../NMatrix.html">NMatrix</a> with two
+elements</p>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong> :</p>
+<ul><li>
+<p><a href="../Array.html">Array</a> with the results, in the format
+[cos(theta), sin(theta)]</p>
+</li></ul>
+</li><li>
+<p><strong>Raises</strong> :</p>
+<ul><li>
+<p><code>ArgumentError</code> -&gt; Expected dense <a
+href="../NMatrix.html">NMatrix</a> of size 2</p>
+</li></ul>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="rotg-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/blas.rb, line 230</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">rotg</span>(<span class="ruby-identifier">ab</span>)
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Expected dense NMatrix of shape [2,1] or [1,2]&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">ab</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">NMatrix</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">ab</span>.<span class="ruby-identifier">stype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:dense</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">ab</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">==</span> <span class="ruby-value">2</span>
+
+  <span class="ruby-operator">::</span><span class="ruby-constant">NMatrix</span><span class="ruby-operator">::</span><span class="ruby-constant">BLAS</span>.<span class="ruby-identifier">cblas_rotg</span>(<span class="ruby-identifier">ab</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- rotg-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- rotg-method -->
+
+    
     </section><!-- public-class-method-details -->
   
   </section><!-- 5Buntitled-5D -->
@@ -1128,7 +780,7 @@ incy values.</p>
 
 <footer id="validator-badges">
   <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
-  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.0.rc.2.1.
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.1.
   <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
 </footer>
 

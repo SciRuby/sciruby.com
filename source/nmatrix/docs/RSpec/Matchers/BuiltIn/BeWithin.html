@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class RSpec::Matchers::BuiltIn::BeWithin - RDoc Documentation</title>
+
+<link type="text/css" media="screen" href="../../../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../../../index.html">Home</a>
+    <a href="../../../table_of_contents.html#classes">Classes</a>
+    <a href="../../../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/nmatrix/rspec.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link"><a href="../../../Object.html">Object</a>
+  
+</nav>
+
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li ><a href="#method-i-matches-3F">#matches?</a>
+    
+    <li ><a href="#method-i-of">#of</a>
+    
+    <li ><a href="#method-i-percent_of">#percent_of</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../../../CONTRIBUTING_md.html">CONTRIBUTING</a>
+  
+    <li class="file"><a href="../../../History_txt.html">History</a>
+  
+    <li class="file"><a href="../../../LICENSE_txt.html">LICENSE</a>
+  
+    <li class="file"><a href="../../../README_rdoc.html">README</a>
+  
+    <li class="file"><a href="../../../ext/nmatrix/binary_format_txt.html">binary_format</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../../../Array.html">Array</a>
+  
+    <li><a href="../../../DataTypeError.html">DataTypeError</a>
+  
+    <li><a href="../../../N.html">N</a>
+  
+    <li><a href="../../../NMatrix.html">NMatrix</a>
+  
+    <li><a href="../../../NMatrix/BLAS.html">NMatrix::BLAS</a>
+  
+    <li><a href="../../../NMatrix/IO.html">NMatrix::IO</a>
+  
+    <li><a href="../../../NMatrix/IO/Market.html">NMatrix::IO::Market</a>
+  
+    <li><a href="../../../NMatrix/IO/Matlab.html">NMatrix::IO::Matlab</a>
+  
+    <li><a href="../../../NMatrix/IO/Matlab/Mat5Reader.html">NMatrix::IO::Matlab::Mat5Reader</a>
+  
+    <li><a href="../../../NMatrix/IO/Matlab/Mat5Reader/Compressed.html">NMatrix::IO::Matlab::Mat5Reader::Compressed</a>
+  
+    <li><a href="../../../NMatrix/IO/Matlab/Mat5Reader/Element.html">NMatrix::IO::Matlab::Mat5Reader::Element</a>
+  
+    <li><a href="../../../NMatrix/IO/Matlab/Mat5Reader/ElementDataIOError.html">NMatrix::IO::Matlab::Mat5Reader::ElementDataIOError</a>
+  
+    <li><a href="../../../NMatrix/IO/Matlab/Mat5Reader/Header.html">NMatrix::IO::Matlab::Mat5Reader::Header</a>
+  
+    <li><a href="../../../NMatrix/IO/Matlab/Mat5Reader/MatrixData.html">NMatrix::IO::Matlab::Mat5Reader::MatrixData</a>
+  
+    <li><a href="../../../NMatrix/IO/Matlab/Mat5Reader/RawElement.html">NMatrix::IO::Matlab::Mat5Reader::RawElement</a>
+  
+    <li><a href="../../../NMatrix/IO/Matlab/Mat5Reader/Tag.html">NMatrix::IO::Matlab::Mat5Reader::Tag</a>
+  
+    <li><a href="../../../NMatrix/IO/Matlab/MatReader.html">NMatrix::IO::Matlab::MatReader</a>
+  
+    <li><a href="../../../NMatrix/LAPACK.html">NMatrix::LAPACK</a>
+  
+    <li><a href="../../../NMatrix/YaleFunctions.html">NMatrix::YaleFunctions</a>
+  
+    <li><a href="../../../NVector.html">NVector</a>
+  
+    <li><a href="../../../NVector.html">NVector</a>
+  
+    <li><a href="../../../Object.html">Object</a>
+  
+    <li><a href="../../../RSpec.html">RSpec</a>
+  
+    <li><a href="../../../RSpec/Matchers.html">RSpec::Matchers</a>
+  
+    <li><a href="../../../RSpec/Matchers/BuiltIn.html">RSpec::Matchers::BuiltIn</a>
+  
+    <li><a href="../../../RSpec/Matchers/BuiltIn/BeWithin.html">RSpec::Matchers::BuiltIn::BeWithin</a>
+  
+    <li><a href="../../../StorageTypeError.html">StorageTypeError</a>
+  
+    <li><a href="../../../unknown.html">unknown</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class RSpec::Matchers::BuiltIn::BeWithin</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-matches-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">matches?</span><span
+            class="method-args">(actual)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="matches-3F-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/rspec.rb, line 60</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">matches?</span>(<span class="ruby-identifier">actual</span>)
+  <span class="ruby-ivar">@actual</span> = <span class="ruby-identifier">actual</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-identifier">needs_expected</span>     <span class="ruby-keyword">unless</span> <span class="ruby-keyword">defined?</span> <span class="ruby-ivar">@expected</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-identifier">needs_subtractable</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@actual</span>.<span class="ruby-identifier">respond_to?</span> <span class="ruby-value">:-</span>
+  <span class="ruby-identifier">res</span> = (<span class="ruby-ivar">@actual</span> <span class="ruby-operator">-</span> <span class="ruby-ivar">@expected</span>).<span class="ruby-identifier">abs</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-ivar">@tolerance</span>
+
+  <span class="ruby-comment">#if res.is_a?(NMatrix)</span>
+  <span class="ruby-comment">#  require &#39;pry&#39;</span>
+  <span class="ruby-comment">#  binding.pry</span>
+  <span class="ruby-comment">#end</span>
+
+  <span class="ruby-identifier">res</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">NMatrix</span>) <span class="ruby-operator">?</span> <span class="ruby-operator">!</span><span class="ruby-identifier">res</span>.<span class="ruby-identifier">any?</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-operator">!</span><span class="ruby-identifier">x</span> } <span class="ruby-operator">:</span> <span class="ruby-identifier">res</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- matches-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- matches-3F-method -->
+
+    
+      <div id="method-i-of" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">of</span><span
+            class="method-args">(expected)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="of-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/rspec.rb, line 35</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">of</span>(<span class="ruby-identifier">expected</span>)
+  <span class="ruby-ivar">@expected</span> = <span class="ruby-identifier">expected</span>
+  <span class="ruby-ivar">@unit</span>     = <span class="ruby-string">&#39;&#39;</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">expected</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">NMatrix</span>)
+    <span class="ruby-ivar">@tolerance</span> = <span class="ruby-keyword">if</span> <span class="ruby-ivar">@delta</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">NMatrix</span>)
+                   <span class="ruby-ivar">@delta</span>.<span class="ruby-identifier">abs</span>
+                 <span class="ruby-keyword">elsif</span> <span class="ruby-ivar">@delta</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>)
+                   <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:dense</span>, <span class="ruby-identifier">expected</span>.<span class="ruby-identifier">shape</span>, <span class="ruby-ivar">@delta</span>, <span class="ruby-value">:object</span>).<span class="ruby-identifier">abs</span>.<span class="ruby-identifier">cast</span>(<span class="ruby-value">:dtype</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">expected</span>.<span class="ruby-identifier">abs_dtype</span>)
+                 <span class="ruby-keyword">else</span>
+                   (<span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">ones_like</span>(<span class="ruby-identifier">expected</span>) <span class="ruby-operator">*</span> <span class="ruby-ivar">@delta</span>).<span class="ruby-identifier">abs</span>
+                 <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@tolerance</span> = <span class="ruby-ivar">@delta</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">self</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- of-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- of-method -->
+
+    
+      <div id="method-i-percent_of" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">percent_of</span><span
+            class="method-args">(expected)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="percent_of-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/rspec.rb, line 53</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">percent_of</span>(<span class="ruby-identifier">expected</span>)
+  <span class="ruby-ivar">@expected</span>  = <span class="ruby-identifier">expected</span>
+  <span class="ruby-ivar">@unit</span>      = <span class="ruby-string">&#39;%&#39;</span>
+  <span class="ruby-ivar">@tolerance</span> = <span class="ruby-ivar">@expected</span>.<span class="ruby-identifier">abs</span> <span class="ruby-operator">*</span> <span class="ruby-ivar">@delta</span> <span class="ruby-operator">/</span> <span class="ruby-value">100.0</span> <span class="ruby-comment"># &lt;- only change is to reverse abs and @delta</span>
+  <span class="ruby-keyword">self</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- percent_of-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- percent_of-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.1.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

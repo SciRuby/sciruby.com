@@ -7,12 +7,12 @@ sharing: true
 footer: true
 ---
 
-<p class="warning">The current version of NMatrix is <strong>0.0.3</strong>.</p>
+NMatrix is a fast numerical linear algebra library for Ruby, written mostly in C and C++. It is part of the SciRuby project.
 
-NMatrix is a fast numerical linear algebra library for Ruby, written mostly in C++. It can be used with or without SciRuby, but is part of the SciRuby project.
+* [Current NMatrix gem release RDoc](/nmatrix/docs/)
+* [NMatrix wiki: Installation](https://github.com/SciRuby/nmatrix/wiki/Installation)
+* [NMatrix wiki: Getting Started](https://github.com/SciRuby/nmatrix/wiki/Getting-started)
 
-You can find [API documentation here]({{ root_url }}/nmatrix/docs) and the code [in the Github repository](http://github.com/sciruby/nmatrix/).
-
-Don't forget to take a [look at the wiki](http://github.com/sciruby/nmatrix/wiki), where you can find some useful guides and tutorials to help you start using NMatrix!
-
-NMatrix was inspired by, and originally based heavily upon, [NArray](http://narray.rubyforge.org) by Masahiro Tanaka.
+We are in the process of switching from RDoc to YARD. YARD does not yet support parsing C++ sources, but we're working
+with the YARD developers to get it enabled. [Here are the YARD docs generated from the most recent commit in Github.](http://rdoc.info/github/SciRuby/nmatrix/)
+You can, of course, also generate these in RDoc format if you've cloned our git repository; the command is <code>rake rdoc</code>.

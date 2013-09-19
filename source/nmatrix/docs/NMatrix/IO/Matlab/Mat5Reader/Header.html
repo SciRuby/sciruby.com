@@ -100,7 +100,11 @@
 
   <ul>
   
+    <li class="file"><a href="../../../../CONTRIBUTING_md.html">CONTRIBUTING</a>
+  
     <li class="file"><a href="../../../../History_txt.html">History</a>
+  
+    <li class="file"><a href="../../../../LICENSE_txt.html">LICENSE</a>
   
     <li class="file"><a href="../../../../README_rdoc.html">README</a>
   
@@ -154,9 +158,21 @@
   
     <li><a href="../../../../NVector.html">NVector</a>
   
+    <li><a href="../../../../NVector.html">NVector</a>
+  
     <li><a href="../../../../Object.html">Object</a>
   
+    <li><a href="../../../../RSpec.html">RSpec</a>
+  
+    <li><a href="../../../../RSpec/Matchers.html">RSpec::Matchers</a>
+  
+    <li><a href="../../../../RSpec/Matchers/BuiltIn.html">RSpec::Matchers::BuiltIn</a>
+  
+    <li><a href="../../../../RSpec/Matchers/BuiltIn/BeWithin.html">RSpec::Matchers::BuiltIn::BeWithin</a>
+  
     <li><a href="../../../../StorageTypeError.html">StorageTypeError</a>
+  
+    <li><a href="../../../../unknown.html">unknown</a>
   
   </ul>
 </nav>
@@ -243,20 +259,20 @@
 
           
           <div class="method-source-code" id="read_packed-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 523</span>
-              <span class="ruby-keyword">def</span> <span class="ruby-identifier">read_packed</span>(<span class="ruby-identifier">packedio</span>, <span class="ruby-identifier">options</span>)
-                      <span class="ruby-keyword">self</span>.<span class="ruby-identifier">desc</span>, <span class="ruby-keyword">self</span>.<span class="ruby-identifier">data_offset</span>, <span class="ruby-keyword">self</span>.<span class="ruby-identifier">version</span>, <span class="ruby-keyword">self</span>.<span class="ruby-identifier">endian</span> = <span class="ruby-identifier">packedio</span> <span class="ruby-operator">&gt;&gt;</span>
-[<span class="ruby-constant">String</span>,      {<span class="ruby-value">:bytes</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">DESC_LENGTH</span>                                                                                                                                       }] <span class="ruby-operator">&gt;&gt;</span>
-                              [<span class="ruby-constant">String</span>,   {<span class="ruby-value">:bytes</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">DATA_OFFSET_LENGTH</span>                                                                                                             }] <span class="ruby-operator">&gt;&gt;</span>
-                              [<span class="ruby-constant">Integer</span>,  {<span class="ruby-value">:bytes</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">VERSION_LENGTH</span>, <span class="ruby-value">:endian</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:endian</span>]   }] <span class="ruby-operator">&gt;&gt;</span>
-                              [<span class="ruby-constant">String</span>,   {<span class="ruby-value">:bytes</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">2</span>                                                                                                                                                                              }]
-                      
-                      <span class="ruby-keyword">self</span>.<span class="ruby-identifier">desc</span>.<span class="ruby-identifier">strip!</span>
-                      <span class="ruby-keyword">self</span>.<span class="ruby-identifier">data_offset</span>.<span class="ruby-identifier">strip!</span>
-                      <span class="ruby-keyword">self</span>.<span class="ruby-identifier">data_offset</span> = <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">data_offset</span>.<span class="ruby-identifier">empty?</span>
-                      
-                      <span class="ruby-keyword">self</span>.<span class="ruby-identifier">endian</span> <span class="ruby-operator">==</span> <span class="ruby-string">'IM'</span> <span class="ruby-operator">?</span> <span class="ruby-value">:little</span> <span class="ruby-operator">:</span> <span class="ruby-value">:big</span>
-              <span class="ruby-keyword">end</span></pre>
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 517</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">read_packed</span>(<span class="ruby-identifier">packedio</span>, <span class="ruby-identifier">options</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">desc</span>, <span class="ruby-keyword">self</span>.<span class="ruby-identifier">data_offset</span>, <span class="ruby-keyword">self</span>.<span class="ruby-identifier">version</span>, <span class="ruby-keyword">self</span>.<span class="ruby-identifier">endian</span> = <span class="ruby-identifier">packedio</span> <span class="ruby-operator">&gt;&gt;</span>
+    [<span class="ruby-constant">String</span>,      {<span class="ruby-value">:bytes</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">DESC_LENGTH</span>                                                                                                                                       }] <span class="ruby-operator">&gt;&gt;</span>
+    [<span class="ruby-constant">String</span>,      {<span class="ruby-value">:bytes</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">DATA_OFFSET_LENGTH</span>                                                                                                                }] <span class="ruby-operator">&gt;&gt;</span>
+    [<span class="ruby-constant">Integer</span>,     {<span class="ruby-value">:bytes</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">VERSION_LENGTH</span>, <span class="ruby-value">:endian</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:endian</span>]      }] <span class="ruby-operator">&gt;&gt;</span>
+    [<span class="ruby-constant">String</span>,      {<span class="ruby-value">:bytes</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">2</span>                                                                                                                                                                         }]
+
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">desc</span>.<span class="ruby-identifier">strip!</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">data_offset</span>.<span class="ruby-identifier">strip!</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">data_offset</span> = <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">data_offset</span>.<span class="ruby-identifier">empty?</span>
+
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">endian</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;IM&#39;</span> <span class="ruby-operator">?</span> <span class="ruby-value">:little</span> <span class="ruby-operator">:</span> <span class="ruby-value">:big</span>
+<span class="ruby-keyword">end</span></pre>
           </div><!-- read_packed-source -->
           
         </div>
@@ -286,13 +302,13 @@
 
           
           <div class="method-source-code" id="write_packed-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 516</span>
-    <span class="ruby-keyword">def</span> <span class="ruby-identifier">write_packed</span>(<span class="ruby-identifier">packedio</span>, <span class="ruby-identifier">options</span>)
-            <span class="ruby-identifier">packedio</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">desc</span>,                          {<span class="ruby-value">:bytes</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">DESC_LENGTH</span>                                }] <span class="ruby-operator">&lt;&lt;</span>
-[<span class="ruby-identifier">data_offset</span>,       {<span class="ruby-value">:bytes</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">DATA_OFFSET_LENGTH</span> }] <span class="ruby-operator">&lt;&lt;</span>
-[<span class="ruby-identifier">version</span>,                   {<span class="ruby-value">:bytes</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">VERSION_LENGTH</span>                       }] <span class="ruby-operator">&lt;&lt;</span>
-[<span class="ruby-identifier">byte_order</span>,        {<span class="ruby-value">:bytes</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">BYTE_ORDER_LENGTH</span>   }]
-    <span class="ruby-keyword">end</span></pre>
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 510</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">write_packed</span>(<span class="ruby-identifier">packedio</span>, <span class="ruby-identifier">options</span>)
+  <span class="ruby-identifier">packedio</span> <span class="ruby-operator">&lt;&lt;</span>     [<span class="ruby-identifier">desc</span>,                              {<span class="ruby-value">:bytes</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">DESC_LENGTH</span>                            }] <span class="ruby-operator">&lt;&lt;</span>
+    [<span class="ruby-identifier">data_offset</span>, {<span class="ruby-value">:bytes</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">DATA_OFFSET_LENGTH</span>   }] <span class="ruby-operator">&lt;&lt;</span>
+    [<span class="ruby-identifier">version</span>,                     {<span class="ruby-value">:bytes</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">VERSION_LENGTH</span>                 }] <span class="ruby-operator">&lt;&lt;</span>
+    [<span class="ruby-identifier">byte_order</span>,  {<span class="ruby-value">:bytes</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">BYTE_ORDER_LENGTH</span>     }]
+<span class="ruby-keyword">end</span></pre>
           </div><!-- write_packed-source -->
           
         </div>
@@ -312,7 +328,7 @@
 
 <footer id="validator-badges">
   <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
-  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.0.rc.2.1.
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.1.
   <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
 </footer>
 

@@ -4,7 +4,7 @@
 <head>
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
-<title>class NVector - RDoc Documentation</title>
+<title>module NVector - RDoc Documentation</title>
 
 <link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
 
@@ -20,7 +20,7 @@
 <script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
 
 
-<body id="top" class="class">
+<body id="top" class="module">
 <nav id="metadata">
   <nav id="home-section" class="section">
   <h3 class="section-header">
@@ -49,8 +49,6 @@
     <nav id="file-list-section" class="section">
   <h3 class="section-header">Defined In</h3>
   <ul>
-    <li>ext/nmatrix/nmatrix.cpp
-    <li>lib/nmatrix/nvector.rb
     <li>lib/nmatrix/shortcuts.rb
   </ul>
 </nav>
@@ -60,13 +58,7 @@
 
   <div id="class-metadata">
     
-    <nav id="parent-class-section" class="section">
-  <h3 class="section-header">Parent</h3>
-  
-  <p class="link"><a href="NMatrix.html">NMatrix</a>
-  
-</nav>
-
+    
     
     
     <!-- Method Quickref -->
@@ -85,7 +77,9 @@
     
     <li ><a href="#method-c-linspace">::linspace</a>
     
-    <li class="calls-super" ><a href="#method-c-new">::new</a>
+    <li ><a href="#method-c-logspace">::logspace</a>
+    
+    <li ><a href="#method-c-new">::new</a>
     
     <li ><a href="#method-c-ones">::ones</a>
     
@@ -96,28 +90,6 @@
     <li ><a href="#method-c-zeroes">::zeroes</a>
     
     <li ><a href="#method-c-zeros">::zeros</a>
-    
-    <li class="calls-super" ><a href="#method-i-5B-5D">#[]</a>
-    
-    <li class="calls-super" ><a href="#method-i-5B-5D-3D">#[]=</a>
-    
-    <li ><a href="#method-i-dim">#dim</a>
-    
-    <li ><a href="#method-i-flip-21">#flip!</a>
-    
-    <li ><a href="#method-i-flip_orientation-21">#flip_orientation!</a>
-    
-    <li class="calls-super" ><a href="#method-i-multiply">#multiply</a>
-    
-    <li class="calls-super" ><a href="#method-i-multiply-21">#multiply!</a>
-    
-    <li ><a href="#method-i-orientation">#orientation</a>
-    
-    <li ><a href="#method-i-size">#size</a>
-    
-    <li class="calls-super" ><a href="#method-i-transpose">#transpose</a>
-    
-    <li class="calls-super" ><a href="#method-i-transpose-21">#transpose!</a>
     
   </ul>
 </nav>
@@ -130,7 +102,11 @@
 
   <ul>
   
+    <li class="file"><a href="./CONTRIBUTING_md.html">CONTRIBUTING</a>
+  
     <li class="file"><a href="./History_txt.html">History</a>
+  
+    <li class="file"><a href="./LICENSE_txt.html">LICENSE</a>
   
     <li class="file"><a href="./README_rdoc.html">README</a>
   
@@ -184,9 +160,21 @@
   
     <li><a href="./NVector.html">NVector</a>
   
+    <li><a href="./NVector.html">NVector</a>
+  
     <li><a href="./Object.html">Object</a>
   
+    <li><a href="./RSpec.html">RSpec</a>
+  
+    <li><a href="./RSpec/Matchers.html">RSpec::Matchers</a>
+  
+    <li><a href="./RSpec/Matchers/BuiltIn.html">RSpec::Matchers::BuiltIn</a>
+  
+    <li><a href="./RSpec/Matchers/BuiltIn/BeWithin.html">RSpec::Matchers::BuiltIn::BeWithin</a>
+  
     <li><a href="./StorageTypeError.html">StorageTypeError</a>
+  
+    <li><a href="./unknown.html">unknown</a>
   
   </ul>
 </nav>
@@ -195,15 +183,10 @@
 </nav>
 
 <div id="documentation">
-  <h1 class="class">class NVector</h1>
+  <h1 class="module">module NVector</h1>
 
   <div id="description" class="description">
     
-<p>This is a specific type of <a href="NMatrix.html">NMatrix</a> in which only
-one dimension is not 1. Although it is stored as a dim-2, n x 1, matrix, it
-acts as a dim-1 vector of size n. If the @orientation flag is set to :row,
-it is stored as 1 x n instead of n x 1.</p>
-
   </div><!-- description -->
 
   
@@ -259,7 +242,7 @@ dtype <code>:byte</code>.</p>
 
           
           <div class="method-source-code" id="bindgen-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/shortcuts.rb, line 478</span>
+            <pre><span class="ruby-comment"># File lib/nmatrix/shortcuts.rb, line 578</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">bindgen</span>(<span class="ruby-identifier">n</span>)
   <span class="ruby-constant">NVector</span>.<span class="ruby-identifier">seq</span>(<span class="ruby-identifier">n</span>, <span class="ruby-value">:byte</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -308,7 +291,7 @@ dtype <code>:complex64</code>.</p>
 
           
           <div class="method-source-code" id="cindgen-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/shortcuts.rb, line 493</span>
+            <pre><span class="ruby-comment"># File lib/nmatrix/shortcuts.rb, line 593</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">cindgen</span>(<span class="ruby-identifier">n</span>)
   <span class="ruby-constant">NVector</span>.<span class="ruby-identifier">seq</span>(<span class="ruby-identifier">n</span>, <span class="ruby-value">:complex64</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -357,7 +340,7 @@ dtype <code>:float32</code>.</p>
 
           
           <div class="method-source-code" id="findgen-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/shortcuts.rb, line 463</span>
+            <pre><span class="ruby-comment"># File lib/nmatrix/shortcuts.rb, line 563</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">findgen</span>(<span class="ruby-identifier">n</span>)
   <span class="ruby-constant">NVector</span>.<span class="ruby-identifier">seq</span>(<span class="ruby-identifier">n</span>, <span class="ruby-value">:float32</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -406,7 +389,7 @@ dtype <code>:int32</code>.</p>
 
           
           <div class="method-source-code" id="indgen-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/shortcuts.rb, line 448</span>
+            <pre><span class="ruby-comment"># File lib/nmatrix/shortcuts.rb, line 548</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">indgen</span>(<span class="ruby-identifier">n</span>)
   <span class="ruby-constant">NVector</span>.<span class="ruby-identifier">seq</span>(<span class="ruby-identifier">n</span>, <span class="ruby-value">:int32</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -447,8 +430,8 @@ dtype <code>:int32</code>.</p>
 dtype <code>:float64</code> equally spaced from <code>a</code> to
 <code>b</code>, inclusive.</p>
 
-<p>Following the MATLAB implementation, if n isn’t provided it’s assumed to be
-100.</p>
+<p>See: <a
+href="http://www.mathworks.com/help/matlab/ref/linspace.html">www.mathworks.com/help/matlab/ref/linspace.html</a></p>
 <ul><li>
 <p><strong>Arguments</strong> :</p>
 <ul><li>
@@ -456,12 +439,12 @@ dtype <code>:float64</code> equally spaced from <code>a</code> to
 </li><li>
 <p><code>b</code> -&gt; The last value in the sequence.</p>
 </li><li>
-<p><code>n</code> -&gt; The number of elements.</p>
+<p><code>n</code> -&gt; The number of elements. Default is 100.</p>
 </li></ul>
 </li><li>
 <p><strong>Returns</strong> :</p>
 <ul><li>
-<p>n-by-1 <a href="NMatrix.html">NMatrix</a> with <code>n</code>
+<p><a href="NVector.html">NVector</a> with <code>n</code>
 <code>:float64</code> values.</p>
 </li></ul>
 </li></ul>
@@ -469,16 +452,14 @@ dtype <code>:float64</code> equally spaced from <code>a</code> to
 <p>Example:</p>
 
 <pre class="ruby"><span class="ruby-identifier">x</span> = <span class="ruby-constant">NVector</span>.<span class="ruby-identifier">linspace</span>(<span class="ruby-value">0</span>, <span class="ruby-constant">Math</span><span class="ruby-operator">::</span><span class="ruby-constant">PI</span>, <span class="ruby-value">1000</span>)
-=<span class="ruby-operator">&gt;</span> <span class="ruby-comment">#&lt;NMatrix:0x007f83921992f0shape:[1000,1] dtype:float64 stype:dense&gt;</span>
-
-<span class="ruby-identifier">x</span>.<span class="ruby-identifier">pp</span>
-  [<span class="ruby-value">0.0</span>]
-  [<span class="ruby-value">0.0031447373909807737</span>]
-  [<span class="ruby-value">0.006289474781961547</span>]
+<span class="ruby-identifier">x</span>.<span class="ruby-identifier">pretty_print</span>
+  [<span class="ruby-value">0.0</span>
+  <span class="ruby-value">0.0031447373909807737</span>
+  <span class="ruby-value">0.006289474781961547</span>
   <span class="ruby-operator">...</span>
-  [<span class="ruby-value">3.135303178807831</span>]
-  [<span class="ruby-value">3.138447916198812</span>]
-  [<span class="ruby-value">3.141592653589793</span>]
+  <span class="ruby-value">3.135303178807831</span>
+  <span class="ruby-value">3.138447916198812</span>
+  <span class="ruby-value">3.141592653589793</span>]
 =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">nil</span>
 </pre>
           
@@ -486,17 +467,16 @@ dtype <code>:float64</code> equally spaced from <code>a</code> to
 
           
           <div class="method-source-code" id="linspace-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/shortcuts.rb, line 529</span>
+            <pre><span class="ruby-comment"># File lib/nmatrix/shortcuts.rb, line 626</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">linspace</span>(<span class="ruby-identifier">a</span>, <span class="ruby-identifier">b</span>, <span class="ruby-identifier">n</span> = <span class="ruby-value">100</span>)
-  <span class="ruby-comment"># See: http://www.mathworks.com/help/matlab/ref/linspace.html</span>
-  <span class="ruby-comment"># Formula:  seq(n) * step + a</span>
-  
+  <span class="ruby-comment"># Formula: seq(n) * step + a</span>
+
   <span class="ruby-comment"># step = ((b - a) / (n - 1))</span>
   <span class="ruby-identifier">step</span> = (<span class="ruby-identifier">b</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">a</span>) <span class="ruby-operator">*</span> (<span class="ruby-value">1.0</span> <span class="ruby-operator">/</span> (<span class="ruby-identifier">n</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>))
-  
+
   <span class="ruby-comment"># dtype = :float64 is used to prevent integer coercion.</span>
-  <span class="ruby-identifier">result</span> = <span class="ruby-constant">NVector</span>.<span class="ruby-identifier">seq</span>(<span class="ruby-identifier">n</span>, <span class="ruby-value">:float64</span>) <span class="ruby-operator">*</span> <span class="ruby-constant">NVector</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">n</span>, <span class="ruby-identifier">step</span>, <span class="ruby-value">:float64</span>)
-  <span class="ruby-identifier">result</span> <span class="ruby-operator">+=</span> <span class="ruby-constant">NVector</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">n</span>, <span class="ruby-identifier">a</span>, <span class="ruby-value">:float64</span>)
+  <span class="ruby-identifier">result</span> = <span class="ruby-constant">NVector</span>.<span class="ruby-identifier">seq</span>(<span class="ruby-identifier">n</span>, <span class="ruby-value">:float64</span>) <span class="ruby-operator">*</span> <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>([<span class="ruby-identifier">n</span>,<span class="ruby-value">1</span>], <span class="ruby-identifier">step</span>, <span class="ruby-identifier">dtype</span><span class="ruby-operator">:</span> <span class="ruby-value">:float64</span>)
+  <span class="ruby-identifier">result</span> <span class="ruby-operator">+=</span> <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>([<span class="ruby-identifier">n</span>,<span class="ruby-value">1</span>], <span class="ruby-identifier">a</span>, <span class="ruby-identifier">dtype</span><span class="ruby-operator">:</span> <span class="ruby-value">:float64</span>)
   <span class="ruby-identifier">result</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- linspace-source -->
@@ -509,12 +489,12 @@ dtype <code>:float64</code> equally spaced from <code>a</code> to
       </div><!-- linspace-method -->
 
     
-      <div id="method-c-new" class="method-detail ">
+      <div id="method-c-logspace" class="method-detail ">
         
         
         <div class="method-heading">
           <span class="method-callseq">
-            new(length) &rarr; NVector
+            logspace(a, b) &rarr; NVector
           </span>
           
           <span class="method-click-advice">click to toggle source</span>
@@ -523,14 +503,7 @@ dtype <code>:float64</code> equally spaced from <code>a</code> to
         
         <div class="method-heading">
           <span class="method-callseq">
-            new(length, values) &rarr; NVector
-          </span>
-          
-        </div>
-        
-        <div class="method-heading">
-          <span class="method-callseq">
-            new(length, values, dtype) &rarr; NVector
+            logspace(a, b, n) &rarr; NVector
           </span>
           
         </div>
@@ -539,35 +512,171 @@ dtype <code>:float64</code> equally spaced from <code>a</code> to
 
         <div class="method-description">
           
-          <p>Creates a new <a href="NVector.html">NVector</a>.</p>
+          <p>Returns a <a href="NVector.html">NVector</a> with <code>n</code> values of
+dtype <code>:float64</code> logarithmically spaced from +10^a+ to +10^b+,
+inclusive.</p>
+
+<p>See: <a
+href="http://www.mathworks.com/help/matlab/ref/logspace.html">www.mathworks.com/help/matlab/ref/logspace.html</a></p>
 <ul><li>
 <p><strong>Arguments</strong> :</p>
 <ul><li>
-<p><code>length</code> -&gt; Size of the vector.</p>
+<p><code>a</code> -&gt; The first value in the sequence.</p>
 </li><li>
-<p><code>values</code> -&gt; (optional) Initial values of the vector. Default
-is 0.</p>
+<p><code>b</code> -&gt; The last value in the sequence.</p>
 </li><li>
-<p><code>dtype</code> -&gt; (optional) Default is a guess from the
-<code>values</code>.</p>
+<p><code>n</code> -&gt; The number of elements. Default is 100.</p>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong> :</p>
+<ul><li>
+<p><a href="NVector.html">NVector</a> with <code>n</code>
+<code>:float64</code> values.</p>
+</li></ul>
+</li></ul>
+
+<p>Example:</p>
+
+<pre class="ruby"> <span class="ruby-identifier">x</span> = <span class="ruby-constant">NVector</span>.<span class="ruby-identifier">logspace</span>(<span class="ruby-value">0</span>, <span class="ruby-constant">Math</span><span class="ruby-operator">::</span><span class="ruby-constant">PI</span>, <span class="ruby-value">10</span>)
+ <span class="ruby-identifier">x</span>.<span class="ruby-identifier">pretty_print</span>
+   [<span class="ruby-value">1.0</span>
+   <span class="ruby-value">2.2339109164570266</span>
+   <span class="ruby-value">4.990357982665873</span>
+   <span class="ruby-value">11.148015174505757</span>
+   <span class="ruby-value">24.903672795156997</span>
+   <span class="ruby-value">55.632586516975095</span>
+   <span class="ruby-value">124.27824233101062</span>
+   <span class="ruby-value">277.6265222213364</span>
+   <span class="ruby-value">620.1929186882427</span>
+   <span class="ruby-value">1385.4557313670107</span>]
+=<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">nil</span>
+</pre>
+          
+          
+
+          
+          <div class="method-source-code" id="logspace-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/shortcuts.rb, line 670</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">logspace</span>(<span class="ruby-identifier">a</span>, <span class="ruby-identifier">b</span>, <span class="ruby-identifier">n</span> = <span class="ruby-value">100</span>)
+  <span class="ruby-comment"># Formula: 10^a, 10^(a + step), ..., 10^b, where step = ((b-a) / (n-1)).</span>
+
+  <span class="ruby-identifier">result</span> = <span class="ruby-constant">NVector</span>.<span class="ruby-identifier">linspace</span>(<span class="ruby-identifier">a</span>, <span class="ruby-identifier">b</span>, <span class="ruby-identifier">n</span>)
+  <span class="ruby-identifier">result</span>.<span class="ruby-identifier">each_stored_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">element</span>, <span class="ruby-identifier">i</span><span class="ruby-operator">|</span> <span class="ruby-identifier">result</span>[<span class="ruby-identifier">i</span>] = <span class="ruby-value">10</span> <span class="ruby-operator">**</span> <span class="ruby-identifier">element</span> }
+  <span class="ruby-identifier">result</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- logspace-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- logspace-method -->
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            new(shape) &rarr; NVector
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            new(stype, shape) &rarr; NVector
+          </span>
+          
+        </div>
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            new(shape, init) &rarr; NVector
+          </span>
+          
+        </div>
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            new(:dense, shape, init) &rarr; NVector
+          </span>
+          
+        </div>
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            new(:list, shape, init) &rarr; NVector
+          </span>
+          
+        </div>
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            new(shape, init, dtype) &rarr; NVector
+          </span>
+          
+        </div>
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            new(stype, shape, init, dtype) &rarr; NVector
+          </span>
+          
+        </div>
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            new(stype, shape, dtype) &rarr; NVector
+          </span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Creates a new <a href="NVector.html">NVector</a>. See also
+NMatrix#initialize for a more detailed explanation of the arguments.</p>
+<ul><li>
+<p><strong>Arguments</strong> :</p>
+<ul><li>
+<p><code>stype</code> -&gt; (optional) Storage type of the vector (:list,
+:dense, :yale). Defaults to :dense.</p>
+</li><li>
+<p><code>shape</code> -&gt; Shape of the vector. Accepts [n,1], [1,n], or n,
+where n is a Fixnum.</p>
+</li><li>
+<p><code>init</code> -&gt; (optional) Yale: capacity; List: default value (0);
+Dense: initial value or values (uninitialized by default).</p>
+</li><li>
+<p><code>dtype</code> -&gt; (optional if <code>init</code> provided) Data type
+stored in the vector. For :dense and :list, can be inferred from
+<code>init</code>.</p>
 </li></ul>
 </li><li>
 <p><strong>Returns</strong> : -</p>
 </li></ul>
           
           
-            <div class="method-calls-super">
-              Calls superclass method
-              <a href="NMatrix.html#method-c-new">NMatrix.new</a>
-            </div>
-          
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/nvector.rb, line 49</span>
-      <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">length</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
-              <span class="ruby-keyword">super</span>(<span class="ruby-value">:dense</span>, [<span class="ruby-identifier">length</span>, <span class="ruby-value">1</span>], <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
-  <span class="ruby-identifier">orientation</span>
+            <pre><span class="ruby-comment"># File lib/nmatrix/shortcuts.rb, line 413</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">new</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+  <span class="ruby-identifier">stype</span> = <span class="ruby-identifier">args</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Symbol</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">args</span>.<span class="ruby-identifier">shift</span> <span class="ruby-operator">:</span> <span class="ruby-value">:dense</span>
+  <span class="ruby-identifier">shape</span> = <span class="ruby-identifier">args</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">args</span>.<span class="ruby-identifier">shift</span>  <span class="ruby-operator">:</span> [<span class="ruby-value">1</span>,<span class="ruby-identifier">args</span>.<span class="ruby-identifier">shift</span>]
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">shape</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">!=</span> <span class="ruby-value">2</span> <span class="ruby-operator">||</span> <span class="ruby-operator">!</span><span class="ruby-identifier">shape</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-value">1</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">shape</span> <span class="ruby-operator">==</span> [<span class="ruby-value">1</span>,<span class="ruby-value">1</span>]
+    <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;shape must be a Fixnum or an Array of positive Fixnums where exactly one value is 1&quot;</span>)
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">warn</span> <span class="ruby-string">&quot;NVector is deprecated and not guaranteed to work any longer&quot;</span>
+
+  <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">stype</span>, <span class="ruby-identifier">shape</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- new-source -->
           
@@ -621,7 +730,7 @@ square matrix) specifying the dimensions.</p>
 <p>Examples:</p>
 
 <pre class="ruby"><span class="ruby-constant">NVector</span>.<span class="ruby-identifier">ones</span>(<span class="ruby-value">2</span>) <span class="ruby-comment"># =&gt;  1.0</span>
-                      <span class="ruby-value">1.0</span>   
+                      <span class="ruby-value">1.0</span>
 
 <span class="ruby-constant">NVector</span>.<span class="ruby-identifier">ones</span>(<span class="ruby-value">3</span>, :<span class="ruby-identifier">int32</span>) <span class="ruby-comment"># =&gt;  1</span>
                               <span class="ruby-value">1</span>
@@ -632,9 +741,9 @@ square matrix) specifying the dimensions.</p>
 
           
           <div class="method-source-code" id="ones-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/shortcuts.rb, line 373</span>
+            <pre><span class="ruby-comment"># File lib/nmatrix/shortcuts.rb, line 477</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">ones</span>(<span class="ruby-identifier">size</span>, <span class="ruby-identifier">dtype</span> = <span class="ruby-value">:float64</span>)
-  <span class="ruby-constant">NVector</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">size</span>, <span class="ruby-value">1</span>, <span class="ruby-identifier">dtype</span>)
+  <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>([<span class="ruby-identifier">size</span>,<span class="ruby-value">1</span>], <span class="ruby-value">1</span>, <span class="ruby-identifier">dtype</span><span class="ruby-operator">:</span> <span class="ruby-identifier">dtype</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- ones-source -->
           
@@ -670,7 +779,7 @@ square matrix) specifying the dimensions.</p>
 <p><code>size</code> -&gt; <a href="Array.html">Array</a> (or integer for
 square matrix) specifying the dimensions.</p>
 </li><li>
-<p><code>dtype</code> -&gt; (optional) Default is <code>:float64</code>.</p>
+<p><code>opts</code> -&gt; (optional) NMatrix#initialize options</p>
 </li></ul>
 </li><li>
 <p><strong>Returns</strong> :</p>
@@ -690,14 +799,14 @@ the <code>Random</code> class.</p>
 
           
           <div class="method-source-code" id="random-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/shortcuts.rb, line 395</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">random</span>(<span class="ruby-identifier">size</span>)
+            <pre><span class="ruby-comment"># File lib/nmatrix/shortcuts.rb, line 499</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">random</span>(<span class="ruby-identifier">size</span>, <span class="ruby-identifier">opts</span> = {})
   <span class="ruby-identifier">rng</span> = <span class="ruby-constant">Random</span>.<span class="ruby-identifier">new</span>
 
   <span class="ruby-identifier">random_values</span> = []
-  <span class="ruby-identifier">dim</span>.<span class="ruby-identifier">times</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span> <span class="ruby-identifier">random_values</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">rng</span>.<span class="ruby-identifier">rand</span> }
-  
-  <span class="ruby-constant">NVector</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">dim</span>, <span class="ruby-identifier">random_values</span>, <span class="ruby-value">:float64</span>)
+  <span class="ruby-identifier">size</span>.<span class="ruby-identifier">times</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span> <span class="ruby-identifier">random_values</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">rng</span>.<span class="ruby-identifier">rand</span> }
+
+  <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>([<span class="ruby-identifier">size</span>,<span class="ruby-value">1</span>], <span class="ruby-identifier">random_values</span>, <span class="ruby-identifier">opts</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- random-source -->
           
@@ -762,15 +871,11 @@ zero. You can choose other types based on the dtype parameter.</p>
 
           
           <div class="method-source-code" id="seq-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/shortcuts.rb, line 427</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">seq</span>(<span class="ruby-identifier">n</span>, <span class="ruby-identifier">dtype</span> = <span class="ruby-value">:int64</span>)
-  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">n</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Integer</span>)
-    <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;NVector::seq() only accepts integers as size.&quot;</span>
-  <span class="ruby-keyword">end</span>
-        
-  <span class="ruby-identifier">values</span> = (<span class="ruby-value">0</span> <span class="ruby-operator">...</span> <span class="ruby-identifier">n</span>).<span class="ruby-identifier">to_a</span>
-  
-  <span class="ruby-constant">NVector</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">n</span>, <span class="ruby-identifier">values</span>, <span class="ruby-identifier">dtype</span>)
+            <pre><span class="ruby-comment"># File lib/nmatrix/shortcuts.rb, line 531</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">seq</span>(<span class="ruby-identifier">size</span>, <span class="ruby-identifier">dtype</span> = <span class="ruby-value">:int64</span>)
+  <span class="ruby-identifier">values</span> = (<span class="ruby-value">0</span> <span class="ruby-operator">...</span> <span class="ruby-identifier">size</span>).<span class="ruby-identifier">to_a</span>
+
+  <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>([<span class="ruby-identifier">size</span>,<span class="ruby-value">1</span>], <span class="ruby-identifier">values</span>, <span class="ruby-identifier">dtype</span><span class="ruby-operator">:</span> <span class="ruby-identifier">dtype</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- seq-source -->
           
@@ -833,7 +938,7 @@ zero. You can choose other types based on the dtype parameter.</p>
 
         <div class="method-description">
           
-          <p>Creates a new matrix of zeros with the dimensions supplied as parameters.</p>
+          <p>Creates a new vector of zeros with the dimensions supplied as parameters.</p>
 <ul><li>
 <p><strong>Arguments</strong> :</p>
 <ul><li>
@@ -852,7 +957,7 @@ square matrix) specifying the dimensions.</p>
 <p>Examples:</p>
 
 <pre class="ruby"><span class="ruby-constant">NVector</span>.<span class="ruby-identifier">zeros</span>(<span class="ruby-value">2</span>) <span class="ruby-comment"># =&gt;  0.0</span>
-                       <span class="ruby-value">0.0</span>   
+                       <span class="ruby-value">0.0</span>
 
 <span class="ruby-constant">NVector</span>.<span class="ruby-identifier">zeros</span>(<span class="ruby-value">3</span>, :<span class="ruby-identifier">int32</span>) <span class="ruby-comment"># =&gt;  0</span>
                                <span class="ruby-value">0</span>
@@ -863,9 +968,9 @@ square matrix) specifying the dimensions.</p>
 
           
           <div class="method-source-code" id="zeros-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/shortcuts.rb, line 345</span>
+            <pre><span class="ruby-comment"># File lib/nmatrix/shortcuts.rb, line 449</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">zeros</span>(<span class="ruby-identifier">size</span>, <span class="ruby-identifier">dtype</span> = <span class="ruby-value">:float64</span>)
-  <span class="ruby-constant">NVector</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">size</span>, <span class="ruby-value">0</span>, <span class="ruby-identifier">dtype</span>)
+  <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>([<span class="ruby-identifier">size</span>,<span class="ruby-value">1</span>], <span class="ruby-value">0</span>, <span class="ruby-identifier">dtype</span><span class="ruby-operator">:</span> <span class="ruby-identifier">dtype</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- zeros-source -->
           
@@ -883,494 +988,6 @@ square matrix) specifying the dimensions.</p>
     
     </section><!-- public-class-method-details -->
   
-     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
-      <h3 class="section-header">Public Instance Methods</h3>
-
-    
-      <div id="method-i-5B-5D" class="method-detail ">
-        
-        
-        <div class="method-heading">
-          <span class="method-callseq">
-            vector[index] &rarr; element
-          </span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-        <div class="method-heading">
-          <span class="method-callseq">
-            vector[range] &rarr; NVector
-          </span>
-          
-        </div>
-        
-        
-
-        <div class="method-description">
-          
-          <p>Retrieves an element or return a slice.</p>
-
-<p>Examples:</p>
-
-<pre class="ruby"><span class="ruby-identifier">u</span> = <span class="ruby-constant">NVector</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">3</span>, [<span class="ruby-value">10</span>, <span class="ruby-value">20</span>, <span class="ruby-value">30</span>])
-<span class="ruby-identifier">u</span>[<span class="ruby-value">0</span>]              <span class="ruby-comment"># =&gt; 10</span>
-<span class="ruby-identifier">u</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">+</span> <span class="ruby-identifier">u</span>[<span class="ruby-value">1</span>]       <span class="ruby-comment"># =&gt; 30</span>
-<span class="ruby-identifier">u</span>[<span class="ruby-value">0</span> <span class="ruby-operator">..</span> <span class="ruby-value">1</span>].<span class="ruby-identifier">shape</span>   <span class="ruby-comment"># =&gt; [2, 1]</span>
-</pre>
-          
-          
-            <div class="method-calls-super">
-              Calls superclass method
-              NMatrix#[]
-            </div>
-          
-
-          
-          <div class="method-source-code" id="5B-5D-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/nvector.rb, line 138</span>
-      <span class="ruby-keyword">def</span> <span class="ruby-operator">[]</span>(<span class="ruby-identifier">i</span>)
-              <span class="ruby-keyword">case</span> <span class="ruby-ivar">@orientation</span>
-              <span class="ruby-keyword">when</span> <span class="ruby-value">:column</span>; <span class="ruby-keyword">super</span>(<span class="ruby-identifier">i</span>, <span class="ruby-value">0</span>)
-              <span class="ruby-keyword">when</span> <span class="ruby-value">:row</span>;      <span class="ruby-keyword">super</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">i</span>)
-              <span class="ruby-keyword">end</span>
-<span class="ruby-keyword">end</span></pre>
-          </div><!-- 5B-5D-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- 5B-5D-method -->
-
-    
-      <div id="method-i-5B-5D-3D" class="method-detail ">
-        
-        
-        <div class="method-heading">
-          <span class="method-callseq">
-            vector[index] = obj &rarr; obj
-          </span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-        
-
-        <div class="method-description">
-          
-          <p>Stores <code>value</code> at position <code>index</code>.</p>
-          
-          
-            <div class="method-calls-super">
-              Calls superclass method
-              NMatrix#[]=
-            </div>
-          
-
-          
-          <div class="method-source-code" id="5B-5D-3D-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/nvector.rb, line 151</span>
-<span class="ruby-keyword">def</span> <span class="ruby-operator">[]=</span>(<span class="ruby-identifier">i</span>, <span class="ruby-identifier">val</span>)
-        <span class="ruby-keyword">case</span> <span class="ruby-ivar">@orientation</span>
-        <span class="ruby-keyword">when</span> <span class="ruby-value">:column</span>; <span class="ruby-keyword">super</span>(<span class="ruby-identifier">i</span>, <span class="ruby-value">0</span>, <span class="ruby-identifier">val</span>)
-        <span class="ruby-keyword">when</span> <span class="ruby-value">:row</span>;      <span class="ruby-keyword">super</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">i</span>, <span class="ruby-identifier">val</span>)
-        <span class="ruby-keyword">end</span>
-<span class="ruby-keyword">end</span></pre>
-          </div><!-- 5B-5D-3D-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- 5B-5D-3D-method -->
-
-    
-      <div id="method-i-dim" class="method-detail ">
-        
-        
-        <div class="method-heading">
-          <span class="method-callseq">
-            dim &rarr; 1
-          </span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-        
-
-        <div class="method-description">
-          
-          <p>Returns the dimension of a vector, which is 1.</p>
-          
-          
-
-          
-          <div class="method-source-code" id="dim-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/nvector.rb, line 164</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">dim</span>; <span class="ruby-value">1</span>; <span class="ruby-keyword">end</span></pre>
-          </div><!-- dim-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- dim-method -->
-
-    
-      <div id="method-i-multiply" class="method-detail ">
-        
-        
-        <div class="method-heading">
-          <span class="method-callseq">
-            multiply(m) &rarr;
-          </span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-        
-
-        <div class="method-description">
-          
-          <p>…</p>
-<ul><li>
-<p><strong>Arguments</strong> :</p>
-<ul><li>
-<p>++ -&gt;</p>
-</li></ul>
-</li><li>
-<p><strong>Returns</strong> : -</p>
-</li></ul>
-          
-          
-            <div class="method-calls-super">
-              Calls superclass method
-              
-            </div>
-          
-
-          
-          <div class="method-source-code" id="multiply-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/nvector.rb, line 104</span>
-    <span class="ruby-keyword">def</span> <span class="ruby-identifier">multiply</span>(<span class="ruby-identifier">m</span>)
-            <span class="ruby-identifier">t</span> = <span class="ruby-keyword">super</span>(<span class="ruby-identifier">m</span>)
-<span class="ruby-identifier">t</span>.<span class="ruby-identifier">flip!</span>
-    <span class="ruby-keyword">end</span></pre>
-          </div><!-- multiply-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- multiply-method -->
-
-    
-      <div id="method-i-multiply-21" class="method-detail ">
-        
-        
-        <div class="method-heading">
-          <span class="method-callseq">
-            multiply!(m) &rarr;
-          </span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-        
-
-        <div class="method-description">
-          
-          <p>…</p>
-<ul><li>
-<p><strong>Arguments</strong> :</p>
-<ul><li>
-<p>++ -&gt;</p>
-</li></ul>
-</li><li>
-<p><strong>Returns</strong> : -</p>
-</li></ul>
-          
-          
-            <div class="method-calls-super">
-              Calls superclass method
-              
-            </div>
-          
-
-          
-          <div class="method-source-code" id="multiply-21-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/nvector.rb, line 120</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">multiply!</span>(<span class="ruby-identifier">m</span>)
-        <span class="ruby-keyword">super</span>().<span class="ruby-identifier">flip!</span>
-<span class="ruby-keyword">end</span></pre>
-          </div><!-- multiply-21-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- multiply-21-method -->
-
-    
-      <div id="method-i-orientation" class="method-detail ">
-        
-        
-        <div class="method-heading">
-          <span class="method-callseq">
-            orientation &rarr; Symbol
-          </span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-        
-
-        <div class="method-description">
-          
-          <p>Orientation defaults to column (e.g., [3,1] is a column of length 3). It
-may also be row, e.g., for [1,5].</p>
-          
-          
-
-          
-          <div class="method-source-code" id="orientation-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/nvector.rb, line 61</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">orientation</span>
-        <span class="ruby-ivar">@orientation</span> <span class="ruby-operator">||=</span> <span class="ruby-value">:column</span>
-<span class="ruby-keyword">end</span></pre>
-          </div><!-- orientation-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- orientation-method -->
-
-    
-      <div id="method-i-size" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">size</span><span
-            class="method-args">()</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          <p>shorthand for the dominant shape component</p>
-          
-          
-
-          
-          <div class="method-source-code" id="size-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/nvector.rb, line 167</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">size</span>
-  <span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">:</span> <span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]
-<span class="ruby-keyword">end</span></pre>
-          </div><!-- size-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- size-method -->
-
-    
-      <div id="method-i-transpose" class="method-detail ">
-        
-        
-        <div class="method-heading">
-          <span class="method-callseq">
-            transpose &rarr; NVector
-          </span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-        
-
-        <div class="method-description">
-          
-          <p>Returns a transposed copy of the vector.</p>
-<ul><li>
-<p><strong>Returns</strong> :</p>
-<ul><li>
-<p><a href="NVector.html">NVector</a> containing the transposed vector.</p>
-</li></ul>
-</li></ul>
-          
-          
-            <div class="method-calls-super">
-              Calls superclass method
-              <a href="NMatrix.html#method-i-transpose">NMatrix#transpose</a>
-            </div>
-          
-
-          
-          <div class="method-source-code" id="transpose-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/nvector.rb, line 74</span>
-    <span class="ruby-keyword">def</span> <span class="ruby-identifier">transpose</span>
-            <span class="ruby-identifier">t</span> = <span class="ruby-keyword">super</span>()
-<span class="ruby-identifier">t</span>.<span class="ruby-identifier">flip!</span>
-    <span class="ruby-keyword">end</span></pre>
-          </div><!-- transpose-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- transpose-method -->
-
-    
-      <div id="method-i-transpose-21" class="method-detail ">
-        
-        
-        <div class="method-heading">
-          <span class="method-callseq">
-            transpose! &rarr; NVector
-          </span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-        
-
-        <div class="method-description">
-          
-          <p>Transpose the vector in-place.</p>
-<ul><li>
-<p><strong>Returns</strong> :</p>
-<ul><li>
-<p><a href="NVector.html">NVector</a> containing the transposed vector.</p>
-</li></ul>
-</li></ul>
-          
-          
-            <div class="method-calls-super">
-              Calls superclass method
-              
-            </div>
-          
-
-          
-          <div class="method-source-code" id="transpose-21-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/nvector.rb, line 88</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">transpose!</span>
-        <span class="ruby-keyword">super</span>()
-        <span class="ruby-keyword">self</span>.<span class="ruby-identifier">flip!</span>
-<span class="ruby-keyword">end</span></pre>
-          </div><!-- transpose-21-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- transpose-21-method -->
-
-    
-    </section><!-- public-instance-method-details -->
-  
-     <section id="protected-instance-5Buntitled-5D-method-details" class="method-section section">
-      <h3 class="section-header">Protected Instance Methods</h3>
-
-    
-      <div id="method-i-flip-21" class="method-detail method-alias">
-        
-        <div class="method-heading">
-          <span class="method-name">flip!</span><span
-            class="method-args">()</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-        </div>
-
-        
-
-        
-        <div class="aliases">
-          Alias for: <a href="NVector.html#method-i-flip_orientation-21">flip_orientation!</a>
-        </div>
-        
-      </div><!-- flip-21-method -->
-
-    
-      <div id="method-i-flip_orientation-21" class="method-detail ">
-        
-        
-        <div class="method-heading">
-          <span class="method-callseq">
-            flip_orientation! &rarr; NVector
-          </span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-        
-
-        <div class="method-description">
-          
-          <p>Flip the orientation of the vector.</p>
-<ul><li>
-<p><strong>Returns</strong> :</p>
-<ul><li>
-<p><a href="NVector.html">NVector</a> with orientation changed.</p>
-</li></ul>
-</li></ul>
-          
-          
-
-          
-          <div class="method-source-code" id="flip_orientation-21-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/nvector.rb, line 192</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">flip_orientation!</span>
-        <span class="ruby-identifier">returning</span>(<span class="ruby-keyword">self</span>) { <span class="ruby-ivar">@orientation</span> = <span class="ruby-ivar">@orientation</span> <span class="ruby-operator">==</span> <span class="ruby-value">:row</span> <span class="ruby-operator">?</span> <span class="ruby-value">:column</span> <span class="ruby-operator">:</span> <span class="ruby-value">:row</span> }
-<span class="ruby-keyword">end</span></pre>
-          </div><!-- flip_orientation-21-source -->
-          
-        </div>
-
-        
-        <div class="aliases">
-          Also aliased as: <a href="NVector.html#method-i-flip-21">flip!</a>
-        </div>
-        
-
-        
-      </div><!-- flip_orientation-21-method -->
-
-    
-    </section><!-- protected-instance-method-details -->
-  
   </section><!-- 5Buntitled-5D -->
 
 </div><!-- documentation -->
@@ -1378,7 +995,7 @@ may also be row, e.g., for [1,5].</p>
 
 <footer id="validator-badges">
   <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
-  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.0.rc.2.1.
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.1.
   <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
 </footer>
 

@@ -51,7 +51,12 @@
       <li><a href="#label-0.0.1+%2F+2012-04-10">0.0.1 / 2012-04-10</a>
       <li><a href="#label-0.0.2+%2F+2012-09-21">0.0.2 / 2012-09-21</a>
       <li><a href="#label-0.0.3+%2F+2013-01-18">0.0.3 / 2013-01-18</a>
-      <li><a href="#label-0.0.4+%2F+2013-%3F%3F-%3F%3F">0.0.4 / 2013-??-??</a>
+      <li><a href="#label-0.0.4+%2F+2013-05-17">0.0.4 / 2013-05-17</a>
+      <li><a href="#label-0.0.5+%2F+2013-07-09">0.0.5 / 2013-07-09</a>
+      <li><a href="#label-0.0.6+%2F+2013-08-09">0.0.6 / 2013-08-09</a>
+      <li><a href="#label-0.0.7+%2F+2013-08-22">0.0.7 / 2013-08-22</a>
+      <li><a href="#label-0.0.8+%2F+2013-08-23">0.0.8 / 2013-08-23</a>
+      <li><a href="#label-0.0.9+%2F+2013-09-18">0.0.9 / 2013-09-18</a>
     </ul>
   </nav>
 </div>
@@ -63,7 +68,11 @@
 
   <ul>
   
+    <li class="file"><a href="./CONTRIBUTING_md.html">CONTRIBUTING</a>
+  
     <li class="file"><a href="./History_txt.html">History</a>
+  
+    <li class="file"><a href="./LICENSE_txt.html">LICENSE</a>
   
     <li class="file"><a href="./README_rdoc.html">README</a>
   
@@ -117,9 +126,21 @@
   
     <li><a href="./NVector.html">NVector</a>
   
+    <li><a href="./NVector.html">NVector</a>
+  
     <li><a href="./Object.html">Object</a>
   
+    <li><a href="./RSpec.html">RSpec</a>
+  
+    <li><a href="./RSpec/Matchers.html">RSpec::Matchers</a>
+  
+    <li><a href="./RSpec/Matchers/BuiltIn.html">RSpec::Matchers::BuiltIn</a>
+  
+    <li><a href="./RSpec/Matchers/BuiltIn/BeWithin.html">RSpec::Matchers::BuiltIn::BeWithin</a>
+  
     <li><a href="./StorageTypeError.html">StorageTypeError</a>
+  
+    <li><a href="./unknown.html">unknown</a>
   
   </ul>
 </nav>
@@ -186,7 +207,7 @@ comparisons</p>
 </li><li>
 <p>Shortcuts for matrix creation (by @agarie)</p>
 </li><li>
-<p>Access to most ATLAS-implemented LAPACK functions for those with ATLAS’
+<p>Access to most ATLAS-implemented LAPACK functions for those with ATLAS&#39;
 CLAPACK interface: xGETRF, xGETRI, xGETRS, xGESV, xPOTRF, xPOTRI, xPOTRS,
 xPOSV, xLASWP, xSCAL, xLAUUM</p>
 </li><li>
@@ -213,22 +234,390 @@ file I/O (specific to doubles)</p>
 </li></ul>
 </li></ul>
 
-<h3 id="label-0.0.4+%2F+2013-%3F%3F-%3F%3F">0.0.4 / 2013-??-??<span><a href="#label-0.0.4+%2F+2013-%3F%3F-%3F%3F">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
+<h3 id="label-0.0.4+%2F+2013-05-17">0.0.4 / 2013-05-17<span><a href="#label-0.0.4+%2F+2013-05-17">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
 <ul><li>
-<p>1 major enhancement</p>
+<p>3 major enhancements</p>
 <ul><li>
 <p>Added a more user-friendly interface for cblas_rot in the form of <a
 href="NMatrix/BLAS.html#method-c-rot">NMatrix::BLAS.rot</a></p>
+</li><li>
+<p>Added to_hash for Yale matrices</p>
+</li><li>
+<p>Improved source code documentation (by @agarie)</p>
 </li></ul>
 </li><li>
-<p>1 minor enhancement</p>
+<p>4 minor enhancements</p>
 <ul><li>
-<p>Spec clean-up</p>
+<p>Spec clean-up (by @masaomi)</p>
+</li><li>
+<p>Made it possible to request a different itype internally for Yale matrices</p>
+</li><li>
+<p>Improved space usage of Yale slice-by-copying, which was requesting more
+space than needed</p>
+</li><li>
+<p>Improved compile-time Mac OS X and Ubuntu library searching</p>
 </li></ul>
 </li><li>
-<p>1 bug fix:</p>
+<p>8 bug fixes:</p>
 <ul><li>
 <p><a href="NMatrix/BLAS.html#method-c-gemv">NMatrix::BLAS.gemv</a> segfaults</p>
+</li><li>
+<p>Fixed Yale matrix slice-by-copy write error where default itypes (which are
+based on shape) differ, and a separate problem where incorrect IJA and A
+entries were written.</p>
+</li><li>
+<p>NVector-scalar operations and NVector-NVector element-wise options now
+return an <a href="NVector.html">NVector</a> instead of an <a
+href="NMatrix.html">NMatrix</a></p>
+</li><li>
+<p>Addressed problems with segmentation faults during iteration (by @cjfuller)</p>
+</li><li>
+<p>Addressed Ubuntu/Debian installation problems (incompatibility with
+apt-supplied atlas)</p>
+</li><li>
+<p>Fixed transpose behavior following slice-by-reference (by @cjfuller)</p>
+</li><li>
+<p>Fixed gem install command in Rakefile (by @jpmckinney)</p>
+</li><li>
+<p>Fixed Spanish language compile issue (by @imcsk8 and @agarie)</p>
+</li></ul>
+</li></ul>
+
+<h3 id="label-0.0.5+%2F+2013-07-09">0.0.5 / 2013-07-09<span><a href="#label-0.0.5+%2F+2013-07-09">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
+<ul><li>
+<p>4 major enhancements</p>
+<ul><li>
+<p><a href="NVector.html">NVector</a> orientation is now controlled by its
+shape, not by the @orientation property</p>
+</li><li>
+<p><a href="NVector.html">NVector</a> default orientation is now a row vector
+rather than a column, as this is more efficient for Yale storage</p>
+</li><li>
+<p><a href="NVector.html">NVector</a> objects may now be created with dtypes
+other than dense</p>
+</li><li>
+<p>Exposure of additional ATLAS-implemented BLAS functions, including native
+rational and Ruby object support, for xANUM (sum of the absolute values of
+a vector) and xNRM2 (2-norm of a vector); and Ruby helper functions
+BLAS::anum and BLAS::nrm2 which should do more careful argument sanity
+checking</p>
+</li></ul>
+</li><li>
+<p>9 minor enhancements</p>
+<ul><li>
+<p>Added yale_vector_insert to <a
+href="NMatrix/YaleFunctions.html">NMatrix::YaleFunctions</a>, to speed up
+insertion of multiple items into a Yale matrix</p>
+</li><li>
+<p>Added yale_nd_row, yale_nd_row_as_hash, yale_nd_row_as_array,
+yale_nd_row_as_set, yale_nd_row_as_sorted_set, yale_row, yale_row_as_hash,
+yale_row_as_array, yale_row_as_set, yale_row_as_sorted_set,
+yale_nd_row_size to <a
+href="NMatrix/YaleFunctions.html">NMatrix::YaleFunctions</a> in order to
+speed up getting multiple items from some row of a Yale matrix</p>
+</li><li>
+<p>Improved yale_ija, yale_a, yale_d by allowing an optional index argument,
+which returns a single array value instead of copying and returning the
+entire array</p>
+</li><li>
+<p>Improved sorting algorithm for Yale matrix multiplication; instead of
+selection sort, now uses quicksort; and subs in insertion sort for small
+partitions</p>
+</li><li>
+<p>Slicing a single row or column now returns an <a
+href="NVector.html">NVector</a> instead of an <a
+href="NMatrix.html">NMatrix</a> (does not yet work for n-dimensional
+matrices)</p>
+</li><li>
+<p>Improved function documentation for <a href="NVector.html">NVector</a> and
+<a href="NMatrix.html">NMatrix</a></p>
+</li><li>
+<p>Added min, max, to_a, shuffle, shuffle!, absolute_sum, norm2 functions to
+<a href="NVector.html">NVector</a></p>
+</li><li>
+<p>Aliased missing dimension of <a
+href="NMatrix.html#method-i-each_stored_with_indices">NMatrix#each_stored_with_indices</a>
+to each_stored_with_index, which only yields a value and i or j (not both i
+and j) depending on the vector orientation</p>
+</li><li>
+<p>Added each_row, each_column to <a href="NMatrix.html">NMatrix</a></p>
+</li></ul>
+</li><li>
+<p>5 bug fixes:</p>
+<ul><li>
+<p>Dense iterators now return self (an <a href="NMatrix.html">NMatrix</a>) in
+order to be consistent with Ruby <a href="Array.html">Array</a> behavior
+(by @cjfuller)</p>
+</li><li>
+<p>Fixed Yale resize problem (by @v0dro)</p>
+</li><li>
+<p>Fixed Yale nx1 times 1xn multiplication problem</p>
+</li><li>
+<p>Fixed Yale sorting-following-multiplication problem</p>
+</li><li>
+<p><a href="NMatrix.html#method-c-read">NMatrix.read</a> now raises an
+exception when asked to read a file  that does not exist</p>
+</li></ul>
+</li></ul>
+
+<h3 id="label-0.0.6+%2F+2013-08-09">0.0.6 / 2013-08-09<span><a href="#label-0.0.6+%2F+2013-08-09">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
+<ul><li>
+<p>8 major enhancements:</p>
+<ul><li>
+<p>Refactored iteration, so that each storage type now has each of: each,
+each_with_indices, each_stored_with_indices</p>
+</li><li>
+<p>Added element-wise power function (**) for dense matrices (by @agarie)</p>
+</li><li>
+<p>Dramatically improved matrix element-wise and scalar functions so C++
+templates are no longer necessary; element-wise operations may now be
+written in protected Ruby methods that look like
+NMatrix#<em>list_elementwise_op</em> and NMatrix#<em>list_scalar_op</em></p>
+</li><li>
+<p>Element-wise and scalar operations that might return a true or false now
+return Ruby matrices</p>
+</li><li>
+<p>Yale element-wise and scalar operations have been added</p>
+</li><li>
+<p>Yale is now allowed to have a non-zero default (specifically to permit
+true-false matrices and nil sparse bases)</p>
+</li><li>
+<p>Dramatically improved <a href="NMatrix.html#method-i-cast">NMatrix#cast</a>
+to allow for hashed options including a :default for list and yale casts</p>
+</li><li>
+<p>Dramatically improved speed of compilation</p>
+</li></ul>
+</li><li>
+<p>14 minor enhancements:</p>
+<ul><li>
+<p>Improved documentation for exposed BLAS and LAPACK functions</p>
+</li><li>
+<p>Allowed for use of BLAS::rot without cloning x and y (in-place plane
+rotation); removed unnecessary test of unfriendly version</p>
+</li><li>
+<p>Added more user-friendly cblas_xrotg implementation: BLAS::rotg</p>
+</li><li>
+<p>Moved NMatrix::YaleFunctions::yale_vector_insert to
+NMatrix#<em>yale_vector_set</em>, which is more consistent with behavior</p>
+</li><li>
+<p>Changed notations for protected stype-specific functions, which now look
+like <em>stype_method_name</em>, e.g., <em>yale_vector_set</em></p>
+</li><li>
+<p>Added NMatrix#<em>list_default_value</em> protected function to get the
+initial (sparse) value for list matrices</p>
+</li><li>
+<p>Changed behavior and names of <a
+href="NMatrix/YaleFunctions.html">NMatrix::YaleFunctions</a> methods which
+get column indices and cell contents by row, so that they now expect the
+:keys option (like Hash#keys) instead of :array, which doesn&#39;t make
+sense; name changes are as follows:</p>
+
+<pre>yale_row_as_sorted_set -&gt; yale_ja_d_keys_sorted_set_at
+yale_row_as_set -&gt; yale_ja_d_keys_set_at
+yale_row_as_array -&gt; yale_ja_d_keys_at
+yale_nd_row_as_sorted_set -&gt; yale_ja_sorted_set_at
+yale_nd_row_as_set -&gt; yale_ja_set_at
+yale_nd_row_as_array -&gt; yale_ja_at</pre>
+
+<p>Aliases are included but will be removed without notice.</p>
+</li><li>
+<p>Added <a
+href="NVector.html#method-i-sorted_indices">NVector#sorted_indices</a> and
+binned_sorted_indices for use when running k-nearest neighbor searches on a
+distance matrix</p>
+</li><li>
+<p>Added NVector::logspace shortcut function (analogous to NVector::linspace)</p>
+</li><li>
+<p>Cleaned up code by removing monkey patches that we stopped using circa
+v0.0.2 (Array#min, Array#max, String#constantize, String#camelize,
+String#underscore)</p>
+</li><li>
+<p>Re-enabled element-wise mod (%) method</p>
+</li><li>
+<p>Added <a href="NMatrix.html#method-c-guess_dtype">NMatrix.guess_dtype</a>
+class method, which allows you to figure out what dtype (roughly) should be
+used for any given Ruby value (e.g., 3)</p>
+</li><li>
+<p>String and nil objects in <a href="NMatrix.html">NMatrix</a> cells are no
+longer outlawed (but are not supported), provided they are of the :object
+dtype</p>
+</li><li>
+<p>NMatrix#diag shortcut for specifying sparse matrix with a user- specified
+diagonal array (by @ryanmt)</p>
+</li></ul>
+</li><li>
+<p>3 bug fixes:</p>
+<ul><li>
+<p>Corrected BLAS::rot bounds checking on optional n argument</p>
+</li><li>
+<p>Removed BLAS::rotg and BLAS::nrm2 code for rational numbers, as both
+involve a square root</p>
+</li><li>
+<p>Repaired list matrix element-wise functions</p>
+</li></ul>
+</li></ul>
+
+<h3 id="label-0.0.7+%2F+2013-08-22">0.0.7 / 2013-08-22<span><a href="#label-0.0.7+%2F+2013-08-22">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
+<ul><li>
+<p>6 major enhancements:</p>
+<ul><li>
+<p>Eliminated <a href="NVector.html">NVector</a> in favor of <a
+href="NMatrix.html">NMatrix</a> objects with effective_dim smaller than
+dim; added NVector-like functionality to <a
+href="NMatrix.html">NMatrix</a>, sometimes with respond_to? dependent upon
+matrix dimensions; allowed for <a
+href="NVector.html#method-c-new">NVector.new</a> to continue to function as
+before, but now returns an <a href="NMatrix.html">NMatrix</a> instead</p>
+</li><li>
+<p>Began major re-factoring of headers for math.cpp</p>
+</li><li>
+<p>Added two singular value decomposition functions for dense <a
+href="NMatrix.html">NMatrix</a> objects, gesvd and gesdd, for floating
+point and complex dtypes</p>
+</li><li>
+<p>Added additional slicing shorthand, which uses hashes (e.g., <a
+href="http://0=>3,2“>n</a> for <a href="http://0..3,2">n</a>), which may
+eventually allow users to use <a href="http://0:3,2">n</a> notation instead
+(needs Ruby core patch)</p>
+</li><li>
+<p>#[] and #[]= calls no longer need index on those matrix shape elements
+which are equal to 1 (e.g., vectors)</p>
+</li><li>
+<p>Yale slicing-by-reference has been added</p>
+</li></ul>
+</li><li>
+<p>18 minor enhancements:</p>
+<ul><li>
+<p>Added user-friendly <a
+href="NMatrix/LAPACK.html#method-c-laswp">NMatrix::LAPACK.laswp</a> method</p>
+</li><li>
+<p>Added <a
+href="NMatrix.html#method-i-permute_columns-21">NMatrix#permute_columns!</a>
+and <a
+href="NMatrix.html#method-i-permute_columns">NMatrix#permute_columns</a></p>
+</li><li>
+<p>Added <a href="NMatrix.html#method-i-abs">NMatrix#abs</a> to compute
+element-wise absolute values, and abs_dtype to determine the dtype returned
+by a call to abs on a given matrix (needed for <a
+href="RSpec.html">RSpec</a>)</p>
+</li><li>
+<p>Added <a href="NMatrix.html#method-i-size">NMatrix#size</a> to compute the
+total number of cells in an <a href="NMatrix.html">NMatrix</a> object
+(solely accounting for the shape, not sparsity)</p>
+</li><li>
+<p>Added <a href="RSpec.html">RSpec</a> monkey patches for be_within to work
+with <a href="NMatrix.html">NMatrix</a> objects; usable by requiring
+“nmatrix/rspec”</p>
+</li><li>
+<p>Added experimental NMatrix::LAPACK::lapack_gesvd function (which does NOT
+depend upon CLAPACK) (by @ryanmt and @mohawkjohn)</p>
+</li><li>
+<p>Added experimental non-LAPACK-dependent function
+NMatrix::LAPACK::lapack_gesdd</p>
+</li><li>
+<p>Added <a href="NMatrix.html#method-i-supershape">NMatrix#supershape</a>
+method for getting the shape of a slice&#39;s parent or other ancestor,
+which may be useful for calling ATLAS and LAPACK functions on slices</p>
+</li><li>
+<p>Aliased NMatrix[] to function like N[] shortcut for matrix creation (by
+@agarie)</p>
+</li><li>
+<p>Added layer for matrices with dimension greater than two (corresponds to
+row and column)</p>
+</li><li>
+<p>Added rank and each_rank generics for row/#column/#layer and
+each_row/#each_column/#each_layer respectively (#each_rank replaces
+each_along_dim)</p>
+</li><li>
+<p>Replaced reduce_along_dim with inject_rank</p>
+</li><li>
+<p><a href="NMatrix.html#method-i-to_a">NMatrix#to_a</a> now works for up to
+two dimensional matrices; and returns a flattened array for single-row
+matrices</p>
+</li><li>
+<p><a href="NMatrix.html#method-i-to_flat_a">NMatrix#to_flat_a</a> now returns
+a flattened array of all entries</p>
+</li><li>
+<p>Re-organized <a href="NMatrix.html">NMatrix</a> Ruby sources into multiple
+files: math.rb for instance methods which are mathematical in nature or are
+essentially ATLAS/LAPACK/BLAS calls, enumerate.rb for methods involving
+enumeration; and existing shortcuts.rb for convenience functions and
+shortcut constructors, and nmatrix.rb for core functionality (#inspect,
+to_h, to_a, to_s, pretty_print, and so on)</p>
+</li><li>
+<p>Improved pretty_print, which now also prints layers (the third dimension in
+a 3D matrix)</p>
+</li><li>
+<p>Re-factored some of dense slicing to remove some redundant code</p>
+</li><li>
+<p>Added shortcut functions list?, dense?, yale? for quickly testing matrix
+storage type</p>
+</li></ul>
+</li><li>
+<p>5 bug fixes:</p>
+<ul><li>
+<p>Fixed compilation problem involving &lt;typeinfo&gt; and &lt;vector&gt; STL
+headers</p>
+</li><li>
+<p>Fixed <a href="NMatrix.html#method-i-inverse">NMatrix#inverse</a> problem
+with non-square matrices</p>
+</li><li>
+<p>Fixed invalid read problem detected by Valgrind for Yale element-wise
+subtraction in spec</p>
+</li><li>
+<p>Fixed conversion from Ruby object to Complex and Rational</p>
+</li><li>
+<p>Fixed memory leak in slicing</p>
+</li></ul>
+</li></ul>
+
+<h3 id="label-0.0.8+%2F+2013-08-23">0.0.8 / 2013-08-23<span><a href="#label-0.0.8+%2F+2013-08-23">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
+<ul><li>
+<p>2 bug fixes:</p>
+<ul><li>
+<p>Fixed Ubuntu compilation bug caused by math header file refactoring</p>
+</li><li>
+<p>Fixed pry version error which manifests on some systems but not others</p>
+</li></ul>
+</li></ul>
+
+<h3 id="label-0.0.9+%2F+2013-09-18">0.0.9 / 2013-09-18<span><a href="#label-0.0.9+%2F+2013-09-18">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
+<ul><li>
+<p>5 major enhancements:</p>
+<ul><li>
+<p>Re-factored <a href="NMatrix.html">NMatrix</a> constructor</p>
+</li><li>
+<p>Improved usability of <a href="NMatrix.html">NMatrix</a> shortcut
+constructor options (e.g., zeros, ones, random, etc.) using new <a
+href="NMatrix.html">NMatrix</a> constructor</p>
+</li><li>
+<p>Left-assignment of slices for all matrix storage types (uses a dense cast,
+or accepts an array or single value)</p>
+</li><li>
+<p>Re-factored Yale into a more object-oriented and less confusing set of
+header files</p>
+</li><li>
+<p>Enabled Travis CI (by @cjfuller)</p>
+</li></ul>
+</li><li>
+<p>4 minor enhancements:</p>
+<ul><li>
+<p>Renamed some specs in order to change their test order, so that critical
+tests fail first (particularly in the case of segmentation faults)</p>
+</li><li>
+<p>Default dtype is now :object when no initial values are specified</p>
+</li><li>
+<p>Deprecated NVector#initialize and a number of other unnecessary <a
+href="NVector.html">NVector</a> functionality</p>
+</li><li>
+<p>Made Ubuntu compilation significantly easier (by @cjfuller)</p>
+</li></ul>
+</li><li>
+<p>2 bug fixes:</p>
+<ul><li>
+<p>nil values in matrices are now pretty printed as “nil”</p>
+</li><li>
+<p>Casting from dense to Yale now properly accepts the default value option</p>
 </li></ul>
 </li></ul>
 
@@ -238,7 +627,7 @@ href="NMatrix/BLAS.html#method-c-rot">NMatrix::BLAS.rot</a></p>
 
 <footer id="validator-badges">
   <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
-  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.0.rc.2.1.
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.1.
   <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
 </footer>
 

@@ -90,7 +90,11 @@
 
   <ul>
   
+    <li class="file"><a href="../../CONTRIBUTING_md.html">CONTRIBUTING</a>
+  
     <li class="file"><a href="../../History_txt.html">History</a>
+  
+    <li class="file"><a href="../../LICENSE_txt.html">LICENSE</a>
   
     <li class="file"><a href="../../README_rdoc.html">README</a>
   
@@ -144,9 +148,21 @@
   
     <li><a href="../../NVector.html">NVector</a>
   
+    <li><a href="../../NVector.html">NVector</a>
+  
     <li><a href="../../Object.html">Object</a>
   
+    <li><a href="../../RSpec.html">RSpec</a>
+  
+    <li><a href="../../RSpec/Matchers.html">RSpec::Matchers</a>
+  
+    <li><a href="../../RSpec/Matchers/BuiltIn.html">RSpec::Matchers::BuiltIn</a>
+  
+    <li><a href="../../RSpec/Matchers/BuiltIn/BeWithin.html">RSpec::Matchers::BuiltIn::BeWithin</a>
+  
     <li><a href="../../StorageTypeError.html">StorageTypeError</a>
+  
+    <li><a href="../../unknown.html">unknown</a>
   
   </ul>
 </nav>
@@ -222,7 +238,7 @@
 <p><strong>Raises</strong> :</p>
 <ul><li>
 <p><code>IOError</code> -&gt; expected type code line beginning with
-'%%MatrixMarket matrix'</p>
+&#39;%%MatrixMarket matrix&#39;</p>
 </li></ul>
 </li></ul>
 
@@ -239,7 +255,7 @@
 
   <span class="ruby-identifier">header</span> = <span class="ruby-identifier">f</span>.<span class="ruby-identifier">gets</span>
   <span class="ruby-identifier">header</span>.<span class="ruby-identifier">chomp!</span>
-  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">IOError</span>, <span class="ruby-string">&quot;expected type code line beginning with '%%MatrixMarket matrix'&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">header</span> <span class="ruby-operator">!~</span> <span class="ruby-regexp">/^\%\%MatrixMarket\ matrix/</span>
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">IOError</span>, <span class="ruby-string">&quot;expected type code line beginning with &#39;%%MatrixMarket matrix&#39;&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">header</span> <span class="ruby-operator">!~</span> <span class="ruby-regexp">/^\%\%MatrixMarket\ matrix/</span>
 
   <span class="ruby-identifier">header</span> = <span class="ruby-identifier">header</span>.<span class="ruby-identifier">split</span>
 
@@ -247,7 +263,7 @@
   <span class="ruby-identifier">symmetry</span>   = <span class="ruby-identifier">header</span>[<span class="ruby-value">4</span>].<span class="ruby-identifier">downcase</span>.<span class="ruby-identifier">to_sym</span>
   <span class="ruby-identifier">converter</span>, <span class="ruby-identifier">default_dtype</span> = <span class="ruby-constant">CONVERTER_AND_DTYPE</span>[<span class="ruby-identifier">entry_type</span>]
 
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">header</span>[<span class="ruby-value">2</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'coordinate'</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">header</span>[<span class="ruby-value">2</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&#39;coordinate&#39;</span>
     <span class="ruby-identifier">load_coordinate</span> <span class="ruby-identifier">f</span>, <span class="ruby-identifier">converter</span>, <span class="ruby-identifier">default_dtype</span>, <span class="ruby-identifier">entry_type</span>, <span class="ruby-identifier">symmetry</span>
   <span class="ruby-keyword">else</span>
     <span class="ruby-identifier">load_array</span> <span class="ruby-identifier">f</span>, <span class="ruby-identifier">converter</span>, <span class="ruby-identifier">default_dtype</span>, <span class="ruby-identifier">entry_type</span>, <span class="ruby-identifier">symmetry</span>
@@ -280,8 +296,8 @@
         <div class="method-description">
           
           <p>Can optionally set :symmetry to :general, :symmetric, :hermitian; and can
-set :pattern =&gt; true if you’re writing a sparse matrix and don’t want
-values stored.</p>
+set :pattern =&gt; true if you&#39;re writing a sparse matrix and don&#39;t
+want values stored.</p>
 <ul><li>
 <p><strong>Arguments</strong> :</p>
 <ul><li>
@@ -308,7 +324,7 @@ href="../../NMatrix.html">NMatrix</a>.</p>
             <pre><span class="ruby-comment"># File lib/nmatrix/io/market.rb, line 90</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">save</span>(<span class="ruby-identifier">matrix</span>, <span class="ruby-identifier">filename</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-identifier">options</span> = {<span class="ruby-value">:pattern</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>,
-             <span class="ruby-value">:symmetry</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:general</span>}.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">options</span>)
+    <span class="ruby-value">:symmetry</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:general</span>}.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">options</span>)
 
   <span class="ruby-identifier">mode</span> = <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">stype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:dense</span> <span class="ruby-operator">?</span> <span class="ruby-value">:array</span> <span class="ruby-operator">:</span> <span class="ruby-value">:coordinate</span>
   <span class="ruby-keyword">if</span> [<span class="ruby-value">:rational32</span>,<span class="ruby-value">:rational64</span>,<span class="ruby-value">:rational128</span>,<span class="ruby-value">:object</span>].<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">dtype</span>)
@@ -318,7 +334,7 @@ href="../../NMatrix.html">NMatrix</a>.</p>
 
   <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;expected two-dimensional NMatrix&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">dim</span> <span class="ruby-operator">!=</span> <span class="ruby-value">2</span>
 
-  <span class="ruby-identifier">f</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">filename</span>, <span class="ruby-string">'w'</span>)
+  <span class="ruby-identifier">f</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">filename</span>, <span class="ruby-string">&#39;w&#39;</span>)
 
   <span class="ruby-identifier">f</span>.<span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;%%MatrixMarket matrix #{mode} #{entry_type} #{options[:symmetry]}&quot;</span>
 
@@ -389,7 +405,7 @@ href="../../NMatrix.html">NMatrix</a>.</p>
           <span class="ruby-identifier">mat</span>[<span class="ruby-identifier">j</span>,<span class="ruby-identifier">i</span>] = <span class="ruby-identifier">datum</span>
         <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">symmetry</span> <span class="ruby-operator">==</span> <span class="ruby-value">:hermitian</span>
           <span class="ruby-identifier">mat</span>[<span class="ruby-identifier">j</span>,<span class="ruby-identifier">i</span>] = <span class="ruby-constant">Complex</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">datum</span>.<span class="ruby-identifier">real</span>, <span class="ruby-operator">-</span><span class="ruby-identifier">datum</span>.<span class="ruby-identifier">imag</span>)
-        <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">symmetry</span> <span class="ruby-operator">==</span> <span class="ruby-value">:'skew-symmetric'</span>
+        <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">symmetry</span> <span class="ruby-operator">==</span> <span class="ruby-value">:&#39;skew-symmetric&#39;</span>
           <span class="ruby-identifier">mat</span>[<span class="ruby-identifier">j</span>,<span class="ruby-identifier">i</span>] = <span class="ruby-operator">-</span><span class="ruby-identifier">datum</span>
         <span class="ruby-keyword">end</span>
       <span class="ruby-keyword">end</span>
@@ -439,7 +455,7 @@ coordinate-list MatrixMarket file.</p>
   <span class="ruby-keyword">while</span> <span class="ruby-identifier">line</span> = <span class="ruby-identifier">file</span>.<span class="ruby-identifier">gets</span>
     <span class="ruby-identifier">line</span>.<span class="ruby-identifier">chomp!</span>
     <span class="ruby-identifier">line</span>.<span class="ruby-identifier">lstrip!</span>
-    <span class="ruby-identifier">line</span>, <span class="ruby-identifier">comment</span> = <span class="ruby-identifier">line</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">'%'</span>, <span class="ruby-value">2</span>) <span class="ruby-comment"># ignore comments</span>
+    <span class="ruby-identifier">line</span>, <span class="ruby-identifier">comment</span> = <span class="ruby-identifier">line</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39;%&#39;</span>, <span class="ruby-value">2</span>) <span class="ruby-comment"># ignore comments</span>
     <span class="ruby-keyword">if</span> <span class="ruby-identifier">line</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">4</span>
       <span class="ruby-identifier">shape0</span>, <span class="ruby-identifier">shape1</span>, <span class="ruby-identifier">nz</span> = <span class="ruby-identifier">line</span>.<span class="ruby-identifier">split</span>
       <span class="ruby-identifier">mat</span> = <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:list</span>, [<span class="ruby-identifier">shape0</span>.<span class="ruby-identifier">to_i</span>, <span class="ruby-identifier">shape1</span>.<span class="ruby-identifier">to_i</span>], <span class="ruby-value">0</span>, <span class="ruby-identifier">dtype</span>)
@@ -451,7 +467,7 @@ coordinate-list MatrixMarket file.</p>
   <span class="ruby-keyword">while</span> <span class="ruby-identifier">line</span> = <span class="ruby-identifier">file</span>.<span class="ruby-identifier">gets</span>
     <span class="ruby-identifier">line</span>.<span class="ruby-identifier">chomp!</span>
     <span class="ruby-identifier">line</span>.<span class="ruby-identifier">lstrip!</span>
-    <span class="ruby-identifier">line</span>, <span class="ruby-identifier">comment</span> = <span class="ruby-identifier">line</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">'%'</span>, <span class="ruby-value">2</span>) <span class="ruby-comment"># ignore comments</span>
+    <span class="ruby-identifier">line</span>, <span class="ruby-identifier">comment</span> = <span class="ruby-identifier">line</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39;%&#39;</span>, <span class="ruby-value">2</span>) <span class="ruby-comment"># ignore comments</span>
 
     <span class="ruby-keyword">next</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">line</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">5</span> <span class="ruby-comment"># ignore empty lines</span>
 
@@ -465,7 +481,7 @@ coordinate-list MatrixMarket file.</p>
     <span class="ruby-keyword">unless</span> <span class="ruby-identifier">i</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">j</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">symmetry</span> <span class="ruby-operator">==</span> <span class="ruby-value">:general</span>
       <span class="ruby-keyword">if</span> <span class="ruby-identifier">symmetry</span> <span class="ruby-operator">==</span> <span class="ruby-value">:symmetric</span>
         <span class="ruby-identifier">mat</span>[<span class="ruby-identifier">j</span>, <span class="ruby-identifier">i</span>] = <span class="ruby-identifier">datum</span>
-      <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">symmetry</span> <span class="ruby-operator">==</span> <span class="ruby-value">:'skew-symmetric'</span>
+      <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">symmetry</span> <span class="ruby-operator">==</span> <span class="ruby-value">:&#39;skew-symmetric&#39;</span>
         <span class="ruby-identifier">mat</span>[<span class="ruby-identifier">j</span>, <span class="ruby-identifier">i</span>] = <span class="ruby-operator">-</span><span class="ruby-identifier">datum</span>
       <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">symmetry</span> <span class="ruby-operator">==</span> <span class="ruby-value">:hermitian</span>
         <span class="ruby-identifier">mat</span>[<span class="ruby-identifier">j</span>, <span class="ruby-identifier">i</span>] = <span class="ruby-constant">Complex</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">datum</span>.<span class="ruby-identifier">real</span>, <span class="ruby-operator">-</span><span class="ruby-identifier">datum</span>.<span class="ruby-identifier">imag</span>)
@@ -516,7 +532,7 @@ coordinate-list MatrixMarket file.</p>
         <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-identifier">matrix</span>[<span class="ruby-identifier">i</span>,<span class="ruby-identifier">j</span>]
       <span class="ruby-keyword">end</span>
     <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">else</span> <span class="ruby-comment"># :symmetric, :'skew-symmetric', :hermitian</span>
+  <span class="ruby-keyword">else</span> <span class="ruby-comment"># :symmetric, :&#39;skew-symmetric&#39;, :hermitian</span>
     (<span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">j</span><span class="ruby-operator">|</span>
       (<span class="ruby-identifier">j</span><span class="ruby-operator">...</span><span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>]).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
         <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-identifier">matrix</span>[<span class="ruby-identifier">i</span>,<span class="ruby-identifier">j</span>]
@@ -601,7 +617,7 @@ coordinate-list MatrixMarket file.</p>
 
 <footer id="validator-badges">
   <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
-  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.0.rc.2.1.
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.1.
   <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
 </footer>
 

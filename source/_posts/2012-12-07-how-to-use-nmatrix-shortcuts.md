@@ -7,6 +7,8 @@ author: Carlos Agarie
 categories: [NMatrix,Matrices,Documentation,Students]
 ---
 
+<p class="warning"><strong>Warning:</strong> This code predates v0.0.9 alpha, which is when the NMatrix constructor changed. Please check the <a href="https://github.com/SciRuby/nmatrix/wiki/Getting-started#shortcuts">NMatrix Getting Started guide</a> for the most recent information.</p>
+
 John Woods [merged my last pull request to NMatrix](https://github.com/SciRuby/nmatrix/commit/2b480ce0985affc7218fc341fcb4e5024b30545b) recently and I wanted to write about why we created these shortcuts and what can be done with them. <!--more-->
 
 ## The need for shortcuts

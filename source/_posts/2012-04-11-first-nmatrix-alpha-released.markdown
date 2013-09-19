@@ -6,6 +6,8 @@ comments: true
 author: John Woods
 categories: [Algorithms,Matrices,NMatrix]
 ---
+<p class="warning"><strong>Warning:</strong> Code in this blog post is very old and likely will not work with the current version of NMatrix. Please check the <a href="https://github.com/SciRuby/nmatrix/wiki/">NMatrix wiki</a> for the most recent information.</p>
+
 Two months ago, I [mentioned the existence of a prototype Ruby linear algebra library](2012/02/11/numeric-matrix-considerations), written in C.
 
 I am pleased to announce that yesterday we released our first alpha of said library, [NMatrix](/nmatrix/) v0.0.1.<!--more-->

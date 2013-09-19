@@ -49,7 +49,7 @@
     <nav id="file-list-section" class="section">
   <h3 class="section-header">Defined In</h3>
   <ul>
-    <li>ext/nmatrix/nmatrix.cpp
+    <li>ext/nmatrix/ruby_nmatrix.c
     <li>lib/nmatrix/io/mat5_reader.rb
     <li>lib/nmatrix/io/mat_reader.rb
     <li>lib/nmatrix/nmatrix.rb
@@ -87,7 +87,11 @@
 
   <ul>
   
+    <li class="file"><a href="../../CONTRIBUTING_md.html">CONTRIBUTING</a>
+  
     <li class="file"><a href="../../History_txt.html">History</a>
+  
+    <li class="file"><a href="../../LICENSE_txt.html">LICENSE</a>
   
     <li class="file"><a href="../../README_rdoc.html">README</a>
   
@@ -141,9 +145,21 @@
   
     <li><a href="../../NVector.html">NVector</a>
   
+    <li><a href="../../NVector.html">NVector</a>
+  
     <li><a href="../../Object.html">Object</a>
   
+    <li><a href="../../RSpec.html">RSpec</a>
+  
+    <li><a href="../../RSpec/Matchers.html">RSpec::Matchers</a>
+  
+    <li><a href="../../RSpec/Matchers/BuiltIn.html">RSpec::Matchers::BuiltIn</a>
+  
+    <li><a href="../../RSpec/Matchers/BuiltIn/BeWithin.html">RSpec::Matchers::BuiltIn::BeWithin</a>
+  
     <li><a href="../../StorageTypeError.html">StorageTypeError</a>
+  
+    <li><a href="../../unknown.html">unknown</a>
   
   </ul>
 </nav>
@@ -257,7 +273,7 @@ new string.</p>
 
           
           <div class="method-source-code" id="load_mat-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/nmatrix.rb, line 39</span>
+            <pre><span class="ruby-comment"># File lib/nmatrix/nmatrix.rb, line 41</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">load_mat</span> <span class="ruby-identifier">file_path</span>
   <span class="ruby-constant">NMatrix</span><span class="ruby-operator">::</span><span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">Matlab</span><span class="ruby-operator">::</span><span class="ruby-constant">Mat5Reader</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">file_path</span>, <span class="ruby-string">&quot;rb+&quot;</span>)).<span class="ruby-identifier">to_ruby</span>
 <span class="ruby-keyword">end</span></pre>
@@ -299,10 +315,9 @@ href="../../NMatrix.html">NMatrix</a> dtype (or itype).</p>
 <dd>
 <p>symbol representing MATLAB data type (e.g., :miINT8)</p>
 </dd></dl>
-</li><li><dl class="rdoc-list note-list"><dt>options    
+</li><li><dl class="rdoc-list note-list"><dt>type       
 <dd>
-<p>hash, give either :itype =&gt; some_itype or :dtype =&gt; some_dtype, tells
-function what to give as output.</p>
+<p>either :itype or some dtype symbol (:byte, :uint32, etc)</p>
 </dd></dl>
 </li></ul>
           
@@ -310,32 +325,26 @@ function what to give as output.</p>
 
           
           <div class="method-source-code" id="repack-source">
-            <pre>static VALUE nm_rbstring_matlab_repack(VALUE self, VALUE str, VALUE from, VALUE options) {
+            <pre>static VALUE nm_rbstring_matlab_repack(VALUE self, VALUE str, VALUE from, VALUE type) {
   nm::io::matlab_dtype_t from_type = matlab_dtype_from_rbsymbol(from);
   uint8_t to_type;
 
-  if (TYPE(options) != T_HASH) {
-    rb_raise(rb_eArgError, &quot;third argument to repack must be an options hash&quot;);
-  }
-
-  if (RB_HASH_HAS_SYMBOL_KEY(options, &quot;dtype&quot;)) { // Hash#has_key?(:dtype)
-
-    nm::dtype_t to_dtype  = nm_dtype_from_rbsymbol(rb_hash_aref(options, ID2SYM(rb_intern(&quot;dtype&quot;))));
-    to_type               = static_cast&lt;int8_t&gt;(to_dtype);
-
-  } else if (RB_HASH_HAS_SYMBOL_KEY(options, &quot;itype&quot;)) {
-
-    nm::itype_t to_itype  = nm_itype_from_rbsymbol(rb_hash_aref(options, ID2SYM(rb_intern(&quot;itype&quot;))));
-
-    // we're going to cheat and use the DTYPE template table. To do this, we just act like uint8_t
-    // is a dtype (both are 0, itype and dtype), or we add 1 to the other itypes and treat them as
-    // signed.
-    to_type           = static_cast&lt;uint8_t&gt;(to_itype);
-    if (to_itype != nm::UINT8) to_type += 1;
-
-
+  if (SYMBOL_P(type)) {
+    if (rb_to_id(type) == rb_intern(&quot;itype&quot;)) {
+      if (sizeof(size_t) == sizeof(int64_t)) {
+        to_type = static_cast&lt;int8_t&gt;(nm::INT64);
+      } else if (sizeof(size_t) == sizeof(int32_t)) {
+        to_type = static_cast&lt;int8_t&gt;(nm::INT32);
+      } else if (sizeof(size_t) == sizeof(int16_t)) {
+        to_type = static_cast&lt;int8_t&gt;(nm::INT16);
+      } else {
+        rb_raise(rb_eStandardError, &quot;unhandled size_t definition&quot;);
+      }
+    } else {
+      to_type = static_cast&lt;uint8_t&gt;(nm_dtype_from_rbsymbol(type));
+    }
   } else {
-    rb_raise(rb_eArgError, &quot;third argument must have either :itype or :dtype as a key&quot;);
+    rb_raise(rb_eArgError, &quot;expected symbol for third argument&quot;);
   }
 
   // For next few lines, see explanation above NM_MATLAB_DTYPE_TEMPLATE_TABLE definition in io.h.
@@ -349,9 +358,9 @@ function what to give as output.</p>
   size_t repacked_data_length;
   char* repacked_data = ttable[to_type][from_type](repacked_data_length, RSTRING_PTR(str), RSTRING_LEN(str));
 
-  // Encode as 8-bit ASCII with a length -- don't want to hiccup on \0
+  // Encode as 8-bit ASCII with a length -- don&#39;t want to hiccup on \0
   VALUE result = rb_str_new(repacked_data, repacked_data_length);
-  free(repacked_data); // Don't forget to free what we allocated!
+  xfree(repacked_data); // Don&#39;t forget to free what we allocated!
 
   return result;
 }</pre>
@@ -374,7 +383,7 @@ function what to give as output.</p>
 
 <footer id="validator-badges">
   <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
-  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.0.rc.2.1.
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.1.
   <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
 </footer>
 

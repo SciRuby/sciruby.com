@@ -96,7 +96,11 @@
 
   <ul>
   
+    <li class="file"><a href="../../../CONTRIBUTING_md.html">CONTRIBUTING</a>
+  
     <li class="file"><a href="../../../History_txt.html">History</a>
+  
+    <li class="file"><a href="../../../LICENSE_txt.html">LICENSE</a>
   
     <li class="file"><a href="../../../README_rdoc.html">README</a>
   
@@ -150,9 +154,21 @@
   
     <li><a href="../../../NVector.html">NVector</a>
   
+    <li><a href="../../../NVector.html">NVector</a>
+  
     <li><a href="../../../Object.html">Object</a>
   
+    <li><a href="../../../RSpec.html">RSpec</a>
+  
+    <li><a href="../../../RSpec/Matchers.html">RSpec::Matchers</a>
+  
+    <li><a href="../../../RSpec/Matchers/BuiltIn.html">RSpec::Matchers::BuiltIn</a>
+  
+    <li><a href="../../../RSpec/Matchers/BuiltIn/BeWithin.html">RSpec::Matchers::BuiltIn::BeWithin</a>
+  
     <li><a href="../../../StorageTypeError.html">StorageTypeError</a>
+  
+    <li><a href="../../../unknown.html">unknown</a>
   
   </ul>
 </nav>
@@ -269,7 +285,7 @@
 
         <div class="method-description">
           
-          <p>Instance Methods #</p>
+          <p>Instance Methods for <a href="Mat5Reader.html">Mat5Reader</a> #</p>
           
           
             <div class="method-calls-super">
@@ -280,10 +296,10 @@
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 450</span>
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 444</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">stream</span>, <span class="ruby-identifier">options</span> = {})
-        <span class="ruby-keyword">super</span>(<span class="ruby-identifier">stream</span>, <span class="ruby-identifier">options</span>)
-        <span class="ruby-ivar">@file_header</span> = <span class="ruby-identifier">seek_and_read_file_header</span>
+  <span class="ruby-keyword">super</span>(<span class="ruby-identifier">stream</span>, <span class="ruby-identifier">options</span>)
+  <span class="ruby-ivar">@file_header</span> = <span class="ruby-identifier">seek_and_read_file_header</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- new-source -->
           
@@ -320,23 +336,23 @@
 
           
           <div class="method-source-code" id="each-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 483</span>
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 477</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">each</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-        <span class="ruby-identifier">stream</span>.<span class="ruby-identifier">each</span>(<span class="ruby-constant">Element</span>, {<span class="ruby-value">:endian</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">byte_order</span>}) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">element</span><span class="ruby-operator">|</span>
-                <span class="ruby-keyword">if</span> <span class="ruby-identifier">element</span>.<span class="ruby-identifier">data</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Compressed</span>)
-                        <span class="ruby-constant">StringIO</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">element</span>.<span class="ruby-identifier">data</span>.<span class="ruby-identifier">content</span>, <span class="ruby-string">'rb'</span>).<span class="ruby-identifier">each</span>(<span class="ruby-constant">Element</span>, {<span class="ruby-value">:endian</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">byte_order</span>}) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">compressed_element</span><span class="ruby-operator">|</span>
-                                <span class="ruby-keyword">yield</span> <span class="ruby-identifier">compressed_element</span>.<span class="ruby-identifier">data</span>
-                        <span class="ruby-keyword">end</span>
-                        
-                <span class="ruby-keyword">else</span>
-                        <span class="ruby-keyword">yield</span> <span class="ruby-identifier">element</span>.<span class="ruby-identifier">data</span>
-                <span class="ruby-keyword">end</span>
-        <span class="ruby-keyword">end</span>
-        
-        <span class="ruby-comment"># Go back to the beginning in case we want to do it again.</span>
-        <span class="ruby-identifier">stream</span>.<span class="ruby-identifier">seek</span>(<span class="ruby-constant">FIRST_TAG_FIELD_POS</span>)
-        
-        <span class="ruby-keyword">self</span>
+  <span class="ruby-identifier">stream</span>.<span class="ruby-identifier">each</span>(<span class="ruby-constant">Element</span>, {<span class="ruby-value">:endian</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">byte_order</span>}) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">element</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">element</span>.<span class="ruby-identifier">data</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Compressed</span>)
+      <span class="ruby-constant">StringIO</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">element</span>.<span class="ruby-identifier">data</span>.<span class="ruby-identifier">content</span>, <span class="ruby-string">&#39;rb&#39;</span>).<span class="ruby-identifier">each</span>(<span class="ruby-constant">Element</span>, {<span class="ruby-value">:endian</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">byte_order</span>}) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">compressed_element</span><span class="ruby-operator">|</span>
+        <span class="ruby-keyword">yield</span> <span class="ruby-identifier">compressed_element</span>.<span class="ruby-identifier">data</span>
+      <span class="ruby-keyword">end</span>
+
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-keyword">yield</span> <span class="ruby-identifier">element</span>.<span class="ruby-identifier">data</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment"># Go back to the beginning in case we want to do it again.</span>
+  <span class="ruby-identifier">stream</span>.<span class="ruby-identifier">seek</span>(<span class="ruby-constant">FIRST_TAG_FIELD_POS</span>)
+
+  <span class="ruby-keyword">self</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- each-source -->
           
@@ -367,12 +383,12 @@
 
           
           <div class="method-source-code" id="guess_byte_order-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 471</span>
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 465</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">guess_byte_order</span>
-        <span class="ruby-identifier">stream</span>.<span class="ruby-identifier">seek</span>(<span class="ruby-constant">Header</span><span class="ruby-operator">::</span><span class="ruby-constant">BYTE_ORDER_POS</span>)
-        <span class="ruby-identifier">mi</span> = <span class="ruby-identifier">stream</span>.<span class="ruby-identifier">read</span>(<span class="ruby-constant">Header</span><span class="ruby-operator">::</span><span class="ruby-constant">BYTE_ORDER_LENGTH</span>)
-        <span class="ruby-identifier">stream</span>.<span class="ruby-identifier">seek</span>(<span class="ruby-value">0</span>)
-        <span class="ruby-identifier">mi</span> <span class="ruby-operator">==</span> <span class="ruby-string">'IM'</span> <span class="ruby-operator">?</span> <span class="ruby-value">:little</span> <span class="ruby-operator">:</span> <span class="ruby-value">:big</span>
+  <span class="ruby-identifier">stream</span>.<span class="ruby-identifier">seek</span>(<span class="ruby-constant">Header</span><span class="ruby-operator">::</span><span class="ruby-constant">BYTE_ORDER_POS</span>)
+  <span class="ruby-identifier">mi</span> = <span class="ruby-identifier">stream</span>.<span class="ruby-identifier">read</span>(<span class="ruby-constant">Header</span><span class="ruby-operator">::</span><span class="ruby-constant">BYTE_ORDER_LENGTH</span>)
+  <span class="ruby-identifier">stream</span>.<span class="ruby-identifier">seek</span>(<span class="ruby-value">0</span>)
+  <span class="ruby-identifier">mi</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;IM&#39;</span> <span class="ruby-operator">?</span> <span class="ruby-value">:little</span> <span class="ruby-operator">:</span> <span class="ruby-value">:big</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- guess_byte_order-source -->
           
@@ -403,10 +419,10 @@
 
           
           <div class="method-source-code" id="seek_and_read_file_header-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 478</span>
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 472</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">seek_and_read_file_header</span>
-        <span class="ruby-identifier">stream</span>.<span class="ruby-identifier">seek</span>(<span class="ruby-value">0</span>)
-        <span class="ruby-identifier">stream</span>.<span class="ruby-identifier">read</span>(<span class="ruby-constant">FIRST_TAG_FIELD_POS</span>).<span class="ruby-identifier">unpack</span>(<span class="ruby-constant">Header</span>, {<span class="ruby-value">:endian</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">byte_order</span>})
+  <span class="ruby-identifier">stream</span>.<span class="ruby-identifier">seek</span>(<span class="ruby-value">0</span>)
+  <span class="ruby-identifier">stream</span>.<span class="ruby-identifier">read</span>(<span class="ruby-constant">FIRST_TAG_FIELD_POS</span>).<span class="ruby-identifier">unpack</span>(<span class="ruby-constant">Header</span>, {<span class="ruby-value">:endian</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">byte_order</span>})
 <span class="ruby-keyword">end</span></pre>
           </div><!-- seek_and_read_file_header-source -->
           
@@ -437,11 +453,11 @@
 
           
           <div class="method-source-code" id="to_a-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 455</span>
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 449</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_a</span>
-        <span class="ruby-identifier">returning</span>(<span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ary</span><span class="ruby-operator">|</span>
-                <span class="ruby-keyword">self</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">el</span><span class="ruby-operator">|</span> <span class="ruby-identifier">ary</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">el</span> }
-        <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">returning</span>(<span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ary</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">el</span><span class="ruby-operator">|</span> <span class="ruby-identifier">ary</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">el</span> }
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- to_a-source -->
           
@@ -472,15 +488,15 @@
 
           
           <div class="method-source-code" id="to_ruby-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 461</span>
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/mat5_reader.rb, line 455</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_ruby</span>
-        <span class="ruby-identifier">ary</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">to_a</span>
-        
-        <span class="ruby-keyword">if</span> <span class="ruby-identifier">ary</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span>
-                <span class="ruby-identifier">ary</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">to_ruby</span> 
-        <span class="ruby-keyword">else</span>
-                <span class="ruby-identifier">ary</span>.<span class="ruby-identifier">collect</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">item</span><span class="ruby-operator">|</span> <span class="ruby-identifier">item</span>.<span class="ruby-identifier">to_ruby</span> }
-        <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">ary</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">to_a</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">ary</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span>
+    <span class="ruby-identifier">ary</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">to_ruby</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">ary</span>.<span class="ruby-identifier">collect</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">item</span><span class="ruby-operator">|</span> <span class="ruby-identifier">item</span>.<span class="ruby-identifier">to_ruby</span> }
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- to_ruby-source -->
           
@@ -501,7 +517,7 @@
 
 <footer id="validator-badges">
   <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
-  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.0.rc.2.1.
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.1.
   <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
 </footer>
 
