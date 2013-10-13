@@ -22,7 +22,7 @@ a Ruby interface for defining new ones. Since the relationship between external 
 sometimes up to interpretation, a domain-specific language is included to allow end users to resolve ambiguities and
 provide additional metadata.
 
-Along with the conversion tool, a standalone server is included in the gem that simplifies setting up and interacting
+Along with the conversion tool, a standalone server is available as an extension to the gem that simplifies setting up and interacting
 with RDF data stores. The server allows import, export, querying, and management of external [triplestores](https://en.wikipedia.org/wiki/Triplestore) such as
 [4store](http://4store.org/), and supports both cross-domain access and content negotiation so the gem can be accessed
 using Javascript or other applications.
