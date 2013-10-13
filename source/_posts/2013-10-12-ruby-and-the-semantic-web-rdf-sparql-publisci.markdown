@@ -85,7 +85,7 @@ Finally, data can be exported in other formats, such as ARFF:
 
 Some places to look for RDF repositories
 ----------------------------------------
-* Social sciences and economics: [PlanetData wiki: Datasets](http://wiki.planet-data.eu/web/Datasets)
+* Social sciences and economics: [PlanetData wiki: Datasets](http://wiki.planet-data.eu/web/Datasets), [270a Linked Dataspaces](http://270a.info/)
 * Chemistry: [Resource description framework technologies in chemistry](http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3118380/)
 * Molecular biology: [EMBL-EBI: Current RDF Resources](http://www.ebi.ac.uk/rdf/), [Bio2RDF](http://bio2rdf.org/),
   [Gene Ontology](http://www.geneontology.org/GO.format.rdfxml.shtml)
