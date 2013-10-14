@@ -12,10 +12,11 @@ Code 2013 students' work. I edited it to include a very incomplete list of publi
 
 Introduction
 ------------
-There's a huge, huge amount of data around. It often won't fit in a lab notebook or a journal article. Database software
-is one great solution for storage of such data, but relational databases become brittle in the face of changes or new
-information, do not play nicely with other databases or data derived from such databases, and may not be fully machine
-(or human) readable without pre-existing knowledge.
+Across all fields and disciplines, contemporary scientists are faced with a massive and growing volume of data. It often
+won't fit in a lab notebook, and there is a pressing need to share it more quickly and widely than publication in a
+journal article would allow for. Database software is one great solution for storage of such data, but relational
+databases become brittle in the face of changes or new information, do not play nicely with other databases or data
+derived from such databases, and may not be fully machine (or human) readable without pre-existing knowledge.
 
 Meanwhile, the Internet is an extremely useful place to discover and share useful information, but it is essentially
 built around linked documents, rather than pure data, and so our primary mechanism for sharing data is as HTML or text.
