@@ -3,7 +3,6 @@ layout: post
 title: "Ruby and the Semantic Web, RDF, and SPARQL: PubliSci"
 date: 2013-10-12 16:36
 comments: true
-categories:
 author: Will Strinz
 categories: [GSOC2013,GSOC,Data mining,PubliSci,RDF,SPARQL,Semantic Web]
 ---
