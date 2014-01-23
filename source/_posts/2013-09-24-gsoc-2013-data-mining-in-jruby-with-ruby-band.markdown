@@ -7,7 +7,7 @@ author: Alberto Arrigoni
 categories: [GSOC2013,GSOC,Weka,Data mining,ruby-band,JRuby]
 ---
 <p class="note"><strong>Editor's Note:</strong> This is the first of four blog posts detailing
-our Google Summer of Code 2013 students' work.</p>
+our Google Summer of Code 2013 students' work, edited by John Woods.</p>
 
 In the context of the Google Summer of Code 2013, I have developed a Ruby gem called [Ruby Band](https://github.com/arrigonialberto86/ruby-band)
 that makes some selected Java software for data mining and machine learning applications available to the JRuby/Ruby

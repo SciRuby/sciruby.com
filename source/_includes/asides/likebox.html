@@ -1,0 +1,5 @@
+{% if site.facebook_pagename %}
+<section>
+<div class="fb-like-box" data-href="http://www.facebook.com/{{site.facebook_pagename}}" data-width="{{site.facebook_width}}" data-show-faces="{{site.facebook_showfaces}}" data-stream="{{site.facebook_showstream}}" data-header="{{site.facebook_showheader}}" {% if site.facebook_height %} data-height="{{site.facebook_height}}" {% endif %} {% if site.facebook_bordercolor %} data-border-color="{{site.facebook_bordercolor}}" {% endif %} {% if site.facebook_darktheme %} data-colorscheme="dark" {% endif %}></div>
+</section>
+{% endif %}
