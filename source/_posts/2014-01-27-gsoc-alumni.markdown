@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "GSoC Alumni"
-date: 2014-01-27 18:16
+date: 2014-01-28 17:00
 comments: false
 author: Pjotr Prins
 categories: [GSOC,GSOC2013]
@@ -9,7 +9,7 @@ categories: [GSOC,GSOC2013]
 
 ## SciRuby and the Google Summer of Code 2013
 
-In 2013 SciRuby was a mentoring organization for the Google Summer of Code. We
+In 2013, SciRuby was a mentoring organization for the Google Summer of Code. We
 asked our alumni students:
 
 1) How did you experience GSoC/SciRuby and what has it brought you?
@@ -17,17 +17,18 @@ asked our alumni students:
 2) What advice would you give new applicants?
 
 Monica Dragan from Romania worked on [gene validation](https://github.com/monicadragan/GeneValidator), see also her
-[BLOG](http://gene-prediction.blogspot.nl/2013/08/start-using-our-gene-validation-tool.html). Actually, Monica
+[blog](http://gene-prediction.blogspot.nl/2013/08/start-using-our-gene-validation-tool.html). Actually, Monica
 was part of a different GSoC organisation,
 [PhyloSoC](http://informatics.nescent.org/wiki/Phyloinformatics_Summer_of_Code_2013),
-but also participated in our Ruby centric meetings and code reviews. Because
-women are still rare in coding we are putting her first. She shared
+but also participated in our Ruby-centric meetings and code reviews. She shared
 her SciRuby GSoC experience:
 
 <p class="note"><strong>Monica:</strong>
-During the GSoC period I developed a bioinformatics tool written in Ruby. First of all I learned a new programming language, as I had no experience with Ruby before. On this GSoC occasion I had the opportunity to get in touch with the
- community and I met people passionate about their work, with whom I continued
- the collaboration afterwards. But what I really gained from this experience is that I increased my enthusiasm about bioinformatics and I confirmed myself that this is the field I want to focus on in the next years.
+During the GSoC period I developed a bioinformatics tool written in Ruby. First of all I learned a new programming
+language, as I had no experience with Ruby before. On this GSoC occasion I had the opportunity to get in touch with the
+community and I met people passionate about their work, with whom I continued
+ the collaboration afterwards. But what I really gained from this experience is that I increased my enthusiasm about
+ bioinformatics and I confirmed myself that this is the field I want to focus on in the next years.
 </p>
 
 Alberto Arrigoni from Italy worked on [data mining and machine learning algorithms for Ruby](http://sciruby.com/blog/2013/09/24/gsoc-2013-data-mining-in-jruby-with-ruby-band/) and shared
@@ -44,7 +45,7 @@ active mailing list.
 
 Ankur Goel from India worked on 
 [statsample-timeseries](http://rubygems.org/gems/statsample-timeseries) for Ruby.
-Ankur shares
+Ankur shared,
 
 
 <p class="note"><strong>Ankur:</strong>
@@ -139,7 +140,7 @@ to the deadline, the less time there will be to polish your application and
 respond to questions, so make sure you're doing it quickly and effectively.
 </p>
 
-our SciRuby GSoC alumni added
+Our SciRuby GSoC alumni added:
 
 <p class="note"><strong>Monica:</strong>
 If I don't join this year, I wish you good luck with the new students!
@@ -152,11 +153,8 @@ I will be happy to sign up again as student, this year!
 
 
 <p class="note"><strong>Will:</strong>
-
 I know I've said this already, but GSoC last year was a defining moment in my
 path to becoming a software developer, career-wise sure, but more importantly
 in the coder vs hacker vs computer scientist vs software developer sense. If
-there's anything I can do to get involved this year, I'll be available.
-
-<p>
+there's anything I can do to get involved this year, I'll be available.<p>
 
