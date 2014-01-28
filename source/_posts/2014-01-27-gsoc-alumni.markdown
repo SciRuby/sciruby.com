@@ -20,7 +20,8 @@ Monica Dragan from Romania is worked on [gene validation](https://github.com/mon
 [BLOG](http://gene-prediction.blogspot.nl/2013/08/start-using-our-gene-validation-tool.html). Actually, Monica
 was part of a different GSoC organisation,
 [PhyloSoC](http://informatics.nescent.org/wiki/Phyloinformatics_Summer_of_Code_2013),
-but also participated in our Ruby centric meetings and code reviews. She shared
+but also participated in our Ruby centric meetings and code reviews. Because
+women are still rare in coding we are putting her first. She shared
 her SciRuby GSoC experience:
 
 <p class="note"><strong>Monica:</strong>
@@ -52,7 +53,7 @@ working on my TimeSeries extension; after GSoC, I picked up Machine Learning
 course and I was able to relate it to very easily after working on regression
 techniques in GLM extension. I can't thank enough for the opportunity provided
 and the trust endowed by my mentor on me. Learning to write quality code and
-getting reviews was a cherry on cake! :)
+getting reviews was a cherry on cake! 
 </p>
 
 Will Strinz from Madison, USA, worked on [RDF generators for Ruby](http://localhost:4000/blog/2013/10/12/ruby-and-the-semantic-web-rdf-sparql-publisci/) for the 
@@ -116,10 +117,9 @@ Work really hard. Do your homework before you ask questions or before quoting
 anything in proposal. Writing a good proposal is necessary, and you must really
 be aware of what you are writing - a good research is necessary. SciRuby
 community members are readily available to help you at mailing list and #sciruby channel. A thorough discussion with the mentor will help you out.
-</p<
+</p>
 
 <p class="note"><strong>Will:</strong>
-
 To new applicants this year I'd stress one thing above all else; get in
 touch with people on the sciruby mailing list. Introduce yourself as soon as
 possible, and start discussing your project ideas when you have something in
@@ -139,19 +139,17 @@ to the deadline, the less time there will be to polish your application and
 respond to questions, so make sure you're doing it quickly and effectively.
 </p>
 
-Monica added
+our SciRuby GSoC alumni added
 
 <p class="note"><strong>Monica:</strong>
 If I don't join this year, I wish you good luck with the new students!
 </p>
 
-Ankur added
 
 <p class="note"><strong>Ankur:</strong>
 I will be happy to sign up again as student, this year!
 </p>
 
-And Will Strinz added
 
 <p class="note"><strong>Will:</strong>
 
