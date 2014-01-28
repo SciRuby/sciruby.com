@@ -1,13 +1,11 @@
 ---
 layout: post
-title: "GSoC Alumni"
-date: 2014-01-28 17:00
+title: "Some Words from GSoC 2013 Alumni"
+date: 2014-01-28 16:07
 comments: false
 author: Pjotr Prins
 categories: [GSOC,GSOC2013]
 ---
-
-## SciRuby and the Google Summer of Code 2013
 
 In 2013, SciRuby was a mentoring organization for the Google Summer of Code. We
 asked our alumni students:
