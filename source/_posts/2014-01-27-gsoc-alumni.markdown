@@ -16,7 +16,7 @@ asked our alumni students:
 
 2) What advice would you give new applicants?
 
-Monica Dragan from Romania is worked on [gene validation](https://github.com/monicadragan/GeneValidator), see also her
+Monica Dragan from Romania worked on [gene validation](https://github.com/monicadragan/GeneValidator), see also her
 [BLOG](http://gene-prediction.blogspot.nl/2013/08/start-using-our-gene-validation-tool.html). Actually, Monica
 was part of a different GSoC organisation,
 [PhyloSoC](http://informatics.nescent.org/wiki/Phyloinformatics_Summer_of_Code_2013),
