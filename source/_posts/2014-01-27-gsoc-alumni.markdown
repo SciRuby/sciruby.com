@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Some Words from GSoC 2013 Alumni"
+title: "Some words from GSoC 2013 alumni"
 date: 2014-01-28 16:07
 comments: false
 author: Pjotr Prins
