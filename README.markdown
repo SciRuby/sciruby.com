@@ -34,3 +34,15 @@ THE SOFTWARE IS PROVIDED ‘AS IS’, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR I
 #### If you want to be awesome.
 - Proudly display the 'Powered by Octopress' credit in the footer.
 - Add your site to the Wiki so we can watch the community grow.
+
+### Contributing Blog Posts To SciRuby.com
+
+ * Make a fork of SciRuby/sciruby.com into your own github account.
+ * Clone your fork onto your local machine.
+ * git checkout source
+ * bundle exec rake new_post['This is my blog entry title']
+ * cd source/_posts
+ * Here you'll find a bunch of markdown files. These are the posts. Find yours and edit it. It uses markdown, which you can Google, but is pretty simple.
+ * To preview your post, first do ```bundle exec rake generate``` and then ```bundle exec rake preview```.
+ * Commit your changes and push them to your own repository.
+ * Go into the source branch of your repository and issue a pull request back to SciRuby.
