@@ -8,7 +8,7 @@ categories: [GSOC,GSOC2013]
 ---
 
 In 2013, SciRuby was a mentoring organization for the Google Summer of Code. We
-asked our alumni students:
+asked our alumni:
 
 1) How did you experience GSoC/SciRuby and what has it brought you?
 
