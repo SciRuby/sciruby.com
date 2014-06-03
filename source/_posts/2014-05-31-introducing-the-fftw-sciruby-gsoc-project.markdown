@@ -15,7 +15,7 @@ After some investigation during the preparation stages of GSoC, it was determine
 So, by putting FFTW3 in the driving seat, this allows the SciRuby project to take advantage on the good work of the FFTW3 developers by bringing it to ruby and should hopefully allow me to use SoC to concentrate on making the most of the operations that the API provides the project with over the summer.
 Putting nmatrix to the test with the FFTW3 should give users the opportunity to test drive nmatrix and SciRuby's nmatrix developers, a chance to root out bugs to be fixed.
 
-Since a gem called ruby-ffw3 already existed to perform FFTW3 operations on narray objects so far, I forked that repository as a starting point and [things are progressing on my fftw3 repository on github](https://github.com/thisMagpie/fftw3) right now. 
+Since a gem called ruby-ffw3 already existed to perform FFTW3 operations on narray objects so far, I forked that repository as a starting point and [things are progressing on my fftw3 repository on github](https://github.com/thisMagpie/fftw) right now. 
 
 My mentor for this project is Colin Fuller who is an exceptionally talented programmer (and he really knows his git too) so he has been a great help so far as I adapt to the learning curve of working in C and ruby (languages which I am less familiar with than say, java or javascript).
 
