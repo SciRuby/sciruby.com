@@ -12,8 +12,8 @@ Introduction to the Minimization and Integration Project
 Hi. My name is Rajat Kapoor and I have been selected to work with SciRuby for Google Summer of Code 2014.
 [Minimization](https://github.com/SciRuby/minimization) and [Integration](https://github.com/SciRuby/integration) are two of the many available gems in the SciRuby Suite. My project this year aims to improve these gems to replicate the functionality provided by GNU's GSL. I would be trying to implement all the minimization and integration algorithms present in GSL in pure Ruby so that these functions are easily accesible to all Ruby users, while the users which have GSL already installed will have an advantage in terms of speedy computations.
 
-What Minimization and Integration actually is
----------------------------------------------
+What Minimization and Integration actually means
+------------------------------------------------
 Minimization refers to the process of finding out the minimum of a mathematical function whose values might depend on multiple variables. Unidimensional minimization restricts these problems to functions of one single variable.
 Integration is very widely used concept in calculus which basically boils down to finding the summation of the value of a function at small intervals, when the width of the intervals in infinitesimally small. I can bet that you knowingly or unknowingly use both these things on a daily basis.
 
