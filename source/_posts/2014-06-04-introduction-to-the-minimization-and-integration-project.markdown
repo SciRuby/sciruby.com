@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Introduction to the Minimization and Integration project"
+title: "Introduction to the Minimization and Integration project (Rajat)"
 date: 2014-06-04 14:23
 author: Rajat Kapoor
 comments: true
