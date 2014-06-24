@@ -4,7 +4,7 @@ title: "Introduction: Minimization and Integration (Lahiru)"
 date: 2014-06-18 16:45
 author: Lahiru Lasandun
 comments: true
-categories: [GSOC2014,GSOC,Minimization,Integration]
+categories: [GSOC2014,GSOC,Minimization,Integration,Students]
 ---
 <p class="note"><strong>Editor's Note:</strong> We have two students
 working on numerical minimization and integration this summer, Rajat and

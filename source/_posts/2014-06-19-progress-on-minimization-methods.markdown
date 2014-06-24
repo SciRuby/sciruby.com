@@ -4,7 +4,7 @@ title: "Progress on Minimization methods"
 date: 2014-06-19 01:00
 author: Lahiru Lasandun
 comments: true
-categories: [GSOC2014,GSOC,Minimization]
+categories: [GSOC2014,GSOC,Minimization,Students]
 ---
 Current Progress on Minimization Gem
 --------------------
