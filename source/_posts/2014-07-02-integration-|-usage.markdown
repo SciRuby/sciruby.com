@@ -19,7 +19,7 @@ The integration gem is now equipped with a host of different algorithms for appr
 Example
 -------
 Let us say you need to find out the integral of a function `5*x**2 -7*Math.cos(x)` over the interval `(0,1)`.
-We can solve this using the following syntax using the Integration gem:
+We can solve this using the following snippet using the Integration gem:
 ```ruby
 Integration.integrate(0,1,{:method=>:simpson}) {|x| 5*x**2 -7*Math.cos(x)}
 # => -4.223630227110514
@@ -29,3 +29,4 @@ Instead of `{:method=>:simpson}` in the above code, you can use any one of these
 ```ruby
 rectangle,:trapezoid,:simpson, :adaptive_quadrature , :gauss, :romberg, :monte_carlo, :gauss_kronrod, :simpson3by8, :boole, :open_trapezoid, :milne
 ```
+Each of these different algorithms give similar results, unless the function to be integrated has a rapid changes, in which case these might give different values for the same integral because of the nature of numerical integration. 
