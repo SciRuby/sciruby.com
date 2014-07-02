@@ -22,7 +22,7 @@ Example
 Let us say you need to find out the integral of a function `5*x**2 -7*Math.cos(x)` over the interval `(0,1)`.
 We can solve this using the following snippet using the Integration gem:
 ```ruby
-Integration.integrate(0,1,{:method=>:simpson}) {|x| 5*x**2 -7*Math.cos(x)}
+Integration.integrate( 0, 1, {:method=>:simpson} ) {|x| 5*x**2 -7*Math.cos(x)}
 # => -4.223630227110514
 ```
 We see that the actual value of this integral is `-4.2236302269886088799000849584`, which is pretty close to the value estimated by the integration gem.
