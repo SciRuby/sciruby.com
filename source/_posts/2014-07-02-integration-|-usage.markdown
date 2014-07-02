@@ -18,7 +18,7 @@ The integration gem is now equipped with a host of different algorithms for appr
 
 Example
 -------
-Let us say you need to find out the integral of a function ![Image](http://www.sciweavers.org/upload/Tex2Img_1404332523/eqn.png) over the interval ![Image](http://www.sciweavers.org/upload/Tex2Img_1404332829/eqn.png).
+Let us say you need to find out the integral of a function `5*x**2 -7*Math.cos(x)` over the interval `(0,1)`.
 We can solve this using the following syntax using the Integration gem:
 ```ruby
 Integration.integrate(0,1,{:method=>:simpson}) {|x| 5*x**2 -7*Math.cos(x)}
