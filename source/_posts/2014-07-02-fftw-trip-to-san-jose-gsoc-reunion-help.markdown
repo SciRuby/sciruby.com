@@ -44,8 +44,7 @@ By helping me meet all the wonderful people I have worked with in person, at the
 [![Donate with Pledgie][8]](https://pledgie.com/campaigns/25892)
 ==========
 
-1129CMrZkqKt32F5kJhYiNMsfhRnWFEeTAe
-
+1129CMrZkqKt32F5kJhYiNMsfhRnWFEeTA
   [1]: http://i.imgur.com/5SYYd8Q.jpg
   [2]: http://i.imgur.com/5H30L.gif
   [3]: http://www.gnome.org/wp-content/themes/gnome-grass/images/gnome-logo.png
