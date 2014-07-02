@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Integration | Usage"
+title: "Usage: Integration Gem Improvements"
 date: 2014-07-02 17:43
 author: Rajat Kapoor
 comments: true
