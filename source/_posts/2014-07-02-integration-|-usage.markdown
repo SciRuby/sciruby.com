@@ -18,5 +18,5 @@ The integration gem is now equipped with a host of different algorithms for appr
 
 Example
 -------
-Let us say you need to find out the integration of a function
+Let us say you need to find out the integration of a function ![alt text](http://bit.ly/1mluRED)
 
