@@ -1,6 +1,10 @@
 ---
 layout: post
+<<<<<<< HEAD
 title: "The progress of GSoC D3 Project"
+=======
+title: "The progress of the GSoC D3/Visualization Project"
+>>>>>>> upstream/source
 date: 2014-07-02 17:09
 comments: true
 author: Naoki Nishida
