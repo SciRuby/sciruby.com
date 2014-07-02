@@ -39,7 +39,7 @@ Method, Milne's Method, Boole's Quadrature and Open Trapezoid.
 This week, I will be reviewing a [pull request](https://github.com/clbustos/integration/pull/3) which aims to change the structure of the whole Integration gem.
 
 After that I plan to implement more adaptive methods and incorporate
-the non adaptive methods under a single Newton&ndash;Cotes function.
+the non-adaptive methods under a single Newton&ndash;Cotes function.
 
 Lastly, I am brainstorming designs for symbolic integration using
 JScience and JRuby.
