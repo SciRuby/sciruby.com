@@ -8,7 +8,7 @@ categories: [D3,GSOC,GSOC2014,Students,Visualization,Nyaplot]
 ---
 This week is the half-way point of this year's Google Summer of Code. Let me report the progress during the term.
 
-![alt text](https://dl.dropboxusercontent.com/u/47978121/gsoc/nyaoplot_top.png)
+![Example Nyaplot chart](https://dl.dropboxusercontent.com/u/47978121/gsoc/nyaoplot_top.png)
 
 ## Progress on the front-end library
 I am developing [Nyaplot](https://github.com/domitry/Nyaplot) as the front-end library for my work.
