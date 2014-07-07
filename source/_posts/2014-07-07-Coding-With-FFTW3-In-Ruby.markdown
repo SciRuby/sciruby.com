@@ -10,6 +10,8 @@ Coding an FFTW3 Wrapper in Ruby
 
 ------
 
+[ ![Fork the FFTW Github repository][1]](https://github.com/thismagpie/fftw)
+
 ![FFTW development Logo](http://fftw.org/fftw-logo-med.gif)![Ruby](https://www.pivotaltracker.com/wp-content/uploads/2013/12/ruby-logo.png)
 
 -------
@@ -28,7 +30,7 @@ Fast Fourier Transform (FFT) is a technique which works around this problem by [
 
 ### Designing the FFTW wrapper gem
 
-It was determined that dynamic array allocation for working with nmatrix and fftw. This decision is supported by the [recommendation to allocate most arrays dynamically](http://www.fftw.org/doc/Dynamic-Arrays-in-C.html#Dynamic-Arrays-in-C) with with fftw_malloc which is made by the FFTW3 developers themselves and my mentor and  Colin Fuller has agreed this was the best course of action, too.
+It was determined that dynamic array allocation was appropriate for working with nmatrix and fftw. This decision is supported by the [recommendation to allocate most arrays dynamically](http://www.fftw.org/doc/Dynamic-Arrays-in-C.html#Dynamic-Arrays-in-C) with with fftw_malloc which is made by the FFTW3 developers themselves and my mentor and  Colin Fuller has agreed this was the best course of action, too.
 
 ```
     fftw_complex *an_array;
@@ -62,7 +64,7 @@ There is no need to create a `wrapper` function in `c++` for `planner` functions
 
 #### Plans of Interest
 
-It was determined that **multidimensional** arrays were more flexible to work with than 1D or 2D arrays so the plans of interest are all **multidimensional**. 
+Since **multidimensional** arrays are more flexible to work with than 1D or 2D arrays so the plans of interest for my project are the **multidimensional** ones.
 
 The following is sourced from the FFTW3 API [documentation page on planner flags](http://www.fftw.org/doc/Planner-Flags.html)
 
