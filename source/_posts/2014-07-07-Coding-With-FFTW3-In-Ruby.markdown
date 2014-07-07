@@ -6,17 +6,18 @@ author: Magdalen Berns
 comments: true
 categories: FFTW, GSoC 2014, thisMagpie,GSoC
 ---
-Creating an FFTW3 Wrapper in Ruby
---------
-[![Github repository][1]](https://github.com/thismagpie/fftw)![[[FFTW C API project developement Logo: the letters FFT (in black) followed by the letter W (in red)][2]![Ruby][7]
-[7]: https://www.pivotaltracker.com/wp-content/uploads/2013/12/ruby-logo.png
+Coding an FFTW3 Wrapper in Ruby
+
+------
+
+![FFTW development Logo](http://fftw.org/fftw-logo-med.gif)![Ruby](https://www.pivotaltracker.com/wp-content/uploads/2013/12/ruby-logo.png)
 
 -------
 It is not possible to explain what I am doing this project in depth and be understood, without covering some details about `FFTW` itself, to outline why the module, works so well at performing FFT operations so **quickly**.
 
 The underlying problem analogue to digital conversion presents us with, as technology users, is that there is an inevitable trade off between a result that is computationally expensive (i.e. slow) to reproduce but more precise and less degraded and a result that is less computationally expensive to reproduce but is also less precise and more degraded.
 
-Fast Fourier Transform (FFT) is a technique which works around this problem by [decomposing the Discrete Fourier Transform (DFT) matrix recursively][3].
+Fast Fourier Transform (FFT) is a technique which works around this problem by [decomposing the Discrete Fourier Transform (DFT) matrix recursively](http://www.fftw.org/fftw-paper-ieee.pdf).
 
 
 `FFTW3 API` ruby wrapper allows NMatrix users to require the gem and query the `FFTW3` interface in order to perform `FFTW` operations on `nmatrix d-type` objects.
@@ -75,6 +76,9 @@ fftw_plan fftw_plan_many_r2r(int rank, const int *n, int howmany,
                                   int ostride, int odist,
                                   const fftw_r2r_kind *kind, unsigned flags);
 ```
+
+----------
+
 
 A real-to-complex, `r2c` **multidimentional plan**:
 
@@ -216,6 +220,7 @@ All donations large and small, are gratefully received. The generosity of the co
 
 [![Donate with Pledgie][4]](https://pledgie.com/campaigns/25892)  [![Donate with Pledgie][5]](https://pledgie.com/campaigns/25907)
 ==========
+
 **Bitcoin: 1129CMrZkqKt32F5kJhYiNMsfhRnWFEeTA**
 
 -------
@@ -225,9 +230,6 @@ All donations large and small, are gratefully received. The generosity of the co
 ---------------
 
 
-
   [1]: https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png
-  [2]: http://fftw.org/fftw-logo-med.gif
-  [3]: http://www.fftw.org/fftw-paper-ieee.pdf
   [4]: https://pledgie.com/campaigns/25892.png?skin_name=chrome
   [5]: https://pledgie.com/campaigns/25907.png
