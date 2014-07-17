@@ -30,7 +30,7 @@ The trick is actually hidden in Nyaplot::DataFrame. In this example,
 both of the two diagrams are generated from columns in one DataFrame.
 When Nyaplot receives a column object (instance of `Nyaplot::Series`,
 defined
-[here](https://github.com/domitry/nyaplot/blob/master/lib/nyaplot/data.rb#L115)), it 
+[here](https://github.com/domitry/nyaplot/blob/93ee183b935a7deafa388f2a198792e86914d550/lib/nyaplot/data.rb#L130)), it 
 internally find its source data frame and remembers its location.
 
 Consequently, Nyaplot can find that histogram and bar chart are
@@ -43,11 +43,11 @@ sharing their data source, and allows them to interact with each other.
 Before explaining the event handler, I want to outline Nyaplot's
 diagram rendering procedure. In the back-end JavaScript library,
 diagrams, such as histograms, fetch column data from data frames and generate
-their SVG DOM nodes dynamically ([source code](https://github.com/domitry/Nyaplotjs/blob/master/src/view/diagrams/histogram.js#L20)).
+their SVG DOM nodes dynamically ([source code](https://github.com/domitry/Nyaplotjs/blob/0aa104aed467f39da89ba3ed72be5f159a0261b8/src/view/diagrams/histogram.js#L20)).
 
-The key is [a data frame written in JavaScript](https://github.com/domitry/Nyaplotjs/blob/master/src/utils/dataframe.js). After mouse events
+The key is [a data frame written in JavaScript](https://github.com/domitry/Nyaplotjs/blob/0aa104aed467f39da89ba3ed72be5f159a0261b8/src/utils/dataframe.js). After mouse events
 coming from a filter (such as the gray box on the plot area) are
-handled, the histogram [registers its filter function to the data frame and instructs all diagrams to update their SVG DOM objects](https://github.com/domitry/Nyaplotjs/blob/master/src/view/diagrams/histogram.js#L96). The bar chart [updates its SVG from data filtered by the new function](https://github.com/domitry/Nyaplotjs/blob/master/src/view/diagrams/bar.js#L54).
+handled, the histogram [registers its filter function to the data frame and instructs all diagrams to update their SVG DOM objects](https://github.com/domitry/Nyaplotjs/blob/0aa104aed467f39da89ba3ed72be5f159a0261b8/src/view/diagrams/histogram.js#L96). The bar chart [updates its SVG from data filtered by the new function](https://github.com/domitry/Nyaplotjs/blob/0aa104aed467f39da89ba3ed72be5f159a0261b8/src/view/diagrams/bar.js#L54).
 
 As you can see, Nyaplot's inner workings are fairly simple; and these
 workings are common to all diagrams supported by Nyaplot. So not only
