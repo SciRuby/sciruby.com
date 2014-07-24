@@ -37,7 +37,7 @@ The image on top of this blog post is a hyperbolic spiral which I generated with
 IRuby. [Have a look at the notebook](http://nbviewer.ipython.org/github/domitry/Nyaplot/blob/master/examples/notebook/Introduction.ipynb) on nbviewer, an IRuby and IPython notebook hosting services.
 
 ## Progress on the back-end library
-Nyaplot uses [Nyaplotjs](https://github.com/domitry/Nyaplotjs) as its back-end library. I spent a lot of time to implement interactivity among multiple panes to Nyaplotjs. See [an example](http://www.domitry.com/gsoc/).
+Nyaplot uses [Nyaplotjs](https://github.com/domitry/Nyaplotjs) as its back-end library. I spent a lot of time to implement interactivity among multiple panes to Nyaplotjs. See [an example](http://www.domitry.com/gsoc/multi_pane2.html).
 
 ![alt text](https://dl.dropboxusercontent.com/u/47978121/gsoc/top.png)
 
