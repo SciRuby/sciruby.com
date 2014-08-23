@@ -6,12 +6,19 @@ author: Rajat Kapoor
 comments: true
 categories: [GSOC2014,GSOC,Integration,Students]
 ---
-The Integration gems is now filled with a lot of functions to choose from. To make this choice easier, I have done some benchmarking stuff to see how fast and acuurate each of these functions are.
-The results of these tests for some randomly chose functions are given below. The speed test reports shows the user CPU time, system CPU time, the sum of the user and system CPU times, and the elapsed real time to perform 100 iterations of the code. The unit of time is seconds.
 
-For function f(x)= x^2+3*x+7 on interval (0,1)
+The Integration gem now includes quite a few functions from which to
+choose. To make this choice easier, I have done some benchmarking to
+see how fast and acuurate each of these functions are.  The results of
+these tests for some randomly chosen functions are given below. The
+speed test reports shows the user CPU time, system CPU time, the sum
+of the user and system CPU times, and the elapsed real time to perform
+100 iterations of the code. The unit of time is seconds.
 
-Speed Tests:
+## For function f(x)= x^2+3*x+7 on interval (0,1)
+
+### Speed Tests
+
 ```
 Benchmarking with 100 iterations
                                 user     system      total        real
@@ -42,7 +49,7 @@ qng                         0.000000   0.000000   0.000000 (  0.003788)
 qag                         0.010000   0.000000   0.010000 (  0.010407)
 ```
 
-Accuracy Tests:
+### Accuracy Tests
 ```
 +---------------------+-------------------+-------------------+------------------------+-------------------+
 |       Method        |      Result       |   Actual Result   |         Error          |     Accuracy      |
@@ -62,9 +69,9 @@ Accuracy Tests:
 | qag                 | 8.833333333333336 | 8.833333333333334 | 1.7763568394002505e-15 | 99.99999999999997 |
 +---------------------+-------------------+-------------------+------------------------+-------------------+
 ```
-For function f(x) = x^5+7*x^2+2*cos(x) on interval (0,1)
+## For function f(x) = x^5+7*x^2+2*cos(x) on interval (0,1)
 
-Speed Tests:
+### Speed Tests
 ```
 Benchmarking with 100 iterations
                                 user     system      total        real
@@ -94,7 +101,9 @@ qng                         0.000000   0.000000   0.000000 (  0.008263)
                                 user     system      total        real
 qag                         0.020000   0.000000   0.020000 (  0.020050)
 ```
-Accuracy Tests:
+
+### Accuracy Tests
+
 ```
 +---------------------+--------------------+--------------------+------------------------+-------------------+
 |       Method        |       Result       |   Actual Result    |         Error          |     Accuracy      |
@@ -114,9 +123,13 @@ Accuracy Tests:
 | qag                 | 4.1829419696157935 | 4.1829419696157935 | 0.0                    | 100.0             |
 +---------------------+--------------------+--------------------+------------------------+-------------------+
 ```
-If you are keen to test any function of your choice you can pull from my [Git fork](https://github.com/rajatkapoor/integration) and change the files in the benchmark folder. 
-For both the files, accuracy.rb and speed.rb change the line
-`func = lambda{|x| f(x)}`
-with f(x) as your desired function.
-In case you want to perform accuracy benchmarks, make sure that you know the exact result of the integration operation before hand and assign this value to the variable `actual_result`
-Feel free to comment if you face any problem running the benchmarks with your desired functions.
+
+If you are keen to test any function of your choice you can pull from
+[my Integration gem fork](https://github.com/rajatkapoor/integration)
+and change the files in the benchmark folder. For both the files,
+`accuracy.rb` and `speed.rb`, change the line `func = lambda{|x| f(x)}`
+with `f(x)` as your desired function. In case you want to perform
+accuracy benchmarks, make sure that you know the exact result of the
+integration operation before hand and assign this value to the
+variable `actual_result` Feel free to comment if you face any problem
+running the benchmarks with your desired functions.
