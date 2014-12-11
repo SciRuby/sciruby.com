@@ -12,8 +12,9 @@ Code. Let me report the progress during the term.
 
 ![Example Nyaplot chart of a spiral](https://dl.dropboxusercontent.com/u/47978121/gsoc/nyaoplot_top.png)
 
-## Progress on the front-end library I am developing
-[Nyaplot](https://github.com/domitry/Nyaplot) as the front-end library
+## Progress on the front-end library
+
+I am developing [Nyaplot](https://github.com/domitry/Nyaplot) as the front-end library
 for my work.
 
 One topic on Nyaplot is API design. That is a difficult problem since

@@ -12,17 +12,16 @@ categories: [D3,GSOC,GSOC2014,Students,Visualization,Nyaplot]
 ## Introduction
 
 Three months of GSoC 2014 term was over this week and finally I
-released my product [Nyaplot as a
-gem](http://rubygems.org/gems/nyaplot). This blog post was written to
-introduce Nyaplot version 0.1.1.
+released my product [Nyaplot as a gem](http://rubygems.org/gems/nyaplot). 
+This blog post was written to introduce Nyaplot version 0.1.1.
 
-## Feature
+## Features
 
 There are various plotting libraries in the world as ggplot2 from R
 community and [Plotrb](https://github.com/zuhao/plotrb) and
 [Rubyvis](https://github.com/clbustos/rubyvis) from Ruby.  The
 features of Nyaplot compared with those libraries are
-**interactivity**, **simplicity**, and **extendibility**.
+**interactivity**, **simplicity**, and **extensibility**.
 
 Interactivity is the main theme of my D3 project in GSoC 2014. You can
 soon find the aforementioned interactivity by clicking plots with your
@@ -30,12 +29,11 @@ mouse or trackpad. This feature is also available on browsers bundled
 with Android or iOS thanks to technologies like SVG and WebGL.
 
 However, the word 'interactivity' is not limited to situations like
-the above. You can explore that for yourself by using Nyaplot in [IRuby
-notebook](https://github.com/minad/iruby). Various modules prepared
+the above. You can explore that for yourself by using Nyaplot in [IRuby notebook](https://github.com/minad/iruby). Various 
+modules prepared
 by Nyaplot help you to create plots interactively in the notebook.
 You can also publish the result quickly by uploading the notebook to
-your Dropbox storage, a gist or pastebin, or somewhere else. [Here is an
-example](http://nbviewer.ipython.org/gist/mgiraldo/a68b53175ce5892531bc)
+your Dropbox storage, a gist or pastebin, or somewhere else. [Here is an example](http://nbviewer.ipython.org/gist/mgiraldo/a68b53175ce5892531bc)
 which Mauricio Giraldo created and published on gist.
 
 Simplicity is also an important element.  Many plotting libraries has
@@ -63,26 +61,24 @@ After that, find example code from
 `ruby` command.  These scripts will generate some plots with Nyaplot
 and export them as html files to current directory.
 
-In addition, I strongly recommend you to install [IRuby
-notebook](https://github.com/minad/iruby) at the same time. IRuby is a
+In addition, I strongly recommend you to install [IRuby notebook](https://github.com/minad/iruby) at 
+the same time. IRuby is a
 web-based, interactive Ruby environment and is useful for quickly
 creating plots with Nyaplot. The introduction video embedded at the
 top of this post was also created on IRuby.
 
 IRuby depends on some software outside of Ruby-ecosystem, so its
-installation method is a bit complicated. Please read [the description
-in README](https://github.com/domitry/nyaplot#install-iruby-notebook)
+installation method is a bit complicated. Please read [the description in the readme](https://github.com/domitry/nyaplot#install-iruby-notebook)
 to learn more.
 
 ## Usage
 
 I already wrote tutorials, so I'd like to limit the role of this
 paragraph to the introduction of the basic usage. You can skip
-reading this paragraph and find details on _[Tutorial on
-nbviewer](http://nbviewer.ipython.org/github/domitry/nyaplot/blob/master/examples/notebook/Index.ipynb)_
-and _[Documents](http://rubydoc.info/gems/nyaplot/0.1.1/frames)_.
+reading this paragraph and find details in [the nbviewer tutorial](http://nbviewer.ipython.org/github/domitry/nyaplot/blob/master/examples/notebook/Index.ipynb)
+and [documentation](http://rubydoc.info/gems/nyaplot/0.1.1/frames).
 
-The minimum code to create Scatter plot is as shown below:
+The minimum code to create a scatter plot is as shown below:
 
 ```ruby
 plot = Nyaplot::Plot.new
@@ -108,8 +104,7 @@ sc.color(color)
 qualitative data.
 
 If you execute this code in IRuby notebook, you can check if you favor
-the colorset through html-table based interface. [See the
-tutorial to learn more.](http://nbviewer.ipython.org/github/domitry/nyaplot/blob/master/examples/notebook/Colors.ipynb)
+the colorset through html-table based interface. [See the tutorial to learn more.](http://nbviewer.ipython.org/github/domitry/nyaplot/blob/master/examples/notebook/Colors.ipynb)
 
 ![Nyaplot::Colors](https://dl.dropboxusercontent.com/u/47978121/gsoc/colors.png)
 
