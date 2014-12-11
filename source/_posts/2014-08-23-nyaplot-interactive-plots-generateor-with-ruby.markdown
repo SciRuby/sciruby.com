@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Nyaplot: interactive plots generateor with Ruby"
+title: "Nyaplot: interactive plots generator with Ruby"
 date: 2014-08-23 10:07
 comments: true
 author: Naoki Nishida
