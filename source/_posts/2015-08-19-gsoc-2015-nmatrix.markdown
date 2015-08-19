@@ -1,0 +1,132 @@
+---
+layout: post
+title: "GSoC 2015: New NMatrix gems for advanced linear algebra features"
+date: 2015-08-19 09:57
+comments: true
+categories: 
+---
+My Google Summer of Code project was working on the [NMatrix project](https://github.com/SciRuby/nmatrix), moving
+functionality that depends on external libraries from the core `nmatrix`
+gem to optional plugin gems. NMatrix is a Ruby library for linear algebra,
+used by many other projects.
+In addition to the code that was part of
+NMatrix proper, NMatrix previously required the [ATLAS library](http://math-atlas.sourceforge.net/), which
+implemented fast versions of common matrix operations like multiplication
+and inversion, as well as more advanced operations like eigenvalue
+decomposition and Cholesky decomposition.
+
+There were two separate but related motivations for my project. The
+first was to simplify the NMatrix installation
+process. ATLAS can be difficult to install, so the installation
+process for NMatrix was complicated, especially on
+OS X, and may have discouraged people from using NMatrix.
+The second motivation was that by separating out the ATLAS code from the
+main NMatrix code, it would be easier to add new linear algebra backends
+which provide similar features. Indeed, I implemented a second backend this
+summer.
+
+The end result of my summer's work:
+
+* The core `nmatrix` gem does not depend on any external linear matrix
+libraries. It provides non-optimized implementations of common matrix
+operations.
+* All code that requires ATLAS has been moved into the new `nmatrix-atlas`
+gem, so that
+those who are only interested in the core functionality are not required to
+install ATLAS. `nmatrix-atlas` provides optimized implementations of common matrix
+operations, as well as advanced functions not available in `nmatrix`.
+I wrote a blog post describing the setup for [releasing multiple gems from the same repository](http://wlevine.github.io/2015/06/15/releasing-multiple-gems-with-c-extensions-from-the-same-repository.html), which this required.
+* A new gem `nmatrix-lapacke`, which provides the same features as
+`nmatrix-atlas`, but instead of depending specifically on the ATLAS
+library, requires any generic [LAPACK](https://en.wikipedia.org/wiki/LAPACK) and
+[BLAS](https://en.wikipedia.org/wiki/Basic_Linear_Algebra_Subprograms)
+implementation. This should be easier to use for many users as they may
+already have LAPACK installed (it comes pre-installed with OS X and is
+commonly used in Linux systems), but not ATLAS.
+* The installation procedure is simplified, especially for those installing
+just the `nmatrix` gem. Compare the [new installation instructions](https://github.com/SciRuby/nmatrix/wiki/Installation)
+to the [old ones](https://github.com/SciRuby/nmatrix/wiki/Installation/2ac41c62d35c79468d3d8169be0ccba238c3c921).
+
+The one deviation from my original proposal was that I originally intended to remove
+all the ATLAS code and release only the `nmatrix-lapacke` plugin, so that we
+would only have one interface to the advanced linear algebra functions, but I
+decided to keep the ATLAS code, since the `nmatrix-lapacke` code is new and
+has not had a chance to be thoroughly tested.
+
+### Usage
+
+```ruby
+require 'nmatrix'
+#create a 3-by-3 matrix
+a = NMatrix.new([3,3], [1,2,3, 4,5,6, 7,8,9], dtype: :float64)
+#invert it using non-optimized NMatrix-internal implementation
+a.invert!
+```
+
+```ruby
+require 'nmatrix'
+require 'nmatrix/atlas' #or require 'nmatrix/lapacke'
+#create a 3-by-3 matrix
+a = NMatrix.new([3,3], [1,2,3, 4,5,6, 7,8,9], dtype: :float64)
+#invert it using optimized implementation provided by ATLAS
+a.invert!
+```
+
+For advanced functions not provided by the core `nmatrix` gem, for example
+[`gesvd`](http://sciruby.com/nmatrix/docs/NMatrix.html#method-i-gesvd), `nmatrix-atlas` and `nmatrix-lapacke`
+provide a common interface:
+
+```ruby
+require 'nmatrix'
+require 'nmatrix/atlas'
+a = NMatrix.new([4,5],[1,0,0,0,2, 0,0,3,0,0, 0,0,0,0,0, 0,4,0,0,0],
+dtype: dtype)
+u, s, vt = a.gesvd
+```
+
+```ruby
+#Identical to the above, except for the require
+require 'nmatrix'
+require 'nmatrix/lapacke'
+a = NMatrix.new([4,5],[1,0,0,0,2, 0,0,3,0,0, 0,0,0,0,0, 0,4,0,0,0],
+dtype: dtype)
+u, s, vt = a.gesvd
+```
+
+If the developer wants to use an advanced feature, but does not care
+whether the user is using `nmatrix-atlas`
+or `nmatrix-lapacke`, they can `require nmatrix/lapack_plugin`, which will
+require whichever of the two is available, instead of being forced to
+choose between the two.
+
+As a fun test of the new gems, I did a very simple benchmark, just
+testing how long it took to invert a
+1500-by-1500 matrix in place using `NMatix#invert!`:
+
+* `nmatrix` (no external libraries): 3.67s
+* `nmatrix-atlas`: 0.96s
+* `nmatrix-lapacke` with ATLAS: 0.99s
+* `nmatrix-lapacke` with OpenBLAS (multithreading enabled): 0.39s
+* `nmatrix-lapacke` with reference implementations of LAPACK and BLAS: 3.72s
+
+This is not supposed to be a thorough or realistic benchmark (performance will
+depend on your system, on how you built the libraries, and on the exact
+functions that you use), but there
+are still a few interesting conclusions we can draw from it:
+
+* Performance is much better using the two highly optimized libraries
+(ATLAS and OpenBLAS) than using either the NMatrix
+internal implementation or the reference implementation.
+* When using ATLAS, performance is similar whether using `nmatrix-atlas`
+and `nmatrix-lapacke` (this means we could consider deprecating
+the `nmatix-atlas` gem).
+
+Overall, my summer has been productive. I implemented everything that I
+proposed and feedback from testers so far has been positive.
+I plan to stay involved with NMatrix, especially to follow up on any issues
+related to my changes.
+Although I won't be a student next summer, I would certainly consider
+participating in Google Summer of Code in the future as a mentor.
+I'd like to
+thank my mentor John Woods and the rest of the SciRuby community for support
+and feedback throughout the summer.
