@@ -6,18 +6,186 @@ author: Abinash Meher
 comments: true
 categories: [SymEngine,GSOC2015,GSOC,Students]
 ---
-A symbolic manipulation library is indispensable for scientists and students. Ruby is gaining huge popularity over the years, and a symbolic manipulation library gem  like this project in Ruby might prove to be the foundation for a computer algebra system in Ruby. With many efforts like these, Ruby might become the first choice for academicians given how easy it is to code your logic in Ruby.
+I am sure you have heard about [Wolfram Alpha](http://www.wolframalpha.com/). Some of you would have used its [Mathematics section](http://www.wolframalpha.com/examples/Math.html) at some point of time to cross check your solution to a maths problem. If you haven't, please do. A computer algebra system (CAS) does the same thing. Algebraic computation or symbolic computation are all used interchangeably. A CAS solves problems the same way a human does, but way more quickly and precisely. There is very less chance for an error, that we humans often make.
+
+## Introduction
+My project was to write the Ruby extensions for the library [SymEngine](https://github.com/sympy/symengine) and come up with a Ruby-ish interface, after which we can use the features of SymEngine from Ruby.
+
+[SymEngine](https://github.com/sympy/symengine) is a library for symbolic computation in C++. You may ask, why SymEngine? There are other CASs that I know of. This question was indeed asked. At the beginning, the idea was to use ruby wrappers for [sage](http://www.sagemath.org/) (a mathematics software system) which uses [Pynac](http://www.sagemath.org/), an interface to [GiNaC](http://www.sagemath.org/) (another CAS). As it turns out from the benchmarks, SymEngine is much faster Pynac. What abouit directly wrapping GiNaC? SymEngine is also a bit faster than GiNac.
 
 The motivation for [SymEngine](https://github.com/sympy/symengine) itself was to develop it once and then extend it to other languages rather than doing the same thing all over again for a language that it is required in.
 
-I have developed a [few notebooks](https://github.com/sympy/symengine/tree/master/symengine/ruby/notebooks) that demonstrate the use of the new SymEngine module in ruby. In the rest of the post, I would like to summarise what I did in the summer as part of [Google Summer of Code 2015](https://www.google-melange.com/gsoc/homepage/google/gsoc2015).
+### How will this be useful?
+There are times when we might need a symbolic computation library. Here is an incomplete list of some of the situations:
+
+- We need to do some algebra to get systems of equations in suitable form for numerical computation.
+- We need to make substitutions for some variables and don’t want to risk a math error by hand. There might be times when we want to partially simplify an expression by substituting only a few of its variables.
+- We have a situation where we need to find the optimum number of something to maximise our profits, and the mathematical model devised is just too complicated to solve by hand.
+- We need to perform non-trivial derivatives or integrals.
+- We are trying to understand the domain of a new function
+- Most root finding algorithms search for a single root, whereas often there are more than one.
+- Some solutions may be complex. For numerical methods to solve these problems a real and complex version of the objective function would need to be written.
+
+Having said so, a symbolic manipulation library is indispensable for scientists and students. Ruby is gaining huge popularity over the years, and a symbolic manipulation library gem  like this project in Ruby might prove to be the foundation for a computer algebra system in Ruby. With many efforts like these, Ruby might become the first choice for academicians given how easy it is to code your logic in Ruby.
+
+## How to install the gem?
+The gem is on RubyGems.org, but there are still issues with that. I would suggest to go with the compile instructions given [here](https://github.com/sympy/symengine/blob/master/symengine/ruby/README.md). After you are done, I would suggest to test the extensions. To run the test suite execute `rspec spec` on the command line, from the `symengine/ruby` dir.
+
+The gem is still in alpha release. Please help us out. Feel free to report an issue at [sympy/symengine](https://github.com/sympy/symengine/issues) repo, if any problems arise.
+
+## What can I do with the gem?
+Currently, the following features are available in the gem:
+- Construct expressions out of variables (mathematical)
+- Simplify the expressions.
+- Carry out arithmetic operations like `+`, `-`, `*`, `/`, `**` with the variables and expressions
+- Extract arguments or variables from an expression.
+- Differentiate an expression with respect to another
+- Substitute variables with other expressions
+
+Features that will soon be ported to the SymEngine gem
+- Functions, including trigonometric, hyperbolic and some special functions
+- Matrices, and their operations
+- Basic Number-theoretic functions
+
+I have developed a [few IRuby notebooks](https://github.com/sympy/symengine/tree/master/symengine/ruby/notebooks) that demonstrate the use of the new SymEngine module in ruby.
+
+Below is an example taken from the notebooks.
+
+---
+## Using the SymEngine Gem
+SymEngine is a module in the extensions, and the classes are a part of it. So first you fire up the interpreter or an IRuby notebook and load the file
+```ruby
+require 'symengine'
+=> true
+```
+Go ahead and try a function
+```ruby
+SymEngine.ascii_art
+=>   _____           _____         _
+    |   __|_ _ _____|   __|___ ___|_|___ ___
+    |__   | | |     |   __|   | . | |   | -_|
+    |_____|_  |_|_|_|_____|_|_|_  |_|_|_|___|
+          |___|               |___|          
+```
+or create a variable
+```ruby
+basic = SymEngine::Basic.new
+=> #<SymEngine::Basic:0x00000001e95290>
+```
+This shows that we have successfully loaded the module.
+
+### SymEngine::Symbol
+Just like there are variables like x, y, and z in a mathematical expression or equation, we have `SymEngine::Symbol` in SymEngine to represent them. To use a variable, first we need to make a `SymEngine::Symbol` object with the string we are going to represent the variable with.
+```ruby
+puts x = SymEngine::Symbol.new("x")
+puts y = SymEngine::Symbol.new("y")
+puts z = SymEngine::Symbol.new("z")
+
+x
+y
+z
+```
+Then we can construct expressions out of them
+```ruby
+e = (x-y)*(x**y/z)
+e.to_s
+=> "x**y*(x - y)/z"
+```
+In SymEngine, every object is an instance of Basic or its subclasses. So, even an instance of `SymEngine::Symbol` is a Basic object.
+```ruby
+x.class
+=> SymEngine::Symbol
+
+x.is_a? SymEngine::Basic
+=> true
+```
+Now that we have an expression, we would like to see it's expanded form using `#expand`
+```ruby
+f = e.expand()
+f.to_s
+=> "x**(1 + y)/z - x**y*y/z"
+```
+Or check if two expressions are same
+```ruby
+f == - (x**y*y/z) + (x**y*x/z)
+=> true
+```
+But `e` and `f` are not equal since they are only mathematically equal, not structurally
+```ruby
+e == f
+=> false
+```
+Let us suppose you want to know **what variables/symbols your expression has**. You can do that with the `#free_symbols` method. The method `#free_symbols` returns a `Set` of the symbols that are in an expression.
+```ruby
+f.free_symbols
+=> #<Set: {#<SymEngine::Basic:0x00000001f0ca70>, #<SymEngine::Basic:0x00000001f0ca48>, #<SymEngine::Basic:0x00000001f0ca20>}>
+```
+Let us use `#map` method to see the elements of the `Set`. 
+```ruby
+f.free_symbols.map { |x| x.to_s }
+=> ["x", "y", "z"]
+```
+`#args` returns the terms of the expression,
+```ruby
+f.args.map { |x| x.to_s }
+["-x**y*y/z", "x**(1 + y)/z"]
+```
+or if it is a single term it breaks down the elements
+```ruby
+f.args[0].args.map { |k| k.to_s }
+=> ["-1", "x**y", "y", "z**(-1)"]
+```
+### SymEngine::Integer
+
+You can make objects of class `SymEngine::Integer`. It's like regular `Integer` in ruby kernel, except it can do all the operations a `Basic` object can like arithmetic operations, etc.
+```ruby
+a = SymEngine::Integer.new(12)
+b = SymEngine::Integer.new(64)
+a**b
+
+=> 1168422057627266461843148138873451659428421700563161428957815831003136
+```
+And yes it can support numbers of arbitrarily large length.
+```ruby
+(a**x).to_s
+=> "12**x"
+```
+
+### SymEngine::Rational
+
+You can also make objects of class `SymEngine::Rational` that is the SymEngine counterpart for `Rationals` in Ruby.
+```ruby
+c = Rational('2/3')
+d = SymEngine::Rational.new(c)
+
+=> 2/3
+```
+Like any other `Basic` object arithmetic operations can be done on this one too.
+```ruby
+(a-d).to_s
+=> "34/3"
+```
+---
+You **need not create** an instance of `SymEngine::Integer` or `SymEngine::Rational`, every time you want to use them in an expression that uses many `Integer`s. Let us say you already have `Integer`/`Rational` object. Even then you can use them without having to create a new `SymEngine` object. 
+```ruby
+k = (1 / (x * y) - x * y + 2) * (c + x * y) # c is a Rational object, not SymEngine::Rational
+k.to_s
+=> "(2/3 + x*y)*(2 + 1/(x*y) - x*y)"
+```
+As you can see, ruby kernel `Integer`s and `Rational`s interoperate seamlessly with the `SymEngine` objects.
+```ruby
+k.expand.to_s
+=> "7/3 + (2/3)*1/(x*y) + (4/3)*x*y - x**2*y**2"
+```
+---
+In the rest of the post, I would to summarise my work as a participant of [Google Summer of Code 2015](https://www.google-melange.com/gsoc/homepage/google/gsoc2015).
 
 ## Pre-midterm Evaluations
 
-I am a newbie when it comes to ruby, and it took me a while to setup the gem and, configure files for the building of extensions. I followed the naming conventions for the project structure and the extensions, as best as I could.
+I am a newbie when it comes to Ruby, and it took me a while to setup the gem and configure files for the building of extensions.
 
 ### The struggle between shared, static and dynamic libraries
-I faced a lot of problem in the early stages, when I was trying to build the extensions. [Ondrej](https://github.com/certik), my mentor, and [Isuru](https://github.com/isuruf), a fellow GSoC student, helped me a lot. There were many c flags that were being reported as missing. Some flags `cmake` added by default but `extconf.rb` didn't, the same one that was required to be added to build it as a shared library. I am still confused about the details, more details are [here](http://abinashmeher999.github.io/2015/05/29/Building-the-wrappers/). Finally, the library had to be built as a dynamic one. It was resolved later by hooking the process to `cmake` rather than `mkmf`.
+I faced a lot of problem in the early stages, when I was trying to build the extensions. [Ondrej](https://github.com/certik), my mentor, and [Isuru](https://github.com/isuruf), a fellow GSoC student, helped me a lot. There were many C flags that were being reported as missing. Some flags `cmake` added by default but `extconf.rb` didn't, the same one that was required to be added to build it as a shared library. I am still confused about the details, some of which are [explored in greater detail in my personal blog](http://abinashmeher999.github.io/2015/05/29/Building-the-wrappers/). Finally, the library had to be built as a dynamic one. The problem of missing C flags was resolved later by hooking the process to `cmake` rather than `mkmf`.
 
 ### Load Errors and problems in linking
 Many [`LoadError`s](http://abinashmeher999.github.io/2015/06/12/The-Load-Error/) popped up, but were eventually solved. [Ivan](https://github.com/dilcom/) helped a lot in debugging the errors. In the end, it turned out to be a simple file missing in the gemspec, that was not being installed.
