@@ -11,17 +11,28 @@ Google Summer of Code 2015 is coming to an end. During this summer, I have learn
 
 ## Linear mixed models
 
-My GSoC project is the Ruby gem [mixed_models](https://github.com/agisga/mixed_models). Mixed models are statistical models, which predict the value of a response variable as a result of fixed and random effects. The gem in its current version can be used to fit statistical linear mixed models and perform statistical inference on the model parameters as well as to predict future observations. A number of tutorials/examples in IRuby notebook format are accessible from <https://github.com/agisga/mixed_models>.
+My GSoC project is the Ruby gem [mixed_models](https://github.com/agisga/mixed_models). Mixed models are statistical models which predict the value of a response variable as a result of fixed and random effects. The gem in its current version can be used to fit statistical linear mixed models and perform statistical inference on the model parameters as well as to predict future observations. A number of tutorials/examples in IRuby notebook format are accessible from the `mixed_models` [github repository](https://github.com/agisga/mixed_models).
 
-Linear mixed models are implemented in the class `LMM`. The constructor method `LMM#initialize` provides a flexible model specification interface, where an arbitrary covariance structure of the random effects terms can be passed as a `Proc` or a block. I have tried to make the code of the model fitting algorithm in `LMM#initialize` easy to read, especially compared to the implementation of the same algorithm in the `R` mixed models package `lme4`.
+Linear mixed models are implemented in the class `LMM`. The constructor method `LMM#initialize` provides a flexible model specification interface, where an arbitrary covariance structure of the random effects terms can be passed as a `Proc` or a block.  
 
-A convenient user-friendly interface to the basic model fitting algorithm is `LMM#from_formula`, which uses the formula language of the `R` package `lme4` for model specification. With the `#from_formula` method, the user can conveniently fit models with categorical predictor variables, interaction fixed or random effects, as well as multiple crossed or nested random effects, all with just one line of code.
+A convenient user-friendly interface to the basic model fitting algorithm is `LMM#from_formula`, which uses the formula language of the R mixed models package `lme4` for model specification. With the `#from_formula` method, the user can conveniently fit models with categorical predictor variables, interaction fixed or random effects, as well as multiple crossed or nested random effects, all with just one line of code.
 
-### Existing tools 
+Examples are given in the sections below.
 
-Popular existing software packages for mixed models include the `R` package [`lme4`](https://cran.r-project.org/web/packages/lme4/index.html) (which is arguably the standard software for linear mixed models), the `R` package [`nlme`](https://cran.r-project.org/web/packages/nlme/index.html) (an older package developed by the same author as `lme4`), Python's [`statmodels`](https://github.com/statsmodels/statsmodels/blob/master/statsmodels/regression/mixed_linear_model.py), and the Julia package [`MixedModels.jl`](https://github.com/dmbates/MixedModels.jl). The parameter estimation in `mixed_models` is largely based on the approach developed by the authors of `lme4`, which is delineated in the `lme4` [vignette](https://cran.r-project.org/web/packages/lme4/vignettes/lmer.pdf).
+### Implementation
 
-Below, I give a couple of examples illustrating some of the capabilities of `mixed_models` and indicate how it compares to the alternatives.
+The parameter estimation in `LMM#initialize` is largely based on the approach developed by the authors of the R mixed models package `lme4`, which is delineated in the `lme4` [vignette](https://cran.r-project.org/web/packages/lme4/vignettes/lmer.pdf). I have tried to make the code of the model fitting algorithm in `LMM#initialize` easy to read, especially compared to the corresponding implementation in `lme4`. 
+
+The `lme4` code is largely written in C++, which is integrated in R via the packages `Rcpp` and `RcppEigen`. It uses [CHOLMOD](https://developer.nvidia.com/cholmod) code for various sparse matrix tricks, and it involves passing pointers to C++ object to R (and vice versa) many times, and passing different R environments from function to function. All this makes the `lme4` code rather hard to read. Even Douglas Bates, the main developer of `lme4`, admits that ["The end result is confusing (my fault entirely) and fragile"](https://stat.ethz.ch/pipermail/r-sig-mixed-models/2014q4/022791.html), because of all the utilized performance improvements. I have analyzed the `lme4` code in three blog posts ([part 1](http://agisga.github.io/Dissect_lmer_part1/), [part 2](http://agisga.github.io/Dissect_lmer_part2/) and [part 3](http://agisga.github.io/Dissect_lmer_part3/)) before starting to work on my gem `mixed_models`.
+
+The method `LMM#initialize` is written in a more functional style, which makes the code shorter and (I find) easier to follow.  All matrix calculations are performed using the gem [`nmatrix`](https://github.com/SciRuby/nmatrix), which has a quite intuitive syntax and contributes to the overall code readability as well.
+The Ruby gem loses with respect to memory consumption and speed in comparison to `lme4`, because it is written in pure Ruby and does not utilize any sparse matrix tricks. However, for the same reasons the `mixed_models` code is much shorter and easier to read than `lme4`. Moreover, the linear mixed model formulation in `mixed_models` is a little bit more general, because it does not assume that the random effects covariance matrix is sparse. More about the implementation of `LMM#initialize` can be found in [this blog post](http://agisga.github.io/First-linear-mixed-model-fit/).
+
+### Other existing tools 
+
+Popular existing software packages for mixed models include the R package [`lme4`](https://cran.r-project.org/web/packages/lme4/index.html) (which is arguably the standard software for linear mixed models), the R package [`nlme`](https://cran.r-project.org/web/packages/nlme/index.html) (an older package developed by the same author as `lme4`, still widely used), Python's [`statmodels`](https://github.com/statsmodels/statsmodels/blob/master/statsmodels/regression/mixed_linear_model.py), and the Julia package [`MixedModels.jl`](https://github.com/dmbates/MixedModels.jl). 
+
+Below, I give a couple of examples illustrating some of the capabilities of `mixed_models` and explore how it compares to the alternatives.
 
 ### A usage example and discussion
 
@@ -73,8 +84,8 @@ Random effects standard deviation:
 Interestingly, the estimates of the random effects coefficients and standard deviation are all zero!
 That is, we have a singular fit. Thus, our results imply that the day of the week on which a blog post is published has no effect on the number of comments that the blog post will receive. 
 
-It is worth pointing out that such a model fit with a singular covariance matrix is problematic with the current version of Python's `statmodels` (described as "numerically challenging" in the [documentation](http://statsmodels.sourceforge.net/devel/mixed_linear.html)) and the `R` package `nlme` ("Singular covariance matrices correspond to infinite parameter values", a [mailing list reply](https://stat.ethz.ch/pipermail/r-sig-mixed-models/2014q4/022791.html) by Douglas Bates, the author of `nlme`). However, `mixed_models`, `lme4` and `MixedModels.jl` can handle singular fits without problems.
-In fact, like `mixed_models` above, `lme4` estimates the random effects coefficients and standard deviation to be zero, as we can see from the following `R` output:
+It is worth pointing out that such a model fit with a singular covariance matrix is problematic with the current version of Python's `statmodels` (described as "numerically challenging" in the [documentation](http://statsmodels.sourceforge.net/devel/mixed_linear.html)) and the R package `nlme` ("Singular covariance matrices correspond to infinite parameter values", a [mailing list reply](https://stat.ethz.ch/pipermail/r-sig-mixed-models/2014q4/022791.html) by Douglas Bates, the author of `nlme`). However, `mixed_models`, `lme4` and `MixedModels.jl` can handle singular fits without problems.
+In fact, like `mixed_models` above, `lme4` estimates the random effects coefficients and standard deviation to be zero, as we can see from the following R output:
 
 ```R
 > mod <- lmer(log_comments ~ log_host_comments_avg + host_trackbacks_avg + length + has_parent_with_comments + (1|day), data = df)
@@ -97,18 +108,18 @@ we           0
  Residual             1.2614
 ```
 
-Unfortunately, `mixed_models` is rather slow when applied to such a large data set (`blog_data` is a data frame of size 22435 x 8), especially when compared to `lme4` which uses many sparse matrix tricks and is mostly written in `C++` (integrated in `R` via `Rcpp`) to speed up computation. The difference in performance between `mixed_models` and `lme4` is on the order of hours for large data, and Julia's `MixedModels.jl` promises to be even faster than `lme4`. However, there is no noticeable difference in performance speed for smaller data sets.
+Unfortunately, `mixed_models` is rather slow when applied to such a large data set (`blog_data` is a data frame of size 22435&times;8), especially when compared to `lme4` which uses many sparse matrix tricks and is mostly written in C++ (integrated in R via `Rcpp`) to speed up computation. The difference in performance between `mixed_models` and `lme4` is on the order of hours for large data, and Julia's `MixedModels.jl` promises to be even faster than `lme4`. However, there is no noticeable difference in performance speed for smaller data sets.
 
-The full data analysis of the blog post data can be found [here](http://nbviewer.ipython.org/github/agisga/mixed_models/blob/master/notebooks/blog_data.ipynb).
+[The full data analysis of the blog post data can be found in this IRuby notebook](http://nbviewer.ipython.org/github/agisga/mixed_models/blob/master/notebooks/blog_data.ipynb).
 
 ### A second example and statistical inference on the parameter estimates
 
-Often the experimental design or the data suggests a linear mixed model whose random effects are associated with multiple grouping factors. A specification of multiple random effects terms which correspond to multiple grouping factors is often referred to as *crossed random effect*, or *nested random effects* if the corresponding grouping factors are nested in each other.
+Often, the experimental design or the data suggests a linear mixed model whose random effects are associated with multiple grouping factors. A specification of multiple random effects terms which correspond to multiple grouping factors is often referred to as *crossed random effect*, or *nested random effects* if the corresponding grouping factors are nested in each other.
 A good reference on such models is [Chapter 2](http://lme4.r-forge.r-project.org/book/Ch2.pdf) of Douglas Bates' `lme4` book.
 
 Like `lme4`, `mixed_models` is particularly well suited for models with crossed or nested random effects. The current release of `statmodels`, however, does not support crossed or nested random effects (according to the [documentation](http://statsmodels.sourceforge.net/devel/mixed_linear.html)).
 
-As an example we fit a linear mixed model with nested random effects to a data frame with 100 rows of the form:
+As an example we fit a linear mixed model with nested random effects to a data frame with 100 rows, of the form:
 
 ```Ruby
 #<Daru::DataFrame:69912847885160 @name = 2b161c5d-00de-4240-be50-8fa84f3aed24 @size = 5>
@@ -182,9 +193,9 @@ mod.ran_ef_p(variable: :intercept, grouping: [:a, :b],
              method: :bootstrap, nsim: 1000)
 ```
 
-We get a p-value of 0.000999000999000999, suggesting that we probably should keep the term `(1|a:b)` in the model formula.
+We get a p-value of 9.99e-4, suggesting that we probably should keep the term `(1|a:b)` in the model formula.
 
-### A third example - a less conventional model fit
+### A third example &mdash; a less conventional model fit
 
 Another advantage of `mixed_models` against comparable tools is the ease of fitting models with arbitrary covariance structures of the random effects, which are not covered by the formula interface of `lme4`. This can be done in a user-friendly manner by providing a block or a `Proc` to the `LMM` constructor. This unique feature of the Ruby language makes the implementation and usage of the method incredibly convenient. A danger of allowing for arbitrary covariance structures is, of course, that such a flexibility gives the user the freedom to specify degenerate and computationally unstable  models.
 
