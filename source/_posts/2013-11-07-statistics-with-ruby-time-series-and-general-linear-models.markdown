@@ -54,8 +54,7 @@ To demonstrate:
 require 'daru'
 require 'statsample-timeseries'
 
-ts = Daru::Vector.new(100.times.map { rand(100) }, 
-index: Daru::DateTimeIndex.date_range(:start => '2012-2', :periods => 100))
+ts = Daru::Vector.new(100.times.map { rand(100) }, index: Daru::DateTimeIndex.date_range(:start => '2012-2', :periods => 100))
 ts.acf # Calculate auto-correlation
 ts.pacf # Calculate partial autocorrelation
 # Partial autocorrelation with 11 lags by maximum likelihood estimation

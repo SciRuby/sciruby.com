@@ -1,14 +1,15 @@
 ---
 layout: post
-title: "GnuplotRB - GSoC 2015 project"
+title: "GnuplotRB and GSoC 2015"
 date: 2015-08-18 23:26
 comments: true
+author: Ivan Evgrafov
 categories: [GSOC,GSOC2015,Students,Visualization,GnuplotRB]
 ---
 
 ## Introduction
 
-Hi, I'm Ivan Evgrafov and this summer I've been participating in Google Summer of Code
+This summer I've been participating in Google Summer of Code
  with [GnuplotRB project](https://github.com/dilcom/gnuplotrb) (plotting tool for Ruby users based on [Gnuplot](http://www.gnuplot.info/))
  for [SciRuby](http://sciruby.com/). GSoC is almost over and I'm releasing v0.3.1 of GnuplotRB as a [gem](https://rubygems.org/gems/gnuplotrb/).
  In this blog post I want to introduce the gem and highlight some of its capabilities.

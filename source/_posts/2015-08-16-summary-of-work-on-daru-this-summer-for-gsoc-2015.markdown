@@ -3,9 +3,8 @@ layout: post
 title: "Summary of work on daru this summer for GSOC 2015"
 date: 2015-08-16 23:53
 comments: true
-categories: 
 author: Sameer Deshmukh
-categories: [GSOC2015,GSOC, data, daru, analysis, visualization, munging]
+categories: [GSOC2015,GSOC,daru,Analysis,Visualization,Students]
 ---
 
 Over this summer as a part of [Google Summer of Code 2015](www.google-melange.com), [daru](www.github.com/v0dro/daru/) received a lot of upgrades and new features which have it made a pretty robust tool for data analysis in pure Ruby. Of course, a lot of work still remains for bringing daru at par with the other data analysis solutions on offer today, but I feel the work done this summer has put daru on that path.

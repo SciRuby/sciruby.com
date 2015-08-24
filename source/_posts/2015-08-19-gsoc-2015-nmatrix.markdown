@@ -3,7 +3,8 @@ layout: post
 title: "GSoC 2015: New NMatrix gems for advanced linear algebra features"
 date: 2015-08-19 09:57
 comments: true
-categories: 
+author: Will Levine
+categories: [GSOC,GSOC2015,Students,NMatrix,linear algebra]
 ---
 My Google Summer of Code project was working on the [NMatrix project](https://github.com/SciRuby/nmatrix), moving
 functionality that depends on external libraries from the core `nmatrix`
@@ -57,7 +58,7 @@ has not had a chance to be thoroughly tested.
 
 ```ruby
 require 'nmatrix'
-#create a 3-by-3 matrix
+# create a 3-by-3 matrix
 a = NMatrix.new([3,3], [1,2,3, 4,5,6, 7,8,9], dtype: :float64)
 #invert it using non-optimized NMatrix-internal implementation
 a.invert!
@@ -66,7 +67,7 @@ a.invert!
 ```ruby
 require 'nmatrix'
 require 'nmatrix/atlas' #or require 'nmatrix/lapacke'
-#create a 3-by-3 matrix
+# create a 3-by-3 matrix
 a = NMatrix.new([3,3], [1,2,3, 4,5,6, 7,8,9], dtype: :float64)
 #invert it using optimized implementation provided by ATLAS
 a.invert!
