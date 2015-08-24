@@ -6,6 +6,13 @@ sharing: true
 footer: true
 ---
 
+<h4>SciRuby</h4>
+
+The SciRuby gem is a metagem which installs a list of up-to-date scientific gems.
+
+* [Github page](https://github.com/SciRuby/sciruby)
+* [List of scientific gems](http://gems.sciruby.com/)
+
 <h3>NMatrix</h3>
 
 * [Installation instructions](https://github.com/SciRuby/nmatrix/wiki/Installation)
@@ -21,13 +28,6 @@ If you have any trouble getting SciRuby to work and are too impatient to seek as
 <li><em>Numeric:</em> <span class="gem"><a href="https://github.com/clbustos/minimization">minimization</a></span>, <span class="gem"><a href="https://github.com/clbustos/integration">integration</a></span>, <span class="gem"><a href="https://github.com/SciRuby/nmatrix">nmatrix</a></span></li>
 </ul>
 
-<h4>SciRuby</h4>
-
-The SciRuby gem is currently on hold. Frankly, we don't know what to put in it. In the end it'll probably end up just
-kind of directing the installation of other gems. In other words, you'll install the SciRuby gem, and that'll cause the
-other gems to be installed automatically. But for now, you have to install them all by hand, as we simply don't have
-enough volunteers to keep everything up-to-date dependency-wise.
-
 Project Status
 --------------
 As we are currently alpha, documentation is a work in progress. If you want to get involved, please drop by our [Google Group](http://groups.google.com/group/sciruby-dev) or our IRC channel, <tt>#sciruby</tt>.
@@ -36,6 +36,7 @@ Documentation for existing gems is scattered. You can look through the links bel
 
 Project Pages
 -------------
+* [SciRuby](http://github.com/SciRuby/sciruby)
 * [NMatrix](http://github.com/SciRuby/nmatrix/wiki)
 * [Plotrb](http://wanzuhao.com/) --- This isn't exactly a project page, but rather Zuhao's Summer of Code blog. It's got
   lots of useful examples.
