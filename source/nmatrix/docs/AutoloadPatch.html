@@ -4,17 +4,17 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module NMatrix::IO::PointCloud - RDoc Documentation</title>
+<title>module AutoloadPatch - RDoc Documentation</title>
 
 <script type="text/javascript">
-  var rdoc_rel_prefix = "../../";
+  var rdoc_rel_prefix = "./";
 </script>
 
-<script src="../../js/jquery.js"></script>
-<script src="../../js/darkfish.js"></script>
+<script src="./js/jquery.js"></script>
+<script src="./js/darkfish.js"></script>
 
-<link href="../../css/fonts.css" rel="stylesheet">
-<link href="../../css/rdoc.css" rel="stylesheet">
+<link href="./css/fonts.css" rel="stylesheet">
+<link href="./css/rdoc.css" rel="stylesheet">
 
 
 
@@ -23,13 +23,13 @@
   <div id="project-navigation">
     <div id="home-section" role="region" title="Quick navigation" class="nav-section">
   <h2>
-    <a href="../../index.html" rel="home">Home</a>
+    <a href="./index.html" rel="home">Home</a>
   </h2>
 
   <div id="table-of-contents-navigation">
-    <a href="../../table_of_contents.html#pages">Pages</a>
-    <a href="../../table_of_contents.html#classes">Classes</a>
-    <a href="../../table_of_contents.html#methods">Methods</a>
+    <a href="./table_of_contents.html#pages">Pages</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
   </div>
 </div>
 
@@ -63,7 +63,7 @@
 
   <ul class="link-list" role="directory">
     
-    <li ><a href="#method-c-load">::load</a>
+    <li ><a href="#method-i-const_missing">#const_missing</a>
     
   </ul>
 </div>
@@ -71,22 +71,17 @@
   </div>
 </nav>
 
-<main role="main" aria-labelledby="module-NMatrix::IO::PointCloud">
-  <h1 id="module-NMatrix::IO::PointCloud" class="module">
-    module NMatrix::IO::PointCloud
+<main role="main" aria-labelledby="module-AutoloadPatch">
+  <h1 id="module-AutoloadPatch" class="module">
+    module AutoloadPatch
   </h1>
 
   <section class="description">
     
-<p>Reader for Point Cloud Data (PCD) file format.</p>
-
-<p>The documentation of this format can be found in:</p>
-
-<p><a
-href="http://pointclouds.org/documentation/tutorials/pcd_file_format.php">pointclouds.org/documentation/tutorials/pcd_file_format.php</a></p>
-
-<p>Note that this implementation does not take the width or height parameters
-into account.</p>
+<p>Since `autoload` will most likely be deprecated (due to multi-threading
+concerns), we&#39;ll use `const_missing`. See: <a
+href="https://www.ruby-forum.com/topic/3036681">www.ruby-forum.com/topic/3036681</a>
+for more info.</p>
 
   </section>
 
@@ -103,45 +98,37 @@ into account.</p>
     
 
     
-     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
        <header>
-         <h3>Public Class Methods</h3>
+         <h3>Public Instance Methods</h3>
        </header>
 
     
-      <div id="method-c-load" class="method-detail ">
-        
+      <div id="method-i-const_missing" class="method-detail ">
         
         <div class="method-heading">
-          <span class="method-callseq">
-            load(filename) &rarr; NMatrix
-          </span>
+          <span class="method-name">const_missing</span><span
+            class="method-args">(name)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
         </div>
         
-        
 
         <div class="method-description">
           
-          <ul><li>
-<p><strong>Arguments</strong> :</p>
-<ul><li>
-<p><code>filename</code> -&gt; <a href="../../String.html">String</a> giving
-the name of the file to be loaded.</p>
-</li></ul>
-</li></ul>
-
-<p>Load a Point Cloud Library PCD file as a matrix.</p>
+          
           
           
 
           
-          <div class="method-source-code" id="load-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/io/point_cloud.rb, line 52</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">load</span>(<span class="ruby-identifier">filename</span>)
-  <span class="ruby-constant">MetaReader</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">filename</span>).<span class="ruby-identifier">matrix</span>
+          <div class="method-source-code" id="const_missing-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/monkeys.rb, line 133</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">const_missing</span>(<span class="ruby-identifier">name</span>)
+  <span class="ruby-identifier">file</span> = <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">underscore</span>
+  <span class="ruby-identifier">require</span> <span class="ruby-node">&quot;nmatrix/io/#{file}&quot;</span>
+  <span class="ruby-identifier">klass</span> = <span class="ruby-identifier">const_get</span>(<span class="ruby-identifier">name</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">klass</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">klass</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           

@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>module NMatrix::LAPACKE::LAPACK - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+</script>
+
+<script src="../../js/jquery.js"></script>
+<script src="../../js/darkfish.js"></script>
+
+<link href="../../css/fonts.css" rel="stylesheet">
+<link href="../../css/rdoc.css" rel="stylesheet">
+
+
+
+<body id="top" role="document" class="module">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="../../index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="../../table_of_contents.html#pages">Pages</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    
+    
+    
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    
+    <li ><a href="#method-c-lapacke_geev">::lapacke_geev</a>
+    
+    <li ><a href="#method-c-lapacke_gesdd">::lapacke_gesdd</a>
+    
+    <li ><a href="#method-c-lapacke_gesvd">::lapacke_gesvd</a>
+    
+    <li ><a href="#method-c-lapacke_getrf">::lapacke_getrf</a>
+    
+    <li ><a href="#method-c-lapacke_getri">::lapacke_getri</a>
+    
+    <li ><a href="#method-c-lapacke_getrs">::lapacke_getrs</a>
+    
+    <li ><a href="#method-c-lapacke_potrf">::lapacke_potrf</a>
+    
+    <li ><a href="#method-c-lapacke_potri">::lapacke_potri</a>
+    
+    <li ><a href="#method-c-lapacke_potrs">::lapacke_potrs</a>
+    
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="module-NMatrix::LAPACKE::LAPACK">
+  <h1 id="module-NMatrix::LAPACKE::LAPACK" class="module">
+    module NMatrix::LAPACKE::LAPACK
+  </h1>
+
+  <section class="description">
+    
+  </section>
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Class Methods</h3>
+       </header>
+
+    
+      <div id="method-c-lapacke_geev" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">lapacke_geev</span><span
+            class="method-args">(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="lapacke_geev-source">
+            <pre>static VALUE nm_lapacke_lapacke_geev(VALUE self, VALUE order, VALUE jobvl, VALUE jobvr, VALUE n, VALUE a, VALUE lda, VALUE w, VALUE wi, VALUE vl, VALUE ldvl, VALUE vr, VALUE ldvr) {
+  static int (*geev_table[nm::NUM_DTYPES])(int, char, char, int, void* a, int, void* w, void* wi, void* vl, int, void* vr, int) = {
+    NULL, NULL, NULL, NULL, NULL, // no integer ops
+    nm::math::lapacke::lapacke_geev&lt;float&gt;,
+    nm::math::lapacke::lapacke_geev&lt;double&gt;,
+    nm::math::lapacke::lapacke_geev&lt;nm::Complex64&gt;,
+    nm::math::lapacke::lapacke_geev&lt;nm::Complex128&gt;,
+    NULL // no Ruby objects
+  };
+
+  nm::dtype_t dtype = NM_DTYPE(a);
+
+
+  if (!geev_table[dtype]) {
+    rb_raise(rb_eNotImpError, &quot;this operation not yet implemented for non-BLAS dtypes&quot;);
+    return Qfalse;
+  } else {
+    int N = FIX2INT(n);
+
+    char JOBVL = lapack_evd_job_sym(jobvl),
+         JOBVR = lapack_evd_job_sym(jobvr);
+
+    void* A  = NM_STORAGE_DENSE(a)-&gt;elements;
+    void* W = NM_STORAGE_DENSE(w)-&gt;elements;
+    void* WI = wi == Qnil ? NULL : NM_STORAGE_DENSE(wi)-&gt;elements; //For complex, wi should be nil
+    void* VL = JOBVL == &#39;V&#39; ? NM_STORAGE_DENSE(vl)-&gt;elements : NULL;
+    void* VR = JOBVR == &#39;V&#39; ? NM_STORAGE_DENSE(vr)-&gt;elements : NULL;
+
+    // Perform the actual calculation.
+    int info = geev_table[dtype](blas_order_sym(order), JOBVL, JOBVR, N, A, FIX2INT(lda), W, WI, VL, FIX2INT(ldvl), VR, FIX2INT(ldvr));
+
+    return INT2FIX(info);
+  }
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-lapacke_gesdd" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">lapacke_gesdd</span><span
+            class="method-args">(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="lapacke_gesdd-source">
+            <pre>static VALUE nm_lapacke_lapacke_gesdd(VALUE self, VALUE order, VALUE jobz, VALUE m, VALUE n, VALUE a, VALUE lda, VALUE s, VALUE u, VALUE ldu, VALUE vt, VALUE ldvt) {
+  static int (*gesdd_table[nm::NUM_DTYPES])(int, char, int, int, void* a, int, void* s, void* u, int, void* vt, int) = {
+    NULL, NULL, NULL, NULL, NULL, // no integer ops
+    nm::math::lapacke::lapacke_gesdd&lt;float,float&gt;,
+    nm::math::lapacke::lapacke_gesdd&lt;double,double&gt;,
+    nm::math::lapacke::lapacke_gesdd&lt;nm::Complex64,float&gt;,
+    nm::math::lapacke::lapacke_gesdd&lt;nm::Complex128,double&gt;,
+    NULL // no Ruby objects
+  };
+
+  nm::dtype_t dtype = NM_DTYPE(a);
+
+
+  if (!gesdd_table[dtype]) {
+    rb_raise(rb_eNotImpError, &quot;this operation not yet implemented for non-BLAS dtypes&quot;);
+    return Qfalse;
+  } else {
+    int M = FIX2INT(m),
+        N = FIX2INT(n);
+
+    char JOBZ = lapack_svd_job_sym(jobz);
+
+    int info = gesdd_table[dtype](blas_order_sym(order),JOBZ, M, N, NM_STORAGE_DENSE(a)-&gt;elements, FIX2INT(lda),
+      NM_STORAGE_DENSE(s)-&gt;elements, NM_STORAGE_DENSE(u)-&gt;elements, FIX2INT(ldu), NM_STORAGE_DENSE(vt)-&gt;elements, FIX2INT(ldvt));
+    return INT2FIX(info);
+  }
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-lapacke_gesvd" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">lapacke_gesvd</span><span
+            class="method-args">(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>xGESVD computes the singular value decomposition (SVD) of a real M-by-N
+matrix A, optionally computing the left and/or right singular vectors. The
+SVD is written</p>
+
+<pre class="ruby"><span class="ruby-constant">A</span> = <span class="ruby-constant">U</span> <span class="ruby-operator">*</span> <span class="ruby-constant">SIGMA</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">transpose</span>(<span class="ruby-constant">V</span>)
+</pre>
+
+<p>where SIGMA is an M-by-N matrix which is zero except for its min(m,n)
+diagonal elements, U is an M-by-M orthogonal matrix, and V is an N-by-N
+orthogonal matrix.  The diagonal elements of SIGMA are the singular values
+of A; they are real and non-negative, and are returned in descending order.
+The first min(m,n) columns of U and V are the left and right singular
+vectors of A.</p>
+
+<p>Note that the routine returns V**T, not V.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="lapacke_gesvd-source">
+            <pre>static VALUE nm_lapacke_lapacke_gesvd(VALUE self, VALUE order, VALUE jobu, VALUE jobvt, VALUE m, VALUE n, VALUE a, VALUE lda, VALUE s, VALUE u, VALUE ldu, VALUE vt, VALUE ldvt, VALUE superb) {
+  static int (*gesvd_table[nm::NUM_DTYPES])(int, char, char, int, int, void* a, int, void* s, void* u, int, void* vt, int, void* superb) = {
+    NULL, NULL, NULL, NULL, NULL, // no integer ops
+    nm::math::lapacke::lapacke_gesvd&lt;float,float&gt;,
+    nm::math::lapacke::lapacke_gesvd&lt;double,double&gt;,
+    nm::math::lapacke::lapacke_gesvd&lt;nm::Complex64,float&gt;,
+    nm::math::lapacke::lapacke_gesvd&lt;nm::Complex128,double&gt;,
+    NULL // no Ruby objects
+  };
+
+  nm::dtype_t dtype = NM_DTYPE(a);
+
+
+  if (!gesvd_table[dtype]) {
+    rb_raise(rb_eNotImpError, &quot;this operation not yet implemented for non-BLAS dtypes&quot;);
+    return Qfalse;
+  } else {
+    int M = FIX2INT(m),
+        N = FIX2INT(n);
+
+    char JOBU = lapack_svd_job_sym(jobu),
+         JOBVT = lapack_svd_job_sym(jobvt);
+
+    int info = gesvd_table[dtype](blas_order_sym(order),JOBU, JOBVT, M, N, NM_STORAGE_DENSE(a)-&gt;elements, FIX2INT(lda),
+      NM_STORAGE_DENSE(s)-&gt;elements, NM_STORAGE_DENSE(u)-&gt;elements, FIX2INT(ldu), NM_STORAGE_DENSE(vt)-&gt;elements, FIX2INT(ldvt),
+      NM_STORAGE_DENSE(superb)-&gt;elements);
+    return INT2FIX(info);
+  }
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-lapacke_getrf" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">lapacke_getrf</span><span
+            class="method-args">(p1, p2, p3, p4, p5)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Call any of the lapacke_xgetrf functions as directly as possible.</p>
+
+<p>The <a href="LAPACK.html#method-c-lapacke_getrf">::lapacke_getrf</a>
+functions (dgetrf, sgetrf, cgetrf, and zgetrf) compute an LU factorization
+of a general M-by-N matrix A using partial pivoting with row interchanges.</p>
+
+<p>The factorization has the form:</p>
+
+<pre class="ruby"><span class="ruby-constant">A</span> = <span class="ruby-constant">P</span> <span class="ruby-operator">*</span> <span class="ruby-constant">L</span> <span class="ruby-operator">*</span> <span class="ruby-constant">U</span>
+</pre>
+
+<p>where P is a permutation matrix, L is lower triangular with unit diagonal
+elements (lower trapezoidal if m &gt; n), and U is upper triangular (upper
+trapezoidal if m &lt; n).</p>
+
+<p>This version of getrf (the <a href="../LAPACKE.html">LAPACKE</a> one)
+differs from the CLAPACK version. The CLAPACK has different behavior for
+row-major matrices (the upper matrix has unit diagonals instead of the
+lower and it uses column permutations instead of rows).</p>
+
+<p>This is the right-looking level 3 <a href="BLAS.html">BLAS</a> version of
+the algorithm.</p>
+
+<h2 id="method-c-lapacke_getrf-label-Arguments">Arguments<span><a href="#method-c-lapacke_getrf-label-Arguments">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>See: <a
+href="http://www.netlib.org/lapack/double/dgetrf.f">www.netlib.org/lapack/double/dgetrf.f</a>
+(You don&#39;t need argument 5; this is the value returned by this
+function.)</p>
+
+<p>This function does almost no type checking. Seriously, be really careful
+when you call it! There&#39;s no exception handling, so you can easily
+crash Ruby!</p>
+
+<p>Returns an array giving the pivot indices (normally these are argument #5).</p>
+          
+          
+
+          
+          <div class="method-source-code" id="lapacke_getrf-source">
+            <pre>static VALUE nm_lapacke_lapacke_getrf(VALUE self, VALUE order, VALUE m, VALUE n, VALUE a, VALUE lda) {
+  static int (*ttable[nm::NUM_DTYPES])(const enum CBLAS_ORDER, const int m, const int n, void* a, const int lda, int* ipiv) = {
+      NULL, NULL, NULL, NULL, NULL,
+      nm::math::lapacke::lapacke_getrf&lt;float&gt;,
+      nm::math::lapacke::lapacke_getrf&lt;double&gt;,
+      nm::math::lapacke::lapacke_getrf&lt;nm::Complex64&gt;,
+      nm::math::lapacke::lapacke_getrf&lt;nm::Complex128&gt;,
+      NULL
+  };
+
+  int M = FIX2INT(m),
+      N = FIX2INT(n);
+
+  // Allocate the pivot index array, which is of size MIN(M, N).
+  size_t ipiv_size = std::min(M,N);
+  int* ipiv = NM_ALLOCA_N(int, ipiv_size);
+
+  if (!ttable[NM_DTYPE(a)]) {
+    rb_raise(nm_eDataTypeError, &quot;this matrix operation undefined for integer matrices&quot;);
+  } else {
+    ttable[NM_DTYPE(a)](blas_order_sym(order), M, N, NM_STORAGE_DENSE(a)-&gt;elements, FIX2INT(lda), ipiv);
+  }
+
+  // Result will be stored in a. We return ipiv as an array.
+  VALUE ipiv_array = rb_ary_new2(ipiv_size);
+  for (size_t i = 0; i &lt; ipiv_size; ++i) {
+    rb_ary_store(ipiv_array, i, INT2FIX(ipiv[i]));
+  }
+
+  return ipiv_array;
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-lapacke_getri" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">lapacke_getri</span><span
+            class="method-args">(p1, p2, p3, p4, p5)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Call any of the lapacke_xgetri functions as directly as possible.</p>
+
+<p>This version (the <a href="../LAPACKE.html">LAPACKE</a> version) differs
+from the CLAPACK version in terms of the input it expects (which is the
+output of getrf). See getrf for details.</p>
+
+<p>This function does almost no type checking. Seriously, be really careful
+when you call it! There&#39;s no exception handling, so you can easily
+crash Ruby!</p>
+
+<p>Returns an array giving the pivot indices (normally these are argument #5).</p>
+          
+          
+
+          
+          <div class="method-source-code" id="lapacke_getri-source">
+            <pre>static VALUE nm_lapacke_lapacke_getri(VALUE self, VALUE order, VALUE n, VALUE a, VALUE lda, VALUE ipiv) {
+  static int (*ttable[nm::NUM_DTYPES])(const enum CBLAS_ORDER, const int n, void* a, const int lda, const int* ipiv) = {
+      NULL, NULL, NULL, NULL, NULL,
+      nm::math::lapacke::lapacke_getri&lt;float&gt;,
+      nm::math::lapacke::lapacke_getri&lt;double&gt;,
+      nm::math::lapacke::lapacke_getri&lt;nm::Complex64&gt;,
+      nm::math::lapacke::lapacke_getri&lt;nm::Complex128&gt;,
+      NULL
+  };
+
+  // Allocate the C version of the pivot index array
+  int* ipiv_;
+  if (TYPE(ipiv) != T_ARRAY) {
+    rb_raise(rb_eArgError, &quot;ipiv must be of type Array&quot;);
+  } else {
+    ipiv_ = NM_ALLOCA_N(int, RARRAY_LEN(ipiv));
+    for (int index = 0; index &lt; RARRAY_LEN(ipiv); ++index) {
+      ipiv_[index] = FIX2INT( RARRAY_PTR(ipiv)[index] );
+    }
+  }
+
+  if (!ttable[NM_DTYPE(a)]) {
+    rb_raise(rb_eNotImpError, &quot;this operation not yet implemented for non-BLAS dtypes&quot;);
+  } else {
+    ttable[NM_DTYPE(a)](blas_order_sym(order), FIX2INT(n), NM_STORAGE_DENSE(a)-&gt;elements, FIX2INT(lda), ipiv_);
+  }
+
+  return a;
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-lapacke_getrs" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">lapacke_getrs</span><span
+            class="method-args">(p1, p2, p3, p4, p5, p6, p7, p8, p9)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Call any of the lapacke_xgetrs functions as directly as possible.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="lapacke_getrs-source">
+            <pre>static VALUE nm_lapacke_lapacke_getrs(VALUE self, VALUE order, VALUE trans, VALUE n, VALUE nrhs, VALUE a, VALUE lda, VALUE ipiv, VALUE b, VALUE ldb) {
+  static int (*ttable[nm::NUM_DTYPES])(const enum CBLAS_ORDER Order, char Trans, const int N,
+                                       const int NRHS, const void* A, const int lda, const int* ipiv, void* B,
+                                       const int ldb) = {
+      NULL, NULL, NULL, NULL, NULL,
+      nm::math::lapacke::lapacke_getrs&lt;float&gt;,
+      nm::math::lapacke::lapacke_getrs&lt;double&gt;,
+      nm::math::lapacke::lapacke_getrs&lt;nm::Complex64&gt;,
+      nm::math::lapacke::lapacke_getrs&lt;nm::Complex128&gt;,
+      NULL
+  };
+
+  // Allocate the C version of the pivot index array
+  int* ipiv_;
+  if (TYPE(ipiv) != T_ARRAY) {
+    rb_raise(rb_eArgError, &quot;ipiv must be of type Array&quot;);
+  } else {
+    ipiv_ = NM_ALLOCA_N(int, RARRAY_LEN(ipiv));
+    for (int index = 0; index &lt; RARRAY_LEN(ipiv); ++index) {
+      ipiv_[index] = FIX2INT( RARRAY_PTR(ipiv)[index] );
+    }
+  }
+
+  if (!ttable[NM_DTYPE(a)]) {
+    rb_raise(nm_eDataTypeError, &quot;this matrix operation undefined for integer matrices&quot;);
+  } else {
+    ttable[NM_DTYPE(a)](blas_order_sym(order), lapacke_transpose_sym(trans), FIX2INT(n), FIX2INT(nrhs), NM_STORAGE_DENSE(a)-&gt;elements, FIX2INT(lda),
+                        ipiv_, NM_STORAGE_DENSE(b)-&gt;elements, FIX2INT(ldb));
+  }
+
+  // b is both returned and modified directly in the argument list.
+  return b;
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-lapacke_potrf" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">lapacke_potrf</span><span
+            class="method-args">(p1, p2, p3, p4, p5)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Call any of the LAPACKE_xpotrf functions as directly as possible.</p>
+
+<p>This function does almost no type checking. Seriously, be really careful
+when you call it! There&#39;s no exception handling, so you can easily
+crash Ruby!</p>
+          
+          
+
+          
+          <div class="method-source-code" id="lapacke_potrf-source">
+            <pre>static VALUE nm_lapacke_lapacke_potrf(VALUE self, VALUE order, VALUE uplo, VALUE n, VALUE a, VALUE lda) {
+
+  static int (*ttable[nm::NUM_DTYPES])(const enum CBLAS_ORDER, char, const int n, void* a, const int lda) = {
+      NULL, NULL, NULL, NULL, NULL,
+      nm::math::lapacke::lapacke_potrf&lt;float&gt;,
+      nm::math::lapacke::lapacke_potrf&lt;double&gt;,
+      nm::math::lapacke::lapacke_potrf&lt;nm::Complex64&gt;,
+      nm::math::lapacke::lapacke_potrf&lt;nm::Complex128&gt;,
+      NULL
+  };
+
+  if (!ttable[NM_DTYPE(a)]) {
+    rb_raise(rb_eNotImpError, &quot;this operation not yet implemented for non-BLAS dtypes&quot;);
+  } else {
+    ttable[NM_DTYPE(a)](blas_order_sym(order), lapacke_uplo_sym(uplo), FIX2INT(n), NM_STORAGE_DENSE(a)-&gt;elements, FIX2INT(lda));
+  }
+
+  return a;
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-lapacke_potri" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">lapacke_potri</span><span
+            class="method-args">(p1, p2, p3, p4, p5)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Call any of the lapacke_xpotri functions as directly as possible.</p>
+
+<p>This function does almost no type checking. Seriously, be really careful
+when you call it! There&#39;s no exception handling, so you can easily
+crash Ruby!</p>
+          
+          
+
+          
+          <div class="method-source-code" id="lapacke_potri-source">
+            <pre>static VALUE nm_lapacke_lapacke_potri(VALUE self, VALUE order, VALUE uplo, VALUE n, VALUE a, VALUE lda) {
+
+  static int (*ttable[nm::NUM_DTYPES])(const enum CBLAS_ORDER, char, const int n, void* a, const int lda) = {
+      NULL, NULL, NULL, NULL, NULL,
+      nm::math::lapacke::lapacke_potri&lt;float&gt;,
+      nm::math::lapacke::lapacke_potri&lt;double&gt;,
+      nm::math::lapacke::lapacke_potri&lt;nm::Complex64&gt;,
+      nm::math::lapacke::lapacke_potri&lt;nm::Complex128&gt;,
+      NULL
+  };
+
+  if (!ttable[NM_DTYPE(a)]) {
+    rb_raise(rb_eNotImpError, &quot;this operation not yet implemented for non-BLAS dtypes&quot;);
+  } else {
+    ttable[NM_DTYPE(a)](blas_order_sym(order), lapacke_uplo_sym(uplo), FIX2INT(n), NM_STORAGE_DENSE(a)-&gt;elements, FIX2INT(lda));
+  }
+
+  return a;
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-lapacke_potrs" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">lapacke_potrs</span><span
+            class="method-args">(p1, p2, p3, p4, p5, p6, p7, p8)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Call any of the LAPACKE_xpotrs functions as directly as possible.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="lapacke_potrs-source">
+            <pre>static VALUE nm_lapacke_lapacke_potrs(VALUE self, VALUE order, VALUE uplo, VALUE n, VALUE nrhs, VALUE a, VALUE lda, VALUE b, VALUE ldb) {
+  static int (*ttable[nm::NUM_DTYPES])(const enum CBLAS_ORDER Order, char Uplo, const int N,
+                                       const int NRHS, const void* A, const int lda, void* B, const int ldb) = {
+      NULL, NULL, NULL, NULL, NULL,
+      nm::math::lapacke::lapacke_potrs&lt;float&gt;,
+      nm::math::lapacke::lapacke_potrs&lt;double&gt;,
+      nm::math::lapacke::lapacke_potrs&lt;nm::Complex64&gt;,
+      nm::math::lapacke::lapacke_potrs&lt;nm::Complex128&gt;,
+      NULL
+  };
+
+
+  if (!ttable[NM_DTYPE(a)]) {
+    rb_raise(nm_eDataTypeError, &quot;this matrix operation undefined for integer matrices&quot;);
+  } else {
+
+    ttable[NM_DTYPE(a)](blas_order_sym(order), lapacke_uplo_sym(uplo), FIX2INT(n), FIX2INT(nrhs), NM_STORAGE_DENSE(a)-&gt;elements, FIX2INT(lda),
+                        NM_STORAGE_DENSE(b)-&gt;elements, FIX2INT(ldb));
+  }
+
+  // b is both returned and modified directly in the argument list.
+  return b;
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="http://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+

@@ -6,19 +6,16 @@
 
 <title>module NMatrix::IO::Matlab - RDoc Documentation</title>
 
-<link href="../../fonts.css" rel="stylesheet">
-<link href="../../rdoc.css" rel="stylesheet">
-
 <script type="text/javascript">
   var rdoc_rel_prefix = "../../";
 </script>
 
 <script src="../../js/jquery.js"></script>
-<script src="../../js/navigation.js"></script>
-<script src="../../js/search_index.js"></script>
-<script src="../../js/search.js"></script>
-<script src="../../js/searcher.js"></script>
 <script src="../../js/darkfish.js"></script>
+
+<link href="../../css/fonts.css" rel="stylesheet">
+<link href="../../css/rdoc.css" rel="stylesheet">
+
 
 
 <body id="top" role="document" class="module">
@@ -59,7 +56,18 @@
     
     
     
+    <div id="extends-section" class="nav-section">
+  <h3>Extended With Modules</h3>
+
+  <ul class="link-list">
     
+  
+    <li><a class="extend" href="../../AutoloadPatch.html">AutoloadPatch</a>
+  
+  
+  </ul>
+</div>
+
     <!-- Method Quickref -->
 <div id="method-list-section" class="nav-section">
   <h3>Methods</h3>
@@ -68,9 +76,11 @@
     
     <li ><a href="#method-c-complex_merge">::complex_merge</a>
     
-    <li ><a href="#method-c-repack">::repack</a>
+    <li ><a href="#method-c-load">::load</a>
     
-    <li ><a href="#method-i-load_mat">#load_mat</a>
+    <li ><a href="#method-c-load_mat">::load_mat</a>
+    
+    <li ><a href="#method-c-repack">::repack</a>
     
   </ul>
 </div>
@@ -177,6 +187,82 @@ new string.</p>
       </div>
 
     
+      <div id="method-c-load" class="method-detail method-alias">
+        
+        <div class="method-heading">
+          <span class="method-name">load</span><span
+            class="method-args">(file_path)</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+        </div>
+
+        
+
+        
+        <div class="aliases">
+          Alias for: <a href="Matlab.html#method-c-load_mat">load_mat</a>
+        </div>
+        
+      </div>
+
+    
+      <div id="method-c-load_mat" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            load(mat_file_path) &rarr; NMatrix
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            load_mat(mat_file_path) &rarr; NMatrix
+          </span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Load a .mat file and return a <a href="../../NMatrix.html">NMatrix</a>
+corresponding to it.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="load_mat-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/nmatrix.rb, line 72</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">load_mat</span>(<span class="ruby-identifier">file_path</span>)
+  <span class="ruby-constant">NMatrix</span><span class="ruby-operator">::</span><span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">Matlab</span><span class="ruby-operator">::</span><span class="ruby-constant">Mat5Reader</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">file_path</span>, <span class="ruby-string">&quot;rb+&quot;</span>)).<span class="ruby-identifier">to_ruby</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+        <div class="aliases">
+          Also aliased as: <a href="Matlab.html#method-c-load">load</a>
+        </div>
+        
+
+        
+      </div>
+
+    
       <div id="method-c-repack" class="method-detail ">
         
         <div class="method-heading">
@@ -194,7 +280,7 @@ new string.</p>
 them into a string of bytes representing values of an <a
 href="../../NMatrix.html">NMatrix</a> dtype (or itype).</p>
 
-<p>Returns what appears to be a Ruby String.</p>
+<p>Returns what appears to be a Ruby <a href="../../String.html">String</a>.</p>
 
 <p>Arguments:</p>
 <ul><li><dl class="rdoc-list note-list"><dt>str        
@@ -239,7 +325,7 @@ href="../../NMatrix.html">NMatrix</a> dtype (or itype).</p>
 
   // For next few lines, see explanation above NM_MATLAB_DTYPE_TEMPLATE_TABLE definition in io.h.
   if (to_type &gt;= static_cast&lt;uint8_t&gt;(nm::COMPLEX64)) {
-    rb_raise(rb_eArgError, &quot;can only repack into a simple dtype, no complex/rational/VALUE&quot;);
+    rb_raise(rb_eArgError, &quot;can only repack into a simple dtype, no complex/VALUE&quot;);
   }
 
   // Do the actual repacking -- really simple!
@@ -266,65 +352,13 @@ href="../../NMatrix.html">NMatrix</a> dtype (or itype).</p>
     
     </section>
   
-     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
-       <header>
-         <h3>Public Instance Methods</h3>
-       </header>
-
-    
-      <div id="method-i-load_mat" class="method-detail ">
-        
-        
-        <div class="method-heading">
-          <span class="method-callseq">
-            load(mat_file_path) &rarr; NMatrix
-          </span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-        <div class="method-heading">
-          <span class="method-callseq">
-            load_mat(mat_file_path) &rarr; NMatrix
-          </span>
-          
-        </div>
-        
-        
-
-        <div class="method-description">
-          
-          <p>Load a .mat file and return a <a href="../../NMatrix.html">NMatrix</a>
-corresponding to it.</p>
-          
-          
-
-          
-          <div class="method-source-code" id="load_mat-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/nmatrix.rb, line 52</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">load_mat</span>(<span class="ruby-identifier">file_path</span>)
-  <span class="ruby-constant">NMatrix</span><span class="ruby-operator">::</span><span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">Matlab</span><span class="ruby-operator">::</span><span class="ruby-constant">Mat5Reader</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">file_path</span>, <span class="ruby-string">&quot;rb+&quot;</span>)).<span class="ruby-identifier">to_ruby</span>
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-    </section>
-  
   </section>
 </main>
 
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="http://rdoc.rubyforge.org">RDoc</a> 4.1.1.
-  <p>Based on <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

@@ -6,19 +6,16 @@
 
 <title>RDoc Documentation</title>
 
-<link href="./fonts.css" rel="stylesheet">
-<link href="./rdoc.css" rel="stylesheet">
-
 <script type="text/javascript">
   var rdoc_rel_prefix = "./";
 </script>
 
 <script src="./js/jquery.js"></script>
-<script src="./js/navigation.js"></script>
-<script src="./js/search_index.js"></script>
-<script src="./js/search.js"></script>
-<script src="./js/searcher.js"></script>
 <script src="./js/darkfish.js"></script>
+
+<link href="./css/fonts.css" rel="stylesheet">
+<link href="./css/rdoc.css" rel="stylesheet">
+
 
 
 <body id="top" role="document" class="file">
@@ -80,13 +77,33 @@
   
     <li><a href="./Array.html">Array</a>
   
+    <li><a href="./AutoloadPatch.html">AutoloadPatch</a>
+  
     <li><a href="./DataTypeError.html">DataTypeError</a>
   
     <li><a href="./N.html">N</a>
   
     <li><a href="./NMatrix.html">NMatrix</a>
   
+    <li><a href="./NMatrix/ATLAS.html">NMatrix::ATLAS</a>
+  
+    <li><a href="./NMatrix/ATLAS/BLAS.html">NMatrix::ATLAS::BLAS</a>
+  
+    <li><a href="./NMatrix/ATLAS/LAPACK.html">NMatrix::ATLAS::LAPACK</a>
+  
+    <li><a href="./NMatrix/BLAS.html">NMatrix::BLAS</a>
+  
+    <li><a href="./NMatrix/FactorizeLUMethods.html">NMatrix::FactorizeLUMethods</a>
+  
     <li><a href="./NMatrix/IO.html">NMatrix::IO</a>
+  
+    <li><a href="./NMatrix/IO/FortranFormat.html">NMatrix::IO::FortranFormat</a>
+  
+    <li><a href="./NMatrix/IO/FortranFormat/Reader.html">NMatrix::IO::FortranFormat::Reader</a>
+  
+    <li><a href="./NMatrix/IO/HarwellBoeing.html">NMatrix::IO::HarwellBoeing</a>
+  
+    <li><a href="./NMatrix/IO/HarwellBoeing/Reader.html">NMatrix::IO::HarwellBoeing::Reader</a>
   
     <li><a href="./NMatrix/IO/Market.html">NMatrix::IO::Market</a>
   
@@ -94,9 +111,17 @@
   
     <li><a href="./NMatrix/IO/PointCloud.html">NMatrix::IO::PointCloud</a>
   
-    <li><a href="./NMatrix/YaleFunctions.html">NMatrix::YaleFunctions</a>
+    <li><a href="./NMatrix/Internal.html">NMatrix::Internal</a>
   
-    <li><a href="./NVector.html">NVector</a>
+    <li><a href="./NMatrix/LAPACK.html">NMatrix::LAPACK</a>
+  
+    <li><a href="./NMatrix/LAPACKE.html">NMatrix::LAPACKE</a>
+  
+    <li><a href="./NMatrix/LAPACKE/BLAS.html">NMatrix::LAPACKE::BLAS</a>
+  
+    <li><a href="./NMatrix/LAPACKE/LAPACK.html">NMatrix::LAPACKE::LAPACK</a>
+  
+    <li><a href="./NMatrix/YaleFunctions.html">NMatrix::YaleFunctions</a>
   
     <li><a href="./NotInvertibleError.html">NotInvertibleError</a>
   
@@ -105,6 +130,8 @@
     <li><a href="./ShapeError.html">ShapeError</a>
   
     <li><a href="./StorageTypeError.html">StorageTypeError</a>
+  
+    <li><a href="./String.html">String</a>
   
     <li><a href="./unknown.html">unknown</a>
   
@@ -117,13 +144,16 @@
 <main role="main">
 
 
-<h1 id="label-NMatrix"><a href="NMatrix.html">NMatrix</a><span><a href="#label-NMatrix">&para;</a> <a href="#documentation">&uarr;</a></span></h1>
+<h1 id="label-NMatrix"><a href="NMatrix.html">NMatrix</a><span><a href="#label-NMatrix">&para;</a> <a href="#top">&uarr;</a></span></h1>
 
 <p>Fast Numerical Linear Algebra Library for Ruby</p>
 <ul><li>
 <p><a href="http://sciruby.com">sciruby.com</a></p>
 </li><li>
 <p><a href="https://plus.google.com/109304769076178160953/posts">Google+</a></p>
+</li><li>
+<p><a href="https://groups.google.com/forum/#!forum/sciruby-dev">Google Group
+- Mailing List</a></p>
 </li><li>
 <p><a href="https://github.com/SciRuby/nmatrix/wiki/Installation">NMatrix
 Installation wiki</a></p>
@@ -135,60 +165,96 @@ guide</a></p>
 <p><a href="https://travis-ci.org/SciRuby/nmatrix"><img
 src=https://travis-ci.org/SciRuby/nmatrix.png></a></p>
 
-<h2 id="label-Description">Description<span><a href="#label-Description">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+<p><a href="https://codeclimate.com/github/SciRuby/nmatrix"><img
+src="https://codeclimate.com/github/SciRuby/nmatrix.png" /></a></p>
+
+<h2 id="label-Description">Description<span><a href="#label-Description">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
 <p><a href="NMatrix.html">NMatrix</a> is a fast numerical linear algebra
 library for Ruby, with dense and sparse matrices, written mostly in C and
 C++. It is part of the SciRuby project.</p>
 
+<p>Three gems are provided in this repository. The <code>nmatrix</code> gem
+provides all core matrix functionality, and requires minimal external
+dependencies, making it easy to install. The <code>nmatrix-atlas</code> and
+<code>nmatrix-lapacke</code> gems are optional extensions of the main
+<code>nmatrix</code> gem that rely on external linear algebra libraries to
+provide advanced features for dense matrices (singular value decomposition,
+eigenvalue/eigenvector finding, Cholesky factorization), as well as
+providing faster implementations of common operations like multiplication,
+inverses, and determinants. <code>nmatrix-atlas</code> requires the <a
+href="http://math-atlas.sourceforge.net/">ATLAS library</a>, while
+<code>nmatrix-lapacke</code> is designed to work with various LAPACK
+implementations (including ATLAS). The <code>nmatrix-atlas</code> and
+<code>nmatrix-lapacke</code> gems both provide similar interfaces for using
+these advanced features.</p>
+
 <p><a href="NMatrix.html">NMatrix</a> was inspired by <a
 href="http://narray.rubyforge.org">NArray</a>, by Masahiro Tanaka.</p>
 
-<h2 id="label-Installation">Installation<span><a href="#label-Installation">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+<h2 id="label-Installation">Installation<span><a href="#label-Installation">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
 <p>To install the latest stable version:</p>
 
-<pre>gem install nmatrix --pre</pre>
+<pre class="ruby"><span class="ruby-identifier">gem</span> <span class="ruby-identifier">install</span> <span class="ruby-identifier">nmatrix</span>
+</pre>
 
-<p>However, you will need to install <a
-href="http://math-atlas.sourceforge.net/">ATLAS</a> with CBLAS (C interface
-to <a
-href="http://en.wikipedia.org/wiki/Basic_Linear_Algebra_Subprograms">BLAS</a>)
-first. Detailed directions can be found <a
-href="https://github.com/SciRuby/nmatrix/wiki/Installation">here</a>. The
-requirements for <a href="NMatrix.html">NMatrix</a> are:</p>
+<p>The requirements for <a href="NMatrix.html">NMatrix</a> are:</p>
 <ul><li>
-<p>ATLAS, preferably with CLAPACK (<a
-href="https://github.com/SciRuby/nmatrix/wiki/Installation">see here for
-details</a>)</p>
+<p>GCC 4.3 or later</p>
 </li><li>
-<p>a version of GCC or clang which supports C++0x or C++11</p>
-</li><li>
-<p>Ruby 1.9.2+</p>
-</li><li>
-<p><a href="http://github.com/marcandre/packable">packable</a> 1.3.5 (used for
-I/O)</p>
+<p>Ruby 1.9.3 or later</p>
 </li></ul>
+
+<p>To install <code>nmatrix-atlas</code> or <code>nmatrix-lapacke</code>, an
+additional requirement is a compatible LAPACK library. Detailed directions
+for this step can be found <a
+href="https://github.com/SciRuby/nmatrix/wiki/Installation">here</a>.</p>
 
 <p>If you want to obtain the latest (development) code, you should generally
 do:</p>
 
 <pre>git clone https://github.com/SciRuby/nmatrix.git
 cd nmatrix/
+gem install bundler
 bundle install
 bundle exec rake compile
-bundle exec rake repackage
-gem install pkg/nmatrix-0.1.0.rc4.gem</pre>
+bundle exec rake spec</pre>
 
-<p>Detailed instructions are available for <a
-href="https://github.com/SciRuby/nmatrix/wiki/Installation#mac-os-x">Mac</a>
-and <a
-href="https://github.com/SciRuby/nmatrix/wiki/Installation#linux">Linux</a>.
-We are currently working on Mavericks (Mac OS X) installation instructions,
-but in general, you&#39;ll need Homebrew and should probably use +brew
-install gcc48+ instead of using the install script.</p>
+<p>If you want to try out the code without installing:</p>
 
-<h2 id="label-Documentation">Documentation<span><a href="#label-Documentation">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+<pre class="ruby"><span class="ruby-identifier">bundle</span> <span class="ruby-identifier">exec</span> <span class="ruby-identifier">rake</span> <span class="ruby-identifier">pry</span>
+</pre>
+
+<p>To install:</p>
+
+<pre class="ruby"><span class="ruby-identifier">bundle</span> <span class="ruby-identifier">exec</span> <span class="ruby-identifier">rake</span> <span class="ruby-identifier">install</span>
+</pre>
+
+<p>The commands above build and install only the core <code>nmatrix</code>
+gem. If you want to build one or more of the plugin gems
+(<code>nmatrix-atlas</code>, <code>nmatrix-lapacke</code>) in addition to
+the core nmatrix gem, use the <code>nmatrix_plugins=</code> option, e.g.
+<code>rake compile nmatrix_plugins=all</code>, <code>rake install
+nmatrix_plugins=atlas</code>, <code>rake clean
+nmatrix_plugins=atlas,lapacke</code>. Each of these commands apply to the
+<code>nmatrix</code> gem and any additional plugin gems specified. For
+example, <code>rake spec nmatrix_plugins=atlas</code> will test both the
+core <code>nmatrix</code> gem and the <code>nmatrix-atlas</code> gem.</p>
+
+<h2 id="label-Upgrading+from+NMatrix+0.1.0">Upgrading from <a href="NMatrix.html">NMatrix</a> 0.1.0<span><a href="#label-Upgrading+from+NMatrix+0.1.0">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>If your code requires features provided by ATLAS (Cholesky decomposition,
+singular value decomposition, eigenvalues/eigenvectors, inverses of
+matrices bigger than 3-by-3), your code now depends on the
+<code>nmatrix-atlas</code> gem. You will need to add this a dependency of
+your project and <code>require &#39;nmatrix/atlas&#39;</code> in addition
+to <code>require &#39;nmatrix&#39;</code>. In most cases, no further
+changes should be necessary, however there have been a few <a
+href="https://github.com/SciRuby/nmatrix/wiki/API-Changes">API changes</a>,
+please check to see if these affect you.</p>
+
+<h2 id="label-Documentation">Documentation<span><a href="#label-Documentation">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
 <p>If you have a suggestion or want to add documentation for any class or
 method in <a href="NMatrix.html">NMatrix</a>, please open an issue or send
@@ -197,29 +263,27 @@ a pull request with the changes.</p>
 <p>You can find the complete API documentation <a
 href="http://sciruby.com/nmatrix/docs/">on our website</a>.</p>
 
-<h2 id="label-Examples">Examples<span><a href="#label-Examples">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+<h2 id="label-Examples">Examples<span><a href="#label-Examples">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
 <p>Create a new <a href="NMatrix.html">NMatrix</a> from a ruby Array:</p>
 
-<pre class="ruby"><span class="ruby-operator">&gt;&gt;</span> <span class="ruby-identifier">require</span> <span class="ruby-string">&#39;nmatrix&#39;</span>
-<span class="ruby-operator">&gt;&gt;</span> <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>([<span class="ruby-value">2</span>, <span class="ruby-value">3</span>], [<span class="ruby-value">0</span>, <span class="ruby-value">1</span>, <span class="ruby-value">2</span>, <span class="ruby-value">3</span>, <span class="ruby-value">4</span>, <span class="ruby-value">5</span>], <span class="ruby-identifier">dtype</span><span class="ruby-operator">:</span> :<span class="ruby-identifier">int64</span>)
-=<span class="ruby-operator">&gt;</span> [
-    [<span class="ruby-value">0</span>, <span class="ruby-value">1</span>, <span class="ruby-value">2</span>],
-    [<span class="ruby-value">3</span>, <span class="ruby-value">4</span>, <span class="ruby-value">5</span>]
-   ]
-</pre>
+<pre>&gt;&gt; require &#39;nmatrix&#39;
+&gt;&gt; NMatrix.new([2, 3], [0, 1, 2, 3, 4, 5], dtype: :int64)
+=&gt; [
+    [0, 1, 2],
+    [3, 4, 5]
+   ]</pre>
 
 <p>Create a new <a href="NMatrix.html">NMatrix</a> using the <code>N</code>
 shortcut:</p>
 
-<pre class="ruby"><span class="ruby-operator">&gt;&gt;</span> <span class="ruby-identifier">m</span> = <span class="ruby-constant">N</span>[ [<span class="ruby-value">2</span>, <span class="ruby-value">3</span>, <span class="ruby-value">4</span>], [<span class="ruby-value">7</span>, <span class="ruby-value">8</span>, <span class="ruby-value">9</span>] ]
-=<span class="ruby-operator">&gt;</span> [
-    [<span class="ruby-value">2</span>, <span class="ruby-value">3</span>, <span class="ruby-value">4</span>],
-    [<span class="ruby-value">7</span>, <span class="ruby-value">8</span>, <span class="ruby-value">9</span>]
+<pre>&gt;&gt; m = N[ [2, 3, 4], [7, 8, 9] ]
+=&gt; [
+    [2, 3, 4],
+    [7, 8, 9]
    ]
-<span class="ruby-operator">&gt;&gt;</span> <span class="ruby-identifier">m</span>.<span class="ruby-identifier">inspect</span>
-=<span class="ruby-operator">&gt;</span> <span class="ruby-comment">#&lt;NMatrix:0x007f8e121b6cf8shape:[2,3] dtype:int32 stype:dense&gt;</span>
-</pre>
+&gt;&gt; m.inspect
+=&gt; #&lt;NMatrix:0x007f8e121b6cf8shape:[2,3] dtype:int32 stype:dense&gt;</pre>
 
 <p>The above output requires that you have a pretty-print-enabled console such
 as Pry; otherwise, you&#39;ll see the output given by <code>inspect</code>.</p>
@@ -231,12 +295,37 @@ the guide in our wiki</a>.</p>
 <p>Again, you can find the complete API documentation <a
 href="http://sciruby.com/nmatrix/docs/">on our website</a>.</p>
 
-<h2 id="label-Developers">Developers<span><a href="#label-Developers">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+<h3 id="label-Using+advanced+features+provided+by+plugins">Using advanced features provided by plugins<span><a href="#label-Using+advanced+features+provided+by+plugins">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>Certain features (see the documentation) require either the nmatrix-atlas
+or the nmatrix-lapacke gem to be installed. These can be accessed by using
+<code>require &#39;nmatrix/atlas&#39;</code> or <code>require
+&#39;nmatrix/lapacke&#39;</code>. If you don&#39;t care which of the two
+gems is installed, use <code>require
+&#39;nmatrix/lapack_plugin&#39;</code>, which will require whichever one of
+the two is available.</p>
+
+<h2 id="label-NArray+Compatibility">NArray Compatibility<span><a href="#label-NArray+Compatibility">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>When <a href="http://masa16.github.io/narray/">NArray</a> is installed
+alongside <a href="NMatrix.html">NMatrix</a>, <code>require
+&#39;nmatrix&#39;</code> will inadvertently load NArray&#39;s
+<code>lib/nmatrix.rb</code> file, usually accompanied by the following
+error:</p>
+
+<pre class="ruby"><span class="ruby-identifier">uninitialized</span> <span class="ruby-identifier">constant</span> <span class="ruby-constant">NArray</span> (<span class="ruby-constant">NameError</span>)
+</pre>
+
+<p>To make sure <a href="NMatrix.html">NMatrix</a> is loaded properly in the
+presence of NArray, use <code>require &#39;nmatrix/nmatrix&#39;</code>
+instead of <code>require &#39;nmatrix&#39;</code> in your code.</p>
+
+<h2 id="label-Developers">Developers<span><a href="#label-Developers">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
 <p>Read the instructions in <code>CONTRIBUTING.md</code> if you want to help
 <a href="NMatrix.html">NMatrix</a>.</p>
 
-<h2 id="label-Features">Features<span><a href="#label-Features">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+<h2 id="label-Features">Features<span><a href="#label-Features">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
 <p>The following features exist in the current version of <a
 href="NMatrix.html">NMatrix</a> (0.1.0.rc1):</p>
@@ -244,7 +333,7 @@ href="NMatrix.html">NMatrix</a> (0.1.0.rc1):</p>
 <p>Matrix and vector storage containers: dense, yale, list (more to come)</p>
 </li><li>
 <p>Data types: byte (uint8), int8, int16, int32, int64, float32, float64,
-complex64, complex128, rational64, rational128, Ruby object</p>
+complex64, complex128, Ruby object</p>
 </li><li>
 <p>Interconversion between storage and data types</p>
 </li><li>
@@ -272,88 +361,65 @@ symmetric, skew, hermitian, upper, lower</p>
 </li><li>
 <p>MatrixMarket file input/output</p>
 </li><li>
+<p>Harwell-Boeing and Fortran file input</p>
+</li><li>
 <p>Point Cloud Library PCD file input</p>
 </li></ul>
 </li><li>
 <p>C and C++ API</p>
 </li><li>
-<p>BLAS internal implementations (no library) and ATLAS (with library) access:</p>
+<p>BLAS internal implementations (no library) and external (with
+nmatrix-lapack or nmatrix-atlas) access:</p>
 <ul><li>
-<p>Level 1: xROT, xROTG (BLAS dtypes only), xASUM, xNRM2, IxAMAX</p>
+<p>Level 1: xROT, xROTG (BLAS dtypes only), xASUM, xNRM2, IxAMAX, xSCAL</p>
 </li><li>
 <p>Level 2: xGEMV</p>
 </li><li>
 <p>Level 3: xGEMM, xTRSM</p>
 </li></ul>
 </li><li>
-<p>LAPACK ATLAS access:</p>
+<p>LAPACK access (with nmatrix-lapack or nmatrix-atlas plugin):</p>
 <ul><li>
 <p>xGETRF, xGETRI, xGETRS, xGESV (Gaussian elimination)</p>
 </li><li>
 <p>xPOTRF, xPOTRI, xPOTRS, xPOSV (Cholesky factorization)</p>
 </li><li>
-<p>xLASWP, xSCAL, xLAUUM</p>
-</li></ul>
-</li><li>
-<p>LAPACK-less internal implementations (no LAPACK needed and working on
-non-BLAS dtypes):</p>
-<ul><li>
-<p>xGETRF</p>
-</li><li>
-<p>xLASWP, xSCAL</p>
-</li><li>
-<p>xLAUUM (no LAPACK needed, but BLAS dtypes only)</p>
-</li></ul>
-</li><li>
-<p>LAPACK (non-ATLAS) access:</p>
-<ul><li>
 <p>xGESVD, xGESDD (singular value decomposition)</p>
 </li><li>
-<p>xGEEV (eigenvalue decomposition of a asymmetric square matrices)</p>
+<p>xGEEV (eigenvalue decomposition of asymmetric square matrices)</p>
+</li></ul>
+</li><li>
+<p>LAPACK-less internal implementations (no plugin or LAPACK needed and
+working on non-BLAS dtypes):</p>
+<ul><li>
+<p>xGETRF, xGETRS</p>
 </li></ul>
 </li><li>
 <p>LU decomposition</p>
 </li><li>
-<p>Matrix inversions (requires LAPACK; BLAS dtypes only)</p>
+<p>Matrix inversions</p>
 </li><li>
 <p>Determinant calculation for BLAS dtypes</p>
 </li><li>
-<p>Vector 2-norms</p>
+<p>Traces</p>
 </li><li>
-<p>Ruby/GSL interoperability (requires {SciRuby&#39;s fork of rb-gsl}(<a
-href="http://github.com/SciRuby/rb-gsl">github.com/SciRuby/rb-gsl</a>))</p>
+<p>Ruby/GSL interoperability (requires <a
+href="http://github.com/SciRuby/rb-gsl">SciRuby’s fork of rb-gsl</a>)</p>
 </li><li>
 <p>slice assignments, e.g.,</p>
 
-<pre>x[1..3,0..4] = some_other_matrix</pre>
+<pre class="ruby"><span class="ruby-identifier">x</span>[<span class="ruby-value">1</span><span class="ruby-operator">..</span><span class="ruby-value">3</span>,<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-value">4</span>] = <span class="ruby-identifier">some_other_matrix</span>
+</pre>
 </li></ul>
 
-<h3 id="label-Planned+Features+%28Short-to-Medium+Term%29">Planned Features (Short-to-Medium Term)<span><a href="#label-Planned+Features+%28Short-to-Medium+Term%29">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
+<h3 id="label-Planned+Features+-28Short-to-Medium+Term-29">Planned Features (Short-to-Medium Term)<span><a href="#label-Planned+Features+-28Short-to-Medium+Term-29">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
-<p>We are nearing the release of <a href="NMatrix.html">NMatrix</a> 0.1.0, our
-first beta.</p>
+<p>See the issues tracker for a list of planned features or to request new
+ones.</p>
 
-<p>These are features planned for <a href="NMatrix.html">NMatrix</a> 0.2.0:</p>
-<ul><li>
-<p>LAPACK-free calculation of determinant, trace, and eigenvalues
-(characteristic polynomial)</p>
-</li><li>
-<p>LAPACK-free matrix inversions</p>
-</li><li>
-<p>tensor products</p>
-</li><li>
-<p>improved file I/O</p>
-<ul><li>
-<p>compression of yale symmetries in I/O</p>
-</li></ul>
-</li><li>
-<p>optimization of non-BLAS data types on BLAS-like operations (e.g., matrix
-multiplication for rational numbers)</p>
-</li></ul>
+<h2 id="label-License">License<span><a href="#label-License">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
-<h2 id="label-License">License<span><a href="#label-License">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
-
-<p>Copyright © 2012–14, John Woods and the Ruby Science Foundation.</p>
+<p>Copyright © 2012–15, John Woods and the Ruby Science Foundation.</p>
 
 <p>All rights reserved.</p>
 
@@ -362,7 +428,7 @@ the BSD 2-clause license. See <a
 href="https://github.com/SciRuby/sciruby/wiki/License">LICENSE.txt</a> for
 details.</p>
 
-<h2 id="label-Donations">Donations<span><a href="#label-Donations">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+<h2 id="label-Donations">Donations<span><a href="#label-Donations">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
 <p>Support a SciRuby Fellow:</p>
 
@@ -374,7 +440,7 @@ src=http://pledgie.com/campaigns/15783.png?skin_name=chrome></a></p>
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="http://rdoc.rubyforge.org">RDoc</a> 4.1.1.
-  <p>Based on <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

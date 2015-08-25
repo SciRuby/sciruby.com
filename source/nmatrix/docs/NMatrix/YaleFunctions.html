@@ -6,19 +6,16 @@
 
 <title>module NMatrix::YaleFunctions - RDoc Documentation</title>
 
-<link href="../fonts.css" rel="stylesheet">
-<link href="../rdoc.css" rel="stylesheet">
-
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
 </script>
 
 <script src="../js/jquery.js"></script>
-<script src="../js/navigation.js"></script>
-<script src="../js/search_index.js"></script>
-<script src="../js/search.js"></script>
-<script src="../js/searcher.js"></script>
 <script src="../js/darkfish.js"></script>
+
+<link href="../css/fonts.css" rel="stylesheet">
+<link href="../css/rdoc.css" rel="stylesheet">
+
 
 
 <body id="top" role="document" class="module">
@@ -196,11 +193,11 @@ portions of the matrix).</p>
           
           <div class="method-source-code" id="yale_a-source">
             <pre>static VALUE nm_a(int argc, VALUE* argv, VALUE self) {
-  NM_CONSERVATIVE(nm_register_value(self));
+  NM_CONSERVATIVE(nm_register_value(&amp;self));
 
   VALUE idx;
   rb_scan_args(argc, argv, &quot;01&quot;, &amp;idx);
-  NM_CONSERVATIVE(nm_register_value(idx));
+  NM_CONSERVATIVE(nm_register_value(&amp;idx));
 
   YALE_STORAGE* s = reinterpret_cast&lt;YALE_STORAGE*&gt;(NM_SRC(self));
   size_t size = nm_yale_storage_get_size(s);
@@ -226,13 +223,13 @@ portions of the matrix).</p>
       rb_ary_push(ary, Qnil);
 
     nm_unregister_values(vals, size);
-    NM_CONSERVATIVE(nm_unregister_value(idx));
-    NM_CONSERVATIVE(nm_unregister_value(self));
+    NM_CONSERVATIVE(nm_unregister_value(&amp;idx));
+    NM_CONSERVATIVE(nm_unregister_value(&amp;self));
     return ary;
   } else {
     size_t index = FIX2INT(idx);
-    NM_CONSERVATIVE(nm_unregister_value(idx));
-    NM_CONSERVATIVE(nm_unregister_value(self));
+    NM_CONSERVATIVE(nm_unregister_value(&amp;idx));
+    NM_CONSERVATIVE(nm_unregister_value(&amp;self));
     if (index &gt;= size) rb_raise(rb_eRangeError, &quot;out of range&quot;);
     return rubyobj_from_cval((char*)(s-&gt;a) + DTYPE_SIZES[s-&gt;dtype] * index, s-&gt;dtype).rval;
   }
@@ -277,10 +274,10 @@ portions of the matrix).</p>
           
           <div class="method-source-code" id="yale_d-source">
             <pre>static VALUE nm_d(int argc, VALUE* argv, VALUE self) {
-  NM_CONSERVATIVE(nm_register_value(self));
+  NM_CONSERVATIVE(nm_register_value(&amp;self));
   VALUE idx;
   rb_scan_args(argc, argv, &quot;01&quot;, &amp;idx);
-  NM_CONSERVATIVE(nm_register_value(idx));
+  NM_CONSERVATIVE(nm_register_value(&amp;idx));
 
   YALE_STORAGE* s = reinterpret_cast&lt;YALE_STORAGE*&gt;(NM_SRC(self));
 
@@ -299,14 +296,14 @@ portions of the matrix).</p>
       }
     }
     nm_unregister_values(vals, s-&gt;shape[0]);
-    NM_CONSERVATIVE(nm_unregister_value(idx));
-    NM_CONSERVATIVE(nm_unregister_value(self));
+    NM_CONSERVATIVE(nm_unregister_value(&amp;idx));
+    NM_CONSERVATIVE(nm_unregister_value(&amp;self));
 
     return rb_ary_new4(s-&gt;shape[0], vals);
   } else {
     size_t index = FIX2INT(idx);
-    NM_CONSERVATIVE(nm_unregister_value(idx));
-    NM_CONSERVATIVE(nm_unregister_value(self));
+    NM_CONSERVATIVE(nm_unregister_value(&amp;idx));
+    NM_CONSERVATIVE(nm_unregister_value(&amp;self));
     if (index &gt;= s-&gt;shape[0]) rb_raise(rb_eRangeError, &quot;out of range&quot;);
     return rubyobj_from_cval((char*)(s-&gt;a) + DTYPE_SIZES[s-&gt;dtype] * index, s-&gt;dtype).rval;
   }
@@ -346,7 +343,7 @@ arrays, respectively.</p>
           
           <div class="method-source-code" id="yale_ia-source">
             <pre>static VALUE nm_ia(VALUE self) {
-  NM_CONSERVATIVE(nm_register_value(self));
+  NM_CONSERVATIVE(nm_register_value(&amp;self));
 
   YALE_STORAGE* s = reinterpret_cast&lt;YALE_STORAGE*&gt;(NM_SRC(self));
 
@@ -356,7 +353,7 @@ arrays, respectively.</p>
     vals[i] = INT2FIX(s-&gt;ija[i]);
   }
 
-  NM_CONSERVATIVE(nm_unregister_value(self));
+  NM_CONSERVATIVE(nm_unregister_value(&amp;self));
 
   return rb_ary_new4(s-&gt;shape[0]+1, vals);
 }</pre>
@@ -400,11 +397,11 @@ arrays, respectively.</p>
           
           <div class="method-source-code" id="yale_ija-source">
             <pre>static VALUE nm_ija(int argc, VALUE* argv, VALUE self) {
-  NM_CONSERVATIVE(nm_register_value(self));
+  NM_CONSERVATIVE(nm_register_value(&amp;self));
 
   VALUE idx;
   rb_scan_args(argc, argv, &quot;01&quot;, &amp;idx);
-  NM_CONSERVATIVE(nm_register_value(idx));
+  NM_CONSERVATIVE(nm_register_value(&amp;idx));
 
   YALE_STORAGE* s = reinterpret_cast&lt;YALE_STORAGE*&gt;(NM_SRC(self));
   size_t size = nm_yale_storage_get_size(s);
@@ -425,16 +422,16 @@ arrays, respectively.</p>
       rb_ary_push(ary, Qnil);
 
     nm_unregister_values(vals, size);
-    NM_CONSERVATIVE(nm_unregister_value(idx));
-    NM_CONSERVATIVE(nm_unregister_value(self));
+    NM_CONSERVATIVE(nm_unregister_value(&amp;idx));
+    NM_CONSERVATIVE(nm_unregister_value(&amp;self));
 
     return ary;
 
   } else {
     size_t index = FIX2INT(idx);
     if (index &gt;= size) rb_raise(rb_eRangeError, &quot;out of range&quot;);
-    NM_CONSERVATIVE(nm_unregister_value(self));
-    NM_CONSERVATIVE(nm_unregister_value(idx));
+    NM_CONSERVATIVE(nm_unregister_value(&amp;self));
+    NM_CONSERVATIVE(nm_unregister_value(&amp;idx));
     return INT2FIX(s-&gt;ija[index]);
   }
 }</pre>
@@ -474,7 +471,7 @@ array.</p>
           <div class="method-source-code" id="yale_ja-source">
             <pre>static VALUE nm_ja(VALUE self) {
 
-  NM_CONSERVATIVE(nm_register_value(self));
+  NM_CONSERVATIVE(nm_register_value(&amp;self));
 
   YALE_STORAGE* s = reinterpret_cast&lt;YALE_STORAGE*&gt;(NM_SRC(self));
 
@@ -494,7 +491,7 @@ array.</p>
     rb_ary_push(ary, Qnil);
 
   nm_unregister_values(vals, size - s-&gt;shape[0] - 1);
-  NM_CONSERVATIVE(nm_unregister_value(self));
+  NM_CONSERVATIVE(nm_unregister_value(&amp;self));
 
   return ary;
 }</pre>
@@ -779,7 +776,7 @@ a Set.</p>
           
           <div class="method-source-code" id="yale_lu-source">
             <pre>static VALUE nm_lu(VALUE self) {
-  NM_CONSERVATIVE(nm_register_value(self));
+  NM_CONSERVATIVE(nm_register_value(&amp;self));
 
   YALE_STORAGE* s = reinterpret_cast&lt;YALE_STORAGE*&gt;(NM_SRC(self));
 
@@ -805,7 +802,7 @@ a Set.</p>
     rb_ary_push(ary, Qnil);
 
   nm_unregister_values(vals, size - s-&gt;shape[0] - 1);
-  NM_CONSERVATIVE(nm_unregister_value(self));
+  NM_CONSERVATIVE(nm_unregister_value(&amp;self));
 
   return ary;
 }</pre>
@@ -849,17 +846,16 @@ possible. It does not check for appropriate range.</p>
           <div class="method-source-code" id="yale_nd_row-source">
             <pre>static VALUE nm_nd_row(int argc, VALUE* argv, VALUE self) {
 
-  NM_CONSERVATIVE(nm_register_value(self));
-
+  NM_CONSERVATIVE(nm_register_value(&amp;self));
   if (NM_SRC(self) != NM_STORAGE(self)) {
-    NM_CONSERVATIVE(nm_unregister_value(self));
+    NM_CONSERVATIVE(nm_unregister_value(&amp;self));
     rb_raise(rb_eNotImpError, &quot;must be called on a real matrix and not a slice&quot;);
   }
 
   VALUE i_, as;
   rb_scan_args(argc, argv, &quot;11&quot;, &amp;i_, &amp;as);
-  NM_CONSERVATIVE(nm_register_value(as));
-  NM_CONSERVATIVE(nm_register_value(i_));
+  NM_CONSERVATIVE(nm_register_value(&amp;as));
+  NM_CONSERVATIVE(nm_register_value(&amp;i_));
 
   bool keys = false;
   if (as != Qnil &amp;&amp; rb_to_id(as) != nm_rb_hash) keys = true;
@@ -870,9 +866,9 @@ possible. It does not check for appropriate range.</p>
   //nm::dtype_t dtype = NM_DTYPE(self);
 
   if (i &gt;= s-&gt;shape[0]) {
-    NM_CONSERVATIVE(nm_unregister_value(self));
-    NM_CONSERVATIVE(nm_unregister_value(as));
-    NM_CONSERVATIVE(nm_unregister_value(i_));
+    NM_CONSERVATIVE(nm_unregister_value(&amp;self));
+    NM_CONSERVATIVE(nm_unregister_value(&amp;as));
+    NM_CONSERVATIVE(nm_unregister_value(&amp;i_));
     rb_raise(rb_eRangeError, &quot;out of range (%lu &gt;= %lu)&quot;, i, s-&gt;shape[0]);
   }
 
@@ -895,9 +891,9 @@ possible. It does not check for appropriate range.</p>
       rb_hash_aset(ret, INT2FIX(s-&gt;ija[idx]), rubyobj_from_cval((char*)(s-&gt;a) + DTYPE_SIZES[s-&gt;dtype]*idx, s-&gt;dtype).rval);
     }
   }
-  NM_CONSERVATIVE(nm_unregister_value(as));
-  NM_CONSERVATIVE(nm_unregister_value(i_));
-  NM_CONSERVATIVE(nm_unregister_value(self));
+  NM_CONSERVATIVE(nm_unregister_value(&amp;as));
+  NM_CONSERVATIVE(nm_unregister_value(&amp;i_));
+  NM_CONSERVATIVE(nm_unregister_value(&amp;self));
   return ret;
 }</pre>
           </div>
@@ -1218,12 +1214,12 @@ matrix m2. Both matrices must be Yale. They may not be slices.</p>
           <div class="method-source-code" id="yale_row_keys_intersection-source">
             <pre>static VALUE nm_row_keys_intersection(VALUE m1, VALUE ii1, VALUE m2, VALUE ii2) {
 
-  NM_CONSERVATIVE(nm_register_value(m1));
-  NM_CONSERVATIVE(nm_register_value(m2));
+  NM_CONSERVATIVE(nm_register_value(&amp;m1));
+  NM_CONSERVATIVE(nm_register_value(&amp;m2));
 
   if (NM_SRC(m1) != NM_STORAGE(m1) || NM_SRC(m2) != NM_STORAGE(m2)) {
-    NM_CONSERVATIVE(nm_unregister_value(m2));
-    NM_CONSERVATIVE(nm_unregister_value(m1));
+    NM_CONSERVATIVE(nm_unregister_value(&amp;m2));
+    NM_CONSERVATIVE(nm_unregister_value(&amp;m1));
     rb_raise(rb_eNotImpError, &quot;must be called on a real matrix and not a slice&quot;);
   }
 
@@ -1248,7 +1244,7 @@ matrix m2. Both matrices must be Yale. They may not be slices.</p>
 
   // Reserve max(diff1,diff2) space -- that&#39;s the max intersection possible.
   VALUE ret = rb_ary_new2(std::max(diff1,diff2)+1);
-  nm_register_value(ret);
+  nm_register_value(&amp;ret);
 
   // Handle once the special case where both have the diagonal in exactly
   // the same place.
@@ -1290,9 +1286,9 @@ matrix m2. Both matrices must be Yale. They may not be slices.</p>
     if (t-&gt;ija[idx2] == i1) rb_ary_push(ret, INT2FIX(i1));
   }
 
-  nm_unregister_value(ret);
-  NM_CONSERVATIVE(nm_unregister_value(m1));
-  NM_CONSERVATIVE(nm_unregister_value(m2));
+  nm_unregister_value(&amp;ret);
+  NM_CONSERVATIVE(nm_unregister_value(&amp;m1));
+  NM_CONSERVATIVE(nm_unregister_value(&amp;m2));
 
   return ret;
 }</pre>
@@ -1354,7 +1350,7 @@ resize), use capacity instead.</p>
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="http://rdoc.rubyforge.org">RDoc</a> 4.1.1.
-  <p>Based on <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

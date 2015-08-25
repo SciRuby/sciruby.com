@@ -6,19 +6,16 @@
 
 <title>Table of Contents - RDoc Documentation</title>
 
-<link href="./fonts.css" rel="stylesheet">
-<link href="./rdoc.css" rel="stylesheet">
-
 <script type="text/javascript">
   var rdoc_rel_prefix = "./";
 </script>
 
 <script src="./js/jquery.js"></script>
-<script src="./js/navigation.js"></script>
-<script src="./js/search_index.js"></script>
-<script src="./js/search.js"></script>
-<script src="./js/searcher.js"></script>
 <script src="./js/darkfish.js"></script>
+
+<link href="./css/fonts.css" rel="stylesheet">
+<link href="./css/rdoc.css" rel="stylesheet">
+
 
 
 <body id="top" class="table-of-contents">
@@ -33,6 +30,8 @@
     <ul>
       <li><a href="CONTRIBUTING_md.html#label-How+to+help">How to help</a>
       <li><a href="CONTRIBUTING_md.html#label-Coding">Coding</a>
+      <li><a href="CONTRIBUTING_md.html#label-Guidelines+for+interfacing+with+C-2FC-2B-2B">Guidelines for interfacing with C/C++</a>
+      <li><a href="CONTRIBUTING_md.html#label-C-2FC-2B-2B+style+guide">C/C++ style guide</a>
       <li><a href="CONTRIBUTING_md.html#label-Documentation">Documentation</a>
       <li><a href="CONTRIBUTING_md.html#label-Conclusion">Conclusion</a>
     </ul>
@@ -41,19 +40,22 @@
     <a href="History_txt.html">History</a>
 
     <ul>
-      <li><a href="History_txt.html#label-0.0.1+%2F+2012-04-10">0.0.1 / 2012-04-10</a>
-      <li><a href="History_txt.html#label-0.0.2+%2F+2012-09-21">0.0.2 / 2012-09-21</a>
-      <li><a href="History_txt.html#label-0.0.3+%2F+2013-01-18">0.0.3 / 2013-01-18</a>
-      <li><a href="History_txt.html#label-0.0.4+%2F+2013-05-17">0.0.4 / 2013-05-17</a>
-      <li><a href="History_txt.html#label-0.0.5+%2F+2013-07-09">0.0.5 / 2013-07-09</a>
-      <li><a href="History_txt.html#label-0.0.6+%2F+2013-08-09">0.0.6 / 2013-08-09</a>
-      <li><a href="History_txt.html#label-0.0.7+%2F+2013-08-22">0.0.7 / 2013-08-22</a>
-      <li><a href="History_txt.html#label-0.0.8+%2F+2013-08-23">0.0.8 / 2013-08-23</a>
-      <li><a href="History_txt.html#label-0.0.9+%2F+2013-09-18">0.0.9 / 2013-09-18</a>
-      <li><a href="History_txt.html#label-0.1.0.rc1+%2F+2013-12-28">0.1.0.rc1 / 2013-12-28</a>
-      <li><a href="History_txt.html#label-0.1.0.rc2+%2F+2014-03-12">0.1.0.rc2 / 2014-03-12</a>
-      <li><a href="History_txt.html#label-0.1.0.rc3+%2F+2014-03-27">0.1.0.rc3 / 2014-03-27</a>
-      <li><a href="History_txt.html#label-0.1.0.rc4+%2F+2014-04-%3F%3F">0.1.0.rc4 / 2014-04-??</a>
+      <li><a href="History_txt.html#label-0.0.1+-2F+2012-04-10">0.0.1 / 2012-04-10</a>
+      <li><a href="History_txt.html#label-0.0.2+-2F+2012-09-21">0.0.2 / 2012-09-21</a>
+      <li><a href="History_txt.html#label-0.0.3+-2F+2013-01-18">0.0.3 / 2013-01-18</a>
+      <li><a href="History_txt.html#label-0.0.4+-2F+2013-05-17">0.0.4 / 2013-05-17</a>
+      <li><a href="History_txt.html#label-0.0.5+-2F+2013-07-09">0.0.5 / 2013-07-09</a>
+      <li><a href="History_txt.html#label-0.0.6+-2F+2013-08-09">0.0.6 / 2013-08-09</a>
+      <li><a href="History_txt.html#label-0.0.7+-2F+2013-08-22">0.0.7 / 2013-08-22</a>
+      <li><a href="History_txt.html#label-0.0.8+-2F+2013-08-23">0.0.8 / 2013-08-23</a>
+      <li><a href="History_txt.html#label-0.0.9+-2F+2013-09-18">0.0.9 / 2013-09-18</a>
+      <li><a href="History_txt.html#label-0.1.0.rc1+-2F+2013-12-28">0.1.0.rc1 / 2013-12-28</a>
+      <li><a href="History_txt.html#label-0.1.0.rc2+-2F+2014-03-12">0.1.0.rc2 / 2014-03-12</a>
+      <li><a href="History_txt.html#label-0.1.0.rc3+-2F+2014-03-27">0.1.0.rc3 / 2014-03-27</a>
+      <li><a href="History_txt.html#label-0.1.0.rc4+-2F+2014-07-24">0.1.0.rc4 / 2014-07-24</a>
+      <li><a href="History_txt.html#label-0.1.0.rc5+-2F+2014-08-01">0.1.0.rc5 / 2014-08-01</a>
+      <li><a href="History_txt.html#label-0.1.0+-2F+2014-12-11">0.1.0 / 2014-12-11</a>
+      <li><a href="History_txt.html#label-0.2.0+-2F+2015-08-24">0.2.0 / 2015-08-24</a>
     </ul>
   </li>
     <li class="file">
@@ -66,11 +68,14 @@
       <li><a href="README_rdoc.html#label-NMatrix">NMatrix</a>
       <li><a href="README_rdoc.html#label-Description">Description</a>
       <li><a href="README_rdoc.html#label-Installation">Installation</a>
+      <li><a href="README_rdoc.html#label-Upgrading+from+NMatrix+0.1.0">Upgrading from NMatrix 0.1.0</a>
       <li><a href="README_rdoc.html#label-Documentation">Documentation</a>
       <li><a href="README_rdoc.html#label-Examples">Examples</a>
+      <li><a href="README_rdoc.html#label-Using+advanced+features+provided+by+plugins">Using advanced features provided by plugins</a>
+      <li><a href="README_rdoc.html#label-NArray+Compatibility">NArray Compatibility</a>
       <li><a href="README_rdoc.html#label-Developers">Developers</a>
       <li><a href="README_rdoc.html#label-Features">Features</a>
-      <li><a href="README_rdoc.html#label-Planned+Features+%28Short-to-Medium+Term%29">Planned Features (Short-to-Medium Term)</a>
+      <li><a href="README_rdoc.html#label-Planned+Features+-28Short-to-Medium+Term-29">Planned Features (Short-to-Medium Term)</a>
       <li><a href="README_rdoc.html#label-License">License</a>
       <li><a href="README_rdoc.html#label-Donations">Donations</a>
     </ul>
@@ -86,6 +91,9 @@
   <li class="class">
     <a href="Array.html">Array</a>
   </li>
+  <li class="module">
+    <a href="AutoloadPatch.html">AutoloadPatch</a>
+  </li>
   <li class="class">
     <a href="DataTypeError.html">DataTypeError</a>
   </li>
@@ -96,7 +104,38 @@
     <a href="NMatrix.html">NMatrix</a>
   </li>
   <li class="module">
+    <a href="NMatrix/ATLAS.html">NMatrix::ATLAS</a>
+  </li>
+  <li class="module">
+    <a href="NMatrix/ATLAS/BLAS.html">NMatrix::ATLAS::BLAS</a>
+  </li>
+  <li class="module">
+    <a href="NMatrix/ATLAS/LAPACK.html">NMatrix::ATLAS::LAPACK</a>
+  </li>
+  <li class="module">
+    <a href="NMatrix/BLAS.html">NMatrix::BLAS</a>
+  </li>
+  <li class="module">
+    <a href="NMatrix/FactorizeLUMethods.html">NMatrix::FactorizeLUMethods</a>
+  </li>
+  <li class="module">
     <a href="NMatrix/IO.html">NMatrix::IO</a>
+  </li>
+  <li class="module">
+    <a href="NMatrix/IO/FortranFormat.html">NMatrix::IO::FortranFormat</a>
+  </li>
+  <li class="class">
+    <a href="NMatrix/IO/FortranFormat/Reader.html">NMatrix::IO::FortranFormat::Reader</a>
+
+    <ul>
+      <li><a href="NMatrix/IO/FortranFormat/Reader.html#label-Usage">Usage</a>
+    </ul>
+  </li>
+  <li class="module">
+    <a href="NMatrix/IO/HarwellBoeing.html">NMatrix::IO::HarwellBoeing</a>
+  </li>
+  <li class="class">
+    <a href="NMatrix/IO/HarwellBoeing/Reader.html">NMatrix::IO::HarwellBoeing::Reader</a>
   </li>
   <li class="module">
     <a href="NMatrix/IO/Market.html">NMatrix::IO::Market</a>
@@ -108,10 +147,22 @@
     <a href="NMatrix/IO/PointCloud.html">NMatrix::IO::PointCloud</a>
   </li>
   <li class="module">
-    <a href="NMatrix/YaleFunctions.html">NMatrix::YaleFunctions</a>
+    <a href="NMatrix/Internal.html">NMatrix::Internal</a>
   </li>
-  <li class="class">
-    <a href="NVector.html">NVector</a>
+  <li class="module">
+    <a href="NMatrix/LAPACK.html">NMatrix::LAPACK</a>
+  </li>
+  <li class="module">
+    <a href="NMatrix/LAPACKE.html">NMatrix::LAPACKE</a>
+  </li>
+  <li class="module">
+    <a href="NMatrix/LAPACKE/BLAS.html">NMatrix::LAPACKE::BLAS</a>
+  </li>
+  <li class="module">
+    <a href="NMatrix/LAPACKE/LAPACK.html">NMatrix::LAPACKE::LAPACK</a>
+  </li>
+  <li class="module">
+    <a href="NMatrix/YaleFunctions.html">NMatrix::YaleFunctions</a>
   </li>
   <li class="class">
     <a href="NotInvertibleError.html">NotInvertibleError</a>
@@ -126,6 +177,9 @@
     <a href="StorageTypeError.html">StorageTypeError</a>
   </li>
   <li class="class">
+    <a href="String.html">String</a>
+  </li>
+  <li class="class">
     <a href="unknown.html">unknown</a>
   </li>
 </ul>
@@ -134,17 +188,467 @@
 <ul>
 
   <li class="method">
+    <a href="NMatrix.html#method-c-5B-5D">::[]</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-5B-5D">::[]</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACK.html#method-c-alloc_svd_result">::alloc_svd_result</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACK</span>
+
+  <li class="method">
+    <a href="NMatrix/BLAS.html#method-c-asum">::asum</a>
+    &mdash;
+    <span class="container">NMatrix::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-block_diag">::block_diag</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-block_diag">::block_diag</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-block_diagonal">::block_diagonal</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-block_diagonal">::block_diagonal</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix/ATLAS/BLAS.html#method-c-cblas_asum">::cblas_asum</a>
+    &mdash;
+    <span class="container">NMatrix::ATLAS::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACKE/BLAS.html#method-c-cblas_asum">::cblas_asum</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACKE::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/ATLAS/BLAS.html#method-c-cblas_gemm">::cblas_gemm</a>
+    &mdash;
+    <span class="container">NMatrix::ATLAS::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACKE/BLAS.html#method-c-cblas_gemm">::cblas_gemm</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACKE::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/ATLAS/BLAS.html#method-c-cblas_gemv">::cblas_gemv</a>
+    &mdash;
+    <span class="container">NMatrix::ATLAS::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACKE/BLAS.html#method-c-cblas_gemv">::cblas_gemv</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACKE::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/ATLAS/BLAS.html#method-c-cblas_herk">::cblas_herk</a>
+    &mdash;
+    <span class="container">NMatrix::ATLAS::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACKE/BLAS.html#method-c-cblas_herk">::cblas_herk</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACKE::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/BLAS.html#method-c-cblas_herk">::cblas_herk</a>
+    &mdash;
+    <span class="container">NMatrix::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACKE/BLAS.html#method-c-cblas_imax">::cblas_imax</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACKE::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/ATLAS/BLAS.html#method-c-cblas_imax">::cblas_imax</a>
+    &mdash;
+    <span class="container">NMatrix::ATLAS::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/ATLAS/BLAS.html#method-c-cblas_nrm2">::cblas_nrm2</a>
+    &mdash;
+    <span class="container">NMatrix::ATLAS::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACKE/BLAS.html#method-c-cblas_nrm2">::cblas_nrm2</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACKE::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/ATLAS/BLAS.html#method-c-cblas_rot">::cblas_rot</a>
+    &mdash;
+    <span class="container">NMatrix::ATLAS::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACKE/BLAS.html#method-c-cblas_rot">::cblas_rot</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACKE::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACKE/BLAS.html#method-c-cblas_rotg">::cblas_rotg</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACKE::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/ATLAS/BLAS.html#method-c-cblas_rotg">::cblas_rotg</a>
+    &mdash;
+    <span class="container">NMatrix::ATLAS::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACKE/BLAS.html#method-c-cblas_scal">::cblas_scal</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACKE::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/ATLAS/BLAS.html#method-c-cblas_scal">::cblas_scal</a>
+    &mdash;
+    <span class="container">NMatrix::ATLAS::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/ATLAS/BLAS.html#method-c-cblas_syrk">::cblas_syrk</a>
+    &mdash;
+    <span class="container">NMatrix::ATLAS::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/BLAS.html#method-c-cblas_syrk">::cblas_syrk</a>
+    &mdash;
+    <span class="container">NMatrix::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACKE/BLAS.html#method-c-cblas_syrk">::cblas_syrk</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACKE::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/ATLAS/BLAS.html#method-c-cblas_trmm">::cblas_trmm</a>
+    &mdash;
+    <span class="container">NMatrix::ATLAS::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACKE/BLAS.html#method-c-cblas_trmm">::cblas_trmm</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACKE::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/BLAS.html#method-c-cblas_trmm">::cblas_trmm</a>
+    &mdash;
+    <span class="container">NMatrix::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/ATLAS/BLAS.html#method-c-cblas_trsm">::cblas_trsm</a>
+    &mdash;
+    <span class="container">NMatrix::ATLAS::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACKE/BLAS.html#method-c-cblas_trsm">::cblas_trsm</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACKE::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/ATLAS/LAPACK.html#method-c-clapack_getrf">::clapack_getrf</a>
+    &mdash;
+    <span class="container">NMatrix::ATLAS::LAPACK</span>
+
+  <li class="method">
+    <a href="NMatrix/ATLAS/LAPACK.html#method-c-clapack_getri">::clapack_getri</a>
+    &mdash;
+    <span class="container">NMatrix::ATLAS::LAPACK</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACK.html#method-c-clapack_getri">::clapack_getri</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACK</span>
+
+  <li class="method">
+    <a href="NMatrix/ATLAS/LAPACK.html#method-c-clapack_getrs">::clapack_getrs</a>
+    &mdash;
+    <span class="container">NMatrix::ATLAS::LAPACK</span>
+
+  <li class="method">
+    <a href="NMatrix/ATLAS/LAPACK.html#method-c-clapack_laswp">::clapack_laswp</a>
+    &mdash;
+    <span class="container">NMatrix::ATLAS::LAPACK</span>
+
+  <li class="method">
+    <a href="NMatrix/ATLAS/LAPACK.html#method-c-clapack_potrf">::clapack_potrf</a>
+    &mdash;
+    <span class="container">NMatrix::ATLAS::LAPACK</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACK.html#method-c-clapack_potrf">::clapack_potrf</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACK</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACK.html#method-c-clapack_potri">::clapack_potri</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACK</span>
+
+  <li class="method">
+    <a href="NMatrix/ATLAS/LAPACK.html#method-c-clapack_potri">::clapack_potri</a>
+    &mdash;
+    <span class="container">NMatrix::ATLAS::LAPACK</span>
+
+  <li class="method">
+    <a href="NMatrix/ATLAS/LAPACK.html#method-c-clapack_potrs">::clapack_potrs</a>
+    &mdash;
+    <span class="container">NMatrix::ATLAS::LAPACK</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACK.html#method-c-clapack_potrs">::clapack_potrs</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACK</span>
+
+  <li class="method">
     <a href="NMatrix/IO/Matlab.html#method-c-complex_merge">::complex_merge</a>
     &mdash;
     <span class="container">NMatrix::IO::Matlab</span>
 
   <li class="method">
+    <a href="NMatrix.html#method-c-diag">::diag</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-diag">::diag</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-diagonal">::diagonal</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-diagonal">::diagonal</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-diagonals">::diagonals</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-diagonals">::diagonals</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-eye">::eye</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-eye">::eye</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACK.html#method-c-geev">::geev</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACK</span>
+
+  <li class="method">
+    <a href="NMatrix/BLAS.html#method-c-gemm">::gemm</a>
+    &mdash;
+    <span class="container">NMatrix::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/BLAS.html#method-c-gemv">::gemv</a>
+    &mdash;
+    <span class="container">NMatrix::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACK.html#method-c-gesdd">::gesdd</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACK</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACK.html#method-c-gesvd">::gesvd</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACK</span>
+
+  <li class="method">
     <a href="NMatrix.html#method-c-guess_dtype">::guess_dtype</a>
     &mdash;
     <span class="container">NMatrix</span>
 
   <li class="method">
     <a href="NMatrix.html#method-c-guess_dtype">::guess_dtype</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-identity">::identity</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-identity">::identity</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACK.html#method-c-lapack_geev">::lapack_geev</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACK</span>
+
+  <li class="method">
+    <a href="NMatrix/ATLAS/LAPACK.html#method-c-lapack_geev">::lapack_geev</a>
+    &mdash;
+    <span class="container">NMatrix::ATLAS::LAPACK</span>
+
+  <li class="method">
+    <a href="NMatrix/ATLAS/LAPACK.html#method-c-lapack_gesdd">::lapack_gesdd</a>
+    &mdash;
+    <span class="container">NMatrix::ATLAS::LAPACK</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACK.html#method-c-lapack_gesdd">::lapack_gesdd</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACK</span>
+
+  <li class="method">
+    <a href="NMatrix/ATLAS/LAPACK.html#method-c-lapack_gesvd">::lapack_gesvd</a>
+    &mdash;
+    <span class="container">NMatrix::ATLAS::LAPACK</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACK.html#method-c-lapack_gesvd">::lapack_gesvd</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACK</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACKE/LAPACK.html#method-c-lapacke_geev">::lapacke_geev</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACKE::LAPACK</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACKE/LAPACK.html#method-c-lapacke_gesdd">::lapacke_gesdd</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACKE::LAPACK</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACKE/LAPACK.html#method-c-lapacke_gesvd">::lapacke_gesvd</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACKE::LAPACK</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACKE/LAPACK.html#method-c-lapacke_getrf">::lapacke_getrf</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACKE::LAPACK</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACKE/LAPACK.html#method-c-lapacke_getri">::lapacke_getri</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACKE::LAPACK</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACKE/LAPACK.html#method-c-lapacke_getrs">::lapacke_getrs</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACKE::LAPACK</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACKE/LAPACK.html#method-c-lapacke_potrf">::lapacke_potrf</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACKE::LAPACK</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACKE/LAPACK.html#method-c-lapacke_potri">::lapacke_potri</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACKE::LAPACK</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACKE/LAPACK.html#method-c-lapacke_potrs">::lapacke_potrs</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACKE::LAPACK</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACK.html#method-c-laswp">::laswp</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACK</span>
+
+  <li class="method">
+    <a href="NMatrix/IO/Market.html#method-c-load">::load</a>
+    &mdash;
+    <span class="container">NMatrix::IO::Market</span>
+
+  <li class="method">
+    <a href="NMatrix/IO/HarwellBoeing.html#method-c-load">::load</a>
+    &mdash;
+    <span class="container">NMatrix::IO::HarwellBoeing</span>
+
+  <li class="method">
+    <a href="NMatrix/IO/PointCloud.html#method-c-load">::load</a>
+    &mdash;
+    <span class="container">NMatrix::IO::PointCloud</span>
+
+  <li class="method">
+    <a href="NMatrix/IO/Matlab.html#method-c-load">::load</a>
+    &mdash;
+    <span class="container">NMatrix::IO::Matlab</span>
+
+  <li class="method">
+    <a href="NMatrix/IO/Market.html#method-c-load_array">::load_array</a>
+    &mdash;
+    <span class="container">NMatrix::IO::Market</span>
+
+  <li class="method">
+    <a href="NMatrix/IO/Market.html#method-c-load_coordinate">::load_coordinate</a>
+    &mdash;
+    <span class="container">NMatrix::IO::Market</span>
+
+  <li class="method">
+    <a href="NMatrix/IO/Matlab.html#method-c-load_mat">::load_mat</a>
+    &mdash;
+    <span class="container">NMatrix::IO::Matlab</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-load_matlab_file">::load_matlab_file</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-load_matlab_file">::load_matlab_file</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-load_pcd_file">::load_pcd_file</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-load_pcd_file">::load_pcd_file</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-meshgrid">::meshgrid</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-meshgrid">::meshgrid</a>
     &mdash;
     <span class="container">NMatrix</span>
 
@@ -169,9 +673,74 @@
     <span class="container">NMatrix</span>
 
   <li class="method">
-    <a href="NVector.html#method-c-new">::new</a>
+    <a href="NMatrix/IO/FortranFormat/Reader.html#method-c-new">::new</a>
     &mdash;
-    <span class="container">NVector</span>
+    <span class="container">NMatrix::IO::FortranFormat::Reader</span>
+
+  <li class="method">
+    <a href="NMatrix/IO/HarwellBoeing/Reader.html#method-c-new">::new</a>
+    &mdash;
+    <span class="container">NMatrix::IO::HarwellBoeing::Reader</span>
+
+  <li class="method">
+    <a href="NMatrix/BLAS.html#method-c-nrm2">::nrm2</a>
+    &mdash;
+    <span class="container">NMatrix::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-ones">::ones</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-ones">::ones</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-ones_like">::ones_like</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-ones_like">::ones_like</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix/FactorizeLUMethods.html#method-c-permutation_array_for">::permutation_array_for</a>
+    &mdash;
+    <span class="container">NMatrix::FactorizeLUMethods</span>
+
+  <li class="method">
+    <a href="NMatrix/FactorizeLUMethods.html#method-c-permutation_matrix_from">::permutation_matrix_from</a>
+    &mdash;
+    <span class="container">NMatrix::FactorizeLUMethods</span>
+
+  <li class="method">
+    <a href="NMatrix/LAPACK.html#method-c-posv">::posv</a>
+    &mdash;
+    <span class="container">NMatrix::LAPACK</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-rand">::rand</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-rand">::rand</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-random">::random</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-random">::random</a>
+    &mdash;
+    <span class="container">NMatrix</span>
 
   <li class="method">
     <a href="NMatrix.html#method-c-read">::read</a>
@@ -180,6 +749,16 @@
 
   <li class="method">
     <a href="NMatrix.html#method-c-read">::read</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-register_lapack_extension">::register_lapack_extension</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-register_lapack_extension">::register_lapack_extension</a>
     &mdash;
     <span class="container">NMatrix</span>
 
@@ -189,101 +768,236 @@
     <span class="container">NMatrix::IO::Matlab</span>
 
   <li class="method">
-    <a href="NMatrix.html#method-c-upcast">::upcast</a>
-    &mdash;
-    <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NMatrix.html#method-c-upcast">::upcast</a>
-    &mdash;
-    <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NMatrix.html#method-i-3D-3D">#==</a>
-    &mdash;
-    <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NMatrix.html#method-i-3D-3D">#==</a>
-    &mdash;
-    <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NMatrix.html#method-i-5B-5D">#[]</a>
-    &mdash;
-    <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NMatrix.html#method-i-5B-5D">#[]</a>
-    &mdash;
-    <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NVector.html#method-i-5B-5D">#[]</a>
-    &mdash;
-    <span class="container">NVector</span>
-
-  <li class="method">
-    <a href="NMatrix.html#method-i-5B-5D-3D">#[]=</a>
-    &mdash;
-    <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NMatrix.html#method-i-5B-5D-3D">#[]=</a>
-    &mdash;
-    <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NVector.html#method-i-5B-5D-3D">#[]=</a>
-    &mdash;
-    <span class="container">NVector</span>
-
-  <li class="method">
-    <a href="NMatrix.html#method-i-abs">#abs</a>
-    &mdash;
-    <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NMatrix.html#method-i-abs">#abs</a>
-    &mdash;
-    <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NMatrix.html#method-i-abs_dtype">#abs_dtype</a>
-    &mdash;
-    <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NMatrix.html#method-i-abs_dtype">#abs_dtype</a>
-    &mdash;
-    <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NMatrix.html#method-i-absolute_sum">#absolute_sum</a>
-    &mdash;
-    <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NMatrix.html#method-i-absolute_sum">#absolute_sum</a>
-    &mdash;
-    <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NMatrix/LAPACK.html#method-i-alloc_evd_result">#alloc_evd_result</a>
-    &mdash;
-    <span class="container">NMatrix::LAPACK</span>
-
-  <li class="method">
-    <a href="NMatrix/LAPACK.html#method-i-alloc_svd_result">#alloc_svd_result</a>
-    &mdash;
-    <span class="container">NMatrix::LAPACK</span>
-
-  <li class="method">
-    <a href="NMatrix/BLAS.html#method-i-asum">#asum</a>
+    <a href="NMatrix/BLAS.html#method-c-rot">::rot</a>
     &mdash;
     <span class="container">NMatrix::BLAS</span>
 
   <li class="method">
+    <a href="NMatrix/BLAS.html#method-c-rot-21">::rot!</a>
+    &mdash;
+    <span class="container">NMatrix::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/BLAS.html#method-c-rotg">::rotg</a>
+    &mdash;
+    <span class="container">NMatrix::BLAS</span>
+
+  <li class="method">
+    <a href="NMatrix/IO/Market.html#method-c-save">::save</a>
+    &mdash;
+    <span class="container">NMatrix::IO::Market</span>
+
+  <li class="method">
+    <a href="NMatrix/IO/Market.html#method-c-save_array">::save_array</a>
+    &mdash;
+    <span class="container">NMatrix::IO::Market</span>
+
+  <li class="method">
+    <a href="NMatrix/IO/Market.html#method-c-save_coordinate">::save_coordinate</a>
+    &mdash;
+    <span class="container">NMatrix::IO::Market</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-seq">::seq</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-seq">::seq</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-size">::size</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-size">::size</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-translation">::translation</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-translation">::translation</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-upcast">::upcast</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-upcast">::upcast</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-x_rotation">::x_rotation</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-x_rotation">::x_rotation</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-y_rotation">::y_rotation</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-y_rotation">::y_rotation</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-z_rotation">::z_rotation</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-z_rotation">::z_rotation</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-zeroes">::zeroes</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-zeroes">::zeroes</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-zeros">::zeros</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-zeros">::zeros</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-zeros_like">::zeros_like</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-c-zeros_like">::zeros_like</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-3D-3D">#==</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-3D-3D">#==</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-5B-5D">#[]</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-5B-5D">#[]</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-5B-5D-3D">#[]=</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-5B-5D-3D">#[]=</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-__dense_unary_round__">#__dense_unary_round__</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-__dense_unary_round__">#__dense_unary_round__</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-__list_unary_round__">#__list_unary_round__</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-__list_unary_round__">#__list_unary_round__</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-__yale_unary_round__">#__yale_unary_round__</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-__yale_unary_round__">#__yale_unary_round__</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-abs">#abs</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-abs">#abs</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-abs_dtype">#abs_dtype</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-abs_dtype">#abs_dtype</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-absolute_sum">#absolute_sum</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-absolute_sum">#absolute_sum</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-angle_vector">#angle_vector</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-angle_vector">#angle_vector</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
     <a href="NMatrix.html#method-i-asum">#asum</a>
     &mdash;
     <span class="container">NMatrix</span>
@@ -332,16 +1046,6 @@
     <a href="NMatrix.html#method-i-cast_full">#cast_full</a>
     &mdash;
     <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NMatrix/LAPACK.html#method-i-clapack_gesv">#clapack_gesv</a>
-    &mdash;
-    <span class="container">NMatrix::LAPACK</span>
-
-  <li class="method">
-    <a href="NMatrix/LAPACK.html#method-i-clapack_posv">#clapack_posv</a>
-    &mdash;
-    <span class="container">NMatrix::LAPACK</span>
 
   <li class="method">
     <a href="NMatrix.html#method-i-clone_structure">#clone_structure</a>
@@ -404,6 +1108,16 @@
     <span class="container">NMatrix</span>
 
   <li class="method">
+    <a href="NMatrix.html#method-i-complex_dtype-3F">#complex_dtype?</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-complex_dtype-3F">#complex_dtype?</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
     <a href="NMatrix.html#method-i-concat">#concat</a>
     &mdash;
     <span class="container">NMatrix</span>
@@ -420,6 +1134,31 @@
 
   <li class="method">
     <a href="NMatrix.html#method-i-conjugate_transpose">#conjugate_transpose</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="AutoloadPatch.html#method-i-const_missing">#const_missing</a>
+    &mdash;
+    <span class="container">AutoloadPatch</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-corr">#corr</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-corr">#corr</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-cov">#cov</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-cov">#cov</a>
     &mdash;
     <span class="container">NMatrix</span>
 
@@ -502,11 +1241,6 @@
     <a href="NMatrix.html#method-i-dim">#dim</a>
     &mdash;
     <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NVector.html#method-i-dim">#dim</a>
-    &mdash;
-    <span class="container">NVector</span>
 
   <li class="method">
     <a href="NMatrix.html#method-i-dimensions">#dimensions</a>
@@ -669,16 +1403,6 @@
     <span class="container">NMatrix</span>
 
   <li class="method">
-    <a href="NMatrix.html#method-i-eye">#eye</a>
-    &mdash;
-    <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NMatrix.html#method-i-eye">#eye</a>
-    &mdash;
-    <span class="container">NMatrix</span>
-
-  <li class="method">
     <a href="NMatrix.html#method-i-factorize_cholesky">#factorize_cholesky</a>
     &mdash;
     <span class="container">NMatrix</span>
@@ -709,24 +1433,14 @@
     <span class="container">NMatrix</span>
 
   <li class="method">
-    <a href="NMatrix/LAPACK.html#method-i-geev">#geev</a>
+    <a href="NMatrix.html#method-i-float_dtype-3F">#float_dtype?</a>
     &mdash;
-    <span class="container">NMatrix::LAPACK</span>
+    <span class="container">NMatrix</span>
 
   <li class="method">
-    <a href="NMatrix/BLAS.html#method-i-gemm">#gemm</a>
+    <a href="NMatrix.html#method-i-float_dtype-3F">#float_dtype?</a>
     &mdash;
-    <span class="container">NMatrix::BLAS</span>
-
-  <li class="method">
-    <a href="NMatrix/BLAS.html#method-i-gemv">#gemv</a>
-    &mdash;
-    <span class="container">NMatrix::BLAS</span>
-
-  <li class="method">
-    <a href="NMatrix/LAPACK.html#method-i-gesdd">#gesdd</a>
-    &mdash;
-    <span class="container">NMatrix::LAPACK</span>
+    <span class="container">NMatrix</span>
 
   <li class="method">
     <a href="NMatrix.html#method-i-gesdd">#gesdd</a>
@@ -754,11 +1468,6 @@
     <span class="container">NMatrix</span>
 
   <li class="method">
-    <a href="NMatrix/LAPACK.html#method-i-gesvd">#gesvd</a>
-    &mdash;
-    <span class="container">NMatrix::LAPACK</span>
-
-  <li class="method">
     <a href="NMatrix.html#method-i-gesvd">#gesvd</a>
     &mdash;
     <span class="container">NMatrix</span>
@@ -774,16 +1483,6 @@
     <span class="container">NMatrix</span>
 
   <li class="method">
-    <a href="NMatrix.html#method-i-getrf">#getrf</a>
-    &mdash;
-    <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NMatrix.html#method-i-getrf">#getrf</a>
-    &mdash;
-    <span class="container">NMatrix</span>
-
-  <li class="method">
     <a href="NMatrix.html#method-i-getrf-21">#getrf!</a>
     &mdash;
     <span class="container">NMatrix</span>
@@ -792,6 +1491,11 @@
     <a href="NMatrix.html#method-i-getrf-21">#getrf!</a>
     &mdash;
     <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="Object.html#method-i-gplusplus_version">#gplusplus_version</a>
+    &mdash;
+    <span class="container">Object</span>
 
   <li class="method">
     <a href="NMatrix.html#method-i-hconcat">#hconcat</a>
@@ -804,12 +1508,47 @@
     <span class="container">NMatrix</span>
 
   <li class="method">
+    <a href="NMatrix/IO/HarwellBoeing/Reader.html#method-i-header">#header</a>
+    &mdash;
+    <span class="container">NMatrix::IO::HarwellBoeing::Reader</span>
+
+  <li class="method">
     <a href="NMatrix.html#method-i-hermitian-3F">#hermitian?</a>
     &mdash;
     <span class="container">NMatrix</span>
 
   <li class="method">
     <a href="NMatrix.html#method-i-hermitian-3F">#hermitian?</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-hessenberg">#hessenberg</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-hessenberg">#hessenberg</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-hessenberg-21">#hessenberg!</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-hessenberg-21">#hessenberg!</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-index">#index</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-index">#index</a>
     &mdash;
     <span class="container">NMatrix</span>
 
@@ -820,6 +1559,16 @@
 
   <li class="method">
     <a href="NMatrix.html#method-i-initialize_copy">#initialize_copy</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-inject">#inject</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-inject">#inject</a>
     &mdash;
     <span class="container">NMatrix</span>
 
@@ -850,6 +1599,16 @@
 
   <li class="method">
     <a href="NMatrix.html#method-i-integer_dtype-3F">#integer_dtype?</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-internal_dot">#internal_dot</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-internal_dot">#internal_dot</a>
     &mdash;
     <span class="container">NMatrix</span>
 
@@ -894,9 +1653,14 @@
     <span class="container">NMatrix</span>
 
   <li class="method">
-    <a href="NMatrix/LAPACK.html#method-i-laswp">#laswp</a>
+    <a href="NMatrix.html#method-i-kron_prod">#kron_prod</a>
     &mdash;
-    <span class="container">NMatrix::LAPACK</span>
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-kron_prod">#kron_prod</a>
+    &mdash;
+    <span class="container">NMatrix</span>
 
   <li class="method">
     <a href="NMatrix.html#method-i-laswp">#laswp</a>
@@ -935,51 +1699,6 @@
 
   <li class="method">
     <a href="NMatrix.html#method-i-list-3F">#list?</a>
-    &mdash;
-    <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NMatrix/IO/Market.html#method-i-load">#load</a>
-    &mdash;
-    <span class="container">NMatrix::IO::Market</span>
-
-  <li class="method">
-    <a href="NMatrix/IO/PointCloud.html#method-i-load">#load</a>
-    &mdash;
-    <span class="container">NMatrix::IO::PointCloud</span>
-
-  <li class="method">
-    <a href="NMatrix/IO/Market.html#method-i-load_array">#load_array</a>
-    &mdash;
-    <span class="container">NMatrix::IO::Market</span>
-
-  <li class="method">
-    <a href="NMatrix/IO/Market.html#method-i-load_coordinate">#load_coordinate</a>
-    &mdash;
-    <span class="container">NMatrix::IO::Market</span>
-
-  <li class="method">
-    <a href="NMatrix/IO/Matlab.html#method-i-load_mat">#load_mat</a>
-    &mdash;
-    <span class="container">NMatrix::IO::Matlab</span>
-
-  <li class="method">
-    <a href="NMatrix.html#method-i-load_matlab_file">#load_matlab_file</a>
-    &mdash;
-    <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NMatrix.html#method-i-load_matlab_file">#load_matlab_file</a>
-    &mdash;
-    <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NMatrix.html#method-i-load_pcd_file">#load_pcd_file</a>
-    &mdash;
-    <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NMatrix.html#method-i-load_pcd_file">#load_pcd_file</a>
     &mdash;
     <span class="container">NMatrix</span>
 
@@ -1054,11 +1773,6 @@
     <span class="container">NMatrix</span>
 
   <li class="method">
-    <a href="NVector.html#method-i-max">#max</a>
-    &mdash;
-    <span class="container">NVector</span>
-
-  <li class="method">
     <a href="NMatrix.html#method-i-mean">#mean</a>
     &mdash;
     <span class="container">NMatrix</span>
@@ -1067,11 +1781,6 @@
     <a href="NMatrix.html#method-i-mean">#mean</a>
     &mdash;
     <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NVector.html#method-i-min">#min</a>
-    &mdash;
-    <span class="container">NVector</span>
 
   <li class="method">
     <a href="NMatrix.html#method-i-min">#min</a>
@@ -1099,11 +1808,6 @@
     <span class="container">NMatrix</span>
 
   <li class="method">
-    <a href="NMatrix/BLAS.html#method-i-nrm2">#nrm2</a>
-    &mdash;
-    <span class="container">NMatrix::BLAS</span>
-
-  <li class="method">
     <a href="NMatrix.html#method-i-nrm2">#nrm2</a>
     &mdash;
     <span class="container">NMatrix</span>
@@ -1119,7 +1823,12 @@
     <span class="container">NMatrix</span>
 
   <li class="method">
-    <a href="NMatrix.html#method-i-offset">#offset</a>
+    <a href="NMatrix.html#method-i-object_dtype-3F">#object_dtype?</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-object_dtype-3F">#object_dtype?</a>
     &mdash;
     <span class="container">NMatrix</span>
 
@@ -1129,29 +1838,14 @@
     <span class="container">NMatrix</span>
 
   <li class="method">
-    <a href="NMatrix.html#method-i-ones">#ones</a>
+    <a href="NMatrix.html#method-i-offset">#offset</a>
     &mdash;
     <span class="container">NMatrix</span>
 
   <li class="method">
-    <a href="NMatrix.html#method-i-ones">#ones</a>
+    <a href="NMatrix/IO/FortranFormat/Reader.html#method-i-parse">#parse</a>
     &mdash;
-    <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NMatrix.html#method-i-ones_like">#ones_like</a>
-    &mdash;
-    <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NMatrix.html#method-i-ones_like">#ones_like</a>
-    &mdash;
-    <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NVector.html#method-i-orientation">#orientation</a>
-    &mdash;
-    <span class="container">NVector</span>
+    <span class="container">NMatrix::IO::FortranFormat::Reader</span>
 
   <li class="method">
     <a href="NMatrix.html#method-i-permute_columns">#permute_columns</a>
@@ -1204,12 +1898,22 @@
     <span class="container">NMatrix</span>
 
   <li class="method">
-    <a href="NMatrix.html#method-i-random">#random</a>
+    <a href="NMatrix.html#method-i-pow">#pow</a>
     &mdash;
     <span class="container">NMatrix</span>
 
   <li class="method">
-    <a href="NMatrix.html#method-i-random">#random</a>
+    <a href="NMatrix.html#method-i-pow">#pow</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-quaternion">#quaternion</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-quaternion">#quaternion</a>
     &mdash;
     <span class="container">NMatrix</span>
 
@@ -1234,6 +1938,16 @@
     <span class="container">NMatrix</span>
 
   <li class="method">
+    <a href="NMatrix.html#method-i-repeat">#repeat</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-repeat">#repeat</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
     <a href="NMatrix.html#method-i-reshape">#reshape</a>
     &mdash;
     <span class="container">NMatrix</span>
@@ -1254,19 +1968,14 @@
     <span class="container">NMatrix</span>
 
   <li class="method">
-    <a href="NMatrix/BLAS.html#method-i-rot">#rot</a>
+    <a href="NMatrix.html#method-i-round">#round</a>
     &mdash;
-    <span class="container">NMatrix::BLAS</span>
+    <span class="container">NMatrix</span>
 
   <li class="method">
-    <a href="NMatrix/BLAS.html#method-i-rot-21">#rot!</a>
+    <a href="NMatrix.html#method-i-round">#round</a>
     &mdash;
-    <span class="container">NMatrix::BLAS</span>
-
-  <li class="method">
-    <a href="NMatrix/BLAS.html#method-i-rotg">#rotg</a>
-    &mdash;
-    <span class="container">NMatrix::BLAS</span>
+    <span class="container">NMatrix</span>
 
   <li class="method">
     <a href="NMatrix.html#method-i-row">#row</a>
@@ -1285,31 +1994,6 @@
 
   <li class="method">
     <a href="NMatrix.html#method-i-rows">#rows</a>
-    &mdash;
-    <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NMatrix/IO/Market.html#method-i-save">#save</a>
-    &mdash;
-    <span class="container">NMatrix::IO::Market</span>
-
-  <li class="method">
-    <a href="NMatrix/IO/Market.html#method-i-save_array">#save_array</a>
-    &mdash;
-    <span class="container">NMatrix::IO::Market</span>
-
-  <li class="method">
-    <a href="NMatrix/IO/Market.html#method-i-save_coordinate">#save_coordinate</a>
-    &mdash;
-    <span class="container">NMatrix::IO::Market</span>
-
-  <li class="method">
-    <a href="NMatrix.html#method-i-seq">#seq</a>
-    &mdash;
-    <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NMatrix.html#method-i-seq">#seq</a>
     &mdash;
     <span class="container">NMatrix</span>
 
@@ -1349,11 +2033,6 @@
     <span class="container">NMatrix</span>
 
   <li class="method">
-    <a href="NVector.html#method-i-size">#size</a>
-    &mdash;
-    <span class="container">NVector</span>
-
-  <li class="method">
     <a href="NMatrix.html#method-i-size">#size</a>
     &mdash;
     <span class="container">NMatrix</span>
@@ -1365,6 +2044,16 @@
 
   <li class="method">
     <a href="NMatrix.html#method-i-slice">#slice</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-solve">#solve</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-solve">#solve</a>
     &mdash;
     <span class="container">NMatrix</span>
 
@@ -1494,6 +2183,16 @@
     <span class="container">Array</span>
 
   <li class="method">
+    <a href="NMatrix.html#method-i-trace">#trace</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix.html#method-i-trace">#trace</a>
+    &mdash;
+    <span class="container">NMatrix</span>
+
+  <li class="method">
     <a href="NMatrix.html#method-i-transpose">#transpose</a>
     &mdash;
     <span class="container">NMatrix</span>
@@ -1544,6 +2243,11 @@
     <span class="container">NMatrix</span>
 
   <li class="method">
+    <a href="String.html#method-i-underscore">#underscore</a>
+    &mdash;
+    <span class="container">String</span>
+
+  <li class="method">
     <a href="NMatrix.html#method-i-upper_triangle">#upper_triangle</a>
     &mdash;
     <span class="container">NMatrix</span>
@@ -1562,6 +2266,11 @@
     <a href="NMatrix.html#method-i-upper_triangle-21">#upper_triangle!</a>
     &mdash;
     <span class="container">NMatrix</span>
+
+  <li class="method">
+    <a href="NMatrix/IO/HarwellBoeing/Reader.html#method-i-values">#values</a>
+    &mdash;
+    <span class="container">NMatrix::IO::HarwellBoeing::Reader</span>
 
   <li class="method">
     <a href="NMatrix.html#method-i-variance">#variance</a>
@@ -1732,33 +2441,13 @@
     <a href="NMatrix/YaleFunctions.html#method-i-yale_size">#yale_size</a>
     &mdash;
     <span class="container">NMatrix::YaleFunctions</span>
-
-  <li class="method">
-    <a href="NMatrix.html#method-i-zeros">#zeros</a>
-    &mdash;
-    <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NMatrix.html#method-i-zeros">#zeros</a>
-    &mdash;
-    <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NMatrix.html#method-i-zeros_like">#zeros_like</a>
-    &mdash;
-    <span class="container">NMatrix</span>
-
-  <li class="method">
-    <a href="NMatrix.html#method-i-zeros_like">#zeros_like</a>
-    &mdash;
-    <span class="container">NMatrix</span>
 </ul>
 </main>
 
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="http://rdoc.rubyforge.org">RDoc</a> 4.1.1.
-  <p>Based on <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

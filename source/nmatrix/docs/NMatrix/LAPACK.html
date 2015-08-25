@@ -6,19 +6,16 @@
 
 <title>module NMatrix::LAPACK - RDoc Documentation</title>
 
-<link href="../fonts.css" rel="stylesheet">
-<link href="../rdoc.css" rel="stylesheet">
-
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
 </script>
 
 <script src="../js/jquery.js"></script>
-<script src="../js/navigation.js"></script>
-<script src="../js/search_index.js"></script>
-<script src="../js/search.js"></script>
-<script src="../js/searcher.js"></script>
 <script src="../js/darkfish.js"></script>
+
+<link href="../css/fonts.css" rel="stylesheet">
+<link href="../css/rdoc.css" rel="stylesheet">
+
 
 
 <body id="top" role="document" class="module">
@@ -66,21 +63,31 @@
 
   <ul class="link-list" role="directory">
     
-    <li ><a href="#method-i-alloc_evd_result">#alloc_evd_result</a>
+    <li ><a href="#method-c-alloc_svd_result">::alloc_svd_result</a>
     
-    <li ><a href="#method-i-alloc_svd_result">#alloc_svd_result</a>
+    <li ><a href="#method-c-clapack_getri">::clapack_getri</a>
     
-    <li ><a href="#method-i-clapack_gesv">#clapack_gesv</a>
+    <li ><a href="#method-c-clapack_potrf">::clapack_potrf</a>
     
-    <li ><a href="#method-i-clapack_posv">#clapack_posv</a>
+    <li ><a href="#method-c-clapack_potri">::clapack_potri</a>
     
-    <li ><a href="#method-i-geev">#geev</a>
+    <li ><a href="#method-c-clapack_potrs">::clapack_potrs</a>
     
-    <li ><a href="#method-i-gesdd">#gesdd</a>
+    <li ><a href="#method-c-geev">::geev</a>
     
-    <li ><a href="#method-i-gesvd">#gesvd</a>
+    <li ><a href="#method-c-gesdd">::gesdd</a>
     
-    <li ><a href="#method-i-laswp">#laswp</a>
+    <li ><a href="#method-c-gesvd">::gesvd</a>
+    
+    <li ><a href="#method-c-lapack_geev">::lapack_geev</a>
+    
+    <li ><a href="#method-c-lapack_gesdd">::lapack_gesdd</a>
+    
+    <li ><a href="#method-c-lapack_gesvd">::lapack_gesvd</a>
+    
+    <li ><a href="#method-c-laswp">::laswp</a>
+    
+    <li ><a href="#method-c-posv">::posv</a>
     
   </ul>
 </div>
@@ -110,51 +117,13 @@
     
 
     
-     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
        <header>
-         <h3>Public Instance Methods</h3>
+         <h3>Public Class Methods</h3>
        </header>
 
     
-      <div id="method-i-alloc_evd_result" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">alloc_evd_result</span><span
-            class="method-args">(matrix)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="alloc_evd_result-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/lapack.rb, line 177</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">alloc_evd_result</span>(<span class="ruby-identifier">matrix</span>)
-  [
-    <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">dtype</span><span class="ruby-operator">:</span> <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">dtype</span>),
-    <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">dtype</span><span class="ruby-operator">:</span> <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">dtype</span>),
-    <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>([<span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>],<span class="ruby-value">1</span>], <span class="ruby-identifier">dtype</span><span class="ruby-operator">:</span> <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">dtype</span>),
-    <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>([<span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>],<span class="ruby-value">1</span>], <span class="ruby-identifier">dtype</span><span class="ruby-operator">:</span> <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">dtype</span>),
-  ]
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-alloc_svd_result" class="method-detail ">
+      <div id="method-c-alloc_svd_result" class="method-detail ">
         
         <div class="method-heading">
           <span class="method-name">alloc_svd_result</span><span
@@ -173,11 +142,11 @@
 
           
           <div class="method-source-code" id="alloc_svd_result-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/lapack.rb, line 135</span>
+            <pre><span class="ruby-comment"># File lib/nmatrix/lapack_core.rb, line 77</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">alloc_svd_result</span>(<span class="ruby-identifier">matrix</span>)
   [
     <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">dtype</span><span class="ruby-operator">:</span> <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">dtype</span>),
-    <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>([<span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>],<span class="ruby-value">1</span>], <span class="ruby-identifier">dtype</span><span class="ruby-operator">:</span> <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">dtype</span>),
+    <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>([[<span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>],<span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]].<span class="ruby-identifier">min</span>,<span class="ruby-value">1</span>], <span class="ruby-identifier">dtype</span><span class="ruby-operator">:</span> <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">abs_dtype</span>),
     <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>], <span class="ruby-identifier">dtype</span><span class="ruby-operator">:</span> <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">dtype</span>)
   ]
 <span class="ruby-keyword">end</span></pre>
@@ -191,80 +160,28 @@
       </div>
 
     
-      <div id="method-i-clapack_gesv" class="method-detail ">
-        
+      <div id="method-c-clapack_getri" class="method-detail ">
         
         <div class="method-heading">
-          <span class="method-callseq">
-            clapack_gesv(order, n, nrhs, a, lda, ipiv, b, ldb) &rarr; NMatrix
-          </span>
+          <span class="method-name">clapack_getri</span><span
+            class="method-args">(order, n, a, lda, ipiv)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
         </div>
         
-        
 
         <div class="method-description">
           
-          <p>Computes the solution to a system of linear equations</p>
-
-<pre>A * X = B,</pre>
-
-<p>where A is an N-by-N matrix and X and B are N-by-NRHS matrices.</p>
-
-<p>The LU factorization used to factor A is dependent on the
-<code>order</code> parameter, as detailed in the leading comments of
-clapack_getrf.</p>
-
-<p>The factored form of A is then used solve the system of equations A * X =
-B.</p>
-
-<p>A is overwritten with the appropriate LU factorization, and B, which
-contains B on input, is overwritten with the solution X on output.</p>
-
-<p>From ATLAS 3.8.0.</p>
-
-<p>Note: Because this function is implemented in Ruby, the ATLAS lib  version
-is never called! For float32, float64, complex64, and  complex128, the
-ATLAS lib versions of getrf and getrs <strong>will</strong> be called.</p>
-<ul><li>
-<p><strong>Arguments</strong> :</p>
-<ul><li>
-<p><code>order</code> -&gt;</p>
-</li><li>
-<p><code>n</code> -&gt;</p>
-</li><li>
-<p><code>nrhs</code> -&gt;</p>
-</li><li>
-<p><code>a</code> -&gt;</p>
-</li><li>
-<p><code>lda</code> -&gt;</p>
-</li><li>
-<p><code>b</code> -&gt;</p>
-</li><li>
-<p><code>ldb</code> -&gt;</p>
-</li><li>
-<p><code>ipiv</code> -&gt; A pivot array (if nil, one will be generated with
-<code>clapack_getrf</code>)</p>
-</li></ul>
-</li><li>
-<p><strong>Returns</strong> : -</p>
-</li><li>
-<p><strong>Raises</strong> :</p>
-<ul><li>
-<p>++ -&gt;</p>
-</li></ul>
-</li></ul>
+          
           
           
 
           
-          <div class="method-source-code" id="clapack_gesv-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/lapack.rb, line 75</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">clapack_gesv</span>(<span class="ruby-identifier">order</span>, <span class="ruby-identifier">n</span>, <span class="ruby-identifier">nrhs</span>, <span class="ruby-identifier">a</span>, <span class="ruby-identifier">lda</span>, <span class="ruby-identifier">b</span>, <span class="ruby-identifier">ldb</span>, <span class="ruby-identifier">ipiv</span>=<span class="ruby-keyword">nil</span>)
-  <span class="ruby-identifier">ipiv</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">clapack_getrf</span>(<span class="ruby-identifier">order</span>, <span class="ruby-identifier">n</span>, <span class="ruby-identifier">n</span>, <span class="ruby-identifier">a</span>, <span class="ruby-identifier">lda</span>)
-  <span class="ruby-identifier">clapack_getrs</span>(<span class="ruby-identifier">order</span>, <span class="ruby-value">:no_transpose</span>, <span class="ruby-identifier">n</span>, <span class="ruby-identifier">nrhs</span>, <span class="ruby-identifier">a</span>, <span class="ruby-identifier">lda</span>, <span class="ruby-identifier">ipiv</span>, <span class="ruby-identifier">b</span>, <span class="ruby-identifier">ldb</span>)
+          <div class="method-source-code" id="clapack_getri-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/lapack_core.rb, line 176</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">clapack_getri</span>(<span class="ruby-identifier">order</span>, <span class="ruby-identifier">n</span>, <span class="ruby-identifier">a</span>, <span class="ruby-identifier">lda</span>, <span class="ruby-identifier">ipiv</span>)
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">NotImplementedError</span>,<span class="ruby-string">&quot;clapack_getri requires the nmatrix-atlas gem&quot;</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -276,81 +193,28 @@ ATLAS lib versions of getrf and getrs <strong>will</strong> be called.</p>
       </div>
 
     
-      <div id="method-i-clapack_posv" class="method-detail ">
-        
+      <div id="method-c-clapack_potrf" class="method-detail ">
         
         <div class="method-heading">
-          <span class="method-callseq">
-            clapack_posv(order, uplo, n ,nrhs, a, lda, b, ldb) &rarr; ...
-          </span>
+          <span class="method-name">clapack_potrf</span><span
+            class="method-args">(order, uplo, n, a, lda)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
         </div>
         
-        
 
         <div class="method-description">
           
-          <p>TODO Complete this description.</p>
-
-<p>Computes the solution to a real system of linear equations</p>
-
-<pre>A * X = B,</pre>
-
-<p>where A is an N-by-N symmetric positive definite matrix and X and B are
-N-by-NRHS matrices.</p>
-
-<p>The Cholesky decomposition is used to factor A as</p>
-
-<pre>A = U**T* U,  if UPLO = &#39;U&#39;, or
-A = L * L**T,  if UPLO = &#39;L&#39;,</pre>
-
-<p>where U is an upper triangular matrix and L is a lower triangular matrix. 
-The factored form of A is then used to solve the system of equations A * X
-= B.</p>
-
-<p>From ATLAS 3.8.0.</p>
-
-<p>Note: Because this function is implemented in Ruby, the ATLAS lib version
-is never called! For float32, float64, complex64, and  complex128, the
-ATLAS lib versions of potrf and potrs <strong>will</strong> be called.</p>
-<ul><li>
-<p><strong>Arguments</strong> :</p>
-<ul><li>
-<p><code>order</code> -&gt;</p>
-</li><li>
-<p><code>uplo</code> -&gt;</p>
-</li><li>
-<p><code>n</code> -&gt;</p>
-</li><li>
-<p><code>nrhs</code> -&gt;</p>
-</li><li>
-<p><code>a</code> -&gt;</p>
-</li><li>
-<p><code>lda</code> -&gt;</p>
-</li><li>
-<p><code>b</code> -&gt;</p>
-</li><li>
-<p><code>ldb</code> -&gt;</p>
-</li></ul>
-</li><li>
-<p><strong>Returns</strong> : -</p>
-</li><li>
-<p><strong>Raises</strong> :</p>
-<ul><li>
-<p>++ -&gt;</p>
-</li></ul>
-</li></ul>
+          
           
           
 
           
-          <div class="method-source-code" id="clapack_posv-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/lapack.rb, line 118</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">clapack_posv</span>(<span class="ruby-identifier">order</span>, <span class="ruby-identifier">uplo</span>, <span class="ruby-identifier">n</span>, <span class="ruby-identifier">nrhs</span>, <span class="ruby-identifier">a</span>, <span class="ruby-identifier">lda</span>, <span class="ruby-identifier">b</span>, <span class="ruby-identifier">ldb</span>)
-  <span class="ruby-identifier">clapack_potrf</span>(<span class="ruby-identifier">order</span>, <span class="ruby-identifier">uplo</span>, <span class="ruby-identifier">n</span>, <span class="ruby-identifier">a</span>, <span class="ruby-identifier">lda</span>)
-  <span class="ruby-identifier">clapack_potrs</span>(<span class="ruby-identifier">order</span>, <span class="ruby-identifier">uplo</span>, <span class="ruby-identifier">n</span>, <span class="ruby-identifier">nrhs</span>, <span class="ruby-identifier">a</span>, <span class="ruby-identifier">lda</span>, <span class="ruby-identifier">b</span>, <span class="ruby-identifier">ldb</span>)
+          <div class="method-source-code" id="clapack_potrf-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/lapack_core.rb, line 164</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">clapack_potrf</span>(<span class="ruby-identifier">order</span>, <span class="ruby-identifier">uplo</span>, <span class="ruby-identifier">n</span>, <span class="ruby-identifier">a</span>, <span class="ruby-identifier">lda</span>)
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">NotImplementedError</span>,<span class="ruby-string">&quot;clapack_potrf requires the nmatrix-atlas gem&quot;</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -362,80 +226,161 @@ ATLAS lib versions of potrf and potrs <strong>will</strong> be called.</p>
       </div>
 
     
-      <div id="method-i-geev" class="method-detail ">
-        
+      <div id="method-c-clapack_potri" class="method-detail ">
         
         <div class="method-heading">
-          <span class="method-callseq">
-            geev(matrix) &rarr; [eigenvalues, left_eigenvectors, right_eigenvectors]
-          </span>
+          <span class="method-name">clapack_potri</span><span
+            class="method-args">(order, uplo, n, a, lda)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
         </div>
         
-        <div class="method-heading">
-          <span class="method-callseq">
-            geev(matrix, :left) &rarr; [eigenvalues, left_eigenvectors]
-          </span>
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="clapack_potri-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/lapack_core.rb, line 168</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">clapack_potri</span>(<span class="ruby-identifier">order</span>, <span class="ruby-identifier">uplo</span>, <span class="ruby-identifier">n</span>, <span class="ruby-identifier">a</span>, <span class="ruby-identifier">lda</span>)
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">NotImplementedError</span>,<span class="ruby-string">&quot;clapack_potri requires the nmatrix-atlas gem&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
           
         </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-clapack_potrs" class="method-detail ">
         
         <div class="method-heading">
-          <span class="method-callseq">
-            geev(matrix, :right) &rarr; [eigenvalues, right_eigenvectors]
-          </span>
+          <span class="method-name">clapack_potrs</span><span
+            class="method-args">(order, uplo, n, nrhs, a, lda, b, ldb)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
           
         </div>
-        
         
 
         <div class="method-description">
           
-          <p>Perform eigenvalue decomposition on a matrix using LAPACK&#39;s xGEEV
-function.</p>
+          
+          
+          
+
+          
+          <div class="method-source-code" id="clapack_potrs-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/lapack_core.rb, line 172</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">clapack_potrs</span>(<span class="ruby-identifier">order</span>, <span class="ruby-identifier">uplo</span>, <span class="ruby-identifier">n</span>, <span class="ruby-identifier">nrhs</span>, <span class="ruby-identifier">a</span>, <span class="ruby-identifier">lda</span>, <span class="ruby-identifier">b</span>, <span class="ruby-identifier">ldb</span>)
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">NotImplementedError</span>,<span class="ruby-string">&quot;clapack_potrs requires the nmatrix-atlas gem&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-geev" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">geev</span><span
+            class="method-args">(matrix, which=:both)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
           
           
 
           
           <div class="method-source-code" id="geev-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/lapack.rb, line 195</span>
+            <pre><span class="ruby-comment"># File lib/nmatrix/atlas.rb, line 77</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">geev</span>(<span class="ruby-identifier">matrix</span>, <span class="ruby-identifier">which</span>=<span class="ruby-value">:both</span>)
-  <span class="ruby-identifier">jobvl</span> = (<span class="ruby-identifier">which</span> <span class="ruby-operator">==</span> <span class="ruby-value">:both</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">which</span> <span class="ruby-operator">==</span> <span class="ruby-value">:left</span>) <span class="ruby-operator">?</span> <span class="ruby-value">:left</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>
-  <span class="ruby-identifier">jobvr</span> = (<span class="ruby-identifier">which</span> <span class="ruby-operator">==</span> <span class="ruby-value">:both</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">which</span> <span class="ruby-operator">==</span> <span class="ruby-value">:right</span>) <span class="ruby-operator">?</span> <span class="ruby-value">:right</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">StorageTypeError</span>, <span class="ruby-string">&quot;LAPACK functions only work on dense matrices&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">dense?</span>
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ShapeError</span>, <span class="ruby-string">&quot;eigenvalues can only be computed for square matrices&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">dim</span> <span class="ruby-operator">==</span> <span class="ruby-value">2</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">==</span> <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]
 
-  <span class="ruby-comment"># Copy the matrix so it doesn&#39;t get overwritten.</span>
-  <span class="ruby-identifier">temporary_matrix</span> = <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">clone</span>
+  <span class="ruby-identifier">jobvl</span> = (<span class="ruby-identifier">which</span> <span class="ruby-operator">==</span> <span class="ruby-value">:both</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">which</span> <span class="ruby-operator">==</span> <span class="ruby-value">:left</span>) <span class="ruby-operator">?</span> <span class="ruby-value">:t</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>
+  <span class="ruby-identifier">jobvr</span> = (<span class="ruby-identifier">which</span> <span class="ruby-operator">==</span> <span class="ruby-value">:both</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">which</span> <span class="ruby-operator">==</span> <span class="ruby-value">:right</span>) <span class="ruby-operator">?</span> <span class="ruby-value">:t</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>
+
+  <span class="ruby-identifier">n</span> = <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>]
 
   <span class="ruby-comment"># Outputs</span>
-  <span class="ruby-identifier">real_eigenvalues</span> = <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>([<span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>], <span class="ruby-value">1</span>], <span class="ruby-identifier">dtype</span><span class="ruby-operator">:</span> <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">dtype</span>)
-  <span class="ruby-identifier">imag_eigenvalues</span> = <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>([<span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>], <span class="ruby-value">1</span>], <span class="ruby-identifier">dtype</span><span class="ruby-operator">:</span> <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">dtype</span>)
+  <span class="ruby-identifier">eigenvalues</span> = <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>([<span class="ruby-identifier">n</span>, <span class="ruby-value">1</span>], <span class="ruby-identifier">dtype</span><span class="ruby-operator">:</span> <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">dtype</span>) <span class="ruby-comment"># For real dtypes this holds only the real part of the eigenvalues.</span>
+  <span class="ruby-identifier">imag_eigenvalues</span> = <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">complex_dtype?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">nil</span> <span class="ruby-operator">:</span> <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>([<span class="ruby-identifier">n</span>, <span class="ruby-value">1</span>], <span class="ruby-identifier">dtype</span><span class="ruby-operator">:</span> <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">dtype</span>) <span class="ruby-comment"># For complex dtypes, this is unused.</span>
+  <span class="ruby-identifier">left_output</span>      = <span class="ruby-identifier">jobvl</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">clone_structure</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>
+  <span class="ruby-identifier">right_output</span>     = <span class="ruby-identifier">jobvr</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">clone_structure</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>
 
-  <span class="ruby-identifier">left_output</span>      = <span class="ruby-identifier">jobvl</span> <span class="ruby-operator">==</span> <span class="ruby-value">:left</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">clone_structure</span> <span class="ruby-operator">:</span> <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">1</span>, <span class="ruby-identifier">dtype</span><span class="ruby-operator">:</span> <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">dtype</span>)
-  <span class="ruby-identifier">right_output</span>     = <span class="ruby-identifier">jobvr</span> <span class="ruby-operator">==</span> <span class="ruby-value">:right</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">clone_structure</span> <span class="ruby-operator">:</span> <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">1</span>, <span class="ruby-identifier">dtype</span><span class="ruby-operator">:</span> <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">dtype</span>)
-
+  <span class="ruby-comment"># lapack_geev is a pure LAPACK routine so it expects column-major matrices,</span>
+  <span class="ruby-comment"># so we need to transpose the input as well as the output.</span>
+  <span class="ruby-identifier">temporary_matrix</span> = <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">transpose</span>
   <span class="ruby-constant">NMatrix</span><span class="ruby-operator">::</span><span class="ruby-constant">LAPACK</span><span class="ruby-operator">::</span><span class="ruby-identifier">lapack_geev</span>(<span class="ruby-identifier">jobvl</span>, <span class="ruby-comment"># compute left eigenvectors of A?</span>
                                <span class="ruby-identifier">jobvr</span>, <span class="ruby-comment"># compute right eigenvectors of A? (left eigenvectors of A**T)</span>
-                               <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>], <span class="ruby-comment"># order of the matrix</span>
+                               <span class="ruby-identifier">n</span>, <span class="ruby-comment"># order of the matrix</span>
                                <span class="ruby-identifier">temporary_matrix</span>,<span class="ruby-comment"># input matrix (used as work)</span>
-                               <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>], <span class="ruby-comment"># leading dimension of matrix</span>
-                               <span class="ruby-identifier">real_eigenvalues</span>,<span class="ruby-comment"># real part of computed eigenvalues</span>
+                               <span class="ruby-identifier">n</span>, <span class="ruby-comment"># leading dimension of matrix</span>
+                               <span class="ruby-identifier">eigenvalues</span>,<span class="ruby-comment"># real part of computed eigenvalues</span>
                                <span class="ruby-identifier">imag_eigenvalues</span>,<span class="ruby-comment"># imag part of computed eigenvalues</span>
                                <span class="ruby-identifier">left_output</span>,     <span class="ruby-comment"># left eigenvectors, if applicable</span>
-                               <span class="ruby-identifier">left_output</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>], <span class="ruby-comment"># leading dimension of left_output</span>
+                               <span class="ruby-identifier">n</span>, <span class="ruby-comment"># leading dimension of left_output</span>
                                <span class="ruby-identifier">right_output</span>,    <span class="ruby-comment"># right eigenvectors, if applicable</span>
-                               <span class="ruby-identifier">right_output</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>], <span class="ruby-comment"># leading dimension of right_output</span>
-                               <span class="ruby-value">2</span><span class="ruby-operator">*</span><span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>])
+                               <span class="ruby-identifier">n</span>, <span class="ruby-comment"># leading dimension of right_output</span>
+                               <span class="ruby-value">2</span><span class="ruby-operator">*</span><span class="ruby-identifier">n</span>)
+  <span class="ruby-identifier">left_output</span> = <span class="ruby-identifier">left_output</span>.<span class="ruby-identifier">transpose</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">jobvl</span>
+  <span class="ruby-identifier">right_output</span> = <span class="ruby-identifier">right_output</span>.<span class="ruby-identifier">transpose</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">jobvr</span>
 
-  <span class="ruby-comment"># Put the real and imaginary parts together</span>
-  <span class="ruby-identifier">eigenvalues</span> = <span class="ruby-identifier">real_eigenvalues</span>.<span class="ruby-identifier">to_a</span>.<span class="ruby-identifier">flatten</span>.<span class="ruby-identifier">map</span>.<span class="ruby-identifier">with_index</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">real</span>,<span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">imag_eigenvalues</span>[<span class="ruby-identifier">i</span>] <span class="ruby-operator">!=</span> <span class="ruby-value">0</span> <span class="ruby-operator">?</span> <span class="ruby-constant">Complex</span>(<span class="ruby-identifier">real</span>, <span class="ruby-identifier">imag_eigenvalues</span>[<span class="ruby-identifier">i</span>]) <span class="ruby-operator">:</span> <span class="ruby-identifier">real</span>
+
+  <span class="ruby-comment"># For real dtypes, transform left_output and right_output into correct forms.</span>
+  <span class="ruby-comment"># If the j&#39;th and the (j+1)&#39;th eigenvalues form a complex conjugate</span>
+  <span class="ruby-comment"># pair, then the j&#39;th and (j+1)&#39;th columns of the matrix are</span>
+  <span class="ruby-comment"># the real and imag parts of the eigenvector corresponding</span>
+  <span class="ruby-comment"># to the j&#39;th eigenvalue.</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">complex_dtype?</span>
+    <span class="ruby-identifier">complex_indices</span> = []
+    <span class="ruby-identifier">n</span>.<span class="ruby-identifier">times</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">complex_indices</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">i</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">imag_eigenvalues</span>[<span class="ruby-identifier">i</span>] <span class="ruby-operator">!=</span> <span class="ruby-value">0.0</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">complex_indices</span>.<span class="ruby-identifier">empty?</span>
+      <span class="ruby-comment"># For real dtypes, put the real and imaginary parts together</span>
+      <span class="ruby-identifier">eigenvalues</span> = <span class="ruby-identifier">eigenvalues</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">imag_eigenvalues</span><span class="ruby-operator">*</span><span class="ruby-constant">Complex</span>(<span class="ruby-value">0.0</span>,<span class="ruby-value">1.0</span>)
+      <span class="ruby-identifier">left_output</span> = <span class="ruby-identifier">left_output</span>.<span class="ruby-identifier">cast</span>(<span class="ruby-identifier">dtype</span><span class="ruby-operator">:</span> <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">upcast</span>(<span class="ruby-value">:complex64</span>, <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">dtype</span>)) <span class="ruby-keyword">if</span> <span class="ruby-identifier">left_output</span>
+      <span class="ruby-identifier">right_output</span> = <span class="ruby-identifier">right_output</span>.<span class="ruby-identifier">cast</span>(<span class="ruby-identifier">dtype</span><span class="ruby-operator">:</span> <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">upcast</span>(<span class="ruby-value">:complex64</span>, <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">dtype</span>)) <span class="ruby-keyword">if</span> <span class="ruby-identifier">right_output</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-identifier">complex_indices</span>.<span class="ruby-identifier">each_slice</span>(<span class="ruby-value">2</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span>, <span class="ruby-identifier">_</span><span class="ruby-operator">|</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">right_output</span>
+        <span class="ruby-identifier">right_output</span>[<span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-identifier">n</span>,<span class="ruby-identifier">i</span>] = <span class="ruby-identifier">right_output</span>[<span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-identifier">n</span>,<span class="ruby-identifier">i</span>] <span class="ruby-operator">+</span> <span class="ruby-identifier">right_output</span>[<span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-identifier">n</span>,<span class="ruby-identifier">i</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>]<span class="ruby-operator">*</span><span class="ruby-constant">Complex</span>(<span class="ruby-value">0.0</span>,<span class="ruby-value">1.0</span>)
+        <span class="ruby-identifier">right_output</span>[<span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-identifier">n</span>,<span class="ruby-identifier">i</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>] = <span class="ruby-identifier">right_output</span>[<span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-identifier">n</span>,<span class="ruby-identifier">i</span>].<span class="ruby-identifier">complex_conjugate</span>
+      <span class="ruby-keyword">end</span>
+
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">left_output</span>
+        <span class="ruby-identifier">left_output</span>[<span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-identifier">n</span>,<span class="ruby-identifier">i</span>] = <span class="ruby-identifier">left_output</span>[<span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-identifier">n</span>,<span class="ruby-identifier">i</span>] <span class="ruby-operator">+</span> <span class="ruby-identifier">left_output</span>[<span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-identifier">n</span>,<span class="ruby-identifier">i</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>]<span class="ruby-operator">*</span><span class="ruby-constant">Complex</span>(<span class="ruby-value">0.0</span>,<span class="ruby-value">1.0</span>)
+        <span class="ruby-identifier">left_output</span>[<span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-identifier">n</span>,<span class="ruby-identifier">i</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>] = <span class="ruby-identifier">left_output</span>[<span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-identifier">n</span>,<span class="ruby-identifier">i</span>].<span class="ruby-identifier">complex_conjugate</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
 
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">which</span> <span class="ruby-operator">==</span> <span class="ruby-value">:both</span>
-    <span class="ruby-keyword">return</span> [<span class="ruby-identifier">eigenvalues</span>, <span class="ruby-identifier">left_output</span>.<span class="ruby-identifier">transpose</span>, <span class="ruby-identifier">right_output</span>.<span class="ruby-identifier">transpose</span>]
+    <span class="ruby-keyword">return</span> [<span class="ruby-identifier">eigenvalues</span>, <span class="ruby-identifier">left_output</span>, <span class="ruby-identifier">right_output</span>]
   <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">which</span> <span class="ruby-operator">==</span> <span class="ruby-value">:left</span>
-    <span class="ruby-keyword">return</span> [<span class="ruby-identifier">eigenvalues</span>, <span class="ruby-identifier">left_output</span>.<span class="ruby-identifier">transpose</span>]
+    <span class="ruby-keyword">return</span> [<span class="ruby-identifier">eigenvalues</span>, <span class="ruby-identifier">left_output</span>]
   <span class="ruby-keyword">else</span>
     <span class="ruby-keyword">return</span> [<span class="ruby-identifier">eigenvalues</span>, <span class="ruby-identifier">right_output</span>]
   <span class="ruby-keyword">end</span>
@@ -450,44 +395,41 @@ function.</p>
       </div>
 
     
-      <div id="method-i-gesdd" class="method-detail ">
-        
+      <div id="method-c-gesdd" class="method-detail ">
         
         <div class="method-heading">
-          <span class="method-callseq">
-            gesdd(matrix) &rarr; [u, sigma, v_transpose]
-          </span>
+          <span class="method-name">gesdd</span><span
+            class="method-args">(matrix, workspace_size=nil)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
         </div>
         
-        <div class="method-heading">
-          <span class="method-callseq">
-            gesdd(matrix) &rarr; [u, sigma, v_conjugate_transpose] # complex
-          </span>
-          
-        </div>
-        
-        
 
         <div class="method-description">
           
-          <p>Compute the singular value decomposition of a matrix using LAPACK&#39;s
-GESDD function. This uses a divide-and-conquer strategy. See also <a
-href="LAPACK.html#method-i-gesvd">gesvd</a>.</p>
-
-<p>Optionally accepts a <code>workspace_size</code> parameter, which will be
-honored only if it is larger than what LAPACK requires.</p>
+          
           
           
 
           
           <div class="method-source-code" id="gesdd-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/lapack.rb, line 171</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">gesdd</span>(<span class="ruby-identifier">matrix</span>, <span class="ruby-identifier">workspace_size</span>=<span class="ruby-value">100000</span>)
+            <pre><span class="ruby-comment"># File lib/nmatrix/atlas.rb, line 166</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">gesdd</span>(<span class="ruby-identifier">matrix</span>, <span class="ruby-identifier">workspace_size</span>=<span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">min_workspace_size</span> = <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>.<span class="ruby-identifier">min</span> <span class="ruby-operator">*</span> (<span class="ruby-value">6</span> <span class="ruby-operator">+</span> <span class="ruby-value">4</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>.<span class="ruby-identifier">min</span>) <span class="ruby-operator">+</span> <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>.<span class="ruby-identifier">max</span>
+  <span class="ruby-identifier">workspace_size</span> = <span class="ruby-identifier">min_workspace_size</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">workspace_size</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">workspace_size</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">min_workspace_size</span>
+
   <span class="ruby-identifier">result</span> = <span class="ruby-identifier">alloc_svd_result</span>(<span class="ruby-identifier">matrix</span>)
-  <span class="ruby-constant">NMatrix</span><span class="ruby-operator">::</span><span class="ruby-constant">LAPACK</span><span class="ruby-operator">::</span><span class="ruby-identifier">lapack_gesdd</span>(<span class="ruby-value">:a</span>, <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>], <span class="ruby-identifier">matrix</span>, <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">result</span>[<span class="ruby-value">1</span>], <span class="ruby-identifier">result</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">result</span>[<span class="ruby-value">2</span>], <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>], <span class="ruby-identifier">workspace_size</span>)
+
+  <span class="ruby-identifier">m</span> = <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>]
+  <span class="ruby-identifier">n</span> = <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]
+
+  <span class="ruby-comment"># This is a pure LAPACK function so it expects column-major functions.</span>
+  <span class="ruby-comment"># So we need to transpose the input as well as the output.</span>
+  <span class="ruby-identifier">matrix</span> = <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">transpose</span>
+  <span class="ruby-constant">NMatrix</span><span class="ruby-operator">::</span><span class="ruby-constant">LAPACK</span><span class="ruby-operator">::</span><span class="ruby-identifier">lapack_gesdd</span>(<span class="ruby-value">:a</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">n</span>, <span class="ruby-identifier">matrix</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">result</span>[<span class="ruby-value">1</span>], <span class="ruby-identifier">result</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">m</span>, <span class="ruby-identifier">result</span>[<span class="ruby-value">2</span>], <span class="ruby-identifier">n</span>, <span class="ruby-identifier">workspace_size</span>)
+  <span class="ruby-identifier">result</span>[<span class="ruby-value">0</span>] = <span class="ruby-identifier">result</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">transpose</span>
+  <span class="ruby-identifier">result</span>[<span class="ruby-value">2</span>] = <span class="ruby-identifier">result</span>[<span class="ruby-value">2</span>].<span class="ruby-identifier">transpose</span>
   <span class="ruby-identifier">result</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -500,43 +442,38 @@ honored only if it is larger than what LAPACK requires.</p>
       </div>
 
     
-      <div id="method-i-gesvd" class="method-detail ">
-        
+      <div id="method-c-gesvd" class="method-detail ">
         
         <div class="method-heading">
-          <span class="method-callseq">
-            gesvd(matrix) &rarr; [u, sigma, v_transpose]
-          </span>
+          <span class="method-name">gesvd</span><span
+            class="method-args">(matrix, workspace_size=1)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
         </div>
         
-        <div class="method-heading">
-          <span class="method-callseq">
-            gesvd(matrix) &rarr; [u, sigma, v_conjugate_transpose] # complex
-          </span>
-          
-        </div>
-        
-        
 
         <div class="method-description">
           
-          <p>Compute the singular value decomposition of a matrix using LAPACK&#39;s
-GESVD function.</p>
-
-<p>Optionally accepts a <code>workspace_size</code> parameter, which will be
-honored only if it is larger than what LAPACK requires.</p>
+          
           
           
 
           
           <div class="method-source-code" id="gesvd-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/lapack.rb, line 154</span>
+            <pre><span class="ruby-comment"># File lib/nmatrix/atlas.rb, line 151</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">gesvd</span>(<span class="ruby-identifier">matrix</span>, <span class="ruby-identifier">workspace_size</span>=<span class="ruby-value">1</span>)
   <span class="ruby-identifier">result</span> = <span class="ruby-identifier">alloc_svd_result</span>(<span class="ruby-identifier">matrix</span>)
-  <span class="ruby-constant">NMatrix</span><span class="ruby-operator">::</span><span class="ruby-constant">LAPACK</span><span class="ruby-operator">::</span><span class="ruby-identifier">lapack_gesvd</span>(<span class="ruby-value">:a</span>, <span class="ruby-value">:a</span>, <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>], <span class="ruby-identifier">matrix</span>, <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">result</span>[<span class="ruby-value">1</span>], <span class="ruby-identifier">result</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">result</span>[<span class="ruby-value">2</span>], <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>], <span class="ruby-identifier">workspace_size</span>)
+
+  <span class="ruby-identifier">m</span> = <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>]
+  <span class="ruby-identifier">n</span> = <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]
+
+  <span class="ruby-comment"># This is a pure LAPACK function so it expects column-major functions.</span>
+  <span class="ruby-comment"># So we need to transpose the input as well as the output.</span>
+  <span class="ruby-identifier">matrix</span> = <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">transpose</span>
+  <span class="ruby-constant">NMatrix</span><span class="ruby-operator">::</span><span class="ruby-constant">LAPACK</span><span class="ruby-operator">::</span><span class="ruby-identifier">lapack_gesvd</span>(<span class="ruby-value">:a</span>, <span class="ruby-value">:a</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">n</span>, <span class="ruby-identifier">matrix</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">result</span>[<span class="ruby-value">1</span>], <span class="ruby-identifier">result</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">m</span>, <span class="ruby-identifier">result</span>[<span class="ruby-value">2</span>], <span class="ruby-identifier">n</span>, <span class="ruby-identifier">workspace_size</span>)
+  <span class="ruby-identifier">result</span>[<span class="ruby-value">0</span>] = <span class="ruby-identifier">result</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">transpose</span>
+  <span class="ruby-identifier">result</span>[<span class="ruby-value">2</span>] = <span class="ruby-identifier">result</span>[<span class="ruby-value">2</span>].<span class="ruby-identifier">transpose</span>
   <span class="ruby-identifier">result</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -549,7 +486,108 @@ honored only if it is larger than what LAPACK requires.</p>
       </div>
 
     
-      <div id="method-i-laswp" class="method-detail ">
+      <div id="method-c-lapack_geev" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">lapack_geev</span><span
+            class="method-args">(jobvl, jobvr, n, a, lda, w, wi, vl, ldvl, vr, ldvr, lwork)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="lapack_geev-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/lapack_core.rb, line 160</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">lapack_geev</span>(<span class="ruby-identifier">jobvl</span>, <span class="ruby-identifier">jobvr</span>, <span class="ruby-identifier">n</span>, <span class="ruby-identifier">a</span>, <span class="ruby-identifier">lda</span>, <span class="ruby-identifier">w</span>, <span class="ruby-identifier">wi</span>, <span class="ruby-identifier">vl</span>, <span class="ruby-identifier">ldvl</span>, <span class="ruby-identifier">vr</span>, <span class="ruby-identifier">ldvr</span>, <span class="ruby-identifier">lwork</span>)
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">NotImplementedError</span>,<span class="ruby-string">&quot;lapack_geev requires the nmatrix-atlas gem&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-lapack_gesdd" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">lapack_gesdd</span><span
+            class="method-args">(jobz, m, n, a, lda, s, u, ldu, vt, ldvt, lwork)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="lapack_gesdd-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/lapack_core.rb, line 156</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">lapack_gesdd</span>(<span class="ruby-identifier">jobz</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">n</span>, <span class="ruby-identifier">a</span>, <span class="ruby-identifier">lda</span>, <span class="ruby-identifier">s</span>, <span class="ruby-identifier">u</span>, <span class="ruby-identifier">ldu</span>, <span class="ruby-identifier">vt</span>, <span class="ruby-identifier">ldvt</span>, <span class="ruby-identifier">lwork</span>)
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">NotImplementedError</span>,<span class="ruby-string">&quot;lapack_gesdd requires the nmatrix-atlas gem&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-lapack_gesvd" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">lapack_gesvd</span><span
+            class="method-args">(jobu, jobvt, m, n, a, lda, s, u, ldu, vt, ldvt, lwork)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>The following are functions that used to be implemented in C, but now
+require nmatrix-atlas to run properly, so we can just implemented their
+stubs in Ruby.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="lapack_gesvd-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/lapack_core.rb, line 152</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">lapack_gesvd</span>(<span class="ruby-identifier">jobu</span>, <span class="ruby-identifier">jobvt</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">n</span>, <span class="ruby-identifier">a</span>, <span class="ruby-identifier">lda</span>, <span class="ruby-identifier">s</span>, <span class="ruby-identifier">u</span>, <span class="ruby-identifier">ldu</span>, <span class="ruby-identifier">vt</span>, <span class="ruby-identifier">ldvt</span>, <span class="ruby-identifier">lwork</span>)
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">NotImplementedError</span>,<span class="ruby-string">&quot;lapack_gesvd requires the nmatrix-atlas gem&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-laswp" class="method-detail ">
         
         <div class="method-heading">
           <span class="method-name">laswp</span><span
@@ -571,13 +609,60 @@ href="../Array.html">Array</a> <code>ipiv</code>.</p>
 
           
           <div class="method-source-code" id="laswp-source">
-            <pre><span class="ruby-comment"># File lib/nmatrix/lapack.rb, line 127</span>
+            <pre><span class="ruby-comment"># File lib/nmatrix/lapack_core.rb, line 69</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">laswp</span>(<span class="ruby-identifier">matrix</span>, <span class="ruby-identifier">ipiv</span>)
   <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;expected NMatrix for argument 0&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">NMatrix</span>)
   <span class="ruby-identifier">raise</span>(<span class="ruby-constant">StorageTypeError</span>, <span class="ruby-string">&quot;LAPACK functions only work on :dense NMatrix instances&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">stype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:dense</span>
   <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;expected Array ipiv to have no more entries than NMatrix a has columns&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">ipiv</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]
 
   <span class="ruby-identifier">clapack_laswp</span>(<span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">matrix</span>, <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>], <span class="ruby-value">0</span>, <span class="ruby-identifier">ipiv</span>.<span class="ruby-identifier">size</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>, <span class="ruby-identifier">ipiv</span>, <span class="ruby-value">1</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-posv" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">posv</span><span
+            class="method-args">(uplo, a, b)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="posv-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/atlas.rb, line 59</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">posv</span>(<span class="ruby-identifier">uplo</span>, <span class="ruby-identifier">a</span>, <span class="ruby-identifier">b</span>)
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ShapeError</span>, <span class="ruby-string">&quot;a must be square&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">dim</span> <span class="ruby-operator">==</span> <span class="ruby-value">2</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">==</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ShapeError</span>, <span class="ruby-string">&quot;number of rows of b must equal number of cols of a&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>] <span class="ruby-operator">==</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>]
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">StorageTypeError</span>, <span class="ruby-string">&quot;only works with dense matrices&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">stype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:dense</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">stype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:dense</span>
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">DataTypeError</span>, <span class="ruby-string">&quot;only works for non-integer, non-object dtypes&quot;</span>) <span class="ruby-keyword">if</span> 
+    <span class="ruby-identifier">a</span>.<span class="ruby-identifier">integer_dtype?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">object_dtype?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">integer_dtype?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">object_dtype?</span>
+
+  <span class="ruby-identifier">x</span>     = <span class="ruby-identifier">b</span>.<span class="ruby-identifier">clone</span>
+  <span class="ruby-identifier">clone</span> = <span class="ruby-identifier">a</span>.<span class="ruby-identifier">clone</span>
+  <span class="ruby-identifier">n</span> = <span class="ruby-identifier">a</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>]
+  <span class="ruby-identifier">nrhs</span> = <span class="ruby-identifier">b</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]
+  <span class="ruby-identifier">clapack_potrf</span>(<span class="ruby-value">:row</span>, <span class="ruby-identifier">uplo</span>, <span class="ruby-identifier">n</span>, <span class="ruby-identifier">clone</span>, <span class="ruby-identifier">n</span>)
+  <span class="ruby-comment"># Must transpose b before and after: http://math-atlas.sourceforge.net/faq.html#RowSolve</span>
+  <span class="ruby-identifier">x</span> = <span class="ruby-identifier">x</span>.<span class="ruby-identifier">transpose</span>
+  <span class="ruby-identifier">clapack_potrs</span>(<span class="ruby-value">:row</span>, <span class="ruby-identifier">uplo</span>, <span class="ruby-identifier">n</span>, <span class="ruby-identifier">nrhs</span>, <span class="ruby-identifier">clone</span>, <span class="ruby-identifier">n</span>, <span class="ruby-identifier">x</span>, <span class="ruby-identifier">n</span>)
+  <span class="ruby-identifier">x</span>.<span class="ruby-identifier">transpose</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -597,7 +682,7 @@ href="../Array.html">Array</a> <code>ipiv</code>.</p>
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="http://rdoc.rubyforge.org">RDoc</a> 4.1.1.
-  <p>Based on <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

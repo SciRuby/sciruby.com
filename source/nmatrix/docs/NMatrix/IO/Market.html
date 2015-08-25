@@ -6,19 +6,16 @@
 
 <title>module NMatrix::IO::Market - RDoc Documentation</title>
 
-<link href="../../fonts.css" rel="stylesheet">
-<link href="../../rdoc.css" rel="stylesheet">
-
 <script type="text/javascript">
   var rdoc_rel_prefix = "../../";
 </script>
 
 <script src="../../js/jquery.js"></script>
-<script src="../../js/navigation.js"></script>
-<script src="../../js/search_index.js"></script>
-<script src="../../js/search.js"></script>
-<script src="../../js/searcher.js"></script>
 <script src="../../js/darkfish.js"></script>
+
+<link href="../../css/fonts.css" rel="stylesheet">
+<link href="../../css/rdoc.css" rel="stylesheet">
+
 
 
 <body id="top" role="document" class="module">
@@ -66,17 +63,17 @@
 
   <ul class="link-list" role="directory">
     
-    <li ><a href="#method-i-load">#load</a>
+    <li ><a href="#method-c-load">::load</a>
     
-    <li ><a href="#method-i-load_array">#load_array</a>
+    <li ><a href="#method-c-load_array">::load_array</a>
     
-    <li ><a href="#method-i-load_coordinate">#load_coordinate</a>
+    <li ><a href="#method-c-load_coordinate">::load_coordinate</a>
     
-    <li ><a href="#method-i-save">#save</a>
+    <li ><a href="#method-c-save">::save</a>
     
-    <li ><a href="#method-i-save_array">#save_array</a>
+    <li ><a href="#method-c-save_array">::save_array</a>
     
-    <li ><a href="#method-i-save_coordinate">#save_coordinate</a>
+    <li ><a href="#method-c-save_coordinate">::save_coordinate</a>
     
   </ul>
 </div>
@@ -126,13 +123,13 @@ href="http://math.nist.gov/MatrixMarket/formats.html">math.nist.gov/MatrixMarket
     
 
     
-     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
        <header>
-         <h3>Public Instance Methods</h3>
+         <h3>Public Class Methods</h3>
        </header>
 
     
-      <div id="method-i-load" class="method-detail ">
+      <div id="method-c-load" class="method-detail ">
         
         
         <div class="method-heading">
@@ -152,7 +149,8 @@ href="http://math.nist.gov/MatrixMarket/formats.html">math.nist.gov/MatrixMarket
 <ul><li>
 <p><strong>Arguments</strong> :</p>
 <ul><li>
-<p><code>filename</code> -&gt; String with the filename to be saved.</p>
+<p><code>filename</code> -&gt; <a href="../../String.html">String</a> with the
+filename to be saved.</p>
 </li></ul>
 </li><li>
 <p><strong>Raises</strong> :</p>
@@ -197,7 +195,7 @@ href="http://math.nist.gov/MatrixMarket/formats.html">math.nist.gov/MatrixMarket
       </div>
 
     
-      <div id="method-i-save" class="method-detail ">
+      <div id="method-c-save" class="method-detail ">
         
         
         <div class="method-heading">
@@ -222,13 +220,14 @@ want values stored.</p>
 <p><code>matrix</code> -&gt; <a href="../../NMatrix.html">NMatrix</a> with the
 data to be saved.</p>
 </li><li>
-<p><code>filename</code> -&gt; String with the filename to be saved.</p>
+<p><code>filename</code> -&gt; <a href="../../String.html">String</a> with the
+filename to be saved.</p>
 </li></ul>
 </li><li>
 <p><strong>Raises</strong> :</p>
 <ul><li>
-<p><code>DataTypeError</code> -&gt; MatrixMarket does not support rational or
-Ruby objects.</p>
+<p><code>DataTypeError</code> -&gt; MatrixMarket does not support Ruby
+objects.</p>
 </li><li>
 <p><code>ArgumentError</code> -&gt; Expected two-dimensional <a
 href="../../NMatrix.html">NMatrix</a>.</p>
@@ -245,8 +244,8 @@ href="../../NMatrix.html">NMatrix</a>.</p>
     <span class="ruby-value">:symmetry</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:general</span>}.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">options</span>)
 
   <span class="ruby-identifier">mode</span> = <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">stype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:dense</span> <span class="ruby-operator">?</span> <span class="ruby-value">:array</span> <span class="ruby-operator">:</span> <span class="ruby-value">:coordinate</span>
-  <span class="ruby-keyword">if</span> [<span class="ruby-value">:rational32</span>,<span class="ruby-value">:rational64</span>,<span class="ruby-value">:rational128</span>,<span class="ruby-value">:object</span>].<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">dtype</span>)
-    <span class="ruby-identifier">raise</span>(<span class="ruby-constant">DataTypeError</span>, <span class="ruby-string">&quot;MatrixMarket does not support rational or Ruby objects&quot;</span>)
+  <span class="ruby-keyword">if</span> [<span class="ruby-value">:object</span>].<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">dtype</span>)
+    <span class="ruby-identifier">raise</span>(<span class="ruby-constant">DataTypeError</span>, <span class="ruby-string">&quot;MatrixMarket does not support Ruby objects&quot;</span>)
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">entry_type</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:pattern</span>] <span class="ruby-operator">?</span> <span class="ruby-value">:pattern</span> <span class="ruby-operator">:</span> <span class="ruby-constant">ENTRY_TYPE</span>[<span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">dtype</span>]
 
@@ -278,13 +277,13 @@ href="../../NMatrix.html">NMatrix</a>.</p>
     
     </section>
   
-     <section id="protected-instance-5Buntitled-5D-method-details" class="method-section">
+     <section id="protected-class-5Buntitled-5D-method-details" class="method-section">
        <header>
-         <h3>Protected Instance Methods</h3>
+         <h3>Protected Class Methods</h3>
        </header>
 
     
-      <div id="method-i-load_array" class="method-detail ">
+      <div id="method-c-load_array" class="method-detail ">
         
         <div class="method-heading">
           <span class="method-name">load_array</span><span
@@ -346,7 +345,7 @@ href="../../NMatrix.html">NMatrix</a>.</p>
       </div>
 
     
-      <div id="method-i-load_coordinate" class="method-detail ">
+      <div id="method-c-load_coordinate" class="method-detail ">
         
         <div class="method-heading">
           <span class="method-name">load_coordinate</span><span
@@ -377,7 +376,7 @@ coordinate-list MatrixMarket file.</p>
     <span class="ruby-identifier">line</span>.<span class="ruby-identifier">lstrip!</span>
     <span class="ruby-identifier">line</span>, <span class="ruby-identifier">comment</span> = <span class="ruby-identifier">line</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39;%&#39;</span>, <span class="ruby-value">2</span>) <span class="ruby-comment"># ignore comments</span>
     <span class="ruby-keyword">if</span> <span class="ruby-identifier">line</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">4</span>
-      <span class="ruby-identifier">shape0</span>, <span class="ruby-identifier">shape1</span>, <span class="ruby-identifier">nz</span> = <span class="ruby-identifier">line</span>.<span class="ruby-identifier">split</span>
+      <span class="ruby-identifier">shape0</span>, <span class="ruby-identifier">shape1</span> = <span class="ruby-identifier">line</span>.<span class="ruby-identifier">split</span>
       <span class="ruby-identifier">mat</span> = <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:list</span>, [<span class="ruby-identifier">shape0</span>.<span class="ruby-identifier">to_i</span>, <span class="ruby-identifier">shape1</span>.<span class="ruby-identifier">to_i</span>], <span class="ruby-value">0</span>, <span class="ruby-identifier">dtype</span>)
       <span class="ruby-keyword">break</span>
     <span class="ruby-keyword">end</span>
@@ -423,7 +422,7 @@ coordinate-list MatrixMarket file.</p>
       </div>
 
     
-      <div id="method-i-save_array" class="method-detail ">
+      <div id="method-c-save_array" class="method-detail ">
         
         <div class="method-heading">
           <span class="method-name">save_array</span><span
@@ -472,7 +471,7 @@ coordinate-list MatrixMarket file.</p>
       </div>
 
     
-      <div id="method-i-save_coordinate" class="method-detail ">
+      <div id="method-c-save_coordinate" class="method-detail ">
         
         <div class="method-heading">
           <span class="method-name">save_coordinate</span><span
@@ -536,7 +535,7 @@ coordinate-list MatrixMarket file.</p>
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="http://rdoc.rubyforge.org">RDoc</a> 4.1.1.
-  <p>Based on <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 
