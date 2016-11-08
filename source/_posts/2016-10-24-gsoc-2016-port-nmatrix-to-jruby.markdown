@@ -19,7 +19,7 @@ either doubles or Ruby objects as the data type. The performance of JRuby
 with Apache Commons Maths is quite satisfactory (see below for performance
 comparisons) even without making use of JRuby threading capabilities.
 
-I have also ported the [mixed models gem](https://github.com/agisga/mixed_models), which
+I have also ported the [mixed_models gem](https://github.com/agisga/mixed_models), which
 uses NMatrix heavily at its core, to JRuby. This gem allowed us
 to test NMatrix-JRuby with real-life data.
 
@@ -31,7 +31,7 @@ is complete, commits are available [here](https://github.com/prasunanand/nmatrix
 
 ## Performance
 
-We have benchmarked some of the NMatrix functionalities. The following
+I have benchmarked some of the NMatrix functionalities. The following
 plots compare the performance between NMatrix-JRuby, NMatrix-MRI, and
 NMatrix-MRI using LAPACK/ATLAS libraries. (Note: MRI refers to the
 reference implementation of Ruby, for those who are new.)
@@ -58,21 +58,21 @@ Notes:
 
 ## Implementation
 
-### Storing _n_-dimensional matrices as flat arrays
+### Storing _n_-dimensional matrices as one-dimensional arrays
 
 The major components of an `NMatrix` are shape, elements, dtype and
-stype. When initialized, the dense type stores the elements as a flat
+stype. When initialized, the dense type stores the elements as a one-dimensional
 array; in the JRuby port, the `ArrayRealVector` class is used to store
 the elements.
 
 `@s` stores elements, `@shape` stores the shape of the matrix, while
 `@dtype` and `@stype` store the data type and storage type
-respectively. Currently, we have nmatrix-jruby implemented only for
+respectively. Currently, I have nmatrix-jruby implemented only for
 `:float64` (double) and Ruby `:object` data types.
 
-NMatrix-MRI uses `@s` which is an object containing elements, stride
-and offset (as in C, we need to deal with the memory allocation for
-the arrays).
+NMatrix-MRI uses `struct` as a `type` to store `dim`, `shape`, `offset`, `count`, `src`
+of an NMatrix. `ALLOC` and `xfree` are used to wrap the NMatrix attributes to C structs
+and release the unrequired memory.
 
 ![NMatrix](https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/nmatrix.png?raw=true "Fig. 1: NMatrix")
 
@@ -80,7 +80,7 @@ the arrays).
 
 Implementing slicing was the toughest part of NMatrix-JRuby
 implementation. `NMatrix@s` stores the elements of a matrix as a
-flat array. The elements along any dimension are accessed with the
+one-dimensional array. The elements along any dimension are accessed with the
 help of the stride. `NMatrix#get_stride` calculates the stride with
 the help of the dimension and shape and returns an Array.
 
@@ -144,50 +144,7 @@ end
  matrix then returns an NMatrix object with the elements along the
  dimension.
 
-```ruby
-def dense_storage_set(slice, right)
-    stride = get_stride(self)
-    v_size = 1
-
-    if right.is_a?(NMatrix)
-      right = right.s.toArray.to_a
-    end
-
-    if(right.is_a?(Array))
-      v_size = right.length
-      v = right
-      if (dtype == :object)
-        # nm_register_values(reinterpret_cast<VALUE*>(v), v_size)
-      end
-
-      (0...v_size).each do |m|
-        v[m] = right[m]
-      end
-    else
-      v = [right]
-      if (@dtype == :object)
-        # nm_register_values(reinterpret_cast<VALUE*>(v), v_size)
-      end
-    end
-    if(slice[:single])
-      # reinterpret_cast<D*>(s->elements)[nm_dense_storage_pos(s, slice->coords)] = v;
-      pos = dense_storage_pos(slice[:coords],stride)
-      if @dtype == :object
-        @s[pos] = v[0]
-      else
-        @s.setEntry(pos, v[0])
-      end
-    else
-      v_offset = 0
-      dest = {}
-      dest[:stride] = get_stride(self)
-      dest[:shape] = shape
-      # dest[:elements] = @s.toArray().to_a
-      dense_pos = dense_storage_pos(slice[:coords],stride)
-      slice_set(dest, slice[:lengths], dense_pos, 0, v, v_size, v_offset)
-    end
-  end
-```
+All the relevant code for slicing can be found [here](https://github.com/prasunanand/nmatrix/blob/jruby_port/lib/nmatrix/jruby/slice.rb).
 
 ### Enumerators
 
@@ -231,7 +188,7 @@ def each_with_indices
 ### Two-Dimensional Matrices
 
 Linear algebra is mostly about two-dimensional matrices. In NMatrix,
-when performing calculations in a two-dimensional matrix, a flat array
+when performing calculations in a two-dimensional matrix, a one-dimensional array
 is converted to a two-dimensional matrix. A two-dimensional matrix is
 stored in the JRuby implementation as a `BlockRealMatrix` or
 `Array2DRowRealMatrix`. Each has its own advantages.
@@ -257,7 +214,7 @@ public class MatrixGenerator
 }
 ```
 
-#### Flat a 2D-matrix**
+#### Convert a 2D-matrix to 1D-array
 
 ```java
 public class ArrayGenerator
@@ -278,7 +235,7 @@ public class ArrayGenerator
 
 #### Why use a Java method instead of Ruby method?
 
-1. *Memory Usage and Garbage Collection:( A scientific library is memory intensive and hence, every step counts. The JRuby interpreter doesn't need to dynamically guess the data type and uses less memory, typically around one-tenth of it. If the memory is properly utilized, when the GC kicks in, the GC has to clear less used memory space.
+1. *Memory Usage and Garbage Collection:* A scientific library is memory intensive and hence, every step counts. The JRuby interpreter doesn't need to dynamically guess the data type and uses less memory, typically around one-tenth of it. If the memory is properly utilized, when the GC kicks in, the GC has to clear less used memory space.
 
 2. *Speed:* Using java method greatly improves the speed &mdash; by around 1000 times, when compared to using the Ruby method.
 
@@ -309,7 +266,7 @@ def +(other)
 end
 ```
 
-Trigonometric, Exponentiation and Log operators with a singular argument i.e. matrix elements have been implemented using `#mapToSelf` method that takes Univariate function as an argument. `#mapToSelf` maps every element of ArrayRealVector object to the Univariate operator, which is passed to it and returns `self` object.
+Unary Operators (Trigonometric, Exponentiation and Log operators) have been implemented using `#mapToSelf` method that takes a [`Univariate function`](https://commons.apache.org/proper/commons-math/javadocs/api-3.6.1/org/apache/commons/math3/analysis/UnivariateFunction.html) as an argument. `#mapToSelf` maps every element of ArrayRealVector object to the `Univariate function`, that is passed to it and returns `self` object.
 
 ```ruby
 def sin
@@ -372,8 +329,7 @@ end
 ```
 
 Given below is code that shows how Cholesky decomposition has been
-implemented by using Commons Math API. Similarly, LU Decomposition and
-QR factorization have been implemented.
+implemented by using Commons Math API.
 
 #### Cholesky Decomposition
 
@@ -392,47 +348,14 @@ QR factorization have been implemented.
     return [u,l]
   end
 ```
-
+Similarly, LU Decomposition and QR factorization have been implemented.
 #### LU Decomposition
 
-```ruby
-  def factorize_lu with_permutation_matrix=nil
-    raise(NotImplementedError, "only implemented for dense storage")\
-       unless self.stype == :dense
-    raise(NotImplementedError, "matrix is not 2-dimensional")\
-       unless self.dimensions == 2
-    t = self.clone
-    pivot = create_dummy_nmatrix
-    twoDMat = LUDecomposition.new(self.twoDMat).getP
-    pivot.s = ArrayRealVector.new(ArrayGenerator.getArrayDouble\
-    (twoDMat.getData, @shape[0], @shape[1]))
-    return [t,pivot]
-  end
-```
+[Code](https://github.com/prasunanand/nmatrix/blob/jruby_port/lib/nmatrix/jruby/math.rb#L365)
+
 
 #### QR Factorization
-
-```ruby
-  def factorize_qr
-    raise(NotImplementedError, "only implemented for dense storage")\
-       unless self.stype == :dense
-    raise(ShapeError, "Input must be a 2-dimensional matrix to have\
-       a QR decomposition") unless self.dim == 2
-    qrdecomp = QRDecomposition.new(self.twoDMat)
-
-    qmat = create_dummy_nmatrix
-    qtwoDMat = qrdecomp.getQ
-    qmat.s = ArrayRealVector.new(ArrayGenerator.\
-      getArrayDouble(qtwoDMat.getData, @shape[0], @shape[1]))
-
-    rmat = create_dummy_nmatrix
-    rtwoDMat = qrdecomp.getR
-    rmat.s = ArrayRealVector.new(ArrayGenerator.\
-      getArrayDouble(rtwoDMat.getData, @shape[0], @shape[1]))
-    return [qmat,rmat]
-
-  end
-```
+[Code](https://github.com/prasunanand/nmatrix/blob/jruby_port/lib/nmatrix/jruby/math.rb#L392)
 
 #### `NMatrix#solve`
 
@@ -506,10 +429,11 @@ Currently, Hessenberg transformation for NMatrix-JRuby has not been implemented.
 
 ### Other dtypes
 
-We have tried implementing float dtypes using jblas `FloatMatrix`.
-jblas was used instead of Commons Math as the latter uses Field
-Elements for Floats and it had some issues with Reflection and
-TypeErasure. However, it resulted in errors due to precision.
+I have tried implementing float dtypes using `FloatMatrix` class
+provide by jblas.  jblas was used instead of Commons Math as the
+latter uses `Field Elements` for Floats and it had some issues
+with `Reflection` and `Type Erasure`.
+However, using jblas resulted in errors due to precision.
 
 
 ## Code Organisation and Deployment
@@ -522,7 +446,7 @@ directory. `lib/nmatrix/nmatrix.rb` decides whether to load
 The added advantage is that the Ruby interpreter must not decide which
 function to call at run-time. The impact on performance can be seen
 when programs which intensively use NMatrix for linear algebraic
-computations (_e.g._, mixed-models) are run.
+computations (_e.g._, mixed_models) are run.
 
 ## Spec Report
 
@@ -532,17 +456,18 @@ After the port; this is the final report that summarizes the number of tests tha
 
 |Spec file|Total Tests|Success|Failure|Pending|
 |------------|:------------:|:-----------:|:-------------:|:-------------:|
-|00_nmatrix_spec|188|139|43|6|
-|01_enum_spec|17|8|09|0|
-|02_slice_spec|144|116|28|0|
-|03_nmatrix_monkeys_spec|12|11|01|0|
-|elementwise_spec|38|21|17|0|
-|homogeneous_spec.rb|07|06|01|0|
-|math_spec|737|541|196|0|
-|shortcuts_spec|81|57|24|0|
-|stat_spec|72|40|32|0|
-|slice_set_spec|6|2|04|0|
+|00_nmatrix_spec|188|139|43|6
+|01_enum_spec|17|8|09|0
+|02_slice_spec|144|116|28|0
+|03_nmatrix_monkeys_spec|12|11|01|0
+|elementwise_spec|38|21|17|0
+|homogeneous_spec.rb|07|06|01|0
+|math_spec|737|541|196|0
+|shortcuts_spec|81|57|24|0
+|stat_spec|72|40|32|0
+|slice_set_spec|6|2|04|0
 
+<br>
 #### Why do some tests fail?
 
 1.  Complex dtype has not been implemented.
@@ -550,19 +475,19 @@ After the port; this is the final report that summarizes the number of tests tha
 3.  Decomposition methods that are specific to LAPACK and ATLAS have not been implemented.
 4.  Integer dtype is not properly assigned to `floor`, `ceil`, and `round` methods.
 
-### Mixed-Models
+### Mixed_Models
 
 |Spec file|Total Test|Success|Failure|Pending|
 |------------|:------------:|:-----------:|:-------------:|:-------------:|
-|Deviance_spec|04|04|0|0|
-|LMM_spec|195|195|0|0|
-|LMM_categorical_data_spec.rb|48|45|3|0|
-|LMMFormula_spec.rb|05|05|0|0|
-|LMM_interaction_effects_spec.rb|82|82|0|0|
-|LMM_nested_effects_spec.rb|40|40|0|0|
-|matrix_methods_spec.rb|52|52|0|0|
-|ModelSpecification_spec.rb|07|07|0|0|
-|NelderMeadWithConstraints_spec.rb|08|08|0|0|
+|Deviance_spec|04|04|0|0
+|LMM_spec|195|195|0|0
+|LMM_categorical_data_spec.rb|48|45|3|0
+|LMMFormula_spec.rb|05|05|0|0
+|LMM_interaction_effects_spec.rb|82|82|0|0
+|LMM_nested_effects_spec.rb|40|40|0|0
+|matrix_methods_spec.rb|52|52|0|0
+|ModelSpecification_spec.rb|07|07|0|0
+|NelderMeadWithConstraints_spec.rb|08|08|0|0
 
 
 ## Future Work
@@ -577,15 +502,16 @@ the GPU computational capacity available on most machines today.
 
 ## Conclusion
 
-The main goal of this project was to bring **Scientific Computation to JRuby**, to gain from the performance JRuby offers.
+The main goal of this project was to to gain from the performance JRuby offers,
+and bring a unified interface for linear algebra between MRI and JRuby.
 
-By the end of GSoC, we have been able to successfully create a linear
+By the end of GSoC, I have been able to successfully create a linear
 algebra library, NMatrix for JRuby users, which they can easily run on
 their machines &mdash; unless they want to use complex numbers, at
 least for now.
 
-We have mixed-models gem simultaneously ported to JRuby. Even here, we
-are very close to MRI performance-wise.
+I have mixed_models gem simultaneously ported to JRuby. Even here,
+NMatrix-JRuby is very close to NMatrix-MRI, considering the performance .
 
 
 ## Acknowledgements
