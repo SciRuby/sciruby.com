@@ -3,14 +3,17 @@ layout: post
 title: "### GSoC 2016 Summary, Adding categorical data support"
 date: 2016-11-17 08:41
 comments: true
-categories: 
+Author: Lokesh Sharma
+GitHub - @lokeshh
+categories: [GSOC 2016, GSOC, Daru, Statsample, Statsample-GLM, Categorical data, Gruff, Nyaplot, Gnuplotrb]
 ---
 
 
-Support for categorical data is important for any data analysis tool. This summer I added categorical data support to:
-- to easily analyze categorical data in Daru
-- visualize categorical data
-- support regression with categorical variable in Statsample and Statsample-GLM
+Support for categorical data is important for any data analysis tool. This summer I implemented categorical data capabilities for:
+
+- Convenient and efficient data wrangling for categorical data in [Daru](https://github.com/v0dro/daru)
+- Visualization of categorical data
+- Multiple linear regression and generalized linear models (GLM) with categorical variables in [Statsample](https://github.com/SciRuby/statsample) and [Statsample-GLM](https://github.com/SciRuby/statsample-glm)
 
 [Here's](https://summerofcode.withgoogle.com/archive/2016/projects/5356167010189312/) my project page.
 
@@ -18,16 +21,16 @@ Lets talk about each of them in detail.
 
 #### Analyzing catgorical data with Daru
 
-Categorical data is now readily recognized by Daru and Daru has all the procedure to deal with it.
+Categorical data is now readily recognized by [Daru](https://github.com/v0dro/daru) and Daru has all the procedures to deal with it.
 
-To analyze categorical variable, simply turn the ordinary vector to categorical and you are ready to go.
+To analyze categorical variable, simply turn the numerical vector to categorical and you are ready to go.
 
 ```ruby
-# Load the dataset
-shelter_data = Daru::DataFrame.from_csv '../data/animal_shelter_train.csv'
+# The dataset
+shelter_data
 
 ```
-(This is animal shelter data taken from [kaggle compeption](https://www.kaggle.com/c/shelter-animal-outcomes).)
+(This is animal shelter data taken from the [kaggle compeption](https://www.kaggle.com/c/shelter-animal-outcomes).)
 
 ![](http://i65.tinypic.com/xeliqs.png)
 
@@ -62,7 +65,7 @@ Please refer to [this blog post](http://lokeshh.github.io/blog/2016/06/21/catego
 
 #### Visualizing categorical data
 
-With the help of Nyaplot, Gnuplot and Gruff, Daru now provides ability to visualize categorical data as it does with orgdinary data.
+With the help of [Nyaplot](https://github.com/SciRuby/nyaplot), [GnuplotRB](https://github.com/SciRuby/gnuplotrb) and [Gruff](https://github.com/topfunky/gruff), Daru now provides ability to visualize categorical data as it does with numerical data.
 
 To plot vector with Nyaplot one needs to call the function `#plot`.
 
@@ -99,15 +102,15 @@ end
 
 In a similar manner Gnuplot and Gruff also supports plotting of categorical variables.
 
-An additional work I did was to add Gruff with Daru. Now one do plotting of vectors and dataframes also using Gruff.
+An additional work I did was to add Gruff with Daru. Now one can plot vectors and dataframes also using Gruff.
 
 See more notebooks on visualizing categorical data with Daru [here](http://nbviewer.jupyter.org/github/SciRuby/sciruby-notebooks/tree/master/Data%20Analysis/Plotting/).
 
-#### Regression support for categorical data
+#### Regression with categorical data
 
-Now categorical data is supported in the regression in Statsample and Statsample-GLM.
+Now categorical data is supported in multiple linear regression and generalized linear models (GLM) in [Statsample](https://github.com/SciRuby/statsample) and [Statsample-GLM](https://github.com/SciRuby/statsample-glm).
 
-Also there has been formual language introduced (like used in R and Patsy) to ease the task of regression.
+A new formula language (like that used in R or [Patsy](https://github.com/pydata/patsy)) has been introduced to ease the task of specifying regressions.
 
 Now there's no need to manually create a dataframe for regression.
 
@@ -122,7 +125,7 @@ glm_adoption.model.coefficients :hash
 
 ```
 
-Also through the work of [Alexej Gossmann](https://github.com/agisga), one can also perdict using the model.
+Also through the work of [Alexej Gossmann](https://github.com/agisga), one can also perdiction on new data using the model.
 
 ```ruby
 predict = glm_adoption.predict test
