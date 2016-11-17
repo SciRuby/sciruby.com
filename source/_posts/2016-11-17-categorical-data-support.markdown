@@ -1,4 +1,11 @@
-### GSoC 2016 Summary, Adding categorical data support
+---
+layout: post
+title: "### GSoC 2016 Summary, Adding categorical data support"
+date: 2016-11-17 08:41
+comments: true
+categories: 
+---
+
 
 Support for categorical data is important for any data analysis tool. This summer I added categorical data support to:
 - to easily analyze categorical data in Daru
@@ -142,3 +149,4 @@ In addition to above mentioned changed there are some other considerable changes
 You can read about all my work in detail [here](http://lokeshh.github.io/blog/2016/06/21/categorical-data/).
 
 I hope with these additions one will be able to see data more clearly with Daru :)
+
