@@ -1,10 +1,10 @@
 ---
 layout: post
 title: "GSoC 2016: NMatrix and JRuby"
-date: 2016-10-24 12:00
+date: 2016-10-24 12:13:00 -0500
 comments: true
 author: Prasun Anand
-categories: [GSOC,GSOC2016,NMatrix,Linear Algebra,JRuby]
+categories: [GSOC,GSOC2016,NMatrix,linear algebra,JRuby]
 ---
 
 ## Introduction
