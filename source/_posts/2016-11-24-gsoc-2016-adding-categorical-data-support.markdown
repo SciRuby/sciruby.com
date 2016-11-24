@@ -1,36 +1,32 @@
 ---
 layout: post
-title: "GSoC 2016 Summary, Adding categorical data support"
-date: 2016-11-17 08:41
+title: "GSoC 2016: Adding Categorical Data Support"
+date: 2016-11-24 12:44:00 -0500
 comments: true
-Author: Lokesh Sharma
-GitHub - @lokeshh
-categories: [GSOC 2016, GSOC, Daru, Statsample, Statsample-GLM, Categorical data, Gruff, Nyaplot, Gnuplotrb]
+author: Lokesh Sharma
+categories: [GSOC 2016, GSOC, Daru, Statsample, Statsample-GLM, Categorical Data, Gruff, Nyaplot, Gnuplotrb]
 ---
 
+Support for categorical data is important for any data analysis
+tool. This summer I implemented categorical data capabilities for:
 
-Support for categorical data is important for any data analysis tool. This summer I implemented categorical data capabilities for:
-
-- Convenient and efficient data wrangling for categorical data in [Daru](https://github.com/v0dro/daru)
-- Visualization of categorical data
-- Multiple linear regression and generalized linear models (GLM) with categorical variables in [Statsample](https://github.com/SciRuby/statsample) and [Statsample-GLM](https://github.com/SciRuby/statsample-glm)
-
-[Here's](https://summerofcode.withgoogle.com/archive/2016/projects/5356167010189312/) my project page.
+* Convenient and efficient data wrangling for categorical data in [Daru](https://github.com/v0dro/daru)
+* Visualization of categorical data
+* Multiple linear regression and generalized linear models (GLM) with categorical variables in [Statsample](https://github.com/SciRuby/statsample) and [Statsample-GLM](https://github.com/SciRuby/statsample-glm)
 
 Lets talk about each of them in detail.
 
 #### Analyzing catgorical data with Daru
 
-Categorical data is now readily recognized by [Daru](https://github.com/v0dro/daru) and Daru has all the procedures to deal with it.
+Categorical data is now readily recognized by
+[Daru](https://github.com/v0dro/daru) and Daru has all the necessary
+procedures for dealing with it.
 
 To analyze categorical variable, simply turn the numerical vector to categorical and you are ready to go.
 
-```ruby
-# The dataset
-shelter_data
-
-```
-(This is animal shelter data taken from the [kaggle compeption](https://www.kaggle.com/c/shelter-animal-outcomes).)
+We will use, for demonstration purposes, animal shelter data taken
+from the [Kaggle Competition](https://www.kaggle.com/c/shelter-animal-outcomes). It is
+stored in `shelter_data`.
 
 ![](http://i65.tinypic.com/xeliqs.png)
 
@@ -153,3 +149,4 @@ You can read about all my work in detail [here](http://lokeshh.github.io/blog/20
 
 I hope with these additions one will be able to see data more clearly with Daru :)
 
+[My project page can be found here.](https://summerofcode.withgoogle.com/archive/2016/projects/5356167010189312/)
