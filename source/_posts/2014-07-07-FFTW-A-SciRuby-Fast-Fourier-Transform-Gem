@@ -1,0 +1,113 @@
+---
+layout: post
+title: "FFTW: A SciRuby Fast Fourier Transform Gem"
+date: 2014-23-06 21:04
+author: Magdalen Berns
+comments: true
+categories: FFTW, GSoC 2014, thisMagpie,GSoC
+---
+FFTW: A SciRuby Fast Fourier Transform Gem
+--------
+[![Github repository][1]](https://github.com/thismagpie/fftw)![[[FFTW C API project developement Logo: the letters FFT (in black) followed by the letter W (in red)][2]![Ruby][7]
+[7]: https://www.pivotaltracker.com/wp-content/uploads/2013/12/ruby-logo.png
+
+
+## Motivation
+
+The underlying problem analogue to digital conversion presents us with, as technology users, is that there is an inevitable trade off between a result that is computationally expensive (i.e. slow) to reproduce but more precise and less degraded and a result that is less computationally expensive to reproduce but is also less precise and more degraded.
+
+### Fast Fourier Transforms
+Fast Fourier Transform (FFT) is a technique which works around this problem by [decomposing the Discrete Fourier Transform (DFT) matrix recursively][3].
+
+
+## Why Wrap FFTW3
+**`FFTW3`** is good at performing **quick** FFT operations it is not possible to explain much about this project (and be understood), without at least, covering some details about the design of the [**Fastest Fourier Transform in the West**](http://fftw.org)'s ([**FFTW3**](http://fftw.org))'s [Application Programming Interface (API)](http://en.wikipedia.org/wiki/Application_programming_interface), itself first.
+
+
+
+The `fftw` gem is a ruby wrapper should ultimately be able to allow NMatrix users to `require` the `fftw` gem and use that to allow them to perform operations on `nmatrix` `d-type` objects with functions from [**FFTW3**](http://fftw.org) [ API](http://en.wikipedia.org/wiki/Application_programming_interface).
+
+
+The [**FFTW3**](http://fftw.org) developers have written a [paper on how the **`FFTW3`** API has been designed](http://www.fftw.org/fftw-paper-ieee.pdf)
+
+### FFTW3: Dynamic Array Allocation
+
+**Dynamic array allocation** offers a more flexible interactive relationship between the **`NMatrix`** and [**`FFTW3`**](http://fftw.org) [ API](http://en.wikipedia.org/wiki/Application_programming_interface), functions. Using **dynamic array allocation** is also [recommendation made by the FFTW3 developers](http://www.fftw.org/doc/Dynamic-Arrays-in-C.html#Dynamic-Arrays-in-C). My mentor, Colin Fuller has supported the assertion that multidimensional arrays are the right approach, too.
+
+**Dynamic array allocation** can be done using `fftw_malloc` but they are slightly more awkward to implement because it is more complicated to access the elements of a dynamically allocated array, in practice. 
+```
+fftw_complex *an_array;
+an_array = (fftw_complex*) fftw_malloc(rank * sizeof(fftw_complex));
+```
+According to the  [FFTW3 API Documentation this accessing dynamic array elements is best done using c++ ](http://www.fftw.org/doc/Dynamic-Arrays-in-C.html#Dynamic-Arrays-in-C) by creating class e.g. `cFFTW` and then overloading it with the `()` operator.
+## FFTW3 Planners
+
+There is no need to create a `wrapper` function in `c++` for `planner` functions because they are designed to be executed at runtime so the process works more like this:
+
+1. create a ruby specific ruby wrapper module function which takes an `nmatrix` object holding a `d-type` data array from `nmatrix` of`DFT` to be processed.
+2. The `d-type `array which has a size that the compiler (`genfft`) can read to determine which `codelets` to use.
+3. the `plan` is called at `runtime` when its wrapper function is initialised
+4. When the plan is called the appropriate codelets are executed at `runtime`
+
+[**FFTW3**](http://fftw.org) [ API](http://en.wikipedia.org/wiki/Application_programming_interface) has some [specific documentation page on planner flags](http://www.fftw.org/doc/Planner-Flags.html)
+
+### Plans of Interest
+
+A real-to-real, `r2r` **multidimentional plan**
+```
+fftw_plan fftw_plan_many_r2r(int rank, const int *n, int howmany,
+                                  double *in, const int *inembed,
+                                  int istride, int idist,
+                                  double *out, const int *onembed,
+                                  int ostride, int odist,
+                                  const fftw_r2r_kind *kind, unsigned flags);
+```
+A real-to-complex, `r2c` **multidimentional plan**:
+```
+fftw_plan fftw_plan_dft_r2c(int rank, const int *n,
+                                 double *in, fftw_complex *out,
+                                 unsigned flags);
+```
+A **multidimentional plan**: on data with arbitrary rank:
+```
+     fftw_plan fftw_plan_dft(int rank, const int *n,
+                             fftw_complex *in, fftw_complex *out,
+                             int sign, unsigned flags);
+```
+
+## FFTW3: Codelets
+
+There is not a single procedure which computes the FFT in FFTW3 but rather, the [**FFTW3**](http://fftw.org) [ API](http://en.wikipedia.org/wiki/Application_programming_interface) comes complete with a set of so called ```codelets``` which are executed at runtime by a `planner` which chooses the appropriate codelets to run based on what the genfft compiler learns about the hardware capability of the machine which runs the code. Each codelet is capable of [performing a FFT on data of a small size](https://www.cs.drexel.edu/~jjohnson/2009-10/winter/cs650/lectures/pldi99-slides.pdf).
+
+
+## FFTW3: In a Nutshell?
+There is a lot more to say about this API but I must try to break up the information to keep things more interesting and give myself time to code the project which so far, has been exceptionally rewarding and challenging in various ways. I feel really quite lucky to be able to work on it full time all summer.
+
+## FFTW: Feedback
+I am hopeful [SciRuby](http://sciruby.com) readers are now placed in a better position to be able to relate to the discussion in my updates on the FFTW3 Sciruby GSoC project this year now
+[github repository bug tracker](https://github.com/thismagpie/fftw/issues))
+
+That said, please feel free to ask questions about [the project](https://github.com/thismagpie/fftw)) (in the comments section or on the [github repository bug tracker](https://github.com/thismagpie/fftw/issues)), try out the code and if you find any bugs, have any feedback, suggestions or questions for me please let me know!
+
+
+## Send me to 10 year Reunion in San Jose
+I have won the lottery invite for the google 10 year reunion in San Jose to meet the delegates from SciRuby and the rest of FOSS community (who have been involved in GSoC over the past decade) in October.
+
+I need to travel all the way from Scotland and accordingly am paying off an overdraft so I am asking the community to help towards the costs of the travel, so I can attend:-)
+
+
+All donations large and small, are gratefully received. The generosity of the community so far has been overwhelming so far, so thanks again to everyone who has chipped in so far!
+
+Thanks For Reading,
+Magdalen
+
+[![Donate with Pledgie][4]](https://pledgie.com/campaigns/25892)  [![Donate with Pledgie][5]](https://pledgie.com/campaigns/25907)
+
+ **1129CMrZkqKt32F5kJhYiNMsfhRnWFEeTA**
+
+
+  [1]: https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png
+  [2]: http://fftw.org/fftw-logo-med.gif
+  [3]: http://www.fftw.org/fftw-paper-ieee.pdf
+  [4]: https://pledgie.com/campaigns/25892.png?skin_name=chrome
+  [5]: https://pledgie.com/campaigns/25907.png
