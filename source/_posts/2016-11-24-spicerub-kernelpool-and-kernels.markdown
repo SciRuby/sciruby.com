@@ -130,6 +130,6 @@ And that about wraps up this blog post on basic kernel handling. Since we know h
 
 
 [mohawkjohn]: https://github.com/mohawkjohn
-[spicerub]: https://github.com/gau27/spice_rub
-[readme]: https://github.com/gau27/spice_rub/blob/master/README.rdoc
+[spicerub]: https://github.com/sciruby/spice_rub
+[readme]: https://github.com/sciruby/spice_rub/blob/master/README.rdoc
 [toolkit]: https://naif.jpl.nasa.gov/naif/toolkit_C.html
