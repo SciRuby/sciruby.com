@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "### GSoC 2016 Summary, Adding categorical data support"
+title: "GSoC 2016 Summary, Adding categorical data support"
 date: 2016-11-17 08:41
 comments: true
 Author: Lokesh Sharma
