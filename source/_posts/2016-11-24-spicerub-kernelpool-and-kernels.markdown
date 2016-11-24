@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "GSoC 2016: SpiceRub::KernelPool and Kernels"
-date:   2016-11-24 11:54:35 -0500
+date:   2016-11-24 12:32:35 -0500
 author: Gaurav Tamba
 comments: true
 categories: GSOC, GSOC2016, Students, SpiceRub, SPICE
