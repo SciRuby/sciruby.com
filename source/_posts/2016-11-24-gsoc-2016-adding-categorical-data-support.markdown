@@ -1,36 +1,32 @@
 ---
 layout: post
-title: "GSoC 2016 Summary, Adding categorical data support"
-date: 2016-11-17 08:41
+title: "GSoC 2016: Adding Categorical Data Support"
+date: 2016-11-24 12:54:00 -0500
 comments: true
-Author: Lokesh Sharma
-GitHub - @lokeshh
-categories: [GSOC 2016, GSOC, Daru, Statsample, Statsample-GLM, Categorical data, Gruff, Nyaplot, Gnuplotrb]
+author: Lokesh Sharma
+categories: [GSOC 2016, GSOC, Daru, Statsample, Statsample-GLM, Categorical Data, Gruff, Nyaplot, Gnuplotrb]
 ---
 
+Support for categorical data is important for any data analysis
+tool. This summer I implemented categorical data capabilities for:
 
-Support for categorical data is important for any data analysis tool. This summer I implemented categorical data capabilities for:
-
-- Convenient and efficient data wrangling for categorical data in [Daru](https://github.com/v0dro/daru)
-- Visualization of categorical data
-- Multiple linear regression and generalized linear models (GLM) with categorical variables in [Statsample](https://github.com/SciRuby/statsample) and [Statsample-GLM](https://github.com/SciRuby/statsample-glm)
-
-[Here's](https://summerofcode.withgoogle.com/archive/2016/projects/5356167010189312/) my project page.
+* Convenient and efficient data wrangling for categorical data in [Daru](https://github.com/v0dro/daru)
+* Visualization of categorical data
+* Multiple linear regression and generalized linear models (GLM) with categorical variables in [Statsample](https://github.com/SciRuby/statsample) and [Statsample-GLM](https://github.com/SciRuby/statsample-glm)
 
 Lets talk about each of them in detail.
 
 #### Analyzing catgorical data with Daru
 
-Categorical data is now readily recognized by [Daru](https://github.com/v0dro/daru) and Daru has all the procedures to deal with it.
+Categorical data is now readily recognized by
+[Daru](https://github.com/v0dro/daru) and Daru has all the necessary
+procedures for dealing with it.
 
 To analyze categorical variable, simply turn the numerical vector to categorical and you are ready to go.
 
-```ruby
-# The dataset
-shelter_data
-
-```
-(This is animal shelter data taken from the [kaggle compeption](https://www.kaggle.com/c/shelter-animal-outcomes).)
+We will use, for demonstration purposes, animal shelter data taken
+from the [Kaggle Competition](https://www.kaggle.com/c/shelter-animal-outcomes). It is
+stored in `shelter_data`.
 
 ![](http://i65.tinypic.com/xeliqs.png)
 
@@ -67,7 +63,7 @@ Please refer to [this blog post](http://lokeshh.github.io/blog/2016/06/21/catego
 
 With the help of [Nyaplot](https://github.com/SciRuby/nyaplot), [GnuplotRB](https://github.com/SciRuby/gnuplotrb) and [Gruff](https://github.com/topfunky/gruff), Daru now provides ability to visualize categorical data as it does with numerical data.
 
-To plot vector with Nyaplot one needs to call the function `#plot`.
+To plot a vector with Nyaplot one needs to call the function `#plot`.
 
 ```ruby
 # dv is a caetgorical vector
@@ -81,7 +77,9 @@ end
 
 ![](http://i64.tinypic.com/2s6onsw.png)
 
-Given a dataframe, one can plot the scatter plot such that the points color, shape and size can be varied acording to a categorical variable.
+Given a dataframe, one can plot the scatter plot such that the points
+color, shape and size can be varied acording to a categorical
+variable.
 
 ```ruby
 # df is a dataframe with categorical variable :c
@@ -100,17 +98,24 @@ end
 
 ![](http://i64.tinypic.com/2mcfx28.png)
 
-In a similar manner Gnuplot and Gruff also supports plotting of categorical variables.
+In a similar manner Gnuplot and Gruff also support plotting of categorical variables.
 
-An additional work I did was to add Gruff with Daru. Now one can plot vectors and dataframes also using Gruff.
+An additional work I did was to add Gruff with Daru. Now one can plot
+vectors and dataframes also using Gruff.
 
-See more notebooks on visualizing categorical data with Daru [here](http://nbviewer.jupyter.org/github/SciRuby/sciruby-notebooks/tree/master/Data%20Analysis/Plotting/).
+See more notebooks on visualizing categorical data with Daru
+[here](http://nbviewer.jupyter.org/github/SciRuby/sciruby-notebooks/tree/master/Data%20Analysis/Plotting/).
 
 #### Regression with categorical data
 
-Now categorical data is supported in multiple linear regression and generalized linear models (GLM) in [Statsample](https://github.com/SciRuby/statsample) and [Statsample-GLM](https://github.com/SciRuby/statsample-glm).
+Now categorical data is supported in multiple linear regression and
+generalized linear models (GLM) in
+[Statsample](https://github.com/SciRuby/statsample) and
+[Statsample-GLM](https://github.com/SciRuby/statsample-glm).
 
-A new formula language (like that used in R or [Patsy](https://github.com/pydata/patsy)) has been introduced to ease the task of specifying regressions.
+A new formula language (like that used in R or
+[Patsy](https://github.com/pydata/patsy)) has been introduced to ease
+the task of specifying regressions.
 
 Now there's no need to manually create a dataframe for regression.
 
@@ -125,7 +130,8 @@ glm_adoption.model.coefficients :hash
 
 ```
 
-Also through the work of [Alexej Gossmann](https://github.com/agisga), one can also perdiction on new data using the model.
+Additionally, through the work of [Alexej Grossmann](https://github.com/agisga),
+one can also predict on new data using the model.
 
 ```ruby
 predict = glm_adoption.predict test
@@ -134,22 +140,23 @@ predict.head 5
 ```
 ![](http://i67.tinypic.com/r1af7p.png)
 
-This I believe makes Statsample-GLM very convenient to use.
+This, I believe, makes Statsample-GLM very convenient to use.
 
 See [this](http://nbviewer.jupyter.org/github/SciRuby/sciruby-notebooks/blob/master/Data%20Analysis/Categorical%20Data/examples/%5BExample%5D%20Formula%20language%20in%20Statsample-GLM.ipynb) for a complete example.
 
 #### Other
 
-In addition to above mentioned changed there are some other considerable changes:
-- Improving overall structure of indexing in Daru and adding more capabilities. See [this](http://nbviewer.jupyter.org/github/SciRuby/sciruby-notebooks/blob/master/Data%20Analysis/Categorical%20Data/Indexing%20in%20Vector.ipynb) and [this](http://nbviewer.jupyter.org/github/SciRuby/sciruby-notebooks/blob/master/Data%20Analysis/Categorical%20Data/Indexing%20in%20DataFrame.ipynb).
-- `CategoricalIndex` to handle the case when index column is a categorical data. More about it [here](http://lokeshh.github.io/blog/2016/06/14/categorical-index/).
-- Improving missing value API in Daru. Read more about it [here](http://lokeshh.github.io/blog/2016/08/18/improve-missing-values-api-in-daru/).
-- Configuring guard to enable automatic testing. More info [here](https://github.com/v0dro/daru/blob/master/CONTRIBUTING.md#testing).
+In addition to the aforementioned, there are some other considerable changes:
+
+* Improving overall structure of indexing in Daru and adding more capabilities. See [this](http://nbviewer.jupyter.org/github/SciRuby/sciruby-notebooks/blob/master/Data%20Analysis/Categorical%20Data/Indexing%20in%20Vector.ipynb) and [this](http://nbviewer.jupyter.org/github/SciRuby/sciruby-notebooks/blob/master/Data%20Analysis/Categorical%20Data/Indexing%20in%20DataFrame.ipynb).
+* `CategoricalIndex` to handle the case when index column is a categorical data. [More about it here.](http://lokeshh.github.io/blog/2016/06/14/categorical-index/)
+* Improving missing value API in Daru. [Read more about it here.](http://lokeshh.github.io/blog/2016/08/18/improve-missing-values-api-in-daru/)
+* Configuring guard to enable automatic testing. [More info here.](https://github.com/v0dro/daru/blob/master/CONTRIBUTING.md#testing)
 
 
 #### Documentation
 
-You can read about all my work in detail [here](http://lokeshh.github.io/blog/2016/06/21/categorical-data/).
+[You can read about all my work in detail here.](http://lokeshh.github.io/blog/2016/06/21/categorical-data/). [Additionally, my project page can be found here.](https://summerofcode.withgoogle.com/archive/2016/projects/5356167010189312/)
 
-I hope with these additions one will be able to see data more clearly with Daru :)
+I hope with these additions one will be able to see data more clearly with Daru.
 
