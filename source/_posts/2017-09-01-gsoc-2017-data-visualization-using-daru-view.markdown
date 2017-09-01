@@ -53,9 +53,15 @@ notebook is `HTML` code of it. daru-view generates the `HTML` code od the
 chart, table and the same can be used to display in web application & IRuby
 notebook.
 
+These are the libraries which is used in daru-view currently:
+
 ### Nyaplot
 
-
+[Nyaplot](https://github.com/SciRuby/nyaplot) is good library for
+visualization in IRuby notebook only. When we use Nyaplot as the adapter in
+daru-view, it is usable in both IRuby notebook and web applications. Daru
+DataFrame is used as the data source of the chart. It works similar to the
+initial `daru` plotting system.
 
 
 ### HighCharts
