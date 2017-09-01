@@ -32,21 +32,26 @@ generating tables using [DataTables](https://datatables.net/) and [GoogleCharts]
 
 daru-view mainly uses the [adapter design pattern](https://en.wikipedia.org/wiki/Adapter_pattern) and [composite design pattern](https://en.wikipedia.org/wiki/Composite_pattern).
 
-#### Why Adapter design pattern:
+* **Why Adapter design pattern:**
 
-1. Adapter pattern’s motivation is that we can reuse existing gems if we can modify the interface.
+  * Adapter pattern’s motivation is that we can reuse existing gems if we can modify the interface.
 
-2. daru-view joins functionalities of independent or incompatible interfaces of different gems.
+  * daru-view joins functionalities of independent or incompatible interfaces of different gems.
 
-#### Why Composite design pattern:
+* **Why Composite design pattern:**
 
-1. To define common objects and use it for defining composite objects.
+  * To define common objects and use it for defining composite objects.
 
 
 ## Implementation
 
+daru-view ensure that it's functions are usable in both IRuby notebook as well
+as ruby web application frameworks.
 
-
+The main thing we need to display something in web application or IRuby
+notebook is `HTML` code of it. daru-view generates the `HTML` code od the
+chart, table and the same can be used to display in web application & IRuby
+notebook.
 
 ### Nyaplot
 
