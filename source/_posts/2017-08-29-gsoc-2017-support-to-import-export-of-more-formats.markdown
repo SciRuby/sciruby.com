@@ -35,7 +35,7 @@ further, the reader might also be interested in having a look at
 > I come to write about my GSoC project, not to earn praise for it."
 
 For the uninitiated, Google Summer of Code (GSoC) 2017 is a 3-month program that
-focuses on inroducing selected student developers to open source software development.
+focuses on introducing selected student developers to open source software development.
 For more information about GSoC, feel free to click
 [here](https://summerofcode.withgoogle.com/about/).
 
@@ -54,7 +54,7 @@ to myself and daru-view being allocated to [Shekhar](https://github.com/Shekharr
 
 > But their private contributions, are oft interred with their bones."
 
-This is one of the reasons why I (and all open-source developers) are enthuisastic
+This is one of the reasons why I (and all open-source developers) are enthusiastic
 about open-source. In open-source, repositories can be re-used in other repositories
 in accordance with the listed LICENSE and attribution, compared to the restrictions
 and risk of Intellectual Property Right claims in private work.
@@ -81,9 +81,9 @@ Ruby and daru family a try, with an open mind.
 Cheers, the daru family has two new additions, namely
 [daru-io](https://github.com/athityakumar/daru-io) and
 [daru-view](https://github.com/Shekharrajak/daru-view). Ruby is a language
-which is extensively used in Web Developement with multiple frameworks such as Rails, Sinatra,
+which is extensively used in Web Development with multiple frameworks such as Rails, Sinatra,
 Nanoc, Jekyll, etc. With such a background, it only makes sense for daru to have daru-io and
-daru-view as seperate plugins. The daru family is now quite easy to be used in Ruby web frameworks.
+daru-view as separate plugins. The daru family is now quite easy to be used in Ruby web frameworks.
 
 ## 
 
@@ -101,7 +101,7 @@ battle-tested web framework yet, and are usually pipelined into the back-end of 
 to perform any analysis. In my honest opinion, I feel that pipelines are merely a hacky workaround
 and aren't a clean way of integrating.
 
-Meanwhile, though Python too has it's own set of web frameworks (like Django, Flask and more),
+Meanwhile, though Python too has its own set of web frameworks (like Django, Flask and more),
 Pandas isn't quite readily integrable into these frameworks and needs the web developer to write
 lines and lines of code to integrate Pandas with parsing libraries and plotting libraries.
 
