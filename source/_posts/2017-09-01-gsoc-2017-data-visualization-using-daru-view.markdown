@@ -69,13 +69,21 @@ These are the libraries which is used in daru-view currently:
 [Nyaplot](https://github.com/SciRuby/nyaplot) is good library for
 visualization in IRuby notebook only. When we use Nyaplot as the adapter in
 daru-view, it is usable in both IRuby notebook and web applications. Daru
-DataFrame is used as the data source of the chart. It works similar to the
-initial `daru` plotting system.
+DataFrame or Vector is used as the data source of the chart. It works
+similar to the initial `daru` plotting system.
 
 
 ### HighCharts
 
+To add the [HighCharts](https://www.highcharts.com/) features for plotting various chart types, daru-view uses the [lazy_high_charts](https://github.com/michelson/lazy_high_charts) gem with additional features.
 
+In this adapter data source can be Array of data, daru DataFrame, Vector or HTML table code of the data.
+
+There are various of options in HighCharts. One can see the options that can
+be used in [HighCharts demo link](https://www.highcharts.com/demo), which can
+be direclty used in daru-view Plot.
+
+**HighCharts adaptor can work offline as well in daru-view. Developers can update the saved the JS files (in daru-view) using rake task automatically.**
 
 
 ### GoogleCharts
