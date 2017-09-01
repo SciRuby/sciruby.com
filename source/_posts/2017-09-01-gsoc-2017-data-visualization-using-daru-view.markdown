@@ -144,6 +144,24 @@ more libraris in daru-view easily, if required.
 
 ## Conclusion
 
+The aim of the daru-view is to plot charts in IRuby notebook and ruby web
+application easily, so that developers need not have to use any other gem or
+language for visualization.
 
+It can work smoothly in Rails/Sinatra/Nanoc web frameworks and I hope it can work in other ruby frameworks as well, because daru-view is generating the html code and javascript code for the chart, which is basic need of the webpage.
+
+**Why not use the plotting libraries directly?**
+
+If you are using daru gem for analysing the data and want to visualise it, then it will be good if you have data-visualisation within daru and can plot it directly using DataFrame/Vector objects of daru.
+
+daru-view will be helpful in plotting charts and tables directly from the Daru::DataFrame and Daru::Vector . daru-view using nyaplot, highcharts , google charts right now to plot the chart. So user can set the plotting library and get the chart accordingly.
+
+Most of the plotting libraries doesn't provide the features of plotting charts in iruby notebook. They are defined only for web applications (mostly for Rails). But daru-view can plot charts in any ruby web application as well as iruby notebook.
 
 ## Acknowledgements
+
+I would like to thank to my mentors [Lokesh Sharma](https://github.com/lokeshh)
+, [Sameer Deshmukh](https://github.com/v0dro) and [Victor Shepelev](https://github.com/zverok) for their response and support.
+
+I thank my fellow GSoC participants [Athitya Kumar](https://github.com/athityakumar) and [Prasun Anand](https://github.com/prasunanand) for their support and discussions on various topics.
+
