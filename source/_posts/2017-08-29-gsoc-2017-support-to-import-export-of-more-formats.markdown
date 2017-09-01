@@ -14,8 +14,9 @@ categories: [GSOC 2017, GSOC, Daru, Daru-IO, Import, Export]
 My name is Athitya Kumar, and I'm a 4th year undergrad from IIT Kharagpur, India. I
 was selected as a GSoC 2017 student developer by Ruby Science Foundation for project daru-io.
 
-Daru-IO is a plugin-gem to daru gem, that extends support for many Import and Export methods
-of `Daru::DataFrame`. This gem is intended to help Rubyists who are into Data Analysis
+[Daru-IO](https://github.com/athityakumar/daru-io) is a plugin-gem to
+[Daru](https://github.com/SciRuby/daru) gem, that extends support for many Import and Export
+methods of `Daru::DataFrame`. This gem is intended to help Rubyists who are into Data Analysis
 or Web Development, by serving as a general purpose conversion library.
 
 Through this summer, I worked on adding support for various Importers and Exporters
@@ -131,9 +132,9 @@ One part of daru-io is the battalion of Importers that ships along with it. Impo
 read from a file / Ruby instance, and create DataFrame(s). These are the Importers being supported
 by v0.1.0 of daru-io : 
 
-  - General file formats : CSV, Excel, Excelx (xlsx), HTML, JSON, Plaintext.
+  - General file formats : CSV, Excel (xls and xlsx), HTML, JSON, Plaintext.
   - Special file formats : Avro, RData, RDS.
-  - Database related : ActiveRecord, Mongo, Redis, SQL.
+  - Database related : ActiveRecord, Mongo, Redis, SQLite, DBI.
 
 For more specific information about the Importers, please have a look at the 
 [README](https://github.com/athityakumar/daru-io/blob/master/README.md#table-of-contents)
@@ -146,13 +147,13 @@ default, the API response is paginated and 30 repositories are listed in the url
 ```ruby
 require 'daru/io/importers/json'
 
-github_usernames = %w[athityakumar zverok v0dro lokeshh]
-fields = {RepositoryName: '$..full_name', Stars: '$..stargazers_count', Size: '$..size', Forks: '$..forks_count'}
-
-df = github_usernames.map do |username|
-    url = "https://api.github.com/users/#{username}/repos"
-    Daru::IO::Importers::JSON.read(url).call(fields)
-    #! or, Daru::DataFrame.read_json(url, fields)
+dataframe = %w[athityakumar zverok v0dro lokeshh].map do |username|
+  Daru::IO::Importers::JSON.read("https://api.github.com/users/#{username}/repos").call(
+    RepositoryName: '$..full_name',
+    Stars: '$..stargazers_count',
+    Size: '$..size',
+    Forks: '$..forks_count'
+  )
 end.reduce(:concat)
 
 #=> #<Daru::DataFrame(120x4)>
@@ -177,7 +178,7 @@ The second part of daru-io is the collection of Exporters that ship with it. Exp
 write the data in a DataFrame, to a file / database. These are the Exporters being supported
 by v0.1.0 of daru-io : Avro, CSV, Excel, JSON, RData, RDS, SQL.
 
-  - General file formats : CSV, Excel, JSON.
+  - General file formats : CSV, Excel (xls), JSON.
   - Special file formats : Avro, RData, RDS.
   - Database related : SQL.
 
@@ -194,7 +195,7 @@ in R.
 ```ruby
 require 'daru/io/exporters/rds'
 
-df #! Say, the DataFrame is obtained from the above JSON Importer example
+dataframe #! Say, the DataFrame is obtained from the above JSON Importer example
 
 #=> #<Daru::DataFrame(120x4)>
 #      Repository   Stars   Size   Forks
@@ -203,8 +204,7 @@ df #! Say, the DataFrame is obtained from the above JSON Importer example
 #   2  athityakum       0    112       0
 #  ...    ...          ...   ...     ...
 
-df.write_rds('github_api.rds', 'github.api.dataframe')
-#! or, Daru::IO::Exporters::RDS.new(df, 'github.api.dataframe').write('github_api.rds')
+dataframe.write_rds('github_api.rds', 'github.api.dataframe')
 ```
 
 ## 
@@ -215,7 +215,13 @@ df.write_rds('github_api.rds', 'github.api.dataframe')
 
 > Code and tests were humbly cleaned;
 
-> with help of rubocop, rspec, rubocop-rspec and saharspec."
+> with help of rubocop, rspec, rubocop-rspec and saharspec.
+
+> Was this ambitious?
+
+> Yet some might think it was an ambitious idea;
+
+> And sure, they are all honourable men."
 
 Thanks to guidance from my mentors
 [Victor Shepelev](https://github.com/zverok), [Sameer Deshmukh](https://github.com/v0dro)
@@ -228,16 +234,8 @@ of Ruby tools that could be used to keep the codebase sane and clean.
   of block are doing what they're logically supposed to do.
 - [rubocop-rspec](https://github.com/backus/rubocop-rspec) : A plugin gem to rubocop, that extends
   rspec-related rules.
-- [saharspec](https://github.com/zverok/saharspec) : An un-released gem that extends a few features
-  to rspec-its that are more readable. For example, `its_call`.
-
-## 
-
-> "Was this ambitious?
-
-> Yet some might think it was an ambitious idea;
-
-> And sure, they are all honourable men."
+- [saharspec](https://github.com/zverok/saharspec) : A gem with a
+  [punny name](https://github.com/zverok/saharspec/blob/master/README.md#saharspec-specs-dry-as-sahara), that extends a few features to rspec-its that are more readable. For example, `its_call`.
 
 ## 
 
@@ -266,7 +264,9 @@ each other's opinion and choice, all is well.
 > And I must pause till I write another blog post."
 
 I feel that the reader would be interested in trying out the daru family, after having seen the
-above demonstration of Importers & Exporters. I'm very thankful to mentors
+above demonstration of Importers & Exporters, and the
+Rails example ([Website](https://daru-examples-io-view-rails.herokuapp.com/) |
+[Code](https://github.com/Shekharrajak/daru_examples_io_view_rails)). I'm very thankful to mentors
 [Victor Shepelev](https://github.com/zverok), [Sameer Deshmukh](https://github.com/v0dro)
 and [Lokesh Sharma](https://github.com/lokeshh) for their timely Pull Request reviews and open
 discussions regarding features. Daru-IO wouldn't have been possible without them and the active
