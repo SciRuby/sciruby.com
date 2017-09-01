@@ -20,6 +20,15 @@ To improve in terms of viewing data,
 [daru-view](https://github.com/Shekharrajak/daru-view), a plugin gem for
 [daru](https://github.com/SciRuby/daru) is created. [daru-view](https://github.com/Shekharrajak/daru-view) is for easy and interactive plotting in web application & IRuby notebook. It can work in frameworks like Rails, Sinatra, Nanoc and hopefully in others too.
 
+If you just want to see the features of daru-view, you can check these
+examples :
+
+* [IRuby Notebook Examples](http://nbviewer.jupyter.org/github/shekharrajak/daru-view/tree/master/spec/dummy_iruby/)
+
+* [daru io and daru-view usage in Rails app](https://github.com/Shekharrajak/daru_examples_io_view_rails)
+
+* [Readme of daru-view](https://github.com/Shekharrajak/daru-view)
+
 
 ## Design of daru-view
 
