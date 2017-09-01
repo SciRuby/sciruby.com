@@ -43,9 +43,10 @@ For more information about GSoC, feel free to click
 My [initial proposal](https://summerofcode.withgoogle.com/serve/5909632403898368/) was to make
 daru easier to integrate with Ruby web frameworks through better import-export features
 ([daru-io](https://github.com/athityakumar/daru-io)) and visualization methods
-([daru-view](https://github.com/Shekharrajak/daru-view)). However, as both Shekhar and myself
+([daru-view](https://github.com/Shekharrajak/daru-view)). However, as both 
+[Shekhar](https://github.com/Shekharrajak) and myself
 were selected for the same proposal, we split this amongst ourselves, with daru-io being allocated
-to myself and daru-view being allocated to Shekhar.
+to myself and daru-view being allocated to [Shekhar](https://github.com/Shekharrajak).
 
 ## 
 
@@ -124,13 +125,14 @@ but I'm just merely retaining the resemblence to the original speech of Mark Ant
 
 > Does this in daru-io seem ambitious?"
 
-daru has done a great job of encapsulating the two main structures of Data Analysis - DataFrames and
-Vectors - with a ton of functionalities that are growing day by day. But obviously, the huge amounts
-of data aren't going to be manually fed into the DataFrames right?
+[Daru](https://github.com/SciRuby/daru) has done a great job of encapsulating the two main
+structures of Data Analysis - DataFrames and Vectors - with a ton of functionalities that are
+growing day by day. But obviously, the huge amounts of data aren't going to be manually fed into
+the DataFrames right?
 
-One part of daru-io is the battalion of Importers that ships along with it. Importers are used to
-read from a file / Ruby instance, and create DataFrame(s). These are the Importers being supported
-by v0.1.0 of daru-io : 
+One part of [daru-io](https://github.com/athityakumar/daru-io) is the battalion of Importers that
+ship along with it. Importers are used to read from a file / Ruby instance, and create DataFrame(s).
+These are the Importers being supported by v0.1.0 of daru-io : 
 
   - General file formats : CSV, Excel (xls and xlsx), HTML, JSON, Plaintext.
   - Special file formats : Avro, RData, RDS.
@@ -148,7 +150,8 @@ default, the API response is paginated and 30 repositories are listed in the url
 require 'daru/io/importers/json'
 
 dataframe = %w[athityakumar zverok v0dro lokeshh].map do |username|
-  Daru::IO::Importers::JSON.read("https://api.github.com/users/#{username}/repos").call(
+  Daru::DataFrame.read_json(
+    "https://api.github.com/users/#{username}/repos",
     RepositoryName: '$..full_name',
     Stars: '$..stargazers_count',
     Size: '$..size',
@@ -174,9 +177,9 @@ end.reduce(:concat)
 
 > And they are all honourable men."
 
-The second part of daru-io is the collection of Exporters that ship with it. Exporters are used to
-write the data in a DataFrame, to a file / database. These are the Exporters being supported
-by v0.1.0 of daru-io : Avro, CSV, Excel, JSON, RData, RDS, SQL.
+The second part of [daru-io](https://github.com/athityakumar/daru-io) is the collection of Exporters
+that ship with it. Exporters are used to write the data in a DataFrame, to a file / database. These
+are the Exporters being supported by v0.1.0 of daru-io :
 
   - General file formats : CSV, Excel (xls), JSON.
   - Special file formats : Avro, RData, RDS.
