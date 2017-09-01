@@ -72,6 +72,21 @@ daru-view, it is usable in both IRuby notebook and web applications. Daru
 DataFrame or Vector is used as the data source of the chart. It works
 similar to the initial `daru` plotting system.
 
+If user want to use the Nyaplot methods then it can be done in Nyaplot object,
+which can be accessable using `daru_plot_obj.chart`.
+
+i.e.
+
+```ruby
+daru_view_obj = Daru::View::Plot.new(
+                  daru_dataframe, options={adapter: :nyaplot})
+nyaplot_obj = daru_view_obj.chart
+
+```
+
+Now user can operate all the methods for Nyaplot object. Same thing is for
+all other adapter in daru-view.
+
 
 ### HighCharts
 
@@ -85,23 +100,47 @@ be direclty used in daru-view Plot.
 
 **HighCharts adaptor can work offline as well in daru-view. Developers can update the saved the JS files (in daru-view) using rake task automatically.**
 
+If you is familiar with `lazy_high_chart` gem and want to use it for
+config the chart then user can access the `lazy_high_chart` object using
+`Daru::View::Plot#chart` and can do necessary operations.
+
 
 ### GoogleCharts
 
+To add the [GoogleCharts](https://developers.google.com/chart/interactive/docs/gallery) features for plotting various chart types, daru-view uses the [google_visualr](https://github.com/winston/google_visualr/) gem with additional features(in this module more new features are updated).
 
+We want GoogleChart adapter to be very strong since Google chart tools always gets updated and it has amazing plotting features. Similar to the HighCharts module, here also we can use all the options described in Google Charts website.
+
+User can access the `google_visualr` object using `Daru::View::Plot#chart`, if
+they want to operate `google_visualr` methods.
 
 
 #### GoogleCharts as data table
 
+One of the good thing about googe chart is, it can be used for generating table
+for web applcation and IRuby Notebook with pagination and other features.
+
+**`Daru::View::Plot` can take data Array, daru DataFrame, Daru Vector,
+Daru::View::Table as data source.**
+
+**`Daru::View::Table` can take data Array, daru DataFrame, Daru Vector as data
+ source.**
 
 
 ### DataTables
 
+[DataTables](https://datatables.net/) has interaction controls to any HTML table. It can handle large set of data and have many cool features.
+
+To use it, daru-view uses [https://github.com/Shekharrajak/data_tables](https://github.com/Shekharrajak/data_tables) gem. [Note: the gem name will be changed in near future]
+
+It basically uses the HTML table code and add features that user want. So internally HTML table code of daru DataFrame and daru Vector is passed
+as data source parameter.
 
 
 ## Future Work
 
-
+daru-view will be more powerful and simple in near future. Developers can add
+more libraris in daru-view easily, if required.
 
 ## Conclusion
 
