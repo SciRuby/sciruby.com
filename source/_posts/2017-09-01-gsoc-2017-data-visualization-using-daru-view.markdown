@@ -160,8 +160,8 @@ Most of the plotting libraries doesn't provide the features of plotting charts i
 
 ## Acknowledgements
 
-I would like to thank to my mentors [Lokesh Sharma](https://github.com/lokeshh)
-, [Sameer Deshmukh](https://github.com/v0dro) and [Victor Shepelev](https://github.com/zverok) for their response and support.
+I would like to thank to my mentors [Sameer Deshmukh](https://github.com/v0dro)
+,[Lokesh Sharma](https://github.com/lokeshh) and [Victor Shepelev](https://github.com/zverok) for their response and support.
 
 I thank my fellow GSoC participants [Athitya Kumar](https://github.com/athityakumar) and [Prasun Anand](https://github.com/prasunanand) for their support and discussions on various topics.
 
