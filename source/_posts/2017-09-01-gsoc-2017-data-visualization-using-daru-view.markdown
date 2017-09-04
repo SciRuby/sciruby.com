@@ -78,7 +78,8 @@ use) to use it in `daru-view`. So that you can pass the correct options.
 
 ### GoogleCharts:
 
-Set the plotting library to `:googlecharts` to use this adapter.
+Set the plotting library to `:googlecharts` to use this adapter. This will
+load the required js files in your webpage or IRuby notebook.
 
 ```ruby
 require 'daru/view'
@@ -98,6 +99,54 @@ data_rows = [
 df_sale_exp = Daru::DataFrame.rows(data_rows)
 df_sale_exp.vectors = idx
 ```
+
+do some manupulation using `daru` if you want to do. Now time to plot it:
+
+```ruby
+line_basic_chart = Daru::View::Plot.new(df_sale_exp)
+line_basic_chart.chart
+```
+
+This will return the chart object we created using GoogleCharts.
+In IRuby notebook, you will like this:
+
+{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlecharts_line1.png?raw=true 'Baisc line chart using GoogleCharts' 'Baisc line chart using GoogleCharts' %}
+
+You can find the IRuby notebook example in [this link](http://nbviewer.jupyter.org/github/shekharrajak/daru-view/blob/master/spec/dummy_iruby/Google%20Chart%20%7C%20%20Line%20Chart.ipynb).
+
+These are various charts type we can use e.g. line, area, bar, bubble,
+candlestick, combo, histogram, org, pie, stepped area chart, timeline, treemap,
+gauge, column, scatter, etc. We can find the customization options in the
+[google charts site](https://developers.google.com/chart/interactive/docs/gallery).
+
+Let me try another chart type Geo :
+
+```ruby
+country_population = [
+          ['Germany', 200],
+          ['United States', 300],
+          ['Brazil', 400],
+          ['Canada', 500],
+          ['France', 600],
+          ['RU', 700]
+]
+
+df_cp = Daru::DataFrame.rows(country_population)
+df_cp.vectors = Daru::Index.new(['Country', 'Population'])
+
+geochart = Daru::View::Plot.new(
+    df_cp, type: :geo, adapter: :googlecharts
+)
+
+```
+
+
+Note: If you have already loaded the dependent JS files for the library then you can use `adpater: :googlecharts` in your Plot initialization.
+
+
+{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_geo1.png?raw=true 'Baisc Geo chart using GoogleCharts' 'Baisc Geo chart using GoogleCharts' %}
+
+
 ## Design of daru-view
 
 [daru-view](https://github.com/Shekharrajak/daru-view), currently using
