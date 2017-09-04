@@ -8,17 +8,24 @@ categories: [GSoC,GSoC 2017,Students,Data Visualization,daru,daru-view,
   Charts,Plotting,Data Analysis]
 ---
 
-Hello, Rubyist! Looking for good ruby gem for data visualisation? Then you 
-must try `[daru-view](https://github.com/Shekharrajak/daru-view)`, a plugin 
-gem for `[daru](https://github.com/SciRuby/daru)`. 
+Hello, Rubyist! Are looking for good ruby gem for interactive data
+visualisation? Then you must try [`daru-view`](https://github.com/Shekharrajak/daru-view), a plugin gem for [`daru`](https://github.com/SciRuby/daru).
 
-## What is new in daru-view ? 
+## What makes daru-view different ?
 
-`daru-view` is desinged for interactive plotting of charts and tables. It can
-work with **any ruby web application framework like Rails/Sinatra/Nanoc**. If you
-want to try few examples then please look into the `daru-view/spec/dummy_*`
-examples of Rails, Sinatra, Nanoc web applications.
+* `daru-view` is desinged for interactive plotting of charts and tables.It
+provide different plotting tools like Nyaplot, HighCharts, GoogleCharts,
+DataTable. So you don't have to write any JavaScript code from these sites
+and no need to shift to other language to get charts.
 
+* It can work with **any ruby web application framework like Rails/Sinatra/Nanoc**. If you want to try few examples then please look into the
+`daru-view/spec/dummy_*` examples of Rails, Sinatra, Nanoc web applications.
+
+* Now Ruby developers are using IRuby notebook for few lines of code.
+`daru-view` support IRuby notebook as well. So if you just want to see chart
+for some DataFrame or Array of data, you can use `daru-view`.
+
+* `daru-view` can generate chart images to download and save.
 
 
 ## Introduction
@@ -42,6 +49,55 @@ examples :
 * [Readme of daru-view](https://github.com/Shekharrajak/daru-view)
 
 
+## Examples
+
+This is how we can create a Plot class object:
+
+```ruby
+
+Daru::View::Plot.new(data, options)
+```
+
+* `data` can be `Daru::DataFrame`, data array.
+
+* `options` is a hash that contains various options to customize the chart.
+If you have chosen a plotting library then you must use the options according
+to the options the library providing. Here is the library `daru-view` uses.
+Please check the examples options, they are passing in javascript code:
+
+  * GoogleCharts: [https://developers.google.com/chart/interactive/docs/gallery](https://developers.google.com/chart/interactive/docs/gallery)
+
+  * HighCharts: [https://www.highcharts.com/demo](https://www.highcharts.com/demo)
+
+  * Nyaplot: [https://github.com/SciRuby/nyaplot](https://github.com/SciRuby/nyaplot) (it works same as `daru`)
+
+
+Note: User must have some knowledge about the plotting tool(that you want to
+use) to use it in `daru-view`. So that you can pass the correct options.
+
+
+### GoogleCharts:
+
+Set the plotting library to `:googlecharts` to use this adapter.
+
+```ruby
+require 'daru/view'
+Daru::View.plotting_library = :googlecharts
+```
+
+Let's create a DataFrame :
+
+```
+idx = Daru::Index.new ['Year', 'Sales']
+data_rows = [
+          ['2004',  1000],
+          ['2005',  1170],
+          ['2006',  660],
+          ['2007',  1030]
+]
+df_sale_exp = Daru::DataFrame.rows(data_rows)
+df_sale_exp.vectors = idx
+```
 ## Design of daru-view
 
 [daru-view](https://github.com/Shekharrajak/daru-view), currently using
