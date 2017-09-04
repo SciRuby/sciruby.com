@@ -1,12 +1,24 @@
 ---
 layout: post
-title: "GSoC 2017 : data visualization using daru-view"
+title: "GSoC 2017 : Data visualization using daru-view"
 date: 2017-09-01 22:46
 comments: true
 author: Shekhar Prasad Rajak
 categories: [GSoC,GSoC 2017,Students,Data Visualization,daru,daru-view,
   Charts,Plotting,Data Analysis]
 ---
+
+Hello, Rubyist! Looking for good ruby gem for data visualisation? Then you 
+must try `[daru-view](https://github.com/Shekharrajak/daru-view)`, a plugin 
+gem for `[daru](https://github.com/SciRuby/daru)`. 
+
+## What is new in daru-view ? 
+
+`daru-view` is desinged for interactive plotting of charts and tables. It can
+work with **any ruby web application framework like Rails/Sinatra/Nanoc**. If you
+want to try few examples then please look into the `daru-view/spec/dummy_*`
+examples of Rails, Sinatra, Nanoc web applications.
+
 
 
 ## Introduction
