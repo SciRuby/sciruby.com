@@ -29,8 +29,8 @@ for some DataFrame or Array of data, you can use `daru-view`.
 
 * `daru-view` adapters `googlecharts`, `highcharts` are able to geneate 3D charts as well.
 
-* `Table` have some main features like pagination, search and many more to be added.It is 
-  designed to load large data set smoothly. 
+* `Table` have some main features like pagination, search and many more to be added.It is
+  designed to load large data set smoothly.
 
 
 ## Introduction
@@ -232,7 +232,7 @@ require 'daru/view'
 # It is just for loading the dependent js files.
 Daru::View.table_library = :googlechart
 
-# Lets use array as `data` (we can pass Daru::DataFrame as well) 
+# Lets use array as `data` (we can pass Daru::DataFrame as well)
 data = [
   ['Galaxy', 'Distance', 'Brightness'],
           ['Canis Major Dwarf', 8000, 230.3],
@@ -269,7 +269,7 @@ In Ruby Notebook:
 {% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_vec_table1.png?raw=true 'Baisc vector table using GoogleCharts' 'Baisc vector table using GoogleCharts' %}
 
 
-### DataTable 
+### DataTable
 
 
 ```ruby
@@ -278,22 +278,43 @@ require 'daru/view'
 #  set adapter.
 Daru::View.table_library = :datatables
 
-# Lets use Daru::DataFrame as `data` (we can pass Array as well) 
+# Lets use Daru::DataFrame as `data` (we can pass Array as well)
 df = Daru::DataFrame.new(
   {
-    b: [11,12,13,14,15], 
+    b: [11,12,13,14,15],
     a: [1,2,3,4,5],
     c: [11,22,33,44,55]
   },
     order: [:a, :b, :c],
     index: [:one, :two, :three, :four, :five]
 )
-df_datatable = Daru::View::Table.new(df, pageLength: 3) 
+df_datatable = Daru::View::Table.new(df, pageLength: 3)
 ```
 Currently there is some problem to diplay it in IRuby notebook, but in web application
 you can see something like this using `df_datatable.div` :
 
 {% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/datatables_basic1.png?raw=true 'Baisc table using Datatables' 'Baisc table using Datatables' %}
+
+
+## How to use it in Ruby web application
+
+As we know, we can get the HTML, JS code for the chart from the
+`Daru::View::Plot` or `Daru:View::Table` object using `#div` method. So just
+need to add that HTML, JS code in webpage in proper place.
+
+There is few things to be noted:
+
+1. In layout of the webpage, you have to load all the dependent JS files.
+So that HTML, JS code that is genearted work smoothly in that webpage. You
+can load the dependet js file for nyaplot library using `Daru::View.dependent_script(:nyaplot)`, similarly for other library.
+
+2. If you are using multiple library in one webpage then load multiple
+ dependent JS files, in that webpage layout (generaly in head tag).
+
+We can set default adapter using `Daru::View.plotting_library = :googlecharts`
+and also we can change it for particular object while initializing object,
+i.e. `Daru::View::Plot.new(data, {adapter: :googlecharts})`. Just we have
+to make sure that dependent JS files are loaded for it.
 
 
 ## Design of daru-view
@@ -410,7 +431,7 @@ as data source parameter.
 ## Future Work
 
 daru-view will be more powerful and simple in near future. Developers can add
-more libraris in daru-view easily, if required. To add library follow the setups given in 
+more libraris in daru-view easily, if required. To add library follow the setups given in
 [CONTRIBUTING.md](https://github.com/Shekharrajak/daru-view/blob/master/CONTRIBUTING.md)
 
 
