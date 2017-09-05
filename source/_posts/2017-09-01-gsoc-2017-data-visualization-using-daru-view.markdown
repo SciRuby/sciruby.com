@@ -27,6 +27,11 @@ for some DataFrame or Array of data, you can use `daru-view`.
 
 * `daru-view` can generate chart images to download and save.
 
+* `daru-view` adapters `googlecharts`, `highcharts` are able to geneate 3D charts as well.
+
+* `Table` have some main features like pagination, search and many more to be added.It is 
+  designed to load large data set smoothly. 
+
 
 ## Introduction
 
@@ -57,7 +62,7 @@ This is how we can create a Plot class object:
 Daru::View::Plot.new(data, options)
 ```
 
-* `data` can be `Daru::DataFrame`, data array.
+* `data` can be `Daru::DataFrame`, data array or the format that the adapter support.
 
 * `options` is a hash that contains various options to customize the chart.
 If you have chosen a plotting library then you must use the options according
@@ -97,9 +102,11 @@ data_rows = [
 ]
 df_sale_exp = Daru::DataFrame.rows(data_rows)
 df_sale_exp.vectors = idx
+
+# perform data manipulations, if you want.
 ```
 
-do some manupulation using `daru` if you want to do. Now time to plot it:
+Now time to plot it:
 
 ```ruby
 line_basic_chart = Daru::View::Plot.new(df_sale_exp)
@@ -107,7 +114,7 @@ line_basic_chart.chart
 ```
 
 This will return the chart object we created using GoogleCharts.
-In IRuby notebook, you will like this:
+In IRuby notebook, you will see this:
 
 {% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlecharts_line1.png?raw=true 'Baisc line chart using GoogleCharts' 'Baisc line chart using GoogleCharts' %}
 
@@ -144,6 +151,75 @@ Note: If you have already loaded the dependent JS files for the library then you
 
 
 {% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_geo1.png?raw=true 'Baisc Geo chart using GoogleCharts' 'Baisc Geo chart using GoogleCharts' %}
+
+
+### HighCharts:
+
+Set the plotting library to `:highcharts` to use this adapter. This will
+load the required js files in your webpage or IRuby notebook.
+
+```ruby
+require 'daru/view'
+Daru::View.plotting_library = :highcharts
+```
+
+Let's pass the `data` as HighCharts support (we can pass a DataFrame as well):
+
+```
+data = [
+    ['Firefox',   45.0],
+    ['IE',       26.8],
+    {
+       :name=> 'Chrome',
+       :y=> 12.8,
+       :sliced=> true,
+       :selected=> true
+    },
+    ['Safari',    8.5],
+    ['Opera',     6.2],
+    ['Others',   0.7]
+]
+plt_pie = Daru::View::Plot.new data, type: :pie
+```
+
+This will return the `Plot` object we created.
+In IRuby notebook, you will see this:
+
+{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/highcharts_pie.png?raw=true 'Baisc pie chart using HighCharts' 'Baisc pie chart using HighCharts' %}
+
+You can find the IRuby notebook example in [this link](http://nbviewer.jupyter.org/github/shekharrajak/daru-view/blob/master/spec/dummy_iruby/HighCharts-%20Pie%20charts.ipynb).
+
+There are various charts type we can use e.g. line, area, bar, bubble,
+dynamic chart, pie, column, scatter, etc. We can find the customization options in the
+[HighCharts site](https://www.highcharts.com/demo).
+
+
+### Nyaplot
+
+
+```ruby
+require 'daru/view'
+
+#  set adapter
+Daru::View.plotting_library = :nyaplot
+
+# define dataframe
+df = Daru::DataFrame.new({
+  a: [1, 2, 4, -2, 5, 23, 0],
+  b: [3, 1, 3, -6, 2, 1, 0],
+  c: ['I', 'II', 'I', 'III', 'I', 'III', 'II']
+  })
+df.to_category :c
+
+# creating scatter chart
+scatter_chart = Daru::View::Plot.new(df, type: :scatter, x: :a, y: :b, categorized: {by: :c, method: :color})
+
+```
+
+In IRuby notebook:
+
+
+{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/nyaplot_scatter.png?raw=true 'Baisc scatter chart using Nyaplot' 'Baisc scatter chart using Nyaplot' %}
 
 
 ## Design of daru-view
