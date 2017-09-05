@@ -92,7 +92,7 @@ Daru::View.plotting_library = :googlecharts
 
 Let's create a DataFrame :
 
-```
+```ruby
 idx = Daru::Index.new ['Year', 'Sales']
 data_rows = [
           ['2004',  1000],
