@@ -18,10 +18,10 @@ provide different plotting tools like Nyaplot, HighCharts, GoogleCharts,
 DataTable. So you don't have to write any JavaScript code from these sites
 and no need to shift to other language to get charts.
 
-* It can work with **any ruby web application framework like Rails/Sinatra/Nanoc**. If you want to try few examples then please look into the
-`daru-view/spec/dummy_*` examples of Rails, Sinatra, Nanoc web applications.
+* It can work with **any ruby web application framework like Rails/Sinatra/Nanoc/Hanami**. If you want to try few examples then please look into the
+[`daru-view/spec/dummy_*`](https://github.com/Shekharrajak/daru-view/tree/master/spec) examples of Rails, Sinatra, Nanoc web applications.
 
-* Now Ruby developers are using IRuby notebook for few lines of code.
+* Now Ruby developers are using IRuby notebook for interactive programming.
 `daru-view` support IRuby notebook as well. So if you just want to see chart
 for some DataFrame or Array of data, you can use `daru-view`.
 
@@ -39,14 +39,13 @@ To improve in terms of viewing data,
 [daru-view](https://github.com/Shekharrajak/daru-view), a plugin gem for
 [daru](https://github.com/SciRuby/daru) is created. [daru-view](https://github.com/Shekharrajak/daru-view) is for easy and interactive plotting in web application & IRuby notebook. It can work in frameworks like Rails, Sinatra, Nanoc and hopefully in others too.
 
-If you just want to see the features of daru-view, you can check these
-examples :
+To see a quick overview of daru-view's features, have a look at these examples:
 
 * [IRuby Notebook Examples](http://nbviewer.jupyter.org/github/shekharrajak/daru-view/tree/master/spec/dummy_iruby/)
 
 * [daru io and daru-view usage in Rails app](https://github.com/Shekharrajak/daru_examples_io_view_rails)
 
-* [Readme of daru-view](https://github.com/Shekharrajak/daru-view)
+* [README of daru-view](https://github.com/Shekharrajak/daru-view/blob/master/README.md)
 
 
 ## Examples
@@ -164,9 +163,13 @@ daru-view mainly uses the [adapter design pattern](https://en.wikipedia.org/wiki
 
   * daru-view joins functionalities of independent or incompatible interfaces of different gems.
 
+  * `daru-view` have [`Plot`](https://github.com/Shekharrajak/daru-view/blob/master/lib/daru/view/plot.rb) and [`Table`](https://github.com/Shekharrajak/daru-view/blob/master/lib/daru/view/table.rb) class, which are using a [adapter](https://github.com/Shekharrajak/daru-view/tree/master/lib/daru/view/adapters) when adapter(library to be used for plotting) is set for `Plot`, `Table` instance.
+
 * **Why Composite design pattern:**
 
   * To define common objects and use it for defining composite objects.
+
+  * In `daru-view` we try to write common functions in a module and include it whenever needed.
 
 
 ## Implementation
@@ -257,7 +260,9 @@ as data source parameter.
 ## Future Work
 
 daru-view will be more powerful and simple in near future. Developers can add
-more libraris in daru-view easily, if required.
+more libraris in daru-view easily, if required. To add library follow the setups given in 
+[CONTRIBUTING.md](https://github.com/Shekharrajak/daru-view/blob/master/CONTRIBUTING.md)
+
 
 ## Conclusion
 
@@ -278,7 +283,8 @@ Most of the plotting libraries doesn't provide the features of plotting charts i
 ## Acknowledgements
 
 I would like to thank to my mentors [Sameer Deshmukh](https://github.com/v0dro)
-,[Lokesh Sharma](https://github.com/lokeshh) and [Victor Shepelev](https://github.com/zverok) for their response and support.
+,[Lokesh Sharma](https://github.com/lokeshh) and [Victor Shepelev](https://github.com/zverok) for their response and support and I am very grateful to the [Ruby Science Foundation](http://sciruby.com/) for this golden opportunity.
 
 I thank my fellow GSoC participants [Athitya Kumar](https://github.com/athityakumar) and [Prasun Anand](https://github.com/prasunanand) for their support and discussions on various topics.
 
+Thanks to Google for conducting [Google Summer of Code](https://summerofcode.withgoogle.com).
