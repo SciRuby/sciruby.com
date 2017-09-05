@@ -222,6 +222,52 @@ In IRuby notebook:
 {% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/nyaplot_scatter.png?raw=true 'Baisc scatter chart using Nyaplot' 'Baisc scatter chart using Nyaplot' %}
 
 
+### GoogleChart data table
+
+```ruby
+require 'daru/view'
+
+#  set adapter
+# You don't need this line if you have already using google chart for plotting.
+# It is just for loading the dependent js files.
+Daru::View.table_library = :googlechart
+
+# Lets use array as `data` (we can pass Daru::DataFrame as well) 
+data = [
+  ['Galaxy', 'Distance', 'Brightness'],
+          ['Canis Major Dwarf', 8000, 230.3],
+          ['Sagittarius Dwarf', 24000, 4000.5],
+          ['Ursa Major II Dwarf', 30000, 1412.3],
+          ['Lg. Magellanic Cloud', 50000, 120.9],
+          ['Bootes I', 60000, 1223.1]
+  ]
+galaxy_table = Daru::View::Table.new(data)
+galaxy_table.table
+```
+
+This will return the table object we created using GoogleCharts tool.
+In IRuby notebook, you will see this:
+
+{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_table1.png?raw=true 'Baisc table using GoogleCharts' 'Baisc table using GoogleCharts' %}
+
+We can create table using Vectors as well.
+
+```ruby
+dv = Daru::Vector.new [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+
+# adding pagination and some customization [optional]
+opts_pagination = {
+  width: '100%', height: '100%' ,
+  pageSize: 5,
+}
+
+table_vec = Daru::View::Table.new(dv, opts_pagination)
+
+```
+In Ruby Notebook:
+
+{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_vec_table1.png?raw=true 'Baisc vector table using GoogleCharts' 'Baisc vector table using GoogleCharts' %}
+
 ## Design of daru-view
 
 [daru-view](https://github.com/Shekharrajak/daru-view), currently using
