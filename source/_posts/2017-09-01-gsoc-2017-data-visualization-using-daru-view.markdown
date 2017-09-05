@@ -316,6 +316,10 @@ and also we can change it for particular object while initializing object,
 i.e. `Daru::View::Plot.new(data, {adapter: :googlecharts})`. Just we have
 to make sure that dependent JS files are loaded for it.
 
+To make it easy, we have defined `daru_chart` (that works same as Daru::View::Plot.new) , `daru_table` (works same as Daru::View::Table.new) for Rails application.
+
+So you can easily use it in controller or view of the application. For reference you can check the [demo Rails app](https://github.com/Shekharrajak/daru_examples_io_view_rails).
+
 
 ## Design of daru-view
 
