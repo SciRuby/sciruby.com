@@ -268,6 +268,34 @@ In Ruby Notebook:
 
 {% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_vec_table1.png?raw=true 'Baisc vector table using GoogleCharts' 'Baisc vector table using GoogleCharts' %}
 
+
+### DataTable 
+
+
+```ruby
+require 'daru/view'
+
+#  set adapter.
+Daru::View.table_library = :datatables
+
+# Lets use Daru::DataFrame as `data` (we can pass Array as well) 
+df = Daru::DataFrame.new(
+  {
+    b: [11,12,13,14,15], 
+    a: [1,2,3,4,5],
+    c: [11,22,33,44,55]
+  },
+    order: [:a, :b, :c],
+    index: [:one, :two, :three, :four, :five]
+)
+df_datatable = Daru::View::Table.new(df, pageLength: 3) 
+```
+Currently there is some problem to diplay it in IRuby notebook, but in web application
+you can see something like this using `df_datatable.div` :
+
+{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/datatables_basic1.png?raw=true 'Baisc table using Datatables' 'Baisc table using Datatables' %}
+
+
 ## Design of daru-view
 
 [daru-view](https://github.com/Shekharrajak/daru-view), currently using
