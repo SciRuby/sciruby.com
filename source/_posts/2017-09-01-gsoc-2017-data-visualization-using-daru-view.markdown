@@ -9,11 +9,11 @@ categories: [GSoC,GSoC 2017,Students,Data Visualization,daru,daru-view,
 ---
 
 Hello, Rubyist! Are looking for good ruby gem for interactive data
-visualisation? Then you must try [`daru-view`](https://github.com/Shekharrajak/daru-view), a plugin gem for [`daru`](https://github.com/SciRuby/daru).
+visualization? Then you must try [`daru-view`](https://github.com/Shekharrajak/daru-view), a plugin gem for [`daru`](https://github.com/SciRuby/daru).
 
 ## What makes daru-view different ?
 
-* `daru-view` is desinged for interactive plotting of charts and tables.It
+* `daru-view` is designed for interactive plotting of charts and tables.It
 provide different plotting tools like Nyaplot, HighCharts, GoogleCharts,
 DataTable. So you don't have to write any JavaScript code from these sites
 and no need to shift to other language to get charts.
@@ -116,7 +116,7 @@ line_basic_chart.chart
 This will return the chart object we created using GoogleCharts.
 In IRuby notebook, you will see this:
 
-{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlecharts_line1.png?raw=true 'Baisc line chart using GoogleCharts' 'Baisc line chart using GoogleCharts' %}
+{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlecharts_line1.png?raw=true 'Basic line chart using GoogleCharts' 'Basic line chart using GoogleCharts' %}
 
 You can find the IRuby notebook example in [this link](http://nbviewer.jupyter.org/github/shekharrajak/daru-view/blob/master/spec/dummy_iruby/Google%20Chart%20%7C%20%20Line%20Chart.ipynb).
 
@@ -147,10 +147,10 @@ geochart = Daru::View::Plot.new(
 ```
 
 
-Note: If you have already loaded the dependent JS files for the library then you can use `adpater: :googlecharts` in your Plot initialization.
+Note: If you have already loaded the dependent JS files for the library then you can use `adapter: :googlecharts` in your Plot initialization.
 
 
-{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_geo1.png?raw=true 'Baisc Geo chart using GoogleCharts' 'Baisc Geo chart using GoogleCharts' %}
+{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_geo1.png?raw=true 'Basic Geo chart using GoogleCharts' 'Basic Geo chart using GoogleCharts' %}
 
 
 ### HighCharts:
@@ -185,7 +185,7 @@ plt_pie = Daru::View::Plot.new data, type: :pie
 This will return the `Plot` object we created.
 In IRuby notebook, you will see this:
 
-{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/highcharts_pie.png?raw=true 'Baisc pie chart using HighCharts' 'Baisc pie chart using HighCharts' %}
+{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/highcharts_pie.png?raw=true 'Basic pie chart using HighCharts' 'Basic pie chart using HighCharts' %}
 
 You can find the IRuby notebook example in [this link](http://nbviewer.jupyter.org/github/shekharrajak/daru-view/blob/master/spec/dummy_iruby/HighCharts-%20Pie%20charts.ipynb).
 
@@ -219,7 +219,7 @@ scatter_chart = Daru::View::Plot.new(df, type: :scatter, x: :a, y: :b, categoriz
 In IRuby notebook:
 
 
-{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/nyaplot_scatter.png?raw=true 'Baisc scatter chart using Nyaplot' 'Baisc scatter chart using Nyaplot' %}
+{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/nyaplot_scatter.png?raw=true 'Basic scatter chart using Nyaplot' 'Basic scatter chart using Nyaplot' %}
 
 
 ### GoogleChart data table
@@ -248,7 +248,7 @@ galaxy_table.table
 This will return the table object we created using GoogleCharts tool.
 In IRuby notebook, you will see this:
 
-{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_table1.png?raw=true 'Baisc table using GoogleCharts' 'Baisc table using GoogleCharts' %}
+{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_table1.png?raw=true 'Basic table using GoogleCharts' 'Basic table using GoogleCharts' %}
 
 We can create table using Vectors as well.
 
@@ -266,7 +266,7 @@ table_vec = Daru::View::Table.new(dv, opts_pagination)
 ```
 In Ruby Notebook:
 
-{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_vec_table1.png?raw=true 'Baisc vector table using GoogleCharts' 'Baisc vector table using GoogleCharts' %}
+{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_vec_table1.png?raw=true 'Basic vector table using GoogleCharts' 'Basic vector table using GoogleCharts' %}
 
 
 ### DataTable
@@ -293,7 +293,7 @@ df_datatable = Daru::View::Table.new(df, pageLength: 3)
 Currently there is some problem to diplay it in IRuby notebook, but in web application
 you can see something like this using `df_datatable.div` :
 
-{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/datatables_basic1.png?raw=true 'Baisc table using Datatables' 'Baisc table using Datatables' %}
+{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/datatables_basic1.png?raw=true 'Basic table using Datatables' 'Basic table using Datatables' %}
 
 
 ## How to use it in Ruby web application
@@ -306,10 +306,10 @@ There is few things to be noted:
 
 1. In layout of the webpage, you have to load all the dependent JS files.
 So that HTML, JS code that is genearted work smoothly in that webpage. You
-can load the dependet js file for nyaplot library using `Daru::View.dependent_script(:nyaplot)`, similarly for other library.
+can load the dependent js file for nyaplot library using `Daru::View.dependent_script(:nyaplot)`, similarly for other library.
 
 2. If you are using multiple library in one webpage then load multiple
- dependent JS files, in that webpage layout (generaly in head tag).
+ dependent JS files, in that webpage layout (generally in head tag).
 
 We can set default adapter using `Daru::View.plotting_library = :googlecharts`
 and also we can change it for particular object while initializing object,
@@ -353,7 +353,7 @@ daru-view ensure that it's functions are usable in both IRuby notebook as well
 as ruby web application frameworks.
 
 The main thing we need to display something in web application or IRuby
-notebook is `HTML` code of it. daru-view generates the `HTML` code od the
+notebook is `HTML` code of it. daru-view generates the `HTML` code of the
 chart, table and the same can be used to display in web application & IRuby
 notebook.
 
@@ -367,8 +367,8 @@ daru-view, it is usable in both IRuby notebook and web applications. Daru
 DataFrame or Vector is used as the data source of the chart. It works
 similar to the initial `daru` plotting system.
 
-If user want to use the Nyaplot methods then it can be done in Nyaplot object,
-which can be accessable using `daru_plot_obj.chart`.
+If user want to use the Nyaplot methods then it can be done on Nyaplot object.We
+can get nyplot object using `daru_plot_obj.chart`.
 
 i.e.
 
@@ -387,11 +387,11 @@ all other adapter in daru-view.
 
 To add the [HighCharts](https://www.highcharts.com/) features for plotting various chart types, daru-view uses the [lazy_high_charts](https://github.com/michelson/lazy_high_charts) gem with additional features.
 
-In this adapter data source can be Array of data, daru DataFrame, Vector or HTML table code of the data.
+In this adapter data source can be Array of data, Daru::DataFrame, Daru::Vector or HTML table code of the data.
 
 There are various of options in HighCharts. One can see the options that can
 be used in [HighCharts demo link](https://www.highcharts.com/demo), which can
-be direclty used in daru-view Plot.
+be directly used in daru-view Plot.
 
 **HighCharts adaptor can work offline as well in daru-view. Developers can update the saved the JS files (in daru-view) using rake task automatically.**
 
@@ -412,10 +412,10 @@ they want to operate `google_visualr` methods.
 
 #### GoogleCharts as data table
 
-One of the good thing about googe chart is, it can be used for generating table
-for web applcation and IRuby Notebook with pagination and other features.
+One of the good thing about google chart tool is, it can be used for generating table
+for web application and IRuby Notebook with pagination and other features.
 
-**`Daru::View::Plot` can take data Array, daru DataFrame, Daru Vector,
+**`Daru::View::Plot` can take data Array, Daru::DataFrame, Daru::Vector,
 Daru::View::Table as data source.**
 
 **`Daru::View::Table` can take data Array, daru DataFrame, Daru Vector as data
@@ -428,14 +428,13 @@ Daru::View::Table as data source.**
 
 To use it, daru-view uses [https://github.com/Shekharrajak/data_tables](https://github.com/Shekharrajak/data_tables) gem. [Note: the gem name will be changed in near future]
 
-It basically uses the HTML table code and add features that user want. So internally HTML table code of daru DataFrame and daru Vector is passed
-as data source parameter.
+It basically uses the HTML table code and add features that user want. So internally HTML table code of Daru::DataFrame and Daru::Vector is passed as data source parameter.
 
 
 ## Future Work
 
 daru-view will be more powerful and simple in near future. Developers can add
-more libraris in daru-view easily, if required. To add library follow the setups given in
+more libraries in daru-view easily, if required. To add library follow the setups given in
 [CONTRIBUTING.md](https://github.com/Shekharrajak/daru-view/blob/master/CONTRIBUTING.md)
 
 
@@ -449,7 +448,7 @@ It can work smoothly in Rails/Sinatra/Nanoc web frameworks and I hope it can wor
 
 **Why not use the plotting libraries directly?**
 
-If you are using daru gem for analysing the data and want to visualise it, then it will be good if you have data-visualisation within daru and can plot it directly using DataFrame/Vector objects of daru.
+If you are using daru gem for analyzing the data and want to visualize it, then it will be good if you have data-visualization within daru and can plot it directly using DataFrame/Vector objects of daru.
 
 daru-view will be helpful in plotting charts and tables directly from the Daru::DataFrame and Daru::Vector . daru-view using nyaplot, highcharts , google charts right now to plot the chart. So user can set the plotting library and get the chart accordingly.
 
