@@ -20,11 +20,11 @@ methods of `Daru::DataFrame`. This gem is intended to help Rubyists who are into
 or Web Development, by serving as a general purpose conversion library.
 
 Through this summer, I worked on adding support for various Importers and Exporters
-while also porting some existing modules. Please feel free to find a comprehensive set
+while also porting some existing modules. Feel free to find a comprehensive set
 of useful links in 
 [Final Work Submission](https://athityakumar.github.io/blog/posts/GSoC_2017_-_Final_Work_Submission/)
 and [README](https://github.com/athityakumar/daru-io/blob/master/README.md). Before proceeding any
-further, the reader might also be interested in having a look at
+further, you might also be interested in checking out a sample showcase of
 [Rails example](https://daru-examples-io-view-rails.herokuapp.com/) and
 [the code](https://github.com/Shekharrajak/daru_examples_io_view_rails) making it work.
 
@@ -35,18 +35,18 @@ further, the reader might also be interested in having a look at
 > I come to write about my GSoC project, not to earn praise for it."
 
 For the uninitiated, Google Summer of Code (GSoC) 2017 is a 3-month program that
-focuses on introducing selected student developers to open source software development.
-For more information about GSoC, feel free to click
+focuses on introducing selected students to open-source software development.
+To know more about GSoC, feel free to click
 [here](https://summerofcode.withgoogle.com/about/).
 
-[daru](https://github.com/SciRuby/daru) is a Ruby gem that stands for Data Analysis in RUby.
-My [initial proposal](https://summerofcode.withgoogle.com/serve/5909632403898368/) was to make
-daru easier to integrate with Ruby web frameworks through better import-export features
+[daru](https://github.com/SciRuby/daru) is a Ruby gem that stands for Data Analysis in RUby. My
+[initial proposal](https://drive.google.com/file/d/0B4shBmKvdinIZUNqcGwtWDZtb1NMMHg3SG51SFRqNlVqZkIw/)
+was to make daru easier to integrate with Ruby web frameworks through better import-export features
 ([daru-io](https://github.com/athityakumar/daru-io)) and visualization methods
 ([daru-view](https://github.com/Shekharrajak/daru-view)). However, as both 
-[Shekhar](https://github.com/Shekharrajak) and myself
-were selected for the same proposal, we split this amongst ourselves, with daru-io being allocated
-to myself and daru-view being allocated to [Shekhar](https://github.com/Shekharrajak).
+[Shekhar](https://github.com/Shekharrajak) and I
+were selected for the same proposal, we split this amongst ourselves : daru-io was allocated to me
+and daru-view was allocated to [Shekhar](https://github.com/Shekharrajak).
 
 ## 
 
@@ -55,35 +55,36 @@ to myself and daru-view being allocated to [Shekhar](https://github.com/Shekharr
 > But their private contributions, are oft interred with their bones."
 
 This is one of the reasons why I (and all open-source developers) are enthusiastic
-about open-source. In open-source, repositories can be re-used in other repositories
+about open-source. In open-source, one's work can be re-used in other projects
 in accordance with the listed LICENSE and attribution, compared to the restrictions
 and risk of Intellectual Property Right claims in private work.
 
 ## 
 
-> "So be it. The noble Pythonists and R developers;
+> "So be it. The noble Pythonistas and R developers;
 
 > Might not have chosen to try daru yet."
 
-It is quite understandable that Pythonists and R developers feel that the corresponding
+It is quite understandable that Pythonistas and R developers feel that their corresponding
 languages have sufficient tools for Data Analysis. So, why would they switch to Ruby and
 start using daru?
 
 ## 
 
-> "If it were so, it was a grievous fault;
+> "If it were so, it may have been a grievous fault;
 
-> Give daru family a try, with daru-io and daru-view."
+> Give daru a try, with daru-io and daru-view."
 
-First of all, I don't mean any offense when I say "it was a grievous fault". But please, do give
+First of all, I don't mean any offense when I say "grievous fault". But please, do give
 Ruby and daru family a try, with an open mind.
 
-Cheers, the daru family has two new additions, namely
+Voila - the daru family has two new additions, namely
 [daru-io](https://github.com/athityakumar/daru-io) and
 [daru-view](https://github.com/Shekharrajak/daru-view). Ruby is a language
 which is extensively used in Web Development with multiple frameworks such as Rails, Sinatra,
 Nanoc, Jekyll, etc. With such a background, it only makes sense for daru to have daru-io and
-daru-view as separate plugins. The daru family is now quite easy to be used in Ruby web frameworks.
+daru-view as separate plugins, thus making the daru family easily integrable with Ruby web
+frameworks.
 
 ## 
 
@@ -93,29 +94,33 @@ daru-view as separate plugins. The daru family is now quite easy to be used in R
 
 > So are they all, all honourable libraries and languages–
 
-> Come I to speak about inception of daru-io."
+> Come I to speak about daru-io's inception."
 
-Truly, the alternatives in other languages like Python, R and Hadoop are also good data analysis
-tools. But, can they be readily integrated into any web application? R & Hadoop don't have a
+Sure, the alternatives in other languages like Python, R and Hadoop are also good data analysis
+tools. But, how readily can they be integrated into any web application? R & Hadoop don't have a
 battle-tested web framework yet, and are usually pipelined into the back-end of any application
-to perform any analysis. In my honest opinion, I feel that pipelines are merely a hacky workaround
-and aren't a clean way of integrating.
+to perform any analysis. I'm no one to judge such pipelines, but I feel that pipelines are
+hackish workarounds rather than being a clean way of integrating.
 
 Meanwhile, though Python too has its own set of web frameworks (like Django, Flask and more),
-Pandas isn't quite readily integrable into these frameworks and needs the web developer to write
-lines and lines of code to integrate Pandas with parsing libraries and plotting libraries.
+Pandas doesn't quite work out-of-the-box with these frameworks and requires the web developer
+to write lines and lines of code to integrate Pandas with parsing libraries and plotting
+libraries.
 
 ## 
 
-> "daru-io is my GSoC project, and open-sourced to all of us;
+> "daru-io is a ruby gem, and open-sourced to all of us;
 
 > But some might think it was an ambitious idea;
 
 > And they are all honourable men."
 
 As described above, daru-io is open-sourced under the MIT License with attribution to
-myself and Ruby Science Foundation. And by "men", I'm not stereotyping the "them" to be a male,
-but I'm just merely retaining the resemblence to the original speech of Mark Anthony.
+myself and Ruby Science Foundation. Being a ruby gem, daru-io follows the best practices
+mentioned in the Rubygems guides and is all geared up with a v0.1.0 release.
+
+Disclaimer - By "men", I'm not stereotyping "them" to be all male, but I'm just merely
+retaining the resemblence to the original speech of Mark Anthony.
 
 ## 
 
@@ -169,13 +174,11 @@ end.reduce(:concat)
 
 ## 
 
-> "When working with a team of Pythonists and R developers;
+> "When working with a team of Pythonistas and R developers;
 
 > daru-io helps convert Daru::DataFrame to multiple formats.
 
-> Yet some might think it was an ambitious idea;
-
-> And they are all honourable men."
+> Does this in daru-io seem ambitious?
 
 The second part of [daru-io](https://github.com/athityakumar/daru-io) is the collection of Exporters
 that ship with it. Exporters are used to write the data in a DataFrame, to a file / database. These
@@ -220,15 +223,15 @@ dataframe.write_rds('github_api.rds', 'github.api.dataframe')
 
 > with help of rubocop, rspec, rubocop-rspec and saharspec.
 
-> Was this ambitious?
+> Ambition shouldn't have been made of humble stuff.
 
-> Yet some might think it was an ambitious idea;
+> Yet some might think it is an ambitious idea;
 
 > And sure, they are all honourable men."
 
 Thanks to guidance from my mentors
 [Victor Shepelev](https://github.com/zverok), [Sameer Deshmukh](https://github.com/v0dro)
-and [Lokesh Sharma](https://github.com/lokeshh), I came to know about quite a lot
+and [Lokesh Sharma](https://github.com/lokeshh), I've come to know about quite a lot
 of Ruby tools that could be used to keep the codebase sane and clean.
 
 - [rubocop](https://github.com/bbatsov/rubocop) : A Ruby static code analyzer, which enforces
@@ -246,9 +249,9 @@ of Ruby tools that could be used to keep the codebase sane and clean.
 
 > But here I am to speak what I do know.
 
-> You all will love daru-io, not without cause:
+> Give daru-io a try and y'all will love it, not without cause:
 
-> What cause withholds you then, from using daru-io?"
+> Does anything withhold you then, from using daru-io?"
 
 I really mean it, when I discretely specify "I speak not to disapprove of what other libraries do".
 In the world of open-source, there should never be hate among developers regarding languages,
@@ -266,12 +269,13 @@ each other's opinion and choice, all is well.
 
 > And I must pause till I write another blog post."
 
-I feel that the reader would be interested in trying out the daru family, after having seen the
-above demonstration of Importers & Exporters, and the
-Rails example ([Website](https://daru-examples-io-view-rails.herokuapp.com/) |
+If you've read all the way till down here, I feel that you'd be interested in trying out the
+daru family, after having seen the impressive demonstration of Importers & Exporters above, and
+the Rails example ([Website](https://daru-examples-io-view-rails.herokuapp.com/) |
 [Code](https://github.com/Shekharrajak/daru_examples_io_view_rails)). I'm very thankful to mentors
 [Victor Shepelev](https://github.com/zverok), [Sameer Deshmukh](https://github.com/v0dro)
 and [Lokesh Sharma](https://github.com/lokeshh) for their timely Pull Request reviews and open
-discussions regarding features. Daru-IO wouldn't have been possible without them and the active
+discussions regarding features. Daru-IO would not have been possible without them and the active
 community of Ruby Science Foundation, who provided their useful feedback(s) whenever they could.
-The community has been very supportive overall, and I'd be interested to involve with SciRuby via more open-source projects.
+The community has been very supportive overall, and hence I'd definitely be interested to involve
+with SciRuby via more open-source projects.
