@@ -1,0 +1,908 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: GSOC2015 | SciRuby]]></title>
+  <link href="http://sciruby.com/blog/categories/gsoc2015/atom.xml" rel="self"/>
+  <link href="http://sciruby.com/"/>
+  <updated>2017-10-17T20:48:02+09:00</updated>
+  <id>http://sciruby.com/</id>
+  <author>
+    <name><![CDATA[SciRuby]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Statistical linear mixed models in Ruby with mixed_models (GSoC2015)]]></title>
+    <link href="http://sciruby.com/blog/2015/08/19/gsoc-2015-mixed-models/"/>
+    <updated>2015-08-19T12:00:00+09:00</updated>
+    <id>http://sciruby.com/blog/2015/08/19/gsoc-2015-mixed-models</id>
+    <content type="html"><![CDATA[<p>Google Summer of Code 2015 is coming to an end. During this summer, I have learned too many things to list here about statistical modeling, Ruby and software development in general, and I had a lot of fun in the process!</p>
+
+<h2>Linear mixed models</h2>
+
+<p>My GSoC project is the Ruby gem <a href="https://github.com/agisga/mixed_models">mixed_models</a>. Mixed models are statistical models which predict the value of a response variable as a result of fixed and random effects. The gem in its current version can be used to fit statistical linear mixed models and perform statistical inference on the model parameters as well as to predict future observations. A number of tutorials/examples in IRuby notebook format are accessible from the <code>mixed_models</code> <a href="https://github.com/agisga/mixed_models">github repository</a>.</p>
+
+<p>Linear mixed models are implemented in the class <code>LMM</code>. The constructor method <code>LMM#initialize</code> provides a flexible model specification interface, where an arbitrary covariance structure of the random effects terms can be passed as a <code>Proc</code> or a block.</p>
+
+<p>A convenient user-friendly interface to the basic model fitting algorithm is <code>LMM#from_formula</code>, which uses the formula language of the R mixed models package <code>lme4</code> for model specification. With the <code>#from_formula</code> method, the user can conveniently fit models with categorical predictor variables, interaction fixed or random effects, as well as multiple crossed or nested random effects, all with just one line of code.</p>
+
+<p>Examples are given in the sections below.</p>
+
+<h3>Implementation</h3>
+
+<p>The parameter estimation in <code>LMM#initialize</code> is largely based on the approach developed by the authors of the R mixed models package <code>lme4</code>, which is delineated in the <code>lme4</code> <a href="https://cran.r-project.org/web/packages/lme4/vignettes/lmer.pdf">vignette</a>. I have tried to make the code of the model fitting algorithm in <code>LMM#initialize</code> easy to read, especially compared to the corresponding implementation in <code>lme4</code>.</p>
+
+<p>The <code>lme4</code> code is largely written in C++, which is integrated in R via the packages <code>Rcpp</code> and <code>RcppEigen</code>. It uses <a href="https://developer.nvidia.com/cholmod">CHOLMOD</a> code for various sparse matrix tricks, and it involves passing pointers to C++ object to R (and vice versa) many times, and passing different R environments from function to function. All this makes the <code>lme4</code> code rather hard to read. Even Douglas Bates, the main developer of <code>lme4</code>, admits that <a href="https://stat.ethz.ch/pipermail/r-sig-mixed-models/2014q4/022791.html">"The end result is confusing (my fault entirely) and fragile"</a>, because of all the utilized performance improvements. I have analyzed the <code>lme4</code> code in three blog posts (<a href="http://agisga.github.io/Dissect_lmer_part1/">part 1</a>, <a href="http://agisga.github.io/Dissect_lmer_part2/">part 2</a> and <a href="http://agisga.github.io/Dissect_lmer_part3/">part 3</a>) before starting to work on my gem <code>mixed_models</code>.</p>
+
+<p>The method <code>LMM#initialize</code> is written in a more functional style, which makes the code shorter and (I find) easier to follow.  All matrix calculations are performed using the gem <a href="https://github.com/SciRuby/nmatrix"><code>nmatrix</code></a>, which has a quite intuitive syntax and contributes to the overall code readability as well.
+The Ruby gem loses with respect to memory consumption and speed in comparison to <code>lme4</code>, because it is written in pure Ruby and does not utilize any sparse matrix tricks. However, for the same reasons the <code>mixed_models</code> code is much shorter and easier to read than <code>lme4</code>. Moreover, the linear mixed model formulation in <code>mixed_models</code> is a little bit more general, because it does not assume that the random effects covariance matrix is sparse. More about the implementation of <code>LMM#initialize</code> can be found in <a href="http://agisga.github.io/First-linear-mixed-model-fit/">this blog post</a>.</p>
+
+<h3>Other existing tools</h3>
+
+<p>Popular existing software packages for mixed models include the R package <a href="https://cran.r-project.org/web/packages/lme4/index.html"><code>lme4</code></a> (which is arguably the standard software for linear mixed models), the R package <a href="https://cran.r-project.org/web/packages/nlme/index.html"><code>nlme</code></a> (an older package developed by the same author as <code>lme4</code>, still widely used), Python's <a href="https://github.com/statsmodels/statsmodels/blob/master/statsmodels/regression/mixed_linear_model.py"><code>statmodels</code></a>, and the Julia package <a href="https://github.com/dmbates/MixedModels.jl"><code>MixedModels.jl</code></a>.</p>
+
+<p>Below, I give a couple of examples illustrating some of the capabilities of <code>mixed_models</code> and explore how it compares to the alternatives.</p>
+
+<h3>A usage example and discussion</h3>
+
+<p>As an example, we use <a href="http://archive.ics.uci.edu/ml/datasets/BlogFeedback">data</a> from the UCI machine learning repository, which originate from blog posts from various sources in 2010-2012, in order to model (the logarithm of) the number of comments that a blog post receives. The linear predictors are the text length, the log-transform of the average number of comments at the hosting website, the average number of trackbacks at the hosting website, and the parent blog posts. We assume a random effect on the number of comments due to the day of the week on which the blog post was published. In <code>mixed_models</code> this model can be fit with</p>
+
+<p>```ruby
+model_fit = LMM.from_formula(formula: "log_comments ~ log_host_comments_avg + host_trackbacks_avg + length + has_parent_with_comments + (1 | day)",</p>
+
+<pre><code>                          data: blog_data)
+</code></pre>
+
+<p>```</p>
+
+<p>and we can display some information about the estimated fixed effects with</p>
+
+<p><code>ruby
+puts model_fit.fix_ef_summary.inspect(24)
+</code></p>
+
+<p>which produces the following output:</p>
+
+<p>```</p>
+
+<pre><code>                                         coef                       sd                  z_score            WaldZ_p_value 
+           intercept       1.2847896684307731     0.030380582281933178        42.28983027737477                      0.0 
+</code></pre>
+
+<p>   log_host_comments_avg        0.415586319225577     0.007848368759350875        52.95193586953086                      0.0</p>
+
+<pre><code> host_trackbacks_avg     -0.07551588997745964     0.010915623834434068       -6.918146971979714    4.575895218295045e-12 
+              length   1.8245853808280765e-05    2.981631039432429e-06        6.119420400102211    9.391631916599863e-10 
+</code></pre>
+
+<p>has_parent_with_comments      -0.4616662830553772      0.13936886611993773      -3.3125496095955715    0.0009244972814528296
+```</p>
+
+<p>We can also display the estimated random effects coefficients and the random effects standard deviation,</p>
+
+<p><code>ruby
+puts "Random effects coefficients:"
+puts model_fit.ran_ef
+puts "Random effects correlation structure:"
+puts model_fit.ran_ef_summary.inspect
+</code></p>
+
+<p>which produces</p>
+
+<p>```
+Random effects coefficients:
+{:intercept_fr=>0.0, :intercept_mo=>0.0, :intercept_sa=>0.0, :intercept_su=>0.0, :intercept_th=>0.0, :intercept_tu=>0.0, :intercept_we=>0.0}
+Random effects standard deviation:</p>
+
+<h1>&lt;Daru::DataFrame:70278348234580 @name = 8e11a27f-81b0-48a0-9771-085a8f30693d @size = 1></h1>
+
+<pre><code>              day 
+   day        0.0 
+</code></pre>
+
+<p>```</p>
+
+<p>Interestingly, the estimates of the random effects coefficients and standard deviation are all zero!
+That is, we have a singular fit. Thus, our results imply that the day of the week on which a blog post is published has no effect on the number of comments that the blog post will receive.</p>
+
+<p>It is worth pointing out that such a model fit with a singular covariance matrix is problematic with the current version of Python's <code>statmodels</code> (described as "numerically challenging" in the <a href="http://statsmodels.sourceforge.net/devel/mixed_linear.html">documentation</a>) and the R package <code>nlme</code> ("Singular covariance matrices correspond to infinite parameter values", a <a href="https://stat.ethz.ch/pipermail/r-sig-mixed-models/2014q4/022791.html">mailing list reply</a> by Douglas Bates, the author of <code>nlme</code>). However, <code>mixed_models</code>, <code>lme4</code> and <code>MixedModels.jl</code> can handle singular fits without problems.
+In fact, like <code>mixed_models</code> above, <code>lme4</code> estimates the random effects coefficients and standard deviation to be zero, as we can see from the following R output:</p>
+
+<p>```rconsole</p>
+
+<blockquote><p>mod &lt;- lmer(log_comments ~ log_host_comments_avg + host_trackbacks_avg + length + has_parent_with_comments + (1|day), data = df)
+Warning message:
+Some predictor variables are on very different scales: consider rescaling
+ranef(mod)
+$day
+   (Intercept)
+fr           0
+mo           0
+sa           0
+su           0
+th           0
+tu           0
+we           0</p>
+
+<p>VarCorr(mod)
+ Groups   Name        Std.Dev.
+ day      (Intercept) 0.0000<br/>
+ Residual             1.2614
+```</p></blockquote>
+
+<p>Unfortunately, <code>mixed_models</code> is rather slow when applied to such a large data set (<code>blog_data</code> is a data frame of size 22435&times;8), especially when compared to <code>lme4</code> which uses many sparse matrix tricks and is mostly written in C++ (integrated in R via <code>Rcpp</code>) to speed up computation. The difference in performance between <code>mixed_models</code> and <code>lme4</code> is on the order of hours for large data, and Julia's <code>MixedModels.jl</code> promises to be even faster than <code>lme4</code>. However, there is no noticeable difference in performance speed for smaller data sets.</p>
+
+<p><a href="http://nbviewer.ipython.org/github/agisga/mixed_models/blob/master/notebooks/blog_data.ipynb">The full data analysis of the blog post data can be found in this IRuby notebook</a>.</p>
+
+<h3>A second example and statistical inference on the parameter estimates</h3>
+
+<p>Often, the experimental design or the data suggests a linear mixed model whose random effects are associated with multiple grouping factors. A specification of multiple random effects terms which correspond to multiple grouping factors is often referred to as <em>crossed random effect</em>, or <em>nested random effects</em> if the corresponding grouping factors are nested in each other.
+A good reference on such models is <a href="http://lme4.r-forge.r-project.org/book/Ch2.pdf">Chapter 2</a> of Douglas Bates' <code>lme4</code> book.</p>
+
+<p>Like <code>lme4</code>, <code>mixed_models</code> is particularly well suited for models with crossed or nested random effects. The current release of <code>statmodels</code>, however, does not support crossed or nested random effects (according to the <a href="http://statsmodels.sourceforge.net/devel/mixed_linear.html">documentation</a>).</p>
+
+<p>As an example we fit a linear mixed model with nested random effects to a data frame with 100 rows, of the form:</p>
+
+<p>```ruby</p>
+
+<h1>&lt;Daru::DataFrame:69912847885160 @name = 2b161c5d-00de-4240-be50-8fa84f3aed24 @size = 5></h1>
+
+<pre><code>                a          b          x          y 
+     0         a3         b1 0.38842531 5.10364866 
+     1         a3         b2 0.44622300 6.23307061 
+     2         a3         b1 1.54993657 12.2050404 
+     3         a3         b1 1.52786614 12.0067595 
+     4         a3         b2 0.76011212 8.20054527
+</code></pre>
+
+<p>```</p>
+
+<p>We consider the following model:</p>
+
+<ul>
+<li>We take <code>y</code> to be the response and <code>x</code> its predictor.</li>
+<li>We consider the factor <code>b</code> to be nested within the factor <code>a</code>.</li>
+<li>We assume that the intercept varies due to variable <code>a</code>; that is, a different (random) intercept term for each level of <code>a</code>.</li>
+<li>Moreover, we assume that the intercept varies due to the factor <code>b</code> which is nested in <code>a</code>; that is, different (random) intercept for each combination of levels of <code>a</code> and <code>b</code>.</li>
+</ul>
+
+
+<p>That is, mathematically the model can be expressed as</p>
+
+<p><code>
+y = beta_0 + beta_1 * x + gamma(a) + delta(a,b) + epsilon
+</code></p>
+
+<p>where <code>gamma(a) ~ N(0, phi**2)</code> and <code>delta(a,b) ~ N(0, psi**2)</code> are normally distributed random variables which assume different realizations for different values of <code>a</code> and <code>b</code>, and where <code>epsilon</code> is a random Gaussian noise term with variance <code>sigma**2</code>. The goal is to estimate the parameters <code>beta_0</code>, <code>beta_1</code>, <code>phi</code>, <code>psi</code> and <code>sigma</code>.</p>
+
+<p>We fit this model in <code>mixed_models</code>, and display the estimated random effects correlation structure with</p>
+
+<p>```ruby
+mod = LMM.from_formula(formula: "y ~ x + (1|a) + (1|a:b)",</p>
+
+<pre><code>                   data: df, reml: false)
+</code></pre>
+
+<p>puts mod.ran_ef_summary.inspect
+```</p>
+
+<p>which produces the output</p>
+
+<p>```</p>
+
+<pre><code>                a    a_and_b 
+     a 1.34108300        nil 
+</code></pre>
+
+<p>   a_and_b        nil 0.97697500
+```</p>
+
+<p>The correlation between the factor <code>a</code> and the nested random effect <code>a_and_b</code> is denoted as <code>nil</code>, because the random effects in the model at hand are assumed to be independent.</p>
+
+<p>An advantage of <code>mixed_models</code> over some other tools is the simplicity with which p-values and confidence intervals for the parameter estimates can be calculated using a multitude of available methods. Such methods include a likelihood ratio test implementation, multiple bootstrap based methods (which run in parallel by default), and methods based on the Wald Z statistic.</p>
+
+<p>We can compute five types of 95% confidence intervals for the fixed effects coefficients with the following line of code:</p>
+
+<p><code>ruby
+mod.fix_ef_conf_int(method: :all, nsim: 1000)
+</code></p>
+
+<p>which yields the result</p>
+
+<p>```</p>
+
+<pre><code>                                      intercept                                        x 
+wald_z [-1.0442515623151203, 2.433416817887737]   [4.302419420148841, 5.038899876985704] 
+</code></pre>
+
+<p>boot_basic [-0.9676586601496888, 2.486799230544233]    [4.30540212917657, 5.028701160534481]
+ boot_norm [-1.0575520080398213, 2.4667867000424115   [4.295959190826356, 5.043382379744274]</p>
+
+<pre><code>boot_t [-0.9676586601496886, 2.486799230544233]    [4.30540212917657, 5.028701160534481] 
+</code></pre>
+
+<p> boot_perc [-1.0976339749716164, 2.3568239157223054   [4.312618136600064, 5.035917167957975]</p>
+
+<p>```</p>
+
+<p>For example, we see here that the intercept term is likely not significantly different from zero. We could proceed now by performing hypotheses tests using <code>#fix_ef_p</code> or <code>#likelihood_ratio_test</code>, or by refitting a model without an intercept using <code>#drop_fix_ef</code>.</p>
+
+<p>We can also test the nested random effect for significance, in order to decide whether we should drop that term from the model to reduce model complexity. We can use a bootstrap based version of likelihood ratio test as follows.</p>
+
+<p>```ruby
+mod.ran_ef_p(variable: :intercept, grouping: [:a, :b],</p>
+
+<pre><code>         method: :bootstrap, nsim: 1000)
+</code></pre>
+
+<p>```</p>
+
+<p>We get a p-value of 9.99e-4, suggesting that we probably should keep the term <code>(1|a:b)</code> in the model formula.</p>
+
+<h3>A third example &mdash; a less conventional model fit</h3>
+
+<p>Another advantage of <code>mixed_models</code> against comparable tools is the ease of fitting models with arbitrary covariance structures of the random effects, which are not covered by the formula interface of <code>lme4</code>. This can be done in a user-friendly manner by providing a block or a <code>Proc</code> to the <code>LMM</code> constructor. This unique feature of the Ruby language makes the implementation and usage of the method incredibly convenient. A danger of allowing for arbitrary covariance structures is, of course, that such a flexibility gives the user the freedom to specify degenerate and computationally unstable  models.</p>
+
+<p>As an example we look at an application to genetics, namely to SNP data (<a href="https://en.wikipedia.org/wiki/Single-nucleotide_polymorphism">single-nucleotide polymorphism</a>) with known pedigree structures (family relationships of the subjects). The family information is prior knowledge that we can model in the random effects of a linear mixed effects model.</p>
+
+<p>We model the quantitative trait <code>y</code> (a vector of length 1200) as</p>
+
+<p><code>
+y = X * beta + b + epsilon,
+</code></p>
+
+<p>where <code>X</code> is a <code>1200 x 130</code> matrix containing the genotypes (i.e. 130 SNPs for each of the 1200 subjects); <code>epsilon</code> is a vector of independent random noise terms with variances equal to <code>sigma**2</code>; <code>beta</code> is a vector of unknown fixed effects coefficients measuring the contribution of each SNP to the quantitative trait <code>y</code>; and <code>b</code> is a vector of random effects.</p>
+
+<p>If we denote the kinship matrix by <code>K</code>, then we can express the probability distribution of <code>b</code> as <code>b ~ N(0, delta**2 * 2 * K)</code>, where we multiply <code>K</code> by <code>2</code> because the diagonal of <code>K</code> is constant <code>0.5</code>, and where <code>delta**2</code> is a unknown scaling factor.</p>
+
+<p>The goal is to estimate the unknown parameters <code>beta</code>, <code>sigma</code>, and <code>delta</code>, and to determine which of the fixed effects coefficients are significantly different from 0 (i.e. which SNPs are possibly causing the variability in the trait <code>y</code>).</p>
+
+<p>In order to specify the covariance structure of the random effects, we need to pass a block or <code>Proc</code> that produces the upper triangular Cholesky factor of the covariance matrix of the random effects from an input Array. In this example, that would be the multiplication of the prior known Cholesky factor of the kinship matrix with a scaling factor.</p>
+
+<p>Having all the model matrices and vectors, we compute the Cholesky factor of the kinship matrix and fit the model with</p>
+
+<p>```ruby</p>
+
+<h1>upper triangulat Cholesky factor</h1>
+
+<p>kinship_mat_cholesky_factor = kinship_mat.factorize_cholesky[0]</p>
+
+<h1>Fit the model</h1>
+
+<p>model_fit = LMM.new(x: x, y: y, zt: z,</p>
+
+<pre><code>                x_col_names: x_names, 
+                start_point: [2.0], 
+                lower_bound: [0.0]) { |th| kinship_mat_cholesky_factor * th[0] }
+</code></pre>
+
+<p>```</p>
+
+<p>Then we can use the available hypotheses test and confidence interval methods to determine which SNPs are significant predictors of the quantitative trait. Out of the 130 SNPs in the model, we find 24 to be significant as linear predictors.</p>
+
+<p>See <a href="http://agisga.github.io/mixed_models_applied_to_family_SNP_data/">this blog post</a> for a full analysis of this data with <code>mixed_models</code>.</p>
+
+<h2>Room for improvement and future work</h2>
+
+<ul>
+<li><p>Writing the formula language interpretation code used by <code>LMM#from_formula</code> from scratch was not easy. Much of the code can be reorganized to be easier to read and to use in other projects. Possibly, the formula interface should be separated out, similar to how it is done with the Python package <a href="https://github.com/pydata/patsy">patsy</a>. Also, some shortcut symbols (namely <code>*</code>, <code>/</code>, and <code>||</code>) in the model specification formula language are currently not implemented.</p></li>
+<li><p>I plan to add linear mixed models for high-dimensional data (i.e. more predictors than observations) to <code>mixed_models</code>, because that work would be in line with my current PhD research.</p></li>
+<li><p>I plan to add generalized linear mixed models capabilities to <code>mixed_models</code>, which can be used to fit mixed models to discrete data (such as binary or count data).</p></li>
+</ul>
+
+
+<h2>Acknowledgement</h2>
+
+<p>I want to thank Google and the <a href="sciruby.com">Ruby Science Foundation</a> for giving me this excellent opportunity! I especially want to thank <a href="http://thebird.nl/">Pjotr Prins</a> who was my mentor for the project for much helpful advice and suggestions as well as his prompt responses to any of my concerns. I also want to thank my fellow GSoC participants <a href="https://github.com/wlevine">Will</a>, <a href="https://github.com/dilcom">Ivan</a>, and <a href="https://github.com/v0dro">Sameer</a> for their help with certain aspects of my project.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2015: New NMatrix gems for advanced linear algebra features]]></title>
+    <link href="http://sciruby.com/blog/2015/08/19/gsoc-2015-nmatrix/"/>
+    <updated>2015-08-19T09:57:00+09:00</updated>
+    <id>http://sciruby.com/blog/2015/08/19/gsoc-2015-nmatrix</id>
+    <content type="html"><![CDATA[<p>My Google Summer of Code project was working on the <a href="https://github.com/SciRuby/nmatrix">NMatrix project</a>, moving
+functionality that depends on external libraries from the core <code>nmatrix</code>
+gem to optional plugin gems. NMatrix is a Ruby library for linear algebra,
+used by many other projects.
+In addition to the code that was part of
+NMatrix proper, NMatrix previously required the <a href="http://math-atlas.sourceforge.net/">ATLAS library</a>, which
+implemented fast versions of common matrix operations like multiplication
+and inversion, as well as more advanced operations like eigenvalue
+decomposition and Cholesky decomposition.</p>
+
+<p>There were two separate but related motivations for my project. The
+first was to simplify the NMatrix installation
+process. ATLAS can be difficult to install, so the installation
+process for NMatrix was complicated, especially on
+OS X, and may have discouraged people from using NMatrix.
+The second motivation was that by separating out the ATLAS code from the
+main NMatrix code, it would be easier to add new linear algebra backends
+which provide similar features. Indeed, I implemented a second backend this
+summer.</p>
+
+<p>The end result of my summer's work:</p>
+
+<ul>
+<li>The core <code>nmatrix</code> gem does not depend on any external linear matrix
+libraries. It provides non-optimized implementations of common matrix
+operations.</li>
+<li>All code that requires ATLAS has been moved into the new <code>nmatrix-atlas</code>
+gem, so that
+those who are only interested in the core functionality are not required to
+install ATLAS. <code>nmatrix-atlas</code> provides optimized implementations of common matrix
+operations, as well as advanced functions not available in <code>nmatrix</code>.
+I wrote a blog post describing the setup for <a href="http://wlevine.github.io/2015/06/15/releasing-multiple-gems-with-c-extensions-from-the-same-repository.html">releasing multiple gems from the same repository</a>, which this required.</li>
+<li>A new gem <code>nmatrix-lapacke</code>, which provides the same features as
+<code>nmatrix-atlas</code>, but instead of depending specifically on the ATLAS
+library, requires any generic <a href="https://en.wikipedia.org/wiki/LAPACK">LAPACK</a> and
+<a href="https://en.wikipedia.org/wiki/Basic_Linear_Algebra_Subprograms">BLAS</a>
+implementation. This should be easier to use for many users as they may
+already have LAPACK installed (it comes pre-installed with OS X and is
+commonly used in Linux systems), but not ATLAS.</li>
+<li>The installation procedure is simplified, especially for those installing
+just the <code>nmatrix</code> gem. Compare the <a href="https://github.com/SciRuby/nmatrix/wiki/Installation">new installation instructions</a>
+to the <a href="https://github.com/SciRuby/nmatrix/wiki/Installation/2ac41c62d35c79468d3d8169be0ccba238c3c921">old ones</a>.</li>
+</ul>
+
+
+<p>The one deviation from my original proposal was that I originally intended to remove
+all the ATLAS code and release only the <code>nmatrix-lapacke</code> plugin, so that we
+would only have one interface to the advanced linear algebra functions, but I
+decided to keep the ATLAS code, since the <code>nmatrix-lapacke</code> code is new and
+has not had a chance to be thoroughly tested.</p>
+
+<h3>Usage</h3>
+
+<p>```ruby
+require 'nmatrix'</p>
+
+<h1>create a 3-by-3 matrix</h1>
+
+<p>a = NMatrix.new([3,3], [1,2,3, 4,5,6, 7,8,9], dtype: :float64)</p>
+
+<h1>invert it using non-optimized NMatrix-internal implementation</h1>
+
+<p>a.invert!
+```</p>
+
+<p>```ruby
+require 'nmatrix'
+require 'nmatrix/atlas' #or require 'nmatrix/lapacke'</p>
+
+<h1>create a 3-by-3 matrix</h1>
+
+<p>a = NMatrix.new([3,3], [1,2,3, 4,5,6, 7,8,9], dtype: :float64)</p>
+
+<h1>invert it using optimized implementation provided by ATLAS</h1>
+
+<p>a.invert!
+```</p>
+
+<p>For advanced functions not provided by the core <code>nmatrix</code> gem, for example
+<a href="http://sciruby.com/nmatrix/docs/NMatrix.html#method-i-gesvd"><code>gesvd</code></a>, <code>nmatrix-atlas</code> and <code>nmatrix-lapacke</code>
+provide a common interface:</p>
+
+<p><code>ruby
+require 'nmatrix'
+require 'nmatrix/atlas'
+a = NMatrix.new([4,5],[1,0,0,0,2, 0,0,3,0,0, 0,0,0,0,0, 0,4,0,0,0],
+dtype: dtype)
+u, s, vt = a.gesvd
+</code></p>
+
+<p>```ruby</p>
+
+<h1>Identical to the above, except for the require</h1>
+
+<p>require 'nmatrix'
+require 'nmatrix/lapacke'
+a = NMatrix.new([4,5],[1,0,0,0,2, 0,0,3,0,0, 0,0,0,0,0, 0,4,0,0,0],
+dtype: dtype)
+u, s, vt = a.gesvd
+```</p>
+
+<p>If the developer wants to use an advanced feature, but does not care
+whether the user is using <code>nmatrix-atlas</code>
+or <code>nmatrix-lapacke</code>, they can <code>require nmatrix/lapack_plugin</code>, which will
+require whichever of the two is available, instead of being forced to
+choose between the two.</p>
+
+<p>As a fun test of the new gems, I did a very simple benchmark, just
+testing how long it took to invert a
+1500-by-1500 matrix in place using <code>NMatix#invert!</code>:</p>
+
+<ul>
+<li><code>nmatrix</code> (no external libraries): 3.67s</li>
+<li><code>nmatrix-atlas</code>: 0.96s</li>
+<li><code>nmatrix-lapacke</code> with ATLAS: 0.99s</li>
+<li><code>nmatrix-lapacke</code> with OpenBLAS (multithreading enabled): 0.39s</li>
+<li><code>nmatrix-lapacke</code> with reference implementations of LAPACK and BLAS: 3.72s</li>
+</ul>
+
+
+<p>This is not supposed to be a thorough or realistic benchmark (performance will
+depend on your system, on how you built the libraries, and on the exact
+functions that you use), but there
+are still a few interesting conclusions we can draw from it:</p>
+
+<ul>
+<li>Performance is much better using the two highly optimized libraries
+(ATLAS and OpenBLAS) than using either the NMatrix
+internal implementation or the reference implementation.</li>
+<li>When using ATLAS, performance is similar whether using <code>nmatrix-atlas</code>
+and <code>nmatrix-lapacke</code> (this means we could consider deprecating
+the <code>nmatix-atlas</code> gem).</li>
+</ul>
+
+
+<p>Overall, my summer has been productive. I implemented everything that I
+proposed and feedback from testers so far has been positive.
+I plan to stay involved with NMatrix, especially to follow up on any issues
+related to my changes.
+Although I won't be a student next summer, I would certainly consider
+participating in Google Summer of Code in the future as a mentor.
+I'd like to
+thank my mentor John Woods and the rest of the SciRuby community for support
+and feedback throughout the summer.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GnuplotRB and GSoC 2015]]></title>
+    <link href="http://sciruby.com/blog/2015/08/18/gnuplotrb-project/"/>
+    <updated>2015-08-18T23:26:00+09:00</updated>
+    <id>http://sciruby.com/blog/2015/08/18/gnuplotrb-project</id>
+    <content type="html"><![CDATA[<h2>Introduction</h2>
+
+<p>This summer I've been participating in Google Summer of Code
+ with <a href="https://github.com/dilcom/gnuplotrb">GnuplotRB project</a> (plotting tool for Ruby users based on <a href="http://www.gnuplot.info/">Gnuplot</a>)
+ for <a href="http://sciruby.com/">SciRuby</a>. GSoC is almost over and I'm releasing v0.3.1 of GnuplotRB as a <a href="https://rubygems.org/gems/gnuplotrb/">gem</a>.
+ In this blog post I want to introduce the gem and highlight some of its capabilities.</p>
+
+<h2>Features</h2>
+
+<p>There are several existing plotting tools for Ruby such as Nyaplot, Plotrb, Rubyvis
+ and Gnuplot gem. However they are not designed for large datasets and have fewer
+ plotting styles and options than Gnuplot. Gnuplot gem was developed long ago and nowadays consists
+ mostly of hacks and does not support modern Gnuplot features such as multiplot.</p>
+
+<p>Therefore my goal was to develop new gem for Gnuplot which would allow full use of its
+ features in Ruby. I was inspired to build an easy-to-use interface for the most commonly
+ used features of Gnuplot and allow users to customize their plots with
+ Gnuplot options as easily as possible in Rubyesque way.</p>
+
+<!--more-->
+
+
+<h3>2D and 3D plots</h3>
+
+<p>The main feature of every plotting tool is its ability to plot graphs. GnuplotRB allows you
+ to plot both mathematical formula  and (huge) sets of data. GnuplotRB supports plotting
+ 2D graphs (<code>GnuplotRB::Plot</code> class)  in Cartesian/parametric/polar coordinates and 3D
+ graphs (<code>GnuplotRB::Splot</code> class) &mdash; in Cartesian/cylindrical/spherical coordinates.</p>
+
+<p>There are vast of plotting styles supported by GnuplotRB:</p>
+
+<ul>
+<li><code>points</code></li>
+<li><code>lines</code></li>
+<li><code>histograms</code></li>
+<li><code>boxerrorbars</code></li>
+<li><code>circles</code></li>
+<li><code>boxes</code></li>
+<li><code>filledcurves</code></li>
+<li><code>vectors</code></li>
+<li><code>heatmap</code></li>
+<li>etc (full list in <a href="http://www.gnuplot.info/docs_5.0/gnuplot.pdf">gnuplot doc</a> p. 47)</li>
+</ul>
+
+
+<p>Plot examples:</p>
+
+<p><img src="http://sciruby.com/images/gnuplotrb-gsoc2015/plots.jpg" alt="Plot example" style="width: 100%;"/></p>
+
+<p>For code examples please see
+ <a href="https://github.com/dilcom/gnuplotrb/blob/master/README.rdoc">the repository README</a>,
+ <a href="https://github.com/dilcom/gnuplotrb/blob/master/notebooks/README.rdoc">notebooks</a>
+ and <a href="https://github.com/dilcom/gnuplotrb/tree/master/examples">the examples folder</a>.</p>
+
+<h3>Multiplot</h3>
+
+<p><code>GnuplotRB::Multiplot</code> allows users to place several plots on a single layout and output
+ them at once (e.g., to a PNG file).
+ <a href="http://nbviewer.ipython.org/github/dilcom/gnuplotrb/blob/master/notebooks/multiplot_layout.ipynb">Multiplot notebook</a>.</p>
+
+<p>Here is a multiplot example
+ (taken from <a href="http://nbviewer.ipython.org/github/SciRuby/sciruby-notebooks/blob/master/Data%20Analysis/Analyzing%20baby%20names/Use%20Case%20-%20Daru%20for%20analyzing%20baby%20names%20data.ipynb">Sameer's notebook</a>):</p>
+
+<p><img src="http://sciruby.com/images/gnuplotrb-gsoc2015/multiplot.jpg" alt="Multiplot example" style="width: 80%; align: middle;"/></p>
+
+<h3>Animated plots</h3>
+
+<p>GnuplotRB may output any plot to gif file but <code>GnuplotRB::Animation</code> allows
+ to make this gif animated. It takes several <code>Plot</code> or <code>Splot</code> objects just as
+ multiplot does and outputs them one-by-one as frames of gif animation.
+ <a href="http://nbviewer.ipython.org/github/dilcom/gnuplotrb/blob/master/notebooks/animated_plots.ipynb">Animation notebook</a>.</p>
+
+<p><img src="http://sciruby.com/images/gnuplotrb-gsoc2015/trajectory.gif" alt="Trajectory example" style="width: 80%; align: middle;"/></p>
+
+<h3>Fit</h3>
+
+<p>Although the main GnuplotRB's purpose is to provide you with swift, robust and
+ easy-to-use plotting tool, it also offers a <code>Fit</code> module that contains several
+ methods for fitting given data with a function. See examples in <a href="http://nbviewer.ipython.org/github/dilcom/gnuplotrb/blob/master/notebooks/fitting_data.ipynb">Fit notebook</a>.</p>
+
+<h3>Integration with other SciRuby tools</h3>
+
+<h4>Embedding plots into iRuby notebooks</h4>
+
+<p>GnuplotRB plots may be embedded into iRuby notebooks as JPEG/PNG/SVG
+ images, as ASCII art or GIF animations (<code>Animation</code> class). This functionality
+ explained in a special <a href="http://nbviewer.ipython.org/github/dilcom/gnuplotrb/blob/master/notebooks/basic_usage.ipynb">iRuby notebook</a>.</p>
+
+<h4>Using data from Daru containers</h4>
+
+<p>To link GnuplotRB with other SciRuby tools I implemented plot
+ creation from data given in Daru containers (<code>Daru::Dataframe</code> and <code>Daru::Vector</code>).
+ One can use <code>daru</code> gem in order to work with statistical SciRuby gems
+ and plotting with GnuplotRB. Notebooks with examples: <a href="http://nbviewer.ipython.org/github/dilcom/gnuplotrb/blob/master/notebooks/plotting_from_daru.ipynb">1</a>, <a href="http://nbviewer.ipython.org/github/dilcom/gnuplotrb/blob/master/notebooks/time_series_from_daru.ipynb">2</a>.</p>
+
+<h3>Possible datasources for plots</h3>
+
+<p>You can pass to Plot (or Splot or Dataset) constructor data in the following forms:</p>
+
+<ul>
+<li>String containing mathematical formula (e.g., <code>'sin(x)'</code>)</li>
+<li>String containing name of file with data (e.g., <code>'points.data'</code>)</li>
+<li>Some Ruby object responding to <code>#to_gnuplot_points</code>
+
+<ul>
+<li><code>Array</code></li>
+<li><code>Daru::Dataframe</code></li>
+<li><code>Daru::Vector</code></li>
+</ul>
+</li>
+</ul>
+
+
+<p>See examples in <a href="https://github.com/dilcom/gnuplotrb/blob/master/notebooks/README.rdoc#possible-datasources">notebooks</a>.</p>
+
+<h2>Links</h2>
+
+<ul>
+<li><a href="https://github.com/dilcom/gnuplotrb/">Project repository</a></li>
+<li><a href="https://rubygems.org/gems/gnuplotrb/">Gem page on Rubygems</a></li>
+<li><a href="http://www.rubydoc.info/gems/gnuplotrb/0.3.1">Gem documentation on Rubydoc</a></li>
+<li><a href="http://dilcom.github.io/gnuplotrb/">Blog of the project</a></li>
+<li><a href="https://github.com/dilcom/gnuplotrb/tree/master/examples">Examples</a></li>
+<li><a href="https://github.com/dilcom/gnuplotrb/blob/master/notebooks/README.rdoc">iRuby notebooks</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby Wrappers for SymEngine, a C++ symbolic manipulation library]]></title>
+    <link href="http://sciruby.com/blog/2015/08/17/ruby-wrappers-for-symengine/"/>
+    <updated>2015-08-17T14:30:00+09:00</updated>
+    <id>http://sciruby.com/blog/2015/08/17/ruby-wrappers-for-symengine</id>
+    <content type="html"><![CDATA[<p>I am sure you have heard about <a href="http://www.wolframalpha.com/">Wolfram Alpha</a>. Some of you would have used its <a href="http://www.wolframalpha.com/examples/Math.html">Mathematics section</a> at some point of time to cross check your solution to a maths problem. If you haven't, please do. A computer algebra system (CAS) does the same thing. Algebraic computation or symbolic computation are all used interchangeably. A CAS solves problems the same way a human does, but way more quickly and precisely. There is very less chance for an error, that we humans often make.</p>
+
+<h2>Introduction</h2>
+
+<p>My project was to write the Ruby extensions for the library <a href="https://github.com/sympy/symengine">SymEngine</a> and come up with a Ruby-ish interface, after which we can use the features of SymEngine from Ruby.</p>
+
+<p><a href="https://github.com/sympy/symengine">SymEngine</a> is a library for symbolic computation in C++. You may ask, why SymEngine? There are other CASs that I know of. This question was indeed asked. At the beginning, the idea was to use ruby wrappers for <a href="http://www.sagemath.org/">sage</a> (a mathematics software system) which uses <a href="http://pynac.org/">Pynac</a>, an interface to <a href="http://www.ginac.de/">GiNaC</a> (another CAS). As it turns out from the benchmarks, SymEngine is much faster than Pynac. What about directly wrapping GiNaC? SymEngine is also a bit faster than GiNaC.</p>
+
+<p>The motivation for <a href="https://github.com/sympy/symengine">SymEngine</a> itself is to develop it once in C++ and then use it from other languages rather than doing the same thing all over again for each language that it is required in. In particular, a long term goal is to make Sage as well as SymPy use it by default, thus unifying the Python CAS communities. The goal of implementing the Ruby wrappers is to provide a CAS for the Ruby community.</p>
+
+<h3>How will this be useful?</h3>
+
+<p>There are times when we might need a symbolic computation library. Here is an incomplete list of some of the situations:</p>
+
+<ul>
+<li>We need to do some algebra to get systems of equations in suitable form for numerical computation.</li>
+<li>We need to make substitutions for some variables and don’t want to risk a math error by hand. There might be times when we want to partially simplify an expression by substituting only a few of its variables.</li>
+<li>We have a situation where we need to find the optimum number of something to maximise our profits, and the mathematical model devised is just too complicated to solve by hand.</li>
+<li>We need to perform non-trivial derivatives or integrals.</li>
+<li>We are trying to understand the domain of a new function.</li>
+<li>Most root finding algorithms search for a single root, whereas often there are more than one.</li>
+<li>We need to solve a linear system or manipulate a symbolic matrix exactly.</li>
+<li>We need to manipulate exact expressions and solutions, as opposed to approximate ones using a numerical method.</li>
+</ul>
+
+
+<p>With that said, a symbolic manipulation library is indispensable for scientists and students. Ruby has gained a great deal of popularity over the years, and a symbolic manipulation library gem  like this project in Ruby might prove to be the foundation for a computer algebra system in Ruby. With many efforts like these, Ruby might become the first choice for academicians given how easy it is to code your logic in Ruby.</p>
+
+<h2>How to install the gem?</h2>
+
+<p>To install, please follow the <a href="https://github.com/sympy/symengine/blob/master/symengine/ruby/README.md">compile instructions given in the README</a>. After you are done, I would suggest to test the extensions. To run the test suite execute <code>rspec spec</code> on the command line, from the <code>symengine/ruby</code> dir.</p>
+
+<p>The gem is still in alpha release. Please help us out by reporting any issues in <a href="https://github.com/sympy/symengine/issues">the repo issue tracker</a>.</p>
+
+<h2>What can I do with the gem?</h2>
+
+<p>Currently, the following features are available in the gem:
+- Construct expressions out of variables (mathematical).
+- Simplify the expressions.
+- Carry out arithmetic operations like <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>**</code> with the variables and expressions.
+- Extract arguments or variables from an expression.
+- Differentiate an expression with respect to another.
+- Substitute variables with other expressions.</p>
+
+<p>Features that will soon be ported to the SymEngine gem
+- Functions, including trigonometric, hyperbolic and some special functions.
+- Matrices, and their operations.
+- Basic number-theoretic functions.</p>
+
+<p>I have developed a <a href="https://github.com/sympy/symengine/tree/master/symengine/ruby/notebooks">few IRuby notebooks</a> that demonstrate the use of the new SymEngine module in ruby.</p>
+
+<p>Below is an example taken from the notebooks.</p>
+
+<hr />
+
+<h2>Using the SymEngine Gem</h2>
+
+<p>SymEngine is a module in the extensions, and the classes are a part of it. So first you fire up the interpreter or an IRuby notebook and load the file:
+<code>ruby
+require 'symengine'
+=&gt; true
+</code>
+Go ahead and try a function:
+```ruby
+SymEngine.ascii_art
+=>   <strong><strong><em>           </em></strong></strong>         _</p>
+
+<pre><code>|   __|_ _ _____|   __|___ ___|_|___ ___
+|__   | | |     |   __|   | . | |   | -_|
+|_____|_  |_|_|_|_____|_|_|_  |_|_|_|___|
+      |___|               |___|          
+</code></pre>
+
+<p><code>
+or create a variable:
+</code>ruby
+basic = SymEngine::Basic.new
+=> #&lt;SymEngine::Basic:0x00000001e95290>
+```
+This shows that we have successfully loaded the module.</p>
+
+<h3>SymEngine::Symbol</h3>
+
+<p>Just like there are variables like x, y, and z in a mathematical expression or equation, we have <code>SymEngine::Symbol</code> in SymEngine to represent them. To use a variable, first we need to make a <code>SymEngine::Symbol</code> object with the string we are going to represent the variable with.:
+```ruby
+puts x = SymEngine::Symbol.new("x")
+puts y = SymEngine::Symbol.new("y")
+puts z = SymEngine::Symbol.new("z")</p>
+
+<p>x
+y
+z
+<code>
+Then we can construct expressions out of them:
+</code>ruby
+e = (x-y)<em>(x<strong>y/z)
+e.to_s
+=> "x</strong>y</em>(x - y)/z"
+<code>
+In SymEngine, every object is an instance of Basic or its subclasses. So, even an instance of `SymEngine::Symbol` is a Basic object.:
+</code>ruby
+x.class
+=> SymEngine::Symbol</p>
+
+<p>x.is_a? SymEngine::Basic
+=> true
+<code>
+Now that we have an expression, we would like to see it's expanded form using `#expand`:
+</code>ruby
+f = e.expand()
+f.to_s
+=> "x<strong>(1 + y)/z - x</strong>y<em>y/z"
+<code>
+Or check if two expressions are same:
+</code>ruby
+f == - (x**y</em>y/z) + (x<strong>y*x/z)
+=> true
+<code>
+But `e` and `f` are not equal since they are only mathematically equal, not structurally:
+</code>ruby
+e == f
+=> false
+<code>
+Let us suppose you want to know **what variables/symbols your expression has**. You can do that with the `#free_symbols` method, which returns a set of the symbols that are in the expression.:
+</code>ruby
+f.free_symbols
+=> #&lt;Set: {#&lt;SymEngine::Basic:0x00000001f0ca70>, #&lt;SymEngine::Basic:0x00000001f0ca48>, #&lt;SymEngine::Basic:0x00000001f0ca20>}>
+<code>
+Let us use `#map` method to see the elements of the `Set`.:
+</code>ruby
+f.free_symbols.map { |x| x.to_s }
+=> ["x", "y", "z"]
+<code>
+`#args` returns the terms of the expression,:
+</code>ruby
+f.args.map { |x| x.to_s }
+["-x</strong>y*y/z", "x<strong>(1 + y)/z"]
+<code>
+or if it is a single term it breaks down the elements:
+</code>ruby
+f.args[0].args.map { |k| k.to_s }
+=> ["-1", "x</strong>y", "y", "z**(-1)"]
+```</p>
+
+<h3>SymEngine::Integer</h3>
+
+<p>You can make objects of class <code>SymEngine::Integer</code>. It's like regular <code>Integer</code> in ruby kernel, except it can do all the operations a <code>Basic</code> object can &mdash; such as arithmetic operations, etc.:
+```ruby
+a = SymEngine::Integer.new(12)
+b = SymEngine::Integer.new(64)
+a**b</p>
+
+<p>=> 1168422057627266461843148138873451659428421700563161428957815831003136
+<code>
+Additionally, it can support numbers of arbitrarily large length.
+</code>ruby
+(a<strong>x).to_s
+=> "12</strong>x"
+```</p>
+
+<h3>SymEngine::Rational</h3>
+
+<p>You can also make objects of class <code>SymEngine::Rational</code> which is the SymEngine counterpart for <code>Rationals</code> in Ruby.:
+```ruby
+c = Rational('2/3')
+d = SymEngine::Rational.new(c)</p>
+
+<p>=> 2/3
+<code>
+Like any other `Basic` object arithmetic operations can be done on this rational type too.:
+</code>ruby
+(a-d).to_s
+=> "34/3"</p>
+
+<h2>```</h2>
+
+<p>You <strong>need not create</strong> an instance of <code>SymEngine::Integer</code> or <code>SymEngine::Rational</code>, every time you want to use them in an expression that uses many <code>Integer</code>s. Let us say you already have <code>Integer</code>/<code>Rational</code> object. Even then you can use them without having to create a new <code>SymEngine</code> object.:
+<code>ruby
+k = (1 / (x * y) - x * y + 2) * (c + x * y) # c is a Rational object, not SymEngine::Rational
+k.to_s
+=&gt; "(2/3 + x*y)*(2 + 1/(x*y) - x*y)"
+</code>
+As you can see, ruby kernel <code>Integer</code>s and <code>Rational</code>s interoperate seamlessly with the <code>SymEngine</code> objects.
+```ruby
+k.expand.to_s
+=> "7/3 + (2/3)<em>1/(x</em>y) + (4/3)<em>x</em>y - x<strong>2*y</strong>2"</p>
+
+<h2>```</h2>
+
+<h2>What I learned</h2>
+
+<p>In the rest of the post, I would like to summarise my work and what I learned as a participant of <a href="https://www.google-melange.com/gsoc/homepage/google/gsoc2015">Google Summer of Code 2015</a>.</p>
+
+<h2>Pre-midterm Evaluations</h2>
+
+<p>I am a newbie when it comes to Ruby, and it took me a while to setup the gem and configure files for the building of extensions.</p>
+
+<h3>The struggle between shared, static and dynamic libraries</h3>
+
+<p>I faced a lot of problem in the early stages, when I was trying to build the extensions. <a href="https://github.com/certik">Ondrej</a>, my mentor, and <a href="https://github.com/isuruf">Isuru</a>, a fellow GSoC student, helped me a lot. There were many C flags that were being reported as missing. Some flags <code>cmake</code> added by default but <code>extconf.rb</code> didn't, the same one that was required to be added to build it as a shared library. I am still confused about the details, some of which are <a href="http://abinashmeher999.github.io/2015/05/29/Building-the-wrappers/">explored in greater detail in my personal blog</a>. Finally, the library had to be built as a dynamic one. The problem of missing C flags was resolved later by hooking the process to <code>cmake</code> rather than <code>mkmf</code>.</p>
+
+<h3>Load Errors and problems in linking</h3>
+
+<p>Many <a href="http://abinashmeher999.github.io/2015/06/12/The-Load-Error/"><code>LoadError</code>s</a> popped up, but were eventually solved. <a href="https://github.com/dilcom/">Ivan</a> helped a lot in debugging the errors. In the end, it turned out to be a simple file missing in the gemspec, that was not being installed.</p>
+
+<h3>Reconfiguring building</h3>
+
+<p>One of our aims during developing this was to get rid of unessential dependencies. The ones we already had the tools for. Like later the file <code>extconf.rb</code>, that is used to generate Makefile for the extension was removed, because that could also be done by <code>cmake</code>. Flags were added to <code>cmake</code> for building the Ruby extensions, like the flag <code>-DWITH_RUBY=yes</code>. The <code>Makefile</code> then generates the library <code>symengine.so</code> in the directory <code>lib/symengine</code>.Along with <code>extconf.rb</code>, the file <code>extconf.h</code> was also gone. Along these lines, the dependency on <code>rake</code> was also removed, and with that the <code>Rakefile</code>. Any task automation will most probably be done in python. So, the <code>Rake::ExtensionTask</code> was done by <code>cmake</code> and the <code>Rake::GemPackageTask</code> was replaced by the manual method of <code>gem build symengine.gemspec</code> and <code>gem install symengine-0.0.0.gem</code></p>
+
+<h3>Travis setup</h3>
+
+<p>Not many projects have travis-ci setup for multiple languages. Not even the tutorials had clearly mentioned about setting up for multiple languages. But I did know about one of them, which is Shogun, the machine-learning toolbox. I referred to their <code>.travis.yml</code> and setup it up. If something like this wouldn't have worked the plan was to manually install the required version of ruby and then execute the shell commands.</p>
+
+<h3>Making a basic object</h3>
+
+<p>Finally, I was able to successfully build the extensions, link the extensions with the SymEngine library, load the ruby-extension library in the interpreter and successfully instantiate an object of type <code>Basic</code>.</p>
+
+<h3>Inheritance and Symbols</h3>
+
+<p>At this time, the way inheritance works(like the sequence of formation and destruction of objects of a class that had a superclass) with the Ruby C API, was confusing for all of us. I designed an <a href="http://abinashmeher999.github.io/2015/06/26/the-symbol-class/#inheritance-in-ruby-c-api">experiment</a>
+to check what was actually happening. That cleared things out, and made the it easier to wrap things from now on. I also wrapped the <code>Symbol</code> class during the course.</p>
+
+<h2>Post-midterm Evaluations</h2>
+
+<h3>Redesign of the C interface</h3>
+
+<p>We had to design an ugly function to wrap vector in C. That led us to redesign the C interface. This approach had no reinterpret casting that was being done earlier. Each data structure had a type that was determined at compile time. For C, it was an opaque structure, while for C++ the opaque structure declared in the shared header file was implemented in the source file that had C++ data types. This <a href="http://abinashmeher999.github.io/2015/07/03/improving-the-c-interface/">blog post</a> explains it further.</p>
+
+<h3>Integer and Rational</h3>
+
+<p>While trying to port the SymEngine classes, <code>Integer</code> and <code>Rational</code>, I had to port many methods in <code>Basic</code> before that. I also replicated the <code>rake</code> tasks in NMatrix, for detection of memory leaks, in form of bash scripts.</p>
+
+<h3>Common enumeration</h3>
+
+<p>Since all objects in the Ruby C API are of the type <code>CBasic</code>, we needed a function that would give us the typename during the runtime for the corresponding objects to be wrapped in ruby, as an object of the correct <code>Class</code> in ruby. Since, this was achieved with <code>enum</code> in C++, the same thing could be done in C too, with all the classes written manually again. But there was no guarantee for this to be consistent, if ever the features required to be wrapped for a new language, and also manually adding the class in all the enum list everytime a new class is added was prone to errors. So, to make this DRY, we automated this by sharing the list of enums. More details for the implementation can be found <a href="http://abinashmeher999.github.io/2015/07/17/common-enumeration-in-c-and-c++/">here</a>.</p>
+
+<h3>Class coercion and interoperability</h3>
+
+<p>To support interoperability with the builtin ruby types, I had to overload the methods in builtin classes earlier(this was not continued). Overriding all the existing binary operations for a ruby class to support SymEngine types, violated the open/closed principle. There was indeed another way, which is <em>'Class Coercion'</em>. It was suggested by <a href="https://github.com/isuruf/">Isuru</a>. After that, SymEngine types could seamlessly interoperate between the ruby types.</p>
+
+<h3>Arithmetic operations</h3>
+
+<p>After this, all the arithmetic operations had been successfully ported. Each <code>Basic</code> object can now perform arithmetic operations with other <code>Basic</code> object(sometimes even ruby objects like <code>Integer</code>). The test file in python, that had all the corresponding test cases was ported to its RSpec counterpart.</p>
+
+<h3>Substitutions</h3>
+
+<p>Recently I completed porting the substitutions module to the extensions(<code>#subs</code>). This feature has added a lot of convenience as now you can substitute a <code>SymEngine::Symbol</code> with some other value in an expression and then <code>#expand</code> to get the result.</p>
+
+<h3>Trigonometric functions</h3>
+
+<p>Currently, I am working on porting the trigonometric functions in SymEngine to the extensions. This would first require to wrap the <code>Function</code> class and then the <code>TrigFunction</code> class in SymEngine.</p>
+
+<h3>Integration of other Ruby gems</h3>
+
+<p>I also have plans to integrate the ruby bindings for <code>gmp</code>, <code>mpfr</code> and <code>mpc</code> libraries, that are already available as gems, with ruby bindings for our library. I have created an issue <a href="https://github.com/sympy/symengine/issues/490">here</a>. Feel free to drop any suggestions.</p>
+
+<hr />
+
+<p>There is much scope for improvement in both the projects. For SymEngine, to support more features like polynomials and series-expansion in the near future, and improving the user interface and the exception handling for the extensions. In short, making the extensions more ruby-ish.</p>
+
+<p>I am grateful to my mentor, <a href="https://github.com/certik">Mr. Ondřej Čertík</a>, the <a href="http://sciruby.com/">Ruby Science Foundation</a> and the <a href="http://www.sympy.org/en/index.html">SymPy Organisation</a> for the opportunity that they gave me and guiding me through the project, and my team-mates for helping me with the issues. I hope more people will contribute to the project and together we will give a nice symbolic manipulation gem to the Ruby community.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Summary of work on daru this summer for GSOC 2015]]></title>
+    <link href="http://sciruby.com/blog/2015/08/16/summary-of-work-on-daru-this-summer-for-gsoc-2015/"/>
+    <updated>2015-08-16T23:53:00+09:00</updated>
+    <id>http://sciruby.com/blog/2015/08/16/summary-of-work-on-daru-this-summer-for-gsoc-2015</id>
+    <content type="html"><![CDATA[<p>Over this summer as a part of <a href="www.google-melange.com">Google Summer of Code 2015</a>, <a href="www.github.com/v0dro/daru/">daru</a> received a lot of upgrades and new features which have it made a pretty robust tool for data analysis in pure Ruby. Of course, a lot of work still remains for bringing daru at par with the other data analysis solutions on offer today, but I feel the work done this summer has put daru on that path.</p>
+
+<p>The new features led to the inclusion of daru in many of SciRuby's gems, which use daru's data storage, access and indexing features for storing and carrying around data. <a href="https://github.com/SciRuby/statsample">Statsample</a>, <a href="https://github.com/SciRuby/statsample-glm">statsample-glm</a>, <a href="https://github.com/SciRuby/statsample-timeseries">statsample-timeseries</a>, <a href="https://github.com/SciRuby/statsample-bivariate-extension">statsample-bivariate-extensions</a> are all now compatible with daru and use <code>Daru::Vector</code> and <code>Daru::DataFrame</code> as their primary data structures. I also overhauled Daru's <a href="http://nbviewer.ipython.org/github/SciRuby/sciruby-notebooks/blob/master/Visualization/Visualizing%20data%20with%20daru%20DataFrame.ipynb">plotting functionality</a>, that interfaced with <a href="https://github.com/domitry/nyaplot">nyaplot</a> for creating interactive plots directly from the data.</p>
+
+<p>Also, new gems developed by other GSOC students, notably <a href="https://github.com/dilcom/gnuplotrb">Ivan's GnuplotRB gem</a> and <a href="https://github.com/agisga/mixed_models">Alexej's mixed_models gem</a> both now accept data from daru data structures. Do see their repo pages for seeing interesting ways of using daru.</p>
+
+<p>The work on daru is also proving to be quite useful for other people, which led to a talk/presentation at <a href="http://www.deccanrubyconf.org/">DeccanRubyConf 2015</a>, which is one of the three major Ruby conferences in India. You can see the slides and notebooks presented at the talk <a href="https://github.com/v0dro/talks/tree/master/DeccanRubyConf15">here</a>. Given the current interest in data analysis and the need for a viable solution in Ruby, I plan to take daru much further. Keep watching the repo for interesting updates :)</p>
+
+<p>In the rest of this post I'll elaborate on all the work done this summer.</p>
+
+<h2>Pre-mid term submissions</h2>
+
+<p>Daru as a gem before GSOC was not exactly user friendly. There were many cases, particularly the iterators, that required some thinking before anybody used them. This is against the design philosophy of daru, or even Ruby general, where surprising programmers with ubiqtuos constructs is usually frowned down upon by the community. So the first thing that I did mainly concerned overhauling the daru's many iterators for both <code>Vector</code> and <code>DataFrame</code>.</p>
+
+<p>For example, the <code>#map</code> iterator from <code>Enumerable</code> returns an <code>Array</code> no matter object you call it on. This was not the case before, where <code>#map</code> would a <code>Daru::Vector</code> or <code>Daru::DataFrame</code>. This behaviour was changed, and now <code>#map</code> returns an <code>Array</code>. If you want a <code>Vector</code> or a <code>DataFrame</code> of the modified values, you should call <code>#recode</code> on <code>Vector</code> or <code>DataFrame</code>.</p>
+
+<p>Each of these iterators also accepts an optional argument, <code>:row</code> or <code>:vector</code>, which will define the axis over which iteration is supposed to be carried out. So now there are the <code>#each</code>, <code>#map</code>, <code>#map!</code>, <code>#recode</code>, <code>#recode!</code>, <code>#collect</code>, <code>#collect_matrix</code>, <code>#all?</code>, <code>#any?</code>, <code>#keep_vector_if</code> and <code>#keep_row_if</code>. To iterate over elements along with their respective indexes (or labels), you can likewise use <code>#each_row_with_index</code>, <code>#each_vector_with_index</code>, <code>#map_rows_with_index</code>, <code>#map_vector_with_index</code>, <code>#collect_rows_with_index</code>, <code>#collect_vector_with_index</code> or <code>#each_index</code>. I urge you to go over the docs of each of these methods to utilize the full power of daru.</p>
+
+<p>Apart from the improvements to iterators there was also quite a bit of refactoring involved for many methods (courtesy <a href="https://github.com/agisga">Alexej</a>). The refactoring of certain core methods has made daru much faster than previous versions.</p>
+
+<p>The next (major) thing to do was making daru compatible with Statsample. This was very essential since statsample is very important tool for statistics in Ruby and it was using its own <code>Vector</code> and <code>Dataset</code> classes, which weren't very robust as computation tools and very difficult to use when it came to cleaning or munging data. So I replaced statsample's Vector and Dataset clases with <code>Daru::Vector</code> and <code>Daru::DataFrame</code>. It involved a significant amount of work on both statsample and daru &mdash; Statsample because many constructs had to be changed to make them compatible with daru, and daru because there was a lot of essential functionality in these classes that had to be ported to daru.</p>
+
+<p>Porting code from statsample to daru improved daru significantly. There were a whole of statistics methods in statsample that were imported into daru and you can now use all them from daru. Statsample also works well with <a href="https://github.com/clbustos/rubyvis">rubyvis</a>, a great tool for visualization. <a href="https://github.com/SciRuby/statsample#visualizations">You can now do that with daru as well</a>.</p>
+
+<p>Many new methods for reading and writing data to and from files were also added to daru. You can now read and write data to and from CSV, Excel, plain text files or even SQL databases.</p>
+
+<p>In effect, daru is now completely compatible with Statsample (and all the other Statsample extensions). You can use daru data structures for storing data and pass them to statsample for performing computations. The biggest advantage of this approach is that the analysed data can be passed around to other scientific Ruby libraries (some of which listed above) that use daru as well. Since daru offers in-built functions to better 'see' your data, better visualization is possible.</p>
+
+<p>See these <a href="https://github.com/v0dro/daru#blog-posts">blogs</a> and <a href="https://github.com/v0dro/daru#notebooks">notebooks</a> for a complete overview of daru's new features.</p>
+
+<p>Also see the <a href="https://github.com/SciRuby/statsample#notebooks">notebooks in the statsample README</a> for using daru with statsample.</p>
+
+<h2>Post-mid term submissions</h2>
+
+<p>Most of time post the mid term submissions was spent in implementing the time series functions for daru.</p>
+
+<p>I implemented a new index, the DateTimeIndex, which can used for indexing data on time stamps. It enables users to query data based on time stamps. Time stamps can either be specified with precise Ruby DateTime objects or can be specified as strings, which will lead to retrival of all the data falling under that time. For example specifying '2012' returns all data that falls in the year 2012. See detailed usage of <code>DateTimeIndex</code> and <code>DateTime</code> in conjunction with other daru constructs <a href="https://github.com/v0dro/daru/blob/master/README.md">in the daru README</a>.</p>
+
+<p>An essential utility in implementing <code>DateTimeIndex</code> was <code>DateOffset</code>, which is a new set of classes that offsets dates based on certain rules or business logic. It can advance or lag a Ruby <code>DateTime</code> to the nearest day, or any day of the week, or the end or beginning of the month, etc. <code>DateOffset</code> is an essential part of <code>DateTimeIndex</code> and can also be used as a stand-alone utility for advancing/lagging <code>DateTime</code> objects. <a href="http://v0dro.github.io/blog/2015/07/27/date-offsets-in-daru/">This blog post</a> elaborates more on the nuances of <code>DateOffset</code> and its usage.</p>
+
+<p>The last thing done during the post mid term was complete compatibility with <a href="https://github.com/AnkurGel">Ankur Goel</a>'s <a href="https://github.com/SciRuby/statsample-timeseries">statsample-timeseries</a>, which was created by  during GSOC 2013. Statsample-timeseries is a comprehensive suite offering various functions for statistical analysis of time sries data. It now works with daru containers and can be used for statistical analysis of data indexed on <code>Daru::DateTimeIndex</code>. See some use cases <a href="https://github.com/SciRuby/statsample-timeseries/blob/master/README.rdoc">in the README</a>.</p>
+
+<p>I'd like to conclude by thanking all the people directly and indirectly involved in making this project a success - My mentor <a href="https://github.com/agarie">Carlos</a> for his help and support throughout the summer, <a href="https://github.com/dilcom">Ivan</a>, <a href="https://github.com/agisga">Alexej</a> and <a href="https://github.com/wlevine">Will</a> for their support and feedback in various stages of developing daru. Also a big thank you to all the <a href="https://github.com/orgs/SciRuby/teams">SciRuby maintainers</a> for making this happen!</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,10 @@
+<div class="highlight"><pre><span class="c1"># upper triangulat Cholesky factor</span>
+<span class="n">kinship_mat_cholesky_factor</span> <span class="o">=</span> <span class="n">kinship_mat</span><span class="o">.</span><span class="n">factorize_cholesky</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> 
+
+<span class="c1"># Fit the model</span>
+<span class="n">model_fit</span> <span class="o">=</span> <span class="no">LMM</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">y</span><span class="p">,</span> <span class="n">zt</span><span class="p">:</span> <span class="n">z</span><span class="p">,</span>
+                    <span class="n">x_col_names</span><span class="p">:</span> <span class="n">x_names</span><span class="p">,</span> 
+                    <span class="n">start_point</span><span class="p">:</span> <span class="o">[</span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span> 
+                    <span class="n">lower_bound</span><span class="p">:</span> <span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">]</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">th</span><span class="o">|</span> <span class="n">kinship_mat_cholesky_factor</span> <span class="o">*</span> <span class="n">th</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="p">}</span>
+</pre>
+</div>

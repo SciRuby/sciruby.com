@@ -1,0 +1,656 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>GSoC 2016 : A Look at SpiceRub::Body - SciRuby</title>
+  <meta name="author" content="SciRuby">
+
+  
+  <meta name="description" content="One of the main goals of this project was to make the ephemerides
+functions easily available to an end user. Ephemerides basically
+refers to an &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sciruby.com/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="SciRuby" type="application/atom+xml">
+  <!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-12735432-6']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">SciRuby</a></h1>
+  
+    <h2>Tools for Scientific Computing in Ruby</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:sciruby.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul role=main-navigation xmlns="http://www.w3.org/1999/html">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog">Blog</a></li>
+  <li><a href="/docs">Installation</a></li>
+  <li><a href="http://gems.sciruby.com/">Gems</a></li>
+  <li><a href="https://github.com/sciruby/sciruby">SciRuby</a></li>
+  <li><a href="/nmatrix">NMatrix</a></li>
+  <li><a href="/publications/">Citing SciRuby</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">GSoC 2016 : A Look at SpiceRub::Body</h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Gaurav Tamba</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-11-25T02:23:00+09:00" pubdate data-updated="true">Nov 25<span>th</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>One of the main goals of this project was to make the ephemerides
+functions easily available to an end user. Ephemerides basically
+refers to an object in space whose motion is being tracked and
+observed. SPICE required you to provide the following parameters to
+observe a body in space.</p>
+
+<ul>
+<li><code>Target</code>: The body of interest</li>
+<li><code>Frame</code>: A rotational frame of reference (Default is J2000 [Not to be confused with the J2000 epoch])</li>
+<li><code>Observer</code>: An observing body whose viewpoint is used to chart the vector</li>
+<li><code>Epoch</code> : An epoch in Ephemeris Time</li>
+</ul>
+
+
+<p>SPICE has an integer-key convention for the kind of bodies that it
+has support for. Each body can be referenced via a string or an
+integer id. While there isn&#8217;t an actual strict range for integer ID
+classification, it is mentioned <a href="https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/req/naif_ids.html">here</a> and can be summed up
+in the following <code>if</code> and <code>elsif</code> clauses. (In Ruby constant strings
+are better off as symbols, so the constructor takes either an integer
+ID of a string symbol)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">if</span> <span class="n">body_id</span> <span class="o">&gt;</span> <span class="mi">2000000</span>
+</span><span class='line'>    <span class="ss">:asteroid</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">body_id</span> <span class="o">&gt;</span> <span class="mi">1000000</span>
+</span><span class='line'>    <span class="ss">:comet</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">body_id</span> <span class="o">&gt;</span> <span class="mi">1000</span>
+</span><span class='line'>    <span class="ss">:body</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">body_id</span> <span class="o">&gt;</span> <span class="mi">10</span>
+</span><span class='line'>    <span class="n">body_id</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">99</span> <span class="o">?</span>
+</span><span class='line'>      <span class="ss">:planet</span> <span class="p">:</span> <span class="ss">:satellite</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">body_id</span> <span class="o">==</span> <span class="mi">10</span>
+</span><span class='line'>    <span class="ss">:star</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">body_id</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="ss">:barycenter</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">body_id</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1000</span>
+</span><span class='line'>    <span class="ss">:spacecraft</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">body_id</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">100000</span>
+</span><span class='line'>    <span class="ss">:instrument</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="ss">:spacecraft</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It was very tempting to involve inheritance and extend a base Body
+class onto these potential classes, but I simply did not see the need
+for it at this point. The way it is at the moment, the <code>Body</code> object
+has a reader attribute type that stores some metadata about the body
+for the user&#8217;s convenience. Perhaps as coverage of SPICE improves,
+this minor thing can be changed later on.</p>
+
+<p>To create a Body object, you instantiate with either a body name or a
+body id. Certain bodies such as instruments will require additional
+kernels to be loaded. To proceed seamlessly, load a leap seconds
+kernel, a planetary constants kernel, and an ephemeris kernel. (All
+avaialable in <code>spec/data/kernels</code>)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">SpiceRub</span><span class="o">::</span><span class="no">Body</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">399</span><span class="p">)</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="c1">#&lt;SpiceRub::Body:0x00000002769da8</span>
+</span><span class='line'>     <span class="vi">@code</span><span class="o">=</span><span class="mi">399</span><span class="p">,</span>
+</span><span class='line'>     <span class="vi">@frame</span><span class="o">=</span><span class="ss">:J2000</span><span class="p">,</span>
+</span><span class='line'>     <span class="vi">@name</span><span class="o">=</span><span class="ss">:earth</span><span class="p">,</span>
+</span><span class='line'>     <span class="vi">@type</span><span class="o">=</span><span class="ss">:planet</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">SpiceRub</span><span class="o">::</span><span class="no">Body</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:earth</span><span class="p">)</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="c1">#&lt;SpiceRub::Body:0x000000026c73c8</span>
+</span><span class='line'>   <span class="vi">@code</span><span class="o">=</span><span class="mi">399</span><span class="p">,</span>
+</span><span class='line'>   <span class="vi">@frame</span><span class="o">=</span><span class="ss">:J2000</span><span class="p">,</span>
+</span><span class='line'>   <span class="vi">@name</span><span class="o">=</span><span class="ss">:earth</span><span class="p">,</span>
+</span><span class='line'>   <span class="vi">@type</span><span class="o">=</span><span class="ss">:planet</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">SpiceRub</span><span class="o">::</span><span class="no">Body</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:moon</span><span class="p">)</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="c1">#&lt;SpiceRub::Body:0x0000000214ac88</span>
+</span><span class='line'>   <span class="vi">@code</span><span class="o">=</span><span class="mi">301</span><span class="p">,</span>
+</span><span class='line'>   <span class="vi">@frame</span><span class="o">=</span><span class="ss">:J2000</span><span class="p">,</span>
+</span><span class='line'>   <span class="vi">@name</span><span class="o">=</span><span class="ss">:moon</span><span class="p">,</span>
+</span><span class='line'>   <span class="vi">@type</span><span class="o">=</span><span class="ss">:satellite</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>399</code> and <code>:earth</code> map to the same body in SPICE data. The frame of
+reference can also be specified as a named parameter during
+instantiation to set a custom default frame for that particular
+object.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">SpiceRub</span><span class="o">::</span><span class="no">Body</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">399</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="no">IAU_EARTH</span><span class="p">)</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="c1">#&lt;SpiceRub::Body:0x000000020b1df8</span>
+</span><span class='line'>     <span class="vi">@code</span><span class="o">=</span><span class="mi">399</span><span class="p">,</span>
+</span><span class='line'>     <span class="vi">@frame</span><span class="o">=</span><span class="ss">:IAU_EARTH</span><span class="p">,</span>
+</span><span class='line'>     <span class="vi">@name</span><span class="o">=</span><span class="ss">:earth</span><span class="p">,</span>
+</span><span class='line'>     <span class="vi">@type</span><span class="o">=</span><span class="ss">:planet</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In SPICE, a <code>state</code> is a 6 length column vector that stores position
+and velocity in 3D cartesian co-ordinates</p>
+
+<p>As a base case, let&#8217;s find out the the position of the Earth with
+respect to itself.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">earth</span><span class="o">.</span><span class="n">position_at</span><span class="p">(</span><span class="no">SpiceRub</span><span class="o">::</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="p">,</span> <span class="n">observer</span><span class="p">:</span> <span class="n">earth</span><span class="p">)</span>
+</span><span class='line'><span class="o">=&gt;</span>
+</span><span class='line'><span class="o">[</span>
+</span><span class='line'>  <span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">]</span>   <span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">]</span>   <span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">]</span>
+</span><span class='line'><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The origin as seen from itself is still the origin, so this makes
+sense. The methods <code>#velocity_at</code> and <code>#state_at</code> take an identical
+set of parameters. While there is a bit of redundancy going on,
+splitting them makes the API more elegant, but the basic relationship
+between these three vectors is the following :-</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">state</span> <span class="o">=</span> <span class="o">[</span>
+</span><span class='line'>          <span class="n">position</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span><span class="n">position</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">,</span><span class="n">position</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>          <span class="n">velocity</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span><span class="n">velocity</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">,</span><span class="n">velocity</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span>
+</span><span class='line'>        <span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>One thing to note is that state/velocity/position vectors will always
+be returned as an <code>NMatrix</code> object, SciRuby&#8217;s numerical matrix core,
+to allow for calculations via the NMatrix API.</p>
+
+<p>As an example that is used in the code, one line can turn a position
+vector into distance from origin (here using Euclidean distance):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">position</span> <span class="o">=</span> <span class="n">earth</span><span class="o">.</span><span class="n">position_at</span><span class="p">(</span><span class="no">SpiceRub</span><span class="o">::</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="p">,</span> <span class="n">observer</span><span class="p">:</span> <span class="n">observer</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">Math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span> <span class="p">(</span><span class="n">position</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As a simple imprecise experiment, let&#8217;s find out how the speed of
+light can be &#8220;estimated&#8221; up with this data.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">distance</span> <span class="o">=</span> <span class="n">moon</span><span class="o">.</span><span class="n">distance_from</span><span class="p">(</span><span class="n">earth</span><span class="p">,</span> <span class="n">now</span><span class="p">)</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="mi">367441</span><span class="o">.</span><span class="mo">0260</span><span class="mi">814745</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">time</span> <span class="o">=</span> <span class="n">moon</span><span class="o">.</span><span class="n">light_time_from</span><span class="p">(</span><span class="n">earth</span><span class="p">,</span> <span class="n">now</span><span class="p">)</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="mi">1</span><span class="o">.</span><span class="mi">2256513340354764</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">distance</span> <span class="o">/</span> <span class="n">time</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="mi">299792</span><span class="o">.</span><span class="mi">458</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The unit of distance here is kilometers, so the speed of light by this
+measurement is about pretty close to the textbook figure of 3e+8 m/s.</p>
+
+<p>There is also a function to check if a list of bodies are within a
+radial proximity from an observing body. We already calculated the
+distance of the moon to be about 367,000 km. The function
+<code>within_proximity</code> returns a list of all bodies that are within the
+specified radial distance from the calling body object.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#assuming venus and mercury are instantiated</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">earth</span><span class="o">.</span><span class="n">within_proximity</span><span class="p">(</span><span class="o">[</span><span class="n">moon</span><span class="p">,</span> <span class="n">venus</span><span class="p">,</span> <span class="n">mercury</span><span class="o">]</span><span class="p">,</span> <span class="mi">400000</span><span class="p">,</span> <span class="n">now</span><span class="p">)</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="o">[</span><span class="c1">#&lt;SpiceRub::Body:0x0000000191c4f8</span>
+</span><span class='line'>  <span class="vi">@code</span><span class="o">=</span><span class="mi">301</span><span class="p">,</span>
+</span><span class='line'>  <span class="vi">@frame</span><span class="o">=</span><span class="ss">:J2000</span><span class="p">,</span>
+</span><span class='line'>  <span class="vi">@name</span><span class="o">=</span><span class="ss">:moon</span><span class="p">,</span>
+</span><span class='line'>  <span class="vi">@type</span><span class="o">=</span><span class="ss">:satellite</span><span class="o">&gt;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now that we&#8217;ve come to the end of the functionality, I would like to
+mention that there is another named argument <code>aberration_correction</code>
+which is basically an error reduction method to provide a more
+accurate result than the default observation. The default <code>:none</code>
+option for aberration correction basically provides the geometric
+observations without any corrections for reception or transmission of
+photons. For a list of various aberration correction methods
+available, have a look at the documentation for <a href="ftp://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkpos_c.html">spkpos_c</a> to
+find out if you need an aberration correction on SPICE data.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">d1</span> <span class="o">=</span> <span class="n">moon</span><span class="o">.</span><span class="n">distance_from</span><span class="p">(</span><span class="n">earth</span><span class="p">,</span> <span class="no">SpiceRub</span><span class="o">::</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="p">,</span> <span class="n">aberration_correction</span><span class="p">:</span> <span class="ss">:none</span><span class="p">)</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="mi">369111</span><span class="o">.</span><span class="mo">055033313</span><span class="mi">8</span>
+</span><span class='line'><span class="n">d2</span> <span class="o">=</span> <span class="n">moon</span><span class="o">.</span><span class="n">distance_from</span><span class="p">(</span><span class="n">earth</span><span class="p">,</span> <span class="no">SpiceRub</span><span class="o">::</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="p">,</span> <span class="n">aberration_correction</span><span class="p">:</span> <span class="ss">:LT</span><span class="p">)</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="mi">369146</span><span class="o">.</span><span class="mi">60640691273</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">d2</span> <span class="o">-</span> <span class="n">d1</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="mi">35</span><span class="o">.</span><span class="mi">55137359892251</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you want to look at it another way, no aberration correction would
+give you the textbook response of rigid geometry, while introducing an
+aberration correction would give you a somewhat more realistic output
+accounting for the errors that do happen when these observations are
+made.</p>
+
+<p>Finally, if you need to generate a continuous time series for a body,
+then <code>SpiceRub::Time</code> has two functions to aid in that:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">SpiceRub</span><span class="o">::</span><span class="no">Time</span><span class="o">.</span><span class="n">linear_time_series</span><span class="p">(</span><span class="n">now</span><span class="p">,</span> <span class="n">now</span> <span class="o">+</span> <span class="mi">86400</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="o">[</span>
+</span><span class='line'>    <span class="c1">#&lt;SpiceRub::Time:0x00000001fe8b60 @et=525180780.18277323&gt;,</span>
+</span><span class='line'>    <span class="c1">#&lt;SpiceRub::Time:0x00000001fe8a20 @et=525209580.18277323&gt;,</span>
+</span><span class='line'>    <span class="c1">#&lt;SpiceRub::Time:0x00000001fe88b8 @et=525238380.18277323&gt;,</span>
+</span><span class='line'>    <span class="c1">#&lt;SpiceRub::Time:0x00000001fe8750 @et=525267180.18277323&gt;</span>
+</span><span class='line'>   <span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In this case, I took a start time and an end time that was one day
+after and requested 4 linearly spaced epochs. This is basically an
+interface to <code>NMatrix.linspace</code>.</p>
+
+<p>The other function requires you to input a start time and an end time
+and a step size that keeps getting added to the start time till the
+end time is reached. As a contrived example, we&#8217;ll take two epochs,
+five days apart and ask for a step size of a day, expecting six
+elements.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">SpiceRub</span><span class="o">::</span><span class="no">Time</span><span class="o">.</span><span class="n">time_series</span><span class="p">(</span><span class="n">now</span><span class="p">,</span> <span class="n">now</span> <span class="o">+</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">86400</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="mi">86400</span><span class="p">)</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="o">[</span>
+</span><span class='line'>    <span class="c1">#&lt;SpiceRub::Time:0x00000001646580 @et=525180780.18277323&gt;,</span>
+</span><span class='line'>    <span class="c1">#&lt;SpiceRub::Time:0x00000002f315b8 @et=525267180.18277323&gt;,</span>
+</span><span class='line'>    <span class="c1">#&lt;SpiceRub::Time:0x00000002f31590 @et=525353580.18277323&gt;,</span>
+</span><span class='line'>    <span class="c1">#&lt;SpiceRub::Time:0x00000002f31568 @et=525439980.18277323&gt;,</span>
+</span><span class='line'>    <span class="c1">#&lt;SpiceRub::Time:0x00000002f31540 @et=525526380.18277323&gt;,</span>
+</span><span class='line'>    <span class="c1">#&lt;SpiceRub::Time:0x00000002f31518 @et=525612780.18277323&gt;</span>
+</span><span class='line'>   <span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And that&#8217;s it for this blog post. I would appreciate any feedback
+regarding this as I&#8217;ve been juggling the design back and forth very
+frequently. There is large potential of expansion of the <code>Body</code> class,
+particularly creating new classes as when different Bobdy objects
+would have a corresponding function. (For example, the function
+<code>getfov_c</code> which returns the field of view of an instrument could be
+an instance function attached to the <code>Instrument</code> subclass of <code>Body</code>,
+but this is just potential expansions in the future.)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Gaurav Tamba</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-11-25T02:23:00+09:00" pubdate data-updated="true">Nov 25<span>th</span>, 2016</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/gsoc-/'>GSOC,</a>, <a class='category' href='/blog/categories/gsoc2016-/'>GSOC2016,</a>, <a class='category' href='/blog/categories/spice-/'>SPICE,</a>, <a class='category' href='/blog/categories/spicerub-/'>SpiceRub,</a>, <a class='category' href='/blog/categories/students/'>Students</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://sciruby.com/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/" data-via="sciruby" data-counturl="http://sciruby.com/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-time/" title="Previous Post: GSoC 2016 : A Look at SpiceRub::Time">&laquo; GSoC 2016 : A Look at SpiceRub::Time</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/11/25/spicerub-kernelpool-and-kernels/" title="Next Post: GSoC 2016: SpiceRub::KernelPool and Kernels">GSoC 2016: SpiceRub::KernelPool and Kernels &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+
+
+<section>
+<div class="fb-like-box" data-href="http://www.facebook.com/SciRuby" data-width="" data-show-faces="false" data-stream="" data-header=""   ></div>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/">GSoC 2017 : Data visualization using daru-view</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats/">GSoC 2017 : Support to Import & Export of more formats</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/">GSoC 2016: Adding Categorical Data Support</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/spicerub-kernelpool-and-kernels/">GSoC 2016: SpiceRub::KernelPool and Kernels</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/">GSoC 2016 : A Look at SpiceRub::Body</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/SciRuby">@SciRuby</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'SciRuby',
+            count: 6,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("sciruby", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/sciruby" class="twitter-follow-button" data-show-count="false">Follow @sciruby</a>
+  
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - SciRuby -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sciruby';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sciruby.com/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/';
+        var disqus_url = 'http://sciruby.com/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

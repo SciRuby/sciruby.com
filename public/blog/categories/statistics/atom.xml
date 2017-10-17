@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Statistics | SciRuby]]></title>
+  <link href="http://sciruby.com/blog/categories/statistics/atom.xml" rel="self"/>
+  <link href="http://sciruby.com/"/>
+  <updated>2017-10-17T20:48:02+09:00</updated>
+  <id>http://sciruby.com/</id>
+  <author>
+    <name><![CDATA[SciRuby]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Statistical linear mixed models in Ruby with mixed_models (GSoC2015)]]></title>
+    <link href="http://sciruby.com/blog/2015/08/19/gsoc-2015-mixed-models/"/>
+    <updated>2015-08-19T12:00:00+09:00</updated>
+    <id>http://sciruby.com/blog/2015/08/19/gsoc-2015-mixed-models</id>
+    <content type="html"><![CDATA[<p>Google Summer of Code 2015 is coming to an end. During this summer, I have learned too many things to list here about statistical modeling, Ruby and software development in general, and I had a lot of fun in the process!</p>
+
+<h2>Linear mixed models</h2>
+
+<p>My GSoC project is the Ruby gem <a href="https://github.com/agisga/mixed_models">mixed_models</a>. Mixed models are statistical models which predict the value of a response variable as a result of fixed and random effects. The gem in its current version can be used to fit statistical linear mixed models and perform statistical inference on the model parameters as well as to predict future observations. A number of tutorials/examples in IRuby notebook format are accessible from the <code>mixed_models</code> <a href="https://github.com/agisga/mixed_models">github repository</a>.</p>
+
+<p>Linear mixed models are implemented in the class <code>LMM</code>. The constructor method <code>LMM#initialize</code> provides a flexible model specification interface, where an arbitrary covariance structure of the random effects terms can be passed as a <code>Proc</code> or a block.</p>
+
+<p>A convenient user-friendly interface to the basic model fitting algorithm is <code>LMM#from_formula</code>, which uses the formula language of the R mixed models package <code>lme4</code> for model specification. With the <code>#from_formula</code> method, the user can conveniently fit models with categorical predictor variables, interaction fixed or random effects, as well as multiple crossed or nested random effects, all with just one line of code.</p>
+
+<p>Examples are given in the sections below.</p>
+
+<h3>Implementation</h3>
+
+<p>The parameter estimation in <code>LMM#initialize</code> is largely based on the approach developed by the authors of the R mixed models package <code>lme4</code>, which is delineated in the <code>lme4</code> <a href="https://cran.r-project.org/web/packages/lme4/vignettes/lmer.pdf">vignette</a>. I have tried to make the code of the model fitting algorithm in <code>LMM#initialize</code> easy to read, especially compared to the corresponding implementation in <code>lme4</code>.</p>
+
+<p>The <code>lme4</code> code is largely written in C++, which is integrated in R via the packages <code>Rcpp</code> and <code>RcppEigen</code>. It uses <a href="https://developer.nvidia.com/cholmod">CHOLMOD</a> code for various sparse matrix tricks, and it involves passing pointers to C++ object to R (and vice versa) many times, and passing different R environments from function to function. All this makes the <code>lme4</code> code rather hard to read. Even Douglas Bates, the main developer of <code>lme4</code>, admits that <a href="https://stat.ethz.ch/pipermail/r-sig-mixed-models/2014q4/022791.html">"The end result is confusing (my fault entirely) and fragile"</a>, because of all the utilized performance improvements. I have analyzed the <code>lme4</code> code in three blog posts (<a href="http://agisga.github.io/Dissect_lmer_part1/">part 1</a>, <a href="http://agisga.github.io/Dissect_lmer_part2/">part 2</a> and <a href="http://agisga.github.io/Dissect_lmer_part3/">part 3</a>) before starting to work on my gem <code>mixed_models</code>.</p>
+
+<p>The method <code>LMM#initialize</code> is written in a more functional style, which makes the code shorter and (I find) easier to follow.  All matrix calculations are performed using the gem <a href="https://github.com/SciRuby/nmatrix"><code>nmatrix</code></a>, which has a quite intuitive syntax and contributes to the overall code readability as well.
+The Ruby gem loses with respect to memory consumption and speed in comparison to <code>lme4</code>, because it is written in pure Ruby and does not utilize any sparse matrix tricks. However, for the same reasons the <code>mixed_models</code> code is much shorter and easier to read than <code>lme4</code>. Moreover, the linear mixed model formulation in <code>mixed_models</code> is a little bit more general, because it does not assume that the random effects covariance matrix is sparse. More about the implementation of <code>LMM#initialize</code> can be found in <a href="http://agisga.github.io/First-linear-mixed-model-fit/">this blog post</a>.</p>
+
+<h3>Other existing tools</h3>
+
+<p>Popular existing software packages for mixed models include the R package <a href="https://cran.r-project.org/web/packages/lme4/index.html"><code>lme4</code></a> (which is arguably the standard software for linear mixed models), the R package <a href="https://cran.r-project.org/web/packages/nlme/index.html"><code>nlme</code></a> (an older package developed by the same author as <code>lme4</code>, still widely used), Python's <a href="https://github.com/statsmodels/statsmodels/blob/master/statsmodels/regression/mixed_linear_model.py"><code>statmodels</code></a>, and the Julia package <a href="https://github.com/dmbates/MixedModels.jl"><code>MixedModels.jl</code></a>.</p>
+
+<p>Below, I give a couple of examples illustrating some of the capabilities of <code>mixed_models</code> and explore how it compares to the alternatives.</p>
+
+<h3>A usage example and discussion</h3>
+
+<p>As an example, we use <a href="http://archive.ics.uci.edu/ml/datasets/BlogFeedback">data</a> from the UCI machine learning repository, which originate from blog posts from various sources in 2010-2012, in order to model (the logarithm of) the number of comments that a blog post receives. The linear predictors are the text length, the log-transform of the average number of comments at the hosting website, the average number of trackbacks at the hosting website, and the parent blog posts. We assume a random effect on the number of comments due to the day of the week on which the blog post was published. In <code>mixed_models</code> this model can be fit with</p>
+
+<p>```ruby
+model_fit = LMM.from_formula(formula: "log_comments ~ log_host_comments_avg + host_trackbacks_avg + length + has_parent_with_comments + (1 | day)",</p>
+
+<pre><code>                          data: blog_data)
+</code></pre>
+
+<p>```</p>
+
+<p>and we can display some information about the estimated fixed effects with</p>
+
+<p><code>ruby
+puts model_fit.fix_ef_summary.inspect(24)
+</code></p>
+
+<p>which produces the following output:</p>
+
+<p>```</p>
+
+<pre><code>                                         coef                       sd                  z_score            WaldZ_p_value 
+           intercept       1.2847896684307731     0.030380582281933178        42.28983027737477                      0.0 
+</code></pre>
+
+<p>   log_host_comments_avg        0.415586319225577     0.007848368759350875        52.95193586953086                      0.0</p>
+
+<pre><code> host_trackbacks_avg     -0.07551588997745964     0.010915623834434068       -6.918146971979714    4.575895218295045e-12 
+              length   1.8245853808280765e-05    2.981631039432429e-06        6.119420400102211    9.391631916599863e-10 
+</code></pre>
+
+<p>has_parent_with_comments      -0.4616662830553772      0.13936886611993773      -3.3125496095955715    0.0009244972814528296
+```</p>
+
+<p>We can also display the estimated random effects coefficients and the random effects standard deviation,</p>
+
+<p><code>ruby
+puts "Random effects coefficients:"
+puts model_fit.ran_ef
+puts "Random effects correlation structure:"
+puts model_fit.ran_ef_summary.inspect
+</code></p>
+
+<p>which produces</p>
+
+<p>```
+Random effects coefficients:
+{:intercept_fr=>0.0, :intercept_mo=>0.0, :intercept_sa=>0.0, :intercept_su=>0.0, :intercept_th=>0.0, :intercept_tu=>0.0, :intercept_we=>0.0}
+Random effects standard deviation:</p>
+
+<h1>&lt;Daru::DataFrame:70278348234580 @name = 8e11a27f-81b0-48a0-9771-085a8f30693d @size = 1></h1>
+
+<pre><code>              day 
+   day        0.0 
+</code></pre>
+
+<p>```</p>
+
+<p>Interestingly, the estimates of the random effects coefficients and standard deviation are all zero!
+That is, we have a singular fit. Thus, our results imply that the day of the week on which a blog post is published has no effect on the number of comments that the blog post will receive.</p>
+
+<p>It is worth pointing out that such a model fit with a singular covariance matrix is problematic with the current version of Python's <code>statmodels</code> (described as "numerically challenging" in the <a href="http://statsmodels.sourceforge.net/devel/mixed_linear.html">documentation</a>) and the R package <code>nlme</code> ("Singular covariance matrices correspond to infinite parameter values", a <a href="https://stat.ethz.ch/pipermail/r-sig-mixed-models/2014q4/022791.html">mailing list reply</a> by Douglas Bates, the author of <code>nlme</code>). However, <code>mixed_models</code>, <code>lme4</code> and <code>MixedModels.jl</code> can handle singular fits without problems.
+In fact, like <code>mixed_models</code> above, <code>lme4</code> estimates the random effects coefficients and standard deviation to be zero, as we can see from the following R output:</p>
+
+<p>```rconsole</p>
+
+<blockquote><p>mod &lt;- lmer(log_comments ~ log_host_comments_avg + host_trackbacks_avg + length + has_parent_with_comments + (1|day), data = df)
+Warning message:
+Some predictor variables are on very different scales: consider rescaling
+ranef(mod)
+$day
+   (Intercept)
+fr           0
+mo           0
+sa           0
+su           0
+th           0
+tu           0
+we           0</p>
+
+<p>VarCorr(mod)
+ Groups   Name        Std.Dev.
+ day      (Intercept) 0.0000<br/>
+ Residual             1.2614
+```</p></blockquote>
+
+<p>Unfortunately, <code>mixed_models</code> is rather slow when applied to such a large data set (<code>blog_data</code> is a data frame of size 22435&times;8), especially when compared to <code>lme4</code> which uses many sparse matrix tricks and is mostly written in C++ (integrated in R via <code>Rcpp</code>) to speed up computation. The difference in performance between <code>mixed_models</code> and <code>lme4</code> is on the order of hours for large data, and Julia's <code>MixedModels.jl</code> promises to be even faster than <code>lme4</code>. However, there is no noticeable difference in performance speed for smaller data sets.</p>
+
+<p><a href="http://nbviewer.ipython.org/github/agisga/mixed_models/blob/master/notebooks/blog_data.ipynb">The full data analysis of the blog post data can be found in this IRuby notebook</a>.</p>
+
+<h3>A second example and statistical inference on the parameter estimates</h3>
+
+<p>Often, the experimental design or the data suggests a linear mixed model whose random effects are associated with multiple grouping factors. A specification of multiple random effects terms which correspond to multiple grouping factors is often referred to as <em>crossed random effect</em>, or <em>nested random effects</em> if the corresponding grouping factors are nested in each other.
+A good reference on such models is <a href="http://lme4.r-forge.r-project.org/book/Ch2.pdf">Chapter 2</a> of Douglas Bates' <code>lme4</code> book.</p>
+
+<p>Like <code>lme4</code>, <code>mixed_models</code> is particularly well suited for models with crossed or nested random effects. The current release of <code>statmodels</code>, however, does not support crossed or nested random effects (according to the <a href="http://statsmodels.sourceforge.net/devel/mixed_linear.html">documentation</a>).</p>
+
+<p>As an example we fit a linear mixed model with nested random effects to a data frame with 100 rows, of the form:</p>
+
+<p>```ruby</p>
+
+<h1>&lt;Daru::DataFrame:69912847885160 @name = 2b161c5d-00de-4240-be50-8fa84f3aed24 @size = 5></h1>
+
+<pre><code>                a          b          x          y 
+     0         a3         b1 0.38842531 5.10364866 
+     1         a3         b2 0.44622300 6.23307061 
+     2         a3         b1 1.54993657 12.2050404 
+     3         a3         b1 1.52786614 12.0067595 
+     4         a3         b2 0.76011212 8.20054527
+</code></pre>
+
+<p>```</p>
+
+<p>We consider the following model:</p>
+
+<ul>
+<li>We take <code>y</code> to be the response and <code>x</code> its predictor.</li>
+<li>We consider the factor <code>b</code> to be nested within the factor <code>a</code>.</li>
+<li>We assume that the intercept varies due to variable <code>a</code>; that is, a different (random) intercept term for each level of <code>a</code>.</li>
+<li>Moreover, we assume that the intercept varies due to the factor <code>b</code> which is nested in <code>a</code>; that is, different (random) intercept for each combination of levels of <code>a</code> and <code>b</code>.</li>
+</ul>
+
+
+<p>That is, mathematically the model can be expressed as</p>
+
+<p><code>
+y = beta_0 + beta_1 * x + gamma(a) + delta(a,b) + epsilon
+</code></p>
+
+<p>where <code>gamma(a) ~ N(0, phi**2)</code> and <code>delta(a,b) ~ N(0, psi**2)</code> are normally distributed random variables which assume different realizations for different values of <code>a</code> and <code>b</code>, and where <code>epsilon</code> is a random Gaussian noise term with variance <code>sigma**2</code>. The goal is to estimate the parameters <code>beta_0</code>, <code>beta_1</code>, <code>phi</code>, <code>psi</code> and <code>sigma</code>.</p>
+
+<p>We fit this model in <code>mixed_models</code>, and display the estimated random effects correlation structure with</p>
+
+<p>```ruby
+mod = LMM.from_formula(formula: "y ~ x + (1|a) + (1|a:b)",</p>
+
+<pre><code>                   data: df, reml: false)
+</code></pre>
+
+<p>puts mod.ran_ef_summary.inspect
+```</p>
+
+<p>which produces the output</p>
+
+<p>```</p>
+
+<pre><code>                a    a_and_b 
+     a 1.34108300        nil 
+</code></pre>
+
+<p>   a_and_b        nil 0.97697500
+```</p>
+
+<p>The correlation between the factor <code>a</code> and the nested random effect <code>a_and_b</code> is denoted as <code>nil</code>, because the random effects in the model at hand are assumed to be independent.</p>
+
+<p>An advantage of <code>mixed_models</code> over some other tools is the simplicity with which p-values and confidence intervals for the parameter estimates can be calculated using a multitude of available methods. Such methods include a likelihood ratio test implementation, multiple bootstrap based methods (which run in parallel by default), and methods based on the Wald Z statistic.</p>
+
+<p>We can compute five types of 95% confidence intervals for the fixed effects coefficients with the following line of code:</p>
+
+<p><code>ruby
+mod.fix_ef_conf_int(method: :all, nsim: 1000)
+</code></p>
+
+<p>which yields the result</p>
+
+<p>```</p>
+
+<pre><code>                                      intercept                                        x 
+wald_z [-1.0442515623151203, 2.433416817887737]   [4.302419420148841, 5.038899876985704] 
+</code></pre>
+
+<p>boot_basic [-0.9676586601496888, 2.486799230544233]    [4.30540212917657, 5.028701160534481]
+ boot_norm [-1.0575520080398213, 2.4667867000424115   [4.295959190826356, 5.043382379744274]</p>
+
+<pre><code>boot_t [-0.9676586601496886, 2.486799230544233]    [4.30540212917657, 5.028701160534481] 
+</code></pre>
+
+<p> boot_perc [-1.0976339749716164, 2.3568239157223054   [4.312618136600064, 5.035917167957975]</p>
+
+<p>```</p>
+
+<p>For example, we see here that the intercept term is likely not significantly different from zero. We could proceed now by performing hypotheses tests using <code>#fix_ef_p</code> or <code>#likelihood_ratio_test</code>, or by refitting a model without an intercept using <code>#drop_fix_ef</code>.</p>
+
+<p>We can also test the nested random effect for significance, in order to decide whether we should drop that term from the model to reduce model complexity. We can use a bootstrap based version of likelihood ratio test as follows.</p>
+
+<p>```ruby
+mod.ran_ef_p(variable: :intercept, grouping: [:a, :b],</p>
+
+<pre><code>         method: :bootstrap, nsim: 1000)
+</code></pre>
+
+<p>```</p>
+
+<p>We get a p-value of 9.99e-4, suggesting that we probably should keep the term <code>(1|a:b)</code> in the model formula.</p>
+
+<h3>A third example &mdash; a less conventional model fit</h3>
+
+<p>Another advantage of <code>mixed_models</code> against comparable tools is the ease of fitting models with arbitrary covariance structures of the random effects, which are not covered by the formula interface of <code>lme4</code>. This can be done in a user-friendly manner by providing a block or a <code>Proc</code> to the <code>LMM</code> constructor. This unique feature of the Ruby language makes the implementation and usage of the method incredibly convenient. A danger of allowing for arbitrary covariance structures is, of course, that such a flexibility gives the user the freedom to specify degenerate and computationally unstable  models.</p>
+
+<p>As an example we look at an application to genetics, namely to SNP data (<a href="https://en.wikipedia.org/wiki/Single-nucleotide_polymorphism">single-nucleotide polymorphism</a>) with known pedigree structures (family relationships of the subjects). The family information is prior knowledge that we can model in the random effects of a linear mixed effects model.</p>
+
+<p>We model the quantitative trait <code>y</code> (a vector of length 1200) as</p>
+
+<p><code>
+y = X * beta + b + epsilon,
+</code></p>
+
+<p>where <code>X</code> is a <code>1200 x 130</code> matrix containing the genotypes (i.e. 130 SNPs for each of the 1200 subjects); <code>epsilon</code> is a vector of independent random noise terms with variances equal to <code>sigma**2</code>; <code>beta</code> is a vector of unknown fixed effects coefficients measuring the contribution of each SNP to the quantitative trait <code>y</code>; and <code>b</code> is a vector of random effects.</p>
+
+<p>If we denote the kinship matrix by <code>K</code>, then we can express the probability distribution of <code>b</code> as <code>b ~ N(0, delta**2 * 2 * K)</code>, where we multiply <code>K</code> by <code>2</code> because the diagonal of <code>K</code> is constant <code>0.5</code>, and where <code>delta**2</code> is a unknown scaling factor.</p>
+
+<p>The goal is to estimate the unknown parameters <code>beta</code>, <code>sigma</code>, and <code>delta</code>, and to determine which of the fixed effects coefficients are significantly different from 0 (i.e. which SNPs are possibly causing the variability in the trait <code>y</code>).</p>
+
+<p>In order to specify the covariance structure of the random effects, we need to pass a block or <code>Proc</code> that produces the upper triangular Cholesky factor of the covariance matrix of the random effects from an input Array. In this example, that would be the multiplication of the prior known Cholesky factor of the kinship matrix with a scaling factor.</p>
+
+<p>Having all the model matrices and vectors, we compute the Cholesky factor of the kinship matrix and fit the model with</p>
+
+<p>```ruby</p>
+
+<h1>upper triangulat Cholesky factor</h1>
+
+<p>kinship_mat_cholesky_factor = kinship_mat.factorize_cholesky[0]</p>
+
+<h1>Fit the model</h1>
+
+<p>model_fit = LMM.new(x: x, y: y, zt: z,</p>
+
+<pre><code>                x_col_names: x_names, 
+                start_point: [2.0], 
+                lower_bound: [0.0]) { |th| kinship_mat_cholesky_factor * th[0] }
+</code></pre>
+
+<p>```</p>
+
+<p>Then we can use the available hypotheses test and confidence interval methods to determine which SNPs are significant predictors of the quantitative trait. Out of the 130 SNPs in the model, we find 24 to be significant as linear predictors.</p>
+
+<p>See <a href="http://agisga.github.io/mixed_models_applied_to_family_SNP_data/">this blog post</a> for a full analysis of this data with <code>mixed_models</code>.</p>
+
+<h2>Room for improvement and future work</h2>
+
+<ul>
+<li><p>Writing the formula language interpretation code used by <code>LMM#from_formula</code> from scratch was not easy. Much of the code can be reorganized to be easier to read and to use in other projects. Possibly, the formula interface should be separated out, similar to how it is done with the Python package <a href="https://github.com/pydata/patsy">patsy</a>. Also, some shortcut symbols (namely <code>*</code>, <code>/</code>, and <code>||</code>) in the model specification formula language are currently not implemented.</p></li>
+<li><p>I plan to add linear mixed models for high-dimensional data (i.e. more predictors than observations) to <code>mixed_models</code>, because that work would be in line with my current PhD research.</p></li>
+<li><p>I plan to add generalized linear mixed models capabilities to <code>mixed_models</code>, which can be used to fit mixed models to discrete data (such as binary or count data).</p></li>
+</ul>
+
+
+<h2>Acknowledgement</h2>
+
+<p>I want to thank Google and the <a href="sciruby.com">Ruby Science Foundation</a> for giving me this excellent opportunity! I especially want to thank <a href="http://thebird.nl/">Pjotr Prins</a> who was my mentor for the project for much helpful advice and suggestions as well as his prompt responses to any of my concerns. I also want to thank my fellow GSoC participants <a href="https://github.com/wlevine">Will</a>, <a href="https://github.com/dilcom">Ivan</a>, and <a href="https://github.com/v0dro">Sameer</a> for their help with certain aspects of my project.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Statistics with Ruby: Time Series and General Linear Models]]></title>
+    <link href="http://sciruby.com/blog/2013/11/07/statistics-with-ruby-time-series-and-general-linear-models/"/>
+    <updated>2013-11-07T13:15:00+09:00</updated>
+    <id>http://sciruby.com/blog/2013/11/07/statistics-with-ruby-time-series-and-general-linear-models</id>
+    <content type="html"><![CDATA[<p class="note"><strong>Editor's Note:</strong> This is the third of four blog posts detailing our Google Summer of
+Code 2013 students' work, edited by John Woods.</p>
+
+
+
+
+<p class="note"><strong>Gem Maintainer's Note:</strong> These gems have changed recently. Edits reflect the changes.</p>
+
+
+<h2>Introduction</h2>
+
+<p><a href="https://github.com/clbustos/statsample/">Statsample</a> is a basic and advanced statistics suite in Ruby. It attempts to support JRuby and MRI/YARV equally, and also provides pure Ruby implementations for many functions.</p>
+
+<p>Statsample is a ruby gem for statistical analysis in ruby.</p>
+
+<p>It includes a rich API, except for problems involving time series and generalized linear models (GLM), for which the functionality was rather basic.</p>
+
+<p>So, in this <a href="https://www.google-melange.com/gsoc/homepage/google/gsoc2013">Google Summer of Code 2013</a> program, working on the SciRuby Project, I released two extensions:</p>
+
+<ul>
+<li><a href="http://github.com/sciruby/statsample-timeseries">Statsample TimeSeries</a></li>
+<li><a href="https://github.com/sciruby/statsample-glm">Statsample GLM</a></li>
+</ul>
+
+
+<p>These gems aim to take Statsample further and incorporate various functionalities and estimation techniques on continuous data.</p>
+
+<h2>Statsample TimeSeries</h2>
+
+<p><a href="https://rubygems.org/gems/statsample-timeseries"><em>Statsample TimeSeries</em></a> is equipped with a variety of operations. A few of those functionalities are:</p>
+
+<ul>
+<li>_<a href="http://en.wikipedia.org/wiki/Autocorrelation">Autocorrelation</a> of series: For finding repeating patterns (like a periodic signal) in noisy data or for identifying persistence (if it rained today, will it rain tomorrow?).</li>
+<li><a href="http://en.wikipedia.org/wiki/Autoregressive_moving_average_model">Autoregressive and Moving Average</a>: Autoregressive models (AR and ARMA) are useful for describing random processes such as found in nature and economics believed to be
+predictable from past behavior (e.g., El Niño, the stock market).</li>
+<li><a href="http://en.wikipedia.org/wiki/Partial_autocorrelation_function">Partial autocorrelation</a> with Yule&ndash;Walker, a method for calculating the coefficients of autoregressive models.</li>
+<li><a href="http://en.wikipedia.org/wiki/Levinson_recursion">Levinson&ndash;Durbin</a> estimation: for <a href="http://www.mathworks.com/help/dsp/ref/levinsondurbin.html">solving linear equations</a> involving a <a href="http://en.wikipedia.org/wiki/Toeplitz_matrix">Toeplitz matrix</a>, such as in signal processing or cyclic signals.</li>
+<li><a href="http://en.wikipedia.org/wiki/Kalman_filter">Kalman filtering</a> (or linear quadratic estimation): often used for determining position and motion of a moving object based on sensor information (e.g., for drawing a vehicle's position on a map using GPS data, or for aircraft or spacecraft navigation based on sensor inputs)</li>
+</ul>
+
+
+<p>To get your hands dirty,</p>
+
+<ul>
+<li>Install Statsample with <code>gem install statsample</code>.</li>
+<li>Next, install the TimeSeries extension with <code>gem install statsample-timeseries</code>.</li>
+</ul>
+
+
+<p>EDIT: Statsample-timeseries now uses <a href="www.github.com/v0dro/daru/">daru</a> for data storage and cleaning. Thus all ephemeral time series statistics functions (moving average, acf, etc.) have been moved to Daru::Vector, which can be indexed on a DateTimeIndex, which lets you access data indexed by a time stamp. See the <a href="https://github.com/v0dro/daru/blob/master/README.md">daru README</a> for examples.</p>
+
+<p><code>Statsample::TimeSeries::Series</code> has been deprecated in favour of <code>Daru::Vector</code>.</p>
+
+<p>To demonstrate:
+```ruby</p>
+
+<p>require 'daru'
+require 'statsample-timeseries'</p>
+
+<p>ts = Daru::Vector.new(100.times.map { rand(100) }, index: Daru::DateTimeIndex.date_range(:start => '2012-2', :periods => 100))
+ts.acf # Calculate auto-correlation
+ts.pacf # Calculate partial autocorrelation</p>
+
+<h1>Partial autocorrelation with 11 lags by maximum likelihood estimation</h1>
+
+<p>ts.pacf(11, 'mle')
+ts.ar # Autoregressive coefficients</p>
+
+<h1>ARIMA(2, 1, 1)</h1>
+
+<p>k_obj = Statsample::TimeSeries.arima(ts, 2, 1, 1)
+k_obj.ar # autoregressive coefficients
+k_obj.ma # moving average coefficients</p>
+
+<p>```</p>
+
+<h2>Statsample GLM</h2>
+
+<p><a href="https://rubygems.org/gems/statsample-glm"><em>Statsample GLM</em></a> includes many helpful regression techniques, which can be used for regression analysis on data.
+Some of those techniques are:</p>
+
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Poisson_regression">Poisson Regression</a>: used to model contingency tables and counts</li>
+<li><a href="http://en.wikipedia.org/wiki/Logistic_regression">Logistic Regression</a></li>
+<li>Exponential Regression: one case of <a href="http://en.wikipedia.org/wiki/Nonlinear_regression">nonlinear regression</a> (examples might include the <a href="http://mathbits.com/MathBits/TISection/Statistics2/exponential.htm">temperature of a cup of coffee</a> left in a cold room, or the decay of an orbit)</li>
+<li><a href="http://en.wikipedia.org/wiki/Iteratively_reweighted_least_squares">Iteratively Reweighted Least Squares</a>: used to mitigate the effects of outliers</li>
+</ul>
+
+
+<p>The top level module for regression techniques is <code>Statsample::GLM</code>.</p>
+
+<p>Using it is as simple as ever:</p>
+
+<ul>
+<li>First, install <code>statsample</code> by <code>gem install statsample</code>.</li>
+<li>Then, install GLM by <code>gem install</code>statsample-glm`.</li>
+</ul>
+
+
+<p>Let's get started:</p>
+
+<p>```ruby</p>
+
+<p>require 'daru'
+require 'statsample-glm'</p>
+
+<h1>Create the datasets:</h1>
+
+<p>x1 = Daru::Vector.new([0.537322309644812,-0.717124209978434,-0.519166718891331,0.434970973986765,-0.761822002215759,1.51170030921189,0.883854199811195,-0.908689798854196,1.70331977539793,-0.246971150634099,-1.59077593922623,-0.721548040910253,0.467025703920194,-0.510132788447137,0.430106510266798,-0.144353683251536,-1.54943800728303,0.849307651309298,-0.640304240933579,1.31462478279425,-0.399783455165345,0.0453055645017902,-2.58212161987746,-1.16484414309359,-1.08829266466281,-0.243893919684792,-1.96655661929441,0.301335373291024,-0.665832694463588,-0.0120650855753837,1.5116066367604,0.557300353673344,1.12829931872045,0.234443748015922,-2.03486690662651,0.275544751380246,-0.231465849558696,-0.356880153225012,-0.57746647541923,1.35758352580655,1.23971669378224,-0.662466275100489,0.313263561921793,-1.08783223256362,1.41964722846899,1.29325100940785,0.72153880625103,0.440580131022748,0.0351917814720056, -0.142353224879252])
+x2 = Daru::Vector.new([-0.866655707911859,-0.367820249977585,0.361486610435,0.857332626245179,0.133438466268095,0.716104533073575,1.77206093023382,-0.10136697295802,-0.777086491435508,-0.204573554913706,0.963353531412233,-1.10103024900542,-0.404372761837392,-0.230226345183469,0.0363730246866971,-0.838265540390497,1.12543549657924,-0.57929175648001,-0.747060244805248,0.58946979365152,-0.531952663697324,1.53338594419818,0.521992029051441,1.41631763288724,0.611402316795129,-0.518355638373296,-0.515192557101107,-0.672697937866108,1.84347042325327,-0.21195540664804,-0.269869371631611,0.296155694010096,-2.18097898069634,-1.21314663927206,1.49193669881581,1.38969280369493,-0.400680808117106,-1.87282814976479,1.82394870451051,0.637864732838274,-0.141155946382493,0.0699950644281617,1.32568550595165,-0.412599258349398,0.14436832227506,-1.16507785388489,-2.16782049922428,0.24318371493798,0.258954871320764,-0.151966534521183])</p>
+
+<p>y = Daru::Vector.new([0,0,1,0,1,1,1,1,0,1,1,1,1,0,1,0,1,1,0,1,0,1,1,1,1,0,0,1,1,0,0,1,0,0,1,1,0,0,1,1,0,1,1,1,1,0,0,0,1,1])</p>
+
+<p>x = Daru::DataFrame.new({"x1"=>x1,"x2"=>x2})</p>
+
+<p>obj = Statsample::GLM.compute(x, y, :binomial)</p>
+
+<h1>=> Returns logistic regression object</h1>
+
+<p>```
+The <a href="http://rubydoc.info/gems/statsample-glm/Statsample/Regression">documentation and API details is available here</a></p>
+
+<p>We have some more plans for GLM module. First in the list is to make the algorithms work with singular value decomposition, because manual inversion of matrices is not fun for larger values in a Poisson regression.</p>
+
+<h2>Conclusion</h2>
+
+<p>I have <a href="http://ankurgoel.com">blogged about most of the functionalities</a>; additional information is available there.</p>
+
+<p>For more updated use cases refer to the notebooks in the respective project READMEs.</p>
+
+<p>Please explore and use the libraries; I eagerly await your input, suggestions and questions. Feel free to leave any questions on <a href="http://github.com/SciRuby/statsample-glm/issues">the Statsample GLM tracker</a> or <a href="[the%20Statsample%20GLM%20tracker](http://github.com/SciRuby/statsample-glm/issues">the Statsample TimeSeries tracker</a>.</p>
+
+<p>I had an amazing summer!</p>
+
+<p>Stay tuned and Enjoy.</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,18 @@
+<div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;daru/view&#39;</span>
+
+<span class="c1">#  set adapter.</span>
+<span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">.</span><span class="n">table_library</span> <span class="o">=</span> <span class="ss">:datatables</span>
+
+<span class="c1"># Lets use Daru::DataFrame as `data` (we can pass Array as well)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">DataFrame</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
+  <span class="p">{</span>
+    <span class="n">b</span><span class="p">:</span> <span class="o">[</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">15</span><span class="o">]</span><span class="p">,</span>
+    <span class="n">a</span><span class="p">:</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="o">]</span><span class="p">,</span>
+    <span class="n">c</span><span class="p">:</span> <span class="o">[</span><span class="mi">11</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="mi">33</span><span class="p">,</span><span class="mi">44</span><span class="p">,</span><span class="mi">55</span><span class="o">]</span>
+  <span class="p">},</span>
+    <span class="n">order</span><span class="p">:</span> <span class="o">[</span><span class="ss">:a</span><span class="p">,</span> <span class="ss">:b</span><span class="p">,</span> <span class="ss">:c</span><span class="o">]</span><span class="p">,</span>
+    <span class="n">index</span><span class="p">:</span> <span class="o">[</span><span class="ss">:one</span><span class="p">,</span> <span class="ss">:two</span><span class="p">,</span> <span class="ss">:three</span><span class="p">,</span> <span class="ss">:four</span><span class="p">,</span> <span class="ss">:five</span><span class="o">]</span>
+<span class="p">)</span>
+<span class="n">df_datatable</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">::</span><span class="no">Table</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pageLength</span><span class="p">:</span> <span class="mi">3</span><span class="p">)</span>
+</pre>
+</div>

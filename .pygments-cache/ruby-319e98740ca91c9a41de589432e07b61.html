@@ -1,0 +1,9 @@
+<div class="highlight"><pre><span class="n">d1</span> <span class="o">=</span> <span class="n">moon</span><span class="o">.</span><span class="n">distance_from</span><span class="p">(</span><span class="n">earth</span><span class="p">,</span> <span class="no">SpiceRub</span><span class="o">::</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="p">,</span> <span class="n">aberration_correction</span><span class="p">:</span> <span class="ss">:none</span><span class="p">)</span>
+<span class="o">=&gt;</span> <span class="mi">369111</span><span class="o">.</span><span class="mo">055033313</span><span class="mi">8</span>
+<span class="n">d2</span> <span class="o">=</span> <span class="n">moon</span><span class="o">.</span><span class="n">distance_from</span><span class="p">(</span><span class="n">earth</span><span class="p">,</span> <span class="no">SpiceRub</span><span class="o">::</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="p">,</span> <span class="n">aberration_correction</span><span class="p">:</span> <span class="ss">:LT</span><span class="p">)</span>
+<span class="o">=&gt;</span> <span class="mi">369146</span><span class="o">.</span><span class="mi">60640691273</span>
+
+<span class="n">d2</span> <span class="o">-</span> <span class="n">d1</span>
+<span class="o">=&gt;</span> <span class="mi">35</span><span class="o">.</span><span class="mi">55137359892251</span>
+</pre>
+</div>

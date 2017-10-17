@@ -1,0 +1,21 @@
+<div class="highlight"><pre>  <span class="k">if</span> <span class="n">body_id</span> <span class="o">&gt;</span> <span class="mi">2000000</span>
+    <span class="ss">:asteroid</span>
+  <span class="k">elsif</span> <span class="n">body_id</span> <span class="o">&gt;</span> <span class="mi">1000000</span>
+    <span class="ss">:comet</span>
+  <span class="k">elsif</span> <span class="n">body_id</span> <span class="o">&gt;</span> <span class="mi">1000</span>
+    <span class="ss">:body</span>
+  <span class="k">elsif</span> <span class="n">body_id</span> <span class="o">&gt;</span> <span class="mi">10</span>
+    <span class="n">body_id</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">99</span> <span class="o">?</span>
+      <span class="ss">:planet</span> <span class="p">:</span> <span class="ss">:satellite</span>
+  <span class="k">elsif</span> <span class="n">body_id</span> <span class="o">==</span> <span class="mi">10</span>
+    <span class="ss">:star</span>
+  <span class="k">elsif</span> <span class="n">body_id</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="ss">:barycenter</span>
+  <span class="k">elsif</span> <span class="n">body_id</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1000</span>
+    <span class="ss">:spacecraft</span>
+  <span class="k">elsif</span> <span class="n">body_id</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">100000</span>
+    <span class="ss">:instrument</span>
+  <span class="k">else</span>
+    <span class="ss">:spacecraft</span>
+</pre>
+</div>

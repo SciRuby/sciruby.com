@@ -1,0 +1,20 @@
+<div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;daru/view&#39;</span>
+
+<span class="c1">#  set adapter</span>
+<span class="c1"># You don&#39;t need this line if you have already using google chart for plotting.</span>
+<span class="c1"># It is just for loading the dependent js files.</span>
+<span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">.</span><span class="n">table_library</span> <span class="o">=</span> <span class="ss">:googlechart</span>
+
+<span class="c1"># Lets use array as `data` (we can pass Daru::DataFrame as well)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="o">[</span>
+  <span class="o">[</span><span class="s1">&#39;Galaxy&#39;</span><span class="p">,</span> <span class="s1">&#39;Distance&#39;</span><span class="p">,</span> <span class="s1">&#39;Brightness&#39;</span><span class="o">]</span><span class="p">,</span>
+          <span class="o">[</span><span class="s1">&#39;Canis Major Dwarf&#39;</span><span class="p">,</span> <span class="mi">8000</span><span class="p">,</span> <span class="mi">230</span><span class="o">.</span><span class="mi">3</span><span class="o">]</span><span class="p">,</span>
+          <span class="o">[</span><span class="s1">&#39;Sagittarius Dwarf&#39;</span><span class="p">,</span> <span class="mi">24000</span><span class="p">,</span> <span class="mi">4000</span><span class="o">.</span><span class="mi">5</span><span class="o">]</span><span class="p">,</span>
+          <span class="o">[</span><span class="s1">&#39;Ursa Major II Dwarf&#39;</span><span class="p">,</span> <span class="mi">30000</span><span class="p">,</span> <span class="mi">1412</span><span class="o">.</span><span class="mi">3</span><span class="o">]</span><span class="p">,</span>
+          <span class="o">[</span><span class="s1">&#39;Lg. Magellanic Cloud&#39;</span><span class="p">,</span> <span class="mi">50000</span><span class="p">,</span> <span class="mi">120</span><span class="o">.</span><span class="mi">9</span><span class="o">]</span><span class="p">,</span>
+          <span class="o">[</span><span class="s1">&#39;Bootes I&#39;</span><span class="p">,</span> <span class="mi">60000</span><span class="p">,</span> <span class="mi">1223</span><span class="o">.</span><span class="mi">1</span><span class="o">]</span>
+  <span class="o">]</span>
+<span class="n">galaxy_table</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">::</span><span class="no">Table</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">galaxy_table</span><span class="o">.</span><span class="n">table</span>
+</pre>
+</div>

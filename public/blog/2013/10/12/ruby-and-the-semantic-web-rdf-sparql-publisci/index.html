@@ -1,0 +1,440 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Ruby and the Semantic Web, RDF, and SPARQL: PubliSci - SciRuby</title>
+  <meta name="author" content="SciRuby">
+
+  
+  <meta name="description" content="Editor&#8217;s Note: This is the second of four blog posts detailing our Google Summer of
+Code 2013 students&#8217; work. I edited it to include a &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sciruby.com/blog/2013/10/12/ruby-and-the-semantic-web-rdf-sparql-publisci/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="SciRuby" type="application/atom+xml">
+  <!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-12735432-6']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">SciRuby</a></h1>
+  
+    <h2>Tools for Scientific Computing in Ruby</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:sciruby.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul role=main-navigation xmlns="http://www.w3.org/1999/html">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog">Blog</a></li>
+  <li><a href="/docs">Installation</a></li>
+  <li><a href="http://gems.sciruby.com/">Gems</a></li>
+  <li><a href="https://github.com/sciruby/sciruby">SciRuby</a></li>
+  <li><a href="/nmatrix">NMatrix</a></li>
+  <li><a href="/publications/">Citing SciRuby</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Ruby and the Semantic Web, RDF, and SPARQL: PubliSci</h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Will Strinz</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-12T16:36:00+09:00" pubdate data-updated="true">Oct 12<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p class="note"><strong>Editor&#8217;s Note:</strong> This is the second of four blog posts detailing our Google Summer of
+Code 2013 students&#8217; work. I edited it to include a very incomplete list of public RDF repositories. &mdash;John Woods</p>
+
+
+<h2>Introduction</h2>
+
+<p>Across all fields and disciplines, contemporary scientists are faced with a massive and growing volume of data. It often
+won&#8217;t fit in a lab notebook, and there is a pressing need to share it more quickly and widely than publication in a
+journal article would allow for. Database software is one great solution for storage of such data, but relational
+databases become brittle in the face of changes or new information, do not play nicely with other databases or data
+derived from such databases, and may not be fully machine (or human) readable without pre-existing knowledge.</p>
+
+<p>Meanwhile, the Internet is an extremely useful place to discover and share useful information, but it is essentially
+built around linked documents, rather than pure data, and so our primary mechanism for sharing data is as HTML or text.</p>
+
+<p>RDF and related technologies propose to provide the means to move beyond a web of documents to a web of data. Along
+the way, these technologies may address many of the problems with conventional relational databases (e.g., SQL). At its
+core, RDF defines an extremely flexible method for representing data on the web &mdash; which is nonetheless
+unambiguously defined, without any external context, and can be linked to other data as web documents link to each
+other. Because RDF data can be understood as either a set of subject&ndash;predicate&ndash;object statements or a
+directed graph with labeled edges, a number of supporting standards and tools that have grown up around it to provide
+powerful storage and access methods that are often easier to implement and use than those associated with relational
+databases and the document-based web.</p>
+
+<h2>Enter PubliSci</h2>
+
+<p>This summer I created a Ruby gem, <a href="http://github.com/sciruby/publisci">PubliSci</a>, to facilitate data publication and interaction using
+the <a href="https://en.wikipedia.org/wiki/Semantic_web">Semantic Web</a>. The format offers a unified way to share and combine
+information from multiple sources, support for machine learning tools,
+a <a href="https://en.wikipedia.org/wiki/SPARQL">flexible query language</a> that makes application integration easy, and the
+backing of the World Wide Web Consortium (W3C) and other standards-setting bodies.</p>
+
+<p>The PubliSci gem comprises a set of parsers for converting various input formats using
+the <a href="http://semanticweb.com/w3c-publishes-last-call-working-drafts-for-rdf-data-cube-dcat_b35950">RDF Data Cube vocabulary</a>, and
+a Ruby interface for defining new ones. Since the relationship between external datasets and semantic web formats is
+sometimes up to interpretation, a domain-specific language is included to allow end users to resolve ambiguities and
+provide additional metadata.</p>
+
+<p>Along with the conversion tool, a standalone server is available as an extension to the gem that simplifies setting up and interacting
+with RDF data stores. The server allows import, export, querying, and management of external <a href="https://en.wikipedia.org/wiki/Triplestore">triplestores</a> such as
+<a href="http://4store.org/">4store</a>, and supports both cross-domain access and content negotiation so the gem can be accessed
+using Javascript or other applications.</p>
+
+<p class="note"><strong>Triplestores</strong> are databases for the storage and retrieval of <strong>triples</strong>,
+which are typically subject&ndash;object&ndash;predicate relationships (e.g., <i>Bob knows Fred</i>).</p>
+
+
+<p>If you&#8217;d like to contribute, the <a href="https://github.com/sciruby/publisci">source code is available on Github</a>, and <a href="http://gsocsemantic.wordpress.com/2013/08/05/bio-publisci/">a broad
+outline of the to do list can be had as well</a>.</p>
+
+<h2>Usage</h2>
+
+<p>Once you&#8217;ve done <code>gem install publisci</code>, you can require the gem in the normal way (<code>require 'publisci'</code>). To invoke the
+domain-specific language, you&#8217;ll also want to include the <code>DSL</code> module:</p>
+
+<pre><code>require 'publisci'
+include PubliSci::DSL
+</code></pre>
+
+<p>Input data can be specified like so:</p>
+
+<pre><code># Specify input data
+data do
+  # Use local or remote paths to point to the data file you want to load:
+  source 'https://github.com/wstrinz/publisci/raw/master/spec/csv/bacon.csv'
+
+  # Specify datacube properties.
+  dimension 'producer', 'pricerange'
+  measure 'chunkiness'
+
+  # Set parser-specific options.
+  option 'label_column', 'producer'
+end
+</code></pre>
+
+<p>You can provide meta-data on your dataset as well.</p>
+
+<pre><code>metadata do
+  dataset 'bacon'
+  title 'Bacon dataset'
+  creator 'Will Strinz'
+  description 'some data about bacon'
+  date '1-10-2010'
+end
+</code></pre>
+
+<p>Sending the data to a repository is simple.</p>
+
+<pre><code># Send output to an RDF::Repository
+#  can also use 'generate_n3' to output a turtle string
+repo = to_repository
+</code></pre>
+
+<p>SPARQL queries can be run on the dataset using the <code>QueryHelper</code> module.</p>
+
+<pre><code># run SPARQL queries on the dataset
+PubliSci::QueryHelper.execute('select * where {?s ?p ?o} limit 5', repo)
+</code></pre>
+
+<p>Finally, data can be exported in other formats, such as ARFF:</p>
+
+<pre><code># export in other formats
+PubliSci::Writers::ARFF.new.from_store(repo)
+</code></pre>
+
+<h2>Some places to look for RDF repositories</h2>
+
+<ul>
+<li>Social sciences and economics: <a href="http://wiki.planet-data.eu/web/Datasets">PlanetData wiki: Datasets</a>, <a href="http://270a.info/">270a Linked Dataspaces</a></li>
+<li>Chemistry: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3118380/">Resource description framework technologies in chemistry</a></li>
+<li>Molecular biology: <a href="http://www.ebi.ac.uk/rdf/">EMBL-EBI: Current RDF Resources</a>, <a href="http://bio2rdf.org/">Bio2RDF</a>,
+<a href="http://www.geneontology.org/GO.format.rdfxml.shtml">Gene Ontology</a></li>
+<li>Ecology: <a href="http://www.bbc.co.uk/nature/feedsanddata">BBC Wildlife Finder</a></li>
+<li>General: <a href="http://dataincubator.org/">Data Incubator: Growing the Web of Data</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Will Strinz</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-12T16:36:00+09:00" pubdate data-updated="true">Oct 12<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/data-mining/'>Data mining</a>, <a class='category' href='/blog/categories/gsoc/'>GSOC</a>, <a class='category' href='/blog/categories/gsoc2013/'>GSOC2013</a>, <a class='category' href='/blog/categories/publisci/'>PubliSci</a>, <a class='category' href='/blog/categories/rdf/'>RDF</a>, <a class='category' href='/blog/categories/sparql/'>SPARQL</a>, <a class='category' href='/blog/categories/semantic-web/'>Semantic Web</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://sciruby.com/blog/2013/10/12/ruby-and-the-semantic-web-rdf-sparql-publisci/" data-via="sciruby" data-counturl="http://sciruby.com/blog/2013/10/12/ruby-and-the-semantic-web-rdf-sparql-publisci/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/09/24/gsoc-2013-data-mining-in-jruby-with-ruby-band/" title="Previous Post: GSOC 2013: Data mining in JRuby with Ruby Band">&laquo; GSOC 2013: Data mining in JRuby with Ruby Band</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/10/25/mentoring-future-computational-power-women-for-gci-2013/" title="Next Post: Mentoring future computational power women for GCI 2013">Mentoring future computational power women for GCI 2013 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+
+
+<section>
+<div class="fb-like-box" data-href="http://www.facebook.com/SciRuby" data-width="" data-show-faces="false" data-stream="" data-header=""   ></div>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/">GSoC 2017 : Data visualization using daru-view</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats/">GSoC 2017 : Support to Import & Export of more formats</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/">GSoC 2016: Adding Categorical Data Support</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/spicerub-kernelpool-and-kernels/">GSoC 2016: SpiceRub::KernelPool and Kernels</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/">GSoC 2016 : A Look at SpiceRub::Body</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/SciRuby">@SciRuby</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'SciRuby',
+            count: 6,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("sciruby", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/sciruby" class="twitter-follow-button" data-show-count="false">Follow @sciruby</a>
+  
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - SciRuby -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sciruby';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sciruby.com/blog/2013/10/12/ruby-and-the-semantic-web-rdf-sparql-publisci/';
+        var disqus_url = 'http://sciruby.com/blog/2013/10/12/ruby-and-the-semantic-web-rdf-sparql-publisci/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

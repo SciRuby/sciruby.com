@@ -1,0 +1,11 @@
+<div class="highlight"><pre><span class="n">dv</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">Vector</span><span class="o">.</span><span class="n">new</span> <span class="o">[</span><span class="mi">43934</span><span class="p">,</span> <span class="mi">52503</span><span class="p">,</span> <span class="mi">57177</span><span class="p">,</span> <span class="mi">69658</span><span class="p">,</span> <span class="mi">97031</span><span class="p">,</span> <span class="mi">119931</span><span class="p">,</span> <span class="mi">137133</span><span class="p">,</span> <span class="mi">154175</span><span class="o">]</span>
+
+<span class="c1"># adding pagination and some customization [optional]</span>
+<span class="n">opts_pagination</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="n">width</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span> <span class="p">,</span>
+  <span class="n">pageSize</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">table_vec</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">::</span><span class="no">Table</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">dv</span><span class="p">,</span> <span class="n">opts_pagination</span><span class="p">)</span>
+</pre>
+</div>

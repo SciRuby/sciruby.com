@@ -1,0 +1,8 @@
+<div class="highlight"><pre><span class="n">epochs</span> <span class="o">=</span> <span class="o">[</span><span class="ss">:utc</span><span class="p">,</span> <span class="ss">:tdb</span><span class="p">,</span> <span class="ss">:tai</span><span class="o">].</span><span class="n">map</span> 
+  <span class="p">{</span> <span class="o">|</span><span class="n">scale</span><span class="o">|</span> <span class="no">SpiceRub</span><span class="o">::</span><span class="no">Time</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">seconds</span><span class="p">:</span> <span class="n">scale</span><span class="p">)</span> <span class="p">}</span>
+
+<span class="o">=&gt;</span> <span class="o">[</span><span class="c1">#&lt;SpiceRub::Time:0x00000002756fc8 @et=64.18392728466942&gt;,</span>
+    <span class="c1">#&lt;SpiceRub::Time:0x00000002756eb0 @et=0&gt;,</span>
+    <span class="c1">#&lt;SpiceRub::Time:0x00000002756cf8 @et=32.18392727400827&gt;]</span>
+</pre>
+</div>

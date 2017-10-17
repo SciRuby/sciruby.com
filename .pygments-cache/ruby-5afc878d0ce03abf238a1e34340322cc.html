@@ -1,0 +1,14 @@
+<div class="highlight"><pre><span class="n">kernel_pool</span> <span class="o">=</span> <span class="no">SpiceRub</span><span class="o">::</span><span class="no">KernelPool</span><span class="o">.</span><span class="n">instance</span>
+<span class="o">=&gt;</span> <span class="c1">#&lt;SpiceRub::KernelPool:0x00000002db3218&gt;</span>
+
+<span class="n">rogue_kernel_pool</span> <span class="o">=</span> <span class="no">SpiceRub</span><span class="o">::</span><span class="no">KernelPool</span><span class="o">.</span><span class="n">new</span>
+<span class="no">NoMethodError</span><span class="p">:</span> <span class="kp">private</span> <span class="nb">method</span> <span class="sb">`new&#39; called for SpiceRub::KernelPool:Class</span>
+<span class="sb">from (pry):2:in `</span><span class="n">__pry__</span><span class="err">&#39;</span>
+
+<span class="n">rogue_kernel_pool</span> <span class="o">=</span> <span class="no">SpiceRub</span><span class="o">::</span><span class="no">KernelPool</span><span class="o">.</span><span class="n">instance</span>
+<span class="o">=&gt;</span> <span class="c1">#&lt;SpiceRub::KernelPool:0x00000002db3218&gt;</span>
+
+<span class="n">rogue_kernel_pool</span> <span class="o">==</span> <span class="n">kernel_pool</span>
+<span class="o">=&gt;</span> <span class="kp">true</span>
+</pre>
+</div>

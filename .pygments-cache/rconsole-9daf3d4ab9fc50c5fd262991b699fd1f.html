@@ -1,0 +1,20 @@
+<div class="highlight"><pre><span class="gp">&gt; </span>mod <span class="o">&lt;-</span> lmer<span class="p">(</span>log_comments ~ log_host_comments_avg <span class="o">+</span> host_trackbacks_avg <span class="o">+</span> length <span class="o">+</span> has_parent_with_comments <span class="o">+</span> <span class="p">(</span><span class="m">1</span><span class="o">|</span>day<span class="p">),</span> data <span class="o">=</span> df<span class="p">)</span>
+<span class="go">Warning message:</span>
+<span class="go">Some predictor variables are on very different scales: consider rescaling </span>
+<span class="gp">&gt; </span>ranef<span class="p">(</span>mod<span class="p">)</span>
+<span class="go">$day</span>
+<span class="go">   (Intercept)</span>
+<span class="go">fr           0</span>
+<span class="go">mo           0</span>
+<span class="go">sa           0</span>
+<span class="go">su           0</span>
+<span class="go">th           0</span>
+<span class="go">tu           0</span>
+<span class="go">we           0</span>
+
+<span class="gp">&gt; </span>VarCorr<span class="p">(</span>mod<span class="p">)</span>
+<span class="go"> Groups   Name        Std.Dev.</span>
+<span class="go"> day      (Intercept) 0.0000  </span>
+<span class="go"> Residual             1.2614</span>
+</pre>
+</div>

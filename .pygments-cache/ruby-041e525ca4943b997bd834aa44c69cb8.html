@@ -1,0 +1,16 @@
+<div class="highlight"><pre>  <span class="k">case</span> <span class="n">reference</span><span class="o">.</span><span class="n">downcase</span>
+  <span class="k">when</span> <span class="ss">:j2100</span>
+    <span class="kp">new</span><span class="p">(</span><span class="n">offset</span> <span class="o">+</span> <span class="mi">3155760000</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">seconds</span><span class="p">:</span> <span class="n">seconds</span><span class="p">)</span>
+  <span class="k">when</span> <span class="ss">:j2000</span><span class="p">,</span> <span class="ss">:et</span>
+    <span class="kp">new</span><span class="p">(</span><span class="n">offset</span><span class="p">,</span> <span class="n">seconds</span><span class="p">:</span> <span class="n">seconds</span><span class="p">)</span>      
+  <span class="k">when</span> <span class="ss">:j1950</span>
+    <span class="kp">new</span><span class="p">(</span><span class="n">offset</span> <span class="o">-</span> <span class="mi">1577880000</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">seconds</span><span class="p">:</span> <span class="n">seconds</span><span class="p">)</span>
+  <span class="k">when</span> <span class="ss">:j1900</span>
+    <span class="kp">new</span><span class="p">(</span><span class="n">offset</span> <span class="o">-</span> <span class="mi">3155760000</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">seconds</span><span class="p">:</span> <span class="n">seconds</span><span class="p">)</span>
+  <span class="k">when</span> <span class="ss">:gps</span>
+    <span class="kp">new</span><span class="p">(</span><span class="n">offset</span> <span class="o">-</span> <span class="mi">630763148</span><span class="o">.</span><span class="mi">8159368</span><span class="p">,</span> <span class="n">seconds</span><span class="p">:</span> <span class="n">seconds</span><span class="p">)</span>
+  <span class="k">when</span> <span class="ss">:unix</span>
+    <span class="kp">new</span><span class="p">(</span><span class="n">offset</span> <span class="o">-</span> <span class="mi">946727958</span><span class="o">.</span><span class="mi">8160644</span><span class="p">,</span> <span class="n">seconds</span><span class="p">:</span> <span class="n">seconds</span><span class="p">)</span>
+  <span class="k">end</span>
+</pre>
+</div>

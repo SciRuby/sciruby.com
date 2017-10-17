@@ -1,0 +1,16 @@
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ArrayGenerator</span>
+<span class="o">{</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">double</span><span class="o">[]</span> <span class="nf">getArrayDouble</span><span class="o">(</span><span class="kt">double</span><span class="o">[][]</span> <span class="n">matrix</span><span class="o">,</span> <span class="kt">int</span> <span class="n">row</span><span class="o">,</span> <span class="kt">int</span> <span class="n">col</span><span class="o">)</span>
+  <span class="o">{</span>
+    <span class="kt">double</span><span class="o">[]</span> <span class="n">array</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">double</span><span class="o">[</span><span class="n">row</span> <span class="o">*</span> <span class="n">col</span><span class="o">];</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="o">,</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">row</span> <span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">col</span><span class="o">;</span> <span class="n">j</span><span class="o">++){</span>
+            <span class="n">array</span><span class="o">[</span><span class="n">index</span><span class="o">]</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">];</span>
+            <span class="n">index</span><span class="o">++;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">array</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre>
+</div>

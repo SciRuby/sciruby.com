@@ -1,0 +1,17 @@
+<div class="highlight"><pre><span class="n">country_population</span> <span class="o">=</span> <span class="o">[</span>
+          <span class="o">[</span><span class="s1">&#39;Germany&#39;</span><span class="p">,</span> <span class="mi">200</span><span class="o">]</span><span class="p">,</span>
+          <span class="o">[</span><span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="mi">300</span><span class="o">]</span><span class="p">,</span>
+          <span class="o">[</span><span class="s1">&#39;Brazil&#39;</span><span class="p">,</span> <span class="mi">400</span><span class="o">]</span><span class="p">,</span>
+          <span class="o">[</span><span class="s1">&#39;Canada&#39;</span><span class="p">,</span> <span class="mi">500</span><span class="o">]</span><span class="p">,</span>
+          <span class="o">[</span><span class="s1">&#39;France&#39;</span><span class="p">,</span> <span class="mi">600</span><span class="o">]</span><span class="p">,</span>
+          <span class="o">[</span><span class="s1">&#39;RU&#39;</span><span class="p">,</span> <span class="mi">700</span><span class="o">]</span>
+<span class="o">]</span>
+
+<span class="n">df_cp</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">DataFrame</span><span class="o">.</span><span class="n">rows</span><span class="p">(</span><span class="n">country_population</span><span class="p">)</span>
+<span class="n">df_cp</span><span class="o">.</span><span class="n">vectors</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">Index</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;Country&#39;</span><span class="p">,</span> <span class="s1">&#39;Population&#39;</span><span class="o">]</span><span class="p">)</span>
+
+<span class="n">geochart</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">::</span><span class="no">Plot</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
+    <span class="n">df_cp</span><span class="p">,</span> <span class="n">type</span><span class="p">:</span> <span class="ss">:geo</span><span class="p">,</span> <span class="n">adapter</span><span class="p">:</span> <span class="ss">:googlecharts</span>
+<span class="p">)</span>
+</pre>
+</div>

@@ -1,0 +1,4 @@
+<div class="highlight"><pre><span class="n">model_fit</span> <span class="o">=</span> <span class="no">LMM</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">:</span> <span class="s2">&quot;log_comments ~ log_host_comments_avg + host_trackbacks_avg + length + has_parent_with_comments + (1 | day)&quot;</span><span class="p">,</span> 
+                              <span class="n">data</span><span class="p">:</span> <span class="n">blog_data</span><span class="p">)</span>
+</pre>
+</div>

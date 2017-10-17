@@ -1,0 +1,15 @@
+<div class="highlight"><pre>  <span class="k">def</span> <span class="nf">factorize_cholesky</span>
+    <span class="n">cholesky</span> <span class="o">=</span> <span class="no">CholeskyDecomposition</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">twoDMat</span><span class="p">)</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="n">create_dummy_nmatrix</span>
+    <span class="n">twoDMat</span> <span class="o">=</span> <span class="n">cholesky</span><span class="o">.</span><span class="n">getL</span>
+    <span class="n">l</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="no">ArrayRealVector</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">ArrayGenerator</span><span class="o">.</span><span class="n">getArrayDouble</span><span class="p">\</span>
+        <span class="p">(</span><span class="n">twoDMat</span><span class="o">.</span><span class="n">getData</span><span class="p">,</span> <span class="vi">@shape</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span> <span class="vi">@shape</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">))</span>
+
+    <span class="n">u</span> <span class="o">=</span> <span class="n">create_dummy_nmatrix</span>
+    <span class="n">twoDMat</span> <span class="o">=</span> <span class="n">cholesky</span><span class="o">.</span><span class="n">getLT</span>
+    <span class="n">u</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="no">ArrayRealVector</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">ArrayGenerator</span><span class="o">.</span><span class="n">getArrayDouble</span><span class="p">\</span>
+      <span class="p">(</span><span class="n">twoDMat</span><span class="o">.</span><span class="n">getData</span><span class="p">,</span> <span class="vi">@shape</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span> <span class="vi">@shape</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">))</span>
+    <span class="k">return</span> <span class="o">[</span><span class="n">u</span><span class="p">,</span><span class="n">l</span><span class="o">]</span>
+  <span class="k">end</span>
+</pre>
+</div>

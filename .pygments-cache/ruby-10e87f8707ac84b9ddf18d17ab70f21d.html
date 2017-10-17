@@ -1,0 +1,14 @@
+<div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;daru/io/exporters/rds&#39;</span>
+
+<span class="n">dataframe</span> <span class="c1">#! Say, the DataFrame is obtained from the above JSON Importer example</span>
+
+<span class="c1">#=&gt; #&lt;Daru::DataFrame(120x4)&gt;</span>
+<span class="c1">#      Repository   Stars   Size   Forks</span>
+<span class="c1">#   0  athityakum       0      6       0</span>
+<span class="c1">#   1  athityakum       0    212       0</span>
+<span class="c1">#   2  athityakum       0    112       0</span>
+<span class="c1">#  ...    ...          ...   ...     ...</span>
+
+<span class="n">dataframe</span><span class="o">.</span><span class="n">write_rds</span><span class="p">(</span><span class="s1">&#39;github_api.rds&#39;</span><span class="p">,</span> <span class="s1">&#39;github.api.dataframe&#39;</span><span class="p">)</span>
+</pre>
+</div>

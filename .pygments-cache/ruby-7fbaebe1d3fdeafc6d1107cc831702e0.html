@@ -1,0 +1,5 @@
+<div class="highlight"><pre><span class="n">predict</span> <span class="o">=</span> <span class="n">glm_adoption</span><span class="o">.</span><span class="n">predict</span> <span class="nb">test</span>
+<span class="n">predict</span><span class="o">.</span><span class="n">map!</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span> <span class="o">?</span> <span class="mi">0</span> <span class="p">:</span> <span class="mi">1</span> <span class="p">}</span>
+<span class="n">predict</span><span class="o">.</span><span class="n">head</span> <span class="mi">5</span>
+</pre>
+</div>

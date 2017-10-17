@@ -1,0 +1,32 @@
+<div class="highlight"><pre>  <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">opts</span> <span class="o">=</span> <span class="p">{})</span>
+    <span class="k">raise</span><span class="p">(</span><span class="no">ShapeError</span><span class="p">,</span> <span class="s2">&quot;Must be called on square matrix&quot;</span><span class="p">)\</span>
+       <span class="k">unless</span> <span class="nb">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span> <span class="o">&amp;&amp;</span> <span class="nb">self</span><span class="o">.</span><span class="n">shape</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">==</span> <span class="nb">self</span><span class="o">.</span><span class="n">shape</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span>
+    <span class="k">raise</span><span class="p">(</span><span class="no">ShapeError</span><span class="p">,</span> <span class="s2">&quot;number of rows of b must equal number\</span>
+<span class="s2">       of cols of self&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">self</span><span class="o">.</span><span class="n">shape</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">!=</span> <span class="n">b</span><span class="o">.</span><span class="n">shape</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
+    <span class="k">raise</span><span class="p">(</span><span class="no">ArgumentError</span><span class="p">,</span> <span class="s2">&quot;only works with dense matrices&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">self</span><span class="o">.</span><span class="n">stype</span> <span class="o">!=</span> <span class="ss">:dense</span>
+    <span class="k">raise</span><span class="p">(</span><span class="no">ArgumentError</span><span class="p">,</span> <span class="s2">&quot;only works for non-integer, non-object dtypes&quot;</span><span class="p">)\</span>
+       <span class="k">if</span> <span class="n">integer_dtype?</span> <span class="ow">or</span> <span class="n">object_dtype?</span> <span class="ow">or</span> <span class="n">b</span><span class="o">.</span><span class="n">integer_dtype?</span> <span class="ow">or</span> <span class="n">b</span><span class="o">.</span><span class="n">object_dtype?</span>
+
+    <span class="n">opts</span> <span class="o">=</span> <span class="p">{</span> <span class="n">form</span><span class="p">:</span> <span class="ss">:general</span> <span class="p">}</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">opts</span><span class="p">)</span>
+    <span class="n">x</span>    <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">clone</span>
+    <span class="n">n</span>    <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">shape</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
+    <span class="n">nrhs</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">shape</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span>
+
+    <span class="n">nmatrix</span> <span class="o">=</span> <span class="n">create_dummy_nmatrix</span>
+    <span class="k">case</span> <span class="n">opts</span><span class="o">[</span><span class="ss">:form</span><span class="o">]</span>
+    <span class="k">when</span> <span class="ss">:general</span><span class="p">,</span> <span class="ss">:upper_tri</span><span class="p">,</span> <span class="ss">:upper_triangular</span><span class="p">,</span> <span class="ss">:lower_tri</span><span class="p">,</span> <span class="ss">:lower_triangular</span>
+      <span class="c1">#LU solver</span>
+      <span class="n">solver</span> <span class="o">=</span> <span class="no">LUDecomposition</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">twoDMat</span><span class="p">)</span><span class="o">.</span><span class="n">getSolver</span>
+      <span class="n">nmatrix</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">nmatrix</span>
+    <span class="k">when</span> <span class="ss">:pos_def</span><span class="p">,</span> <span class="ss">:positive_definite</span>
+      <span class="n">solver</span> <span class="o">=</span> <span class="no">Choleskyecomposition</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">twoDMat</span><span class="p">)</span><span class="o">.</span><span class="n">getSolver</span>
+      <span class="n">nmatrix</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">nmatrix</span>
+    <span class="k">else</span>
+      <span class="k">raise</span><span class="p">(</span><span class="no">ArgumentError</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">opts</span><span class="o">[</span><span class="ss">:form</span><span class="o">]</span><span class="si">}</span><span class="s2"> is not a valid form option&quot;</span><span class="p">)</span>
+    <span class="k">end</span>
+
+  <span class="k">end</span>
+</pre>
+</div>

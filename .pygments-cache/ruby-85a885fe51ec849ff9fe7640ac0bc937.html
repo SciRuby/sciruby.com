@@ -1,0 +1,7 @@
+<div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;nmatrix&#39;</span>
+<span class="c1"># create a 3-by-3 matrix</span>
+<span class="n">a</span> <span class="o">=</span> <span class="no">NMatrix</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="o">]</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="ss">:float64</span><span class="p">)</span>
+<span class="c1">#invert it using non-optimized NMatrix-internal implementation</span>
+<span class="n">a</span><span class="o">.</span><span class="n">invert!</span>
+</pre>
+</div>

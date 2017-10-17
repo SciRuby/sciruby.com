@@ -1,0 +1,457 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>How to use NMatrix's shortcuts - SciRuby</title>
+  <meta name="author" content="SciRuby">
+
+  
+  <meta name="description" content="Warning: This code predates v0.0.9 alpha, which is when the NMatrix constructor changed. Please check the NMatrix Getting Started guide for the most &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sciruby.com/blog/2012/12/07/how-to-use-nmatrix-shortcuts/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="SciRuby" type="application/atom+xml">
+  <!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-12735432-6']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">SciRuby</a></h1>
+  
+    <h2>Tools for Scientific Computing in Ruby</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:sciruby.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul role=main-navigation xmlns="http://www.w3.org/1999/html">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog">Blog</a></li>
+  <li><a href="/docs">Installation</a></li>
+  <li><a href="http://gems.sciruby.com/">Gems</a></li>
+  <li><a href="https://github.com/sciruby/sciruby">SciRuby</a></li>
+  <li><a href="/nmatrix">NMatrix</a></li>
+  <li><a href="/publications/">Citing SciRuby</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">How to Use NMatrix's Shortcuts</h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Carlos Agarie</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-07T12:30:00+09:00" pubdate data-updated="true">Dec 7<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p class="warning"><strong>Warning:</strong> This code predates v0.0.9 alpha, which is when the NMatrix constructor changed. Please check the <a href="https://github.com/SciRuby/nmatrix/wiki/Getting-started#shortcuts">NMatrix Getting Started guide</a> for the most recent information.</p>
+
+
+<p>John Woods <a href="https://github.com/SciRuby/nmatrix/commit/2b480ce0985affc7218fc341fcb4e5024b30545b">merged my last pull request to NMatrix</a> recently and I wanted to write about why we created these shortcuts and what can be done with them. <!--more--></p>
+
+<h2>The need for shortcuts</h2>
+
+<p>The first iteration of NMatrix shortcuts was written by <a href="https://github.com/dcarrera">Daniel Carrera</a> and sent to the mailing list, where I started working with them. Some discussions, decisions and two pull requests later, we have a working set of methods to create common matrices (<code>zeros</code>, <code>ones</code>, <code>random</code>, etc) and do some cool stuff (<code>column</code> and <code>linspace</code>) very easily.</p>
+
+<p>There are at least two good reasons to have these shortcuts: MATLAB users are going to feel at home, and the shortcuts allow us to prototype and experiment more rapidly. For example, it&#8217;s dead simple to create an identify matrix when you need one:</p>
+
+<pre><code>&gt;&gt; require 'nmatrix'
+
+&gt;&gt; matrix = NMatrix.identity(3) # 3x3
+=&gt; #&lt;NMatrix:0x007faa5b8cda40shape:[3,3] dtype:float64 stype:dense&gt; 
+&gt;&gt; matrix.pp
+
+# [1.0, 0.0, 0.0]
+# [0.0, 1.0, 0.0]
+# [0.0, 0.0, 1.0]
+</code></pre>
+
+<p>And a random matrix to test some operation:</p>
+
+<pre><code>&gt;&gt; rand_matrix = NMatrix.random(4) # 4x4
+=&gt; #&lt;NMatrix:0x007faa5b01cdd8shape:[4,4] dtype:float64 stype:dense&gt;
+&gt;&gt; rand_matrix.pp
+
+# [0.5933103148378577, 0.8556103970281977, 0.7176768395610358, 0.07160353964395305]
+# [0.8566365570076784, 0.33925854948960343, 0.5994298479703805, 0.6906794137948586]
+# [0.5684593743073485, 0.10273166792035393, 0.46187577773882293, 0.586085963973687]
+# [0.8944982538369494, 0.9896291945923837, 0.8787034784673503, 0.5933103148378577]
+</code></pre>
+
+<h2>Shortcuts available</h2>
+
+<p>The following list is taken from <a href="https://github.com/SciRuby/nmatrix/wiki/NMatrix">NMatrix&#8217;s wiki</a>. All are class methods on <code>NMatrix</code>.</p>
+
+<pre><code>ones(3,3)                    # A 3x3 matrix of ones.
+zeros(4,4) or zeroes(4,4)    # Creates a matrix of zeros with dimensions as parameters.
+identity(5,5) or eye(5,5)    # A 5x5 identity matrix. Only works with NMatrix.
+seq(8)                       # An 8-vector with a sequence of values from 0 to 7.
+random(6,6)                  # A 6x6 matrix of random values between 0 and 1.
+
+column(2)                    # Return the 2nd column of the original matrix. Only works with NMatrix.
+
+indgen(8)                    # To make IDL users happy. Same as `seq(8, :int32)`.
+findgen(8)                   # Same as `seq(8, :float32)`.
+bindgen(8)                   # Same as `seq(8, :byte)`.
+cindgen(8)                   # Same as `seq(8, :complex64)`.
+
+linspace(0, pi, 100)         # A vector of 100 values from 0 to pi, inclusive. Only works with NVector.
+</code></pre>
+
+<p>The method names are mostly from MATLAB. In the future, when more functionality is added, we&#8217;ll try to create a more &#8220;Ruby-like&#8221; feel to the API. But as these shortcuts do very primitive tasks, there isn&#8217;t any obvious room for improvement. (Feel free to prove us wrong, however!)</p>
+
+<p>I&#8217;ll create a separate wiki page for the shortcuts to be able to organize and put more information about how to use them. But I want to create a better RDoc documentation for NMatrix — so the full API will probably be referenced there. I&#8217;ll write a new blog post here when something along these lines is done.</p>
+
+<h2>Examples</h2>
+
+<p>First, let&#8217;s try normalizing the columns of an NMatrix.</p>
+
+<pre><code>require 'nmatrix'
+
+m = NMatrix.seq(3, :float32)
+m.pp
+
+# [0.0, 1.0, 2.0]
+# [3.0, 4.0, 5.0]
+# [6.0, 7.0, 8.0]
+
+(0 .. m.shape[1] - 1).each do |j|
+  col = m.column(j)
+    norm = Math.sqrt(col.transpose.dot(col)[0, 0])
+    (0 .. m.shape[0] - 1).each { |i| m[i,j] /= norm }
+end
+
+m.pp
+
+# [0.0, 0.12309148907661438, 0.20739033818244934]
+# [0.4472135901451111, 0.4923659563064575, 0.5184758305549622]
+# [0.8944271802902222, 0.861640453338623, 0.8295613527297974]
+
+(0 .. m.shape[1] - 1).each do |j|
+  col = m.column(j)
+  puts Math.sqrt(col.transpose.dot(col)[0,0])
+end
+
+# 0.9999999701976772
+# 1.0
+# 1.0
+</code></pre>
+
+<p>Unfortunately, slice by reference isn&#8217;t working on <code>HEAD</code>, or we could make a few additional improvements (see issue <a href="https://github.com/SciRuby/nmatrix/issues/51">#51</a>).</p>
+
+<p>The other thing that I&#8217;ve wanted to do is to use <code>linspace</code> to generate points for plotting sines, cosines, etc. Here is an example:</p>
+
+<pre><code>require 'nmatrix'
+
+vector = NVector.linspace(0, Math::PI, 10)
+vector.pretty_print
+
+# 0.0
+# 0.3490658503988659
+# 0.6981317007977318
+# 1.0471975511965976
+# 1.3962634015954636
+# 1.7453292519943295
+# 2.0943951023931953
+# 2.443460952792061
+# 2.792526803190927
+# 3.141592653589793
+
+10.times do |i|
+  vector[k, 0] = Math::sin(vector[k, 0])
+end
+
+vector.pretty_print
+
+# 0.0
+# 0.3420201433256687
+# 0.6427876096865393
+# 0.8660254037844386
+# 0.984807753012208
+# 0.984807753012208
+# 0.8660254037844388
+# 0.6427876096865395
+# 0.3420201433256689
+# 1.2246467991473532e-16
+</code></pre>
+
+<p>These results show a happy result, in that we are able to use NMatrix for simple tasks already. Of course, there are problems to be solved, e.g. slice by reference, inversion for all dtypes, eigenvalues. But it&#8217;s going somewhere, it&#8217;s growing.</p>
+
+<p>I hope that by this time next year we&#8217;ll have a very mature linear algebra library (and much more).</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Carlos Agarie</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-07T12:30:00+09:00" pubdate data-updated="true">Dec 7<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/documentation/'>Documentation</a>, <a class='category' href='/blog/categories/matrices/'>Matrices</a>, <a class='category' href='/blog/categories/nmatrix/'>NMatrix</a>, <a class='category' href='/blog/categories/students/'>Students</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://sciruby.com/blog/2012/12/07/how-to-use-nmatrix-shortcuts/" data-via="sciruby" data-counturl="http://sciruby.com/blog/2012/12/07/how-to-use-nmatrix-shortcuts/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/11/28/spring-2013-sciruby-fellows-selected/" title="Previous Post: Spring 2013 SciRuby Fellows Selected">&laquo; Spring 2013 SciRuby Fellows Selected</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/09/18/nmatrix-nearing-beta-release/" title="Next Post: NMatrix nearing beta release">NMatrix nearing beta release &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+
+
+<section>
+<div class="fb-like-box" data-href="http://www.facebook.com/SciRuby" data-width="" data-show-faces="false" data-stream="" data-header=""   ></div>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/">GSoC 2017 : Data visualization using daru-view</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats/">GSoC 2017 : Support to Import & Export of more formats</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/">GSoC 2016: Adding Categorical Data Support</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/spicerub-kernelpool-and-kernels/">GSoC 2016: SpiceRub::KernelPool and Kernels</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/">GSoC 2016 : A Look at SpiceRub::Body</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/SciRuby">@SciRuby</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'SciRuby',
+            count: 6,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("sciruby", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/sciruby" class="twitter-follow-button" data-show-count="false">Follow @sciruby</a>
+  
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - SciRuby -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sciruby';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sciruby.com/blog/2012/12/07/how-to-use-nmatrix-shortcuts/';
+        var disqus_url = 'http://sciruby.com/blog/2012/12/07/how-to-use-nmatrix-shortcuts/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

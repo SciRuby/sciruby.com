@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>module NMatrix::IO::Market - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+</script>
+
+<script src="../../js/jquery.js"></script>
+<script src="../../js/darkfish.js"></script>
+
+<link href="../../css/fonts.css" rel="stylesheet">
+<link href="../../css/rdoc.css" rel="stylesheet">
+
+
+
+<body id="top" role="document" class="module">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="../../index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="../../table_of_contents.html#pages">Pages</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    
+    
+    
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    
+    <li ><a href="#method-c-load">::load</a>
+    
+    <li ><a href="#method-c-load_array">::load_array</a>
+    
+    <li ><a href="#method-c-load_coordinate">::load_coordinate</a>
+    
+    <li ><a href="#method-c-save">::save</a>
+    
+    <li ><a href="#method-c-save_array">::save_array</a>
+    
+    <li ><a href="#method-c-save_coordinate">::save_coordinate</a>
+    
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="module-NMatrix::IO::Market">
+  <h1 id="module-NMatrix::IO::Market" class="module">
+    module NMatrix::IO::Market
+  </h1>
+
+  <section class="description">
+    
+<p>Matrix <a href="Market.html">Market</a> is a repository of test data for
+use in studies of algorithms for numerical linear algebra. There are 3 file
+formats used:</p>
+<ul><li>
+<p>Matrix <a href="Market.html">Market</a> Exchange Format.</p>
+</li><li>
+<p>Harwell-Boeing Exchange Format.</p>
+</li><li>
+<p>Coordinate Text File Format. (to be phased out)</p>
+</li></ul>
+
+<p>This module can load and save the first format. We might support
+Harwell-Boeing in the future.</p>
+
+<p>The MatrixMarket format is documented in:</p>
+<ul><li>
+<p><a
+href="http://math.nist.gov/MatrixMarket/formats.html">math.nist.gov/MatrixMarket/formats.html</a></p>
+</li></ul>
+
+  </section>
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Class Methods</h3>
+       </header>
+
+    
+      <div id="method-c-load" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            load(filename) &rarr; NMatrix
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Load a MatrixMarket file. Requires a <code>filename</code> as an argument.</p>
+<ul><li>
+<p><strong>Arguments</strong> :</p>
+<ul><li>
+<p><code>filename</code> -&gt; <a href="../../String.html">String</a> with the
+filename to be saved.</p>
+</li></ul>
+</li><li>
+<p><strong>Raises</strong> :</p>
+<ul><li>
+<p><code>IOError</code> -&gt; expected type code line beginning with
+&#39;%%MatrixMarket matrix&#39;</p>
+</li></ul>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="load-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/market.rb, line 65</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">load</span>(<span class="ruby-identifier">filename</span>)
+
+  <span class="ruby-identifier">f</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">filename</span>, <span class="ruby-string">&quot;r&quot;</span>)
+
+  <span class="ruby-identifier">header</span> = <span class="ruby-identifier">f</span>.<span class="ruby-identifier">gets</span>
+  <span class="ruby-identifier">header</span>.<span class="ruby-identifier">chomp!</span>
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">IOError</span>, <span class="ruby-string">&quot;expected type code line beginning with &#39;%%MatrixMarket matrix&#39;&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">header</span> <span class="ruby-operator">!~</span> <span class="ruby-regexp">/^\%\%MatrixMarket\ matrix/</span>
+
+  <span class="ruby-identifier">header</span> = <span class="ruby-identifier">header</span>.<span class="ruby-identifier">split</span>
+
+  <span class="ruby-identifier">entry_type</span> = <span class="ruby-identifier">header</span>[<span class="ruby-value">3</span>].<span class="ruby-identifier">downcase</span>.<span class="ruby-identifier">to_sym</span>
+  <span class="ruby-identifier">symmetry</span>   = <span class="ruby-identifier">header</span>[<span class="ruby-value">4</span>].<span class="ruby-identifier">downcase</span>.<span class="ruby-identifier">to_sym</span>
+  <span class="ruby-identifier">converter</span>, <span class="ruby-identifier">default_dtype</span> = <span class="ruby-constant">CONVERTER_AND_DTYPE</span>[<span class="ruby-identifier">entry_type</span>]
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">header</span>[<span class="ruby-value">2</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&#39;coordinate&#39;</span>
+    <span class="ruby-identifier">load_coordinate</span> <span class="ruby-identifier">f</span>, <span class="ruby-identifier">converter</span>, <span class="ruby-identifier">default_dtype</span>, <span class="ruby-identifier">entry_type</span>, <span class="ruby-identifier">symmetry</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">load_array</span> <span class="ruby-identifier">f</span>, <span class="ruby-identifier">converter</span>, <span class="ruby-identifier">default_dtype</span>, <span class="ruby-identifier">entry_type</span>, <span class="ruby-identifier">symmetry</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-save" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            save(matrix, filename, options = {}) &rarr; true
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Can optionally set :symmetry to :general, :symmetric, :hermitian; and can
+set :pattern =&gt; true if you&#39;re writing a sparse matrix and don&#39;t
+want values stored.</p>
+<ul><li>
+<p><strong>Arguments</strong> :</p>
+<ul><li>
+<p><code>matrix</code> -&gt; <a href="../../NMatrix.html">NMatrix</a> with the
+data to be saved.</p>
+</li><li>
+<p><code>filename</code> -&gt; <a href="../../String.html">String</a> with the
+filename to be saved.</p>
+</li></ul>
+</li><li>
+<p><strong>Raises</strong> :</p>
+<ul><li>
+<p><code>DataTypeError</code> -&gt; MatrixMarket does not support Ruby
+objects.</p>
+</li><li>
+<p><code>ArgumentError</code> -&gt; Expected two-dimensional <a
+href="../../NMatrix.html">NMatrix</a>.</p>
+</li></ul>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="save-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/market.rb, line 99</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">save</span>(<span class="ruby-identifier">matrix</span>, <span class="ruby-identifier">filename</span>, <span class="ruby-identifier">options</span> = {})
+  <span class="ruby-identifier">options</span> = {<span class="ruby-value">:pattern</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>,
+    <span class="ruby-value">:symmetry</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:general</span>}.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">options</span>)
+
+  <span class="ruby-identifier">mode</span> = <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">stype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:dense</span> <span class="ruby-operator">?</span> <span class="ruby-value">:array</span> <span class="ruby-operator">:</span> <span class="ruby-value">:coordinate</span>
+  <span class="ruby-keyword">if</span> [<span class="ruby-value">:object</span>].<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">dtype</span>)
+    <span class="ruby-identifier">raise</span>(<span class="ruby-constant">DataTypeError</span>, <span class="ruby-string">&quot;MatrixMarket does not support Ruby objects&quot;</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">entry_type</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:pattern</span>] <span class="ruby-operator">?</span> <span class="ruby-value">:pattern</span> <span class="ruby-operator">:</span> <span class="ruby-constant">ENTRY_TYPE</span>[<span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">dtype</span>]
+
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;expected two-dimensional NMatrix&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">dim</span> <span class="ruby-operator">!=</span> <span class="ruby-value">2</span>
+
+  <span class="ruby-identifier">f</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">filename</span>, <span class="ruby-string">&#39;w&#39;</span>)
+
+  <span class="ruby-identifier">f</span>.<span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;%%MatrixMarket matrix #{mode} #{entry_type} #{options[:symmetry]}&quot;</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">stype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:dense</span>
+    <span class="ruby-identifier">save_array</span> <span class="ruby-identifier">matrix</span>, <span class="ruby-identifier">f</span>, <span class="ruby-identifier">options</span>[<span class="ruby-value">:symmetry</span>]
+  <span class="ruby-keyword">elsif</span> [<span class="ruby-value">:list</span>,<span class="ruby-value">:yale</span>].<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">stype</span>)
+    <span class="ruby-identifier">save_coordinate</span> <span class="ruby-identifier">matrix</span>, <span class="ruby-identifier">f</span>, <span class="ruby-identifier">options</span>[<span class="ruby-value">:symmetry</span>], <span class="ruby-identifier">options</span>[<span class="ruby-value">:pattern</span>]
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">f</span>.<span class="ruby-identifier">close</span>
+
+  <span class="ruby-keyword">true</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+     <section id="protected-class-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Protected Class Methods</h3>
+       </header>
+
+    
+      <div id="method-c-load_array" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">load_array</span><span
+            class="method-args">(file, converter, dtype, entry_type, symmetry)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="load_array-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/market.rb, line 178</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">load_array</span> <span class="ruby-identifier">file</span>, <span class="ruby-identifier">converter</span>, <span class="ruby-identifier">dtype</span>, <span class="ruby-identifier">entry_type</span>, <span class="ruby-identifier">symmetry</span>
+  <span class="ruby-identifier">mat</span> = <span class="ruby-keyword">nil</span>
+
+  <span class="ruby-identifier">line</span> = <span class="ruby-identifier">file</span>.<span class="ruby-identifier">gets</span>
+  <span class="ruby-identifier">line</span>.<span class="ruby-identifier">chomp!</span>
+  <span class="ruby-identifier">line</span>.<span class="ruby-identifier">lstrip!</span>
+
+  <span class="ruby-identifier">fields</span> = <span class="ruby-identifier">line</span>.<span class="ruby-identifier">split</span>
+
+  <span class="ruby-identifier">mat</span> = <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span> <span class="ruby-value">:dense</span>, [<span class="ruby-identifier">fields</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">to_i</span>, <span class="ruby-identifier">fields</span>[<span class="ruby-value">1</span>].<span class="ruby-identifier">to_i</span>], <span class="ruby-identifier">dtype</span>
+
+  (<span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-identifier">mat</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">j</span><span class="ruby-operator">|</span>
+    (<span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-identifier">mat</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>]).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">datum</span> = <span class="ruby-identifier">file</span>.<span class="ruby-identifier">gets</span>.<span class="ruby-identifier">chomp</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">converter</span>)
+      <span class="ruby-identifier">mat</span>[<span class="ruby-identifier">i</span>,<span class="ruby-identifier">j</span>] = <span class="ruby-identifier">datum</span>
+
+      <span class="ruby-keyword">unless</span> <span class="ruby-identifier">i</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">j</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">symmetry</span> <span class="ruby-operator">==</span> <span class="ruby-value">:general</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">symmetry</span> <span class="ruby-operator">==</span> <span class="ruby-value">:symmetric</span>
+          <span class="ruby-identifier">mat</span>[<span class="ruby-identifier">j</span>,<span class="ruby-identifier">i</span>] = <span class="ruby-identifier">datum</span>
+        <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">symmetry</span> <span class="ruby-operator">==</span> <span class="ruby-value">:hermitian</span>
+          <span class="ruby-identifier">mat</span>[<span class="ruby-identifier">j</span>,<span class="ruby-identifier">i</span>] = <span class="ruby-constant">Complex</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">datum</span>.<span class="ruby-identifier">real</span>, <span class="ruby-operator">-</span><span class="ruby-identifier">datum</span>.<span class="ruby-identifier">imag</span>)
+        <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">symmetry</span> <span class="ruby-operator">==</span> <span class="ruby-value">:&#39;skew-symmetric&#39;</span>
+          <span class="ruby-identifier">mat</span>[<span class="ruby-identifier">j</span>,<span class="ruby-identifier">i</span>] = <span class="ruby-operator">-</span><span class="ruby-identifier">datum</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">file</span>.<span class="ruby-identifier">close</span>
+
+  <span class="ruby-identifier">mat</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-load_coordinate" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">load_coordinate</span><span
+            class="method-args">(file, converter, dtype, entry_type, symmetry)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Creates a :list <a href="../../NMatrix.html">NMatrix</a> from a
+coordinate-list MatrixMarket file.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="load_coordinate-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/market.rb, line 213</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">load_coordinate</span> <span class="ruby-identifier">file</span>, <span class="ruby-identifier">converter</span>, <span class="ruby-identifier">dtype</span>, <span class="ruby-identifier">entry_type</span>, <span class="ruby-identifier">symmetry</span>
+
+  <span class="ruby-identifier">mat</span> = <span class="ruby-keyword">nil</span>
+
+  <span class="ruby-comment"># Read until we get the dimensions and nonzeros</span>
+  <span class="ruby-keyword">while</span> <span class="ruby-identifier">line</span> = <span class="ruby-identifier">file</span>.<span class="ruby-identifier">gets</span>
+    <span class="ruby-identifier">line</span>.<span class="ruby-identifier">chomp!</span>
+    <span class="ruby-identifier">line</span>.<span class="ruby-identifier">lstrip!</span>
+    <span class="ruby-identifier">line</span>, <span class="ruby-identifier">comment</span> = <span class="ruby-identifier">line</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39;%&#39;</span>, <span class="ruby-value">2</span>) <span class="ruby-comment"># ignore comments</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">line</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">4</span>
+      <span class="ruby-identifier">shape0</span>, <span class="ruby-identifier">shape1</span> = <span class="ruby-identifier">line</span>.<span class="ruby-identifier">split</span>
+      <span class="ruby-identifier">mat</span> = <span class="ruby-constant">NMatrix</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:list</span>, [<span class="ruby-identifier">shape0</span>.<span class="ruby-identifier">to_i</span>, <span class="ruby-identifier">shape1</span>.<span class="ruby-identifier">to_i</span>], <span class="ruby-value">0</span>, <span class="ruby-identifier">dtype</span>)
+      <span class="ruby-keyword">break</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment"># Now read the coordinates</span>
+  <span class="ruby-keyword">while</span> <span class="ruby-identifier">line</span> = <span class="ruby-identifier">file</span>.<span class="ruby-identifier">gets</span>
+    <span class="ruby-identifier">line</span>.<span class="ruby-identifier">chomp!</span>
+    <span class="ruby-identifier">line</span>.<span class="ruby-identifier">lstrip!</span>
+    <span class="ruby-identifier">line</span>, <span class="ruby-identifier">comment</span> = <span class="ruby-identifier">line</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39;%&#39;</span>, <span class="ruby-value">2</span>) <span class="ruby-comment"># ignore comments</span>
+
+    <span class="ruby-keyword">next</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">line</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">5</span> <span class="ruby-comment"># ignore empty lines</span>
+
+    <span class="ruby-identifier">fields</span> = <span class="ruby-identifier">line</span>.<span class="ruby-identifier">split</span>
+
+    <span class="ruby-identifier">i</span> = <span class="ruby-identifier">fields</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">to_i</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>
+    <span class="ruby-identifier">j</span> = <span class="ruby-identifier">fields</span>[<span class="ruby-value">1</span>].<span class="ruby-identifier">to_i</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>
+    <span class="ruby-identifier">datum</span> = <span class="ruby-identifier">entry_type</span> <span class="ruby-operator">==</span> <span class="ruby-value">:pattern</span> <span class="ruby-operator">?</span> <span class="ruby-value">1</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">fields</span>[<span class="ruby-value">2</span>].<span class="ruby-identifier">send</span>(<span class="ruby-identifier">converter</span>)
+
+    <span class="ruby-identifier">mat</span>[<span class="ruby-identifier">i</span>, <span class="ruby-identifier">j</span>] = <span class="ruby-identifier">datum</span> <span class="ruby-comment"># add to the matrix</span>
+    <span class="ruby-keyword">unless</span> <span class="ruby-identifier">i</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">j</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">symmetry</span> <span class="ruby-operator">==</span> <span class="ruby-value">:general</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">symmetry</span> <span class="ruby-operator">==</span> <span class="ruby-value">:symmetric</span>
+        <span class="ruby-identifier">mat</span>[<span class="ruby-identifier">j</span>, <span class="ruby-identifier">i</span>] = <span class="ruby-identifier">datum</span>
+      <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">symmetry</span> <span class="ruby-operator">==</span> <span class="ruby-value">:&#39;skew-symmetric&#39;</span>
+        <span class="ruby-identifier">mat</span>[<span class="ruby-identifier">j</span>, <span class="ruby-identifier">i</span>] = <span class="ruby-operator">-</span><span class="ruby-identifier">datum</span>
+      <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">symmetry</span> <span class="ruby-operator">==</span> <span class="ruby-value">:hermitian</span>
+        <span class="ruby-identifier">mat</span>[<span class="ruby-identifier">j</span>, <span class="ruby-identifier">i</span>] = <span class="ruby-constant">Complex</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">datum</span>.<span class="ruby-identifier">real</span>, <span class="ruby-operator">-</span><span class="ruby-identifier">datum</span>.<span class="ruby-identifier">imag</span>)
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">file</span>.<span class="ruby-identifier">close</span>
+
+  <span class="ruby-identifier">mat</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-save_array" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">save_array</span><span
+            class="method-args">(matrix, file, symmetry)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="save_array-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/market.rb, line 157</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">save_array</span> <span class="ruby-identifier">matrix</span>, <span class="ruby-identifier">file</span>, <span class="ruby-identifier">symmetry</span>
+  <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> [<span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]].<span class="ruby-identifier">join</span>(<span class="ruby-string">&quot;\t&quot;</span>)
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">symmetry</span> <span class="ruby-operator">==</span> <span class="ruby-value">:general</span>
+    (<span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">j</span><span class="ruby-operator">|</span>
+      (<span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>]).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-identifier">matrix</span>[<span class="ruby-identifier">i</span>,<span class="ruby-identifier">j</span>]
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span> <span class="ruby-comment"># :symmetric, :&#39;skew-symmetric&#39;, :hermitian</span>
+    (<span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>]).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">j</span><span class="ruby-operator">|</span>
+      (<span class="ruby-identifier">j</span><span class="ruby-operator">...</span><span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">0</span>]).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-identifier">matrix</span>[<span class="ruby-identifier">i</span>,<span class="ruby-identifier">j</span>]
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">file</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-save_coordinate" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">save_coordinate</span><span
+            class="method-args">(matrix, file, symmetry, pattern)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="save_coordinate-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/io/market.rb, line 129</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">save_coordinate</span> <span class="ruby-identifier">matrix</span>, <span class="ruby-identifier">file</span>, <span class="ruby-identifier">symmetry</span>, <span class="ruby-identifier">pattern</span>
+  <span class="ruby-comment"># Convert to a hash in order to store</span>
+  <span class="ruby-identifier">rows</span> = <span class="ruby-identifier">matrix</span>.<span class="ruby-identifier">to_h</span>
+
+  <span class="ruby-comment"># Count non-zeros</span>
+  <span class="ruby-identifier">count</span> = <span class="ruby-value">0</span>
+  <span class="ruby-identifier">rows</span>.<span class="ruby-identifier">each_pair</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span>, <span class="ruby-identifier">columns</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">columns</span>.<span class="ruby-identifier">each_pair</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">j</span>, <span class="ruby-identifier">val</span><span class="ruby-operator">|</span>
+      <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">symmetry</span> <span class="ruby-operator">!=</span> <span class="ruby-value">:general</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">j</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">i</span>
+      <span class="ruby-identifier">count</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment"># Print dimensions and non-zeros</span>
+  <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;#{matrix.shape[0]}\t#{matrix.shape[1]}\t#{count}&quot;</span>
+
+  <span class="ruby-comment"># Print coordinates</span>
+  <span class="ruby-identifier">rows</span>.<span class="ruby-identifier">each_pair</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span>, <span class="ruby-identifier">columns</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">columns</span>.<span class="ruby-identifier">each_pair</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">j</span>, <span class="ruby-identifier">val</span><span class="ruby-operator">|</span>
+      <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">symmetry</span> <span class="ruby-operator">!=</span> <span class="ruby-value">:general</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">j</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">i</span>
+      <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span>(<span class="ruby-identifier">pattern</span> <span class="ruby-operator">?</span> <span class="ruby-node">&quot;\t#{i+1}\t#{j+1}&quot;</span> <span class="ruby-operator">:</span> <span class="ruby-node">&quot;\t#{i+1}\t#{j+1}\t#{val}&quot;</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">file</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="http://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+

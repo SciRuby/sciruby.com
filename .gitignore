@@ -24,5 +24,3 @@ test/_templates
 test/_posts
 test/_layouts
 .jekyll-metadata
-public/
-.pygments-cache/

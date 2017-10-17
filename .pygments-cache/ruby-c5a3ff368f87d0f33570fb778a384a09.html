@@ -1,0 +1,25 @@
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">xslice</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+  <span class="n">result</span> <span class="o">=</span> <span class="kp">nil</span>
+
+  <span class="k">if</span> <span class="nb">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">&lt;</span> <span class="n">args</span><span class="o">.</span><span class="n">length</span>
+    <span class="k">raise</span><span class="p">(</span><span class="no">ArgumentError</span><span class="p">,</span><span class="s2">&quot;wrong number of arguments\</span>
+<span class="s2">       (</span><span class="si">#{</span><span class="n">args</span><span class="si">}</span><span class="s2"> for </span><span class="si">#{</span><span class="n">effective_dim</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+  <span class="k">else</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="nb">Array</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
+    <span class="n">slice</span> <span class="o">=</span> <span class="n">get_slice</span><span class="p">(</span><span class="vi">@dim</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="vi">@shape</span><span class="p">)</span>
+    <span class="n">stride</span> <span class="o">=</span> <span class="n">get_stride</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">slice</span><span class="o">[</span><span class="ss">:single</span><span class="o">]</span>
+      <span class="k">if</span> <span class="p">(</span><span class="vi">@dtype</span> <span class="o">==</span> <span class="ss">:object</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="vi">@s</span><span class="o">[</span><span class="n">dense_storage_get</span><span class="p">(</span><span class="n">slice</span><span class="p">,</span><span class="n">stride</span><span class="p">)</span><span class="o">]</span>
+      <span class="k">else</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="vi">@s</span><span class="o">.</span><span class="n">toArray</span><span class="p">()</span><span class="o">.</span><span class="n">to_a</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="vi">@s</span><span class="o">.</span><span class="n">getEntry</span><span class="p">(</span><span class="n">dense_storage_get</span><span class="p">(</span><span class="n">slice</span><span class="p">,</span><span class="n">stride</span><span class="p">))</span>
+      <span class="k">end</span>
+    <span class="k">else</span>
+      <span class="n">result</span> <span class="o">=</span> <span class="n">dense_storage_get</span><span class="p">(</span><span class="n">slice</span><span class="p">,</span><span class="n">stride</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  <span class="k">return</span> <span class="n">result</span>
+<span class="k">end</span>
+</pre>
+</div>

@@ -1,0 +1,13 @@
+<div class="highlight"><pre><span class="n">idx</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">Index</span><span class="o">.</span><span class="n">new</span> <span class="o">[</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="s1">&#39;Sales&#39;</span><span class="o">]</span>
+<span class="n">data_rows</span> <span class="o">=</span> <span class="o">[</span>
+          <span class="o">[</span><span class="s1">&#39;2004&#39;</span><span class="p">,</span>  <span class="mi">1000</span><span class="o">]</span><span class="p">,</span>
+          <span class="o">[</span><span class="s1">&#39;2005&#39;</span><span class="p">,</span>  <span class="mi">1170</span><span class="o">]</span><span class="p">,</span>
+          <span class="o">[</span><span class="s1">&#39;2006&#39;</span><span class="p">,</span>  <span class="mi">660</span><span class="o">]</span><span class="p">,</span>
+          <span class="o">[</span><span class="s1">&#39;2007&#39;</span><span class="p">,</span>  <span class="mi">1030</span><span class="o">]</span>
+<span class="o">]</span>
+<span class="n">df_sale_exp</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">DataFrame</span><span class="o">.</span><span class="n">rows</span><span class="p">(</span><span class="n">data_rows</span><span class="p">)</span>
+<span class="n">df_sale_exp</span><span class="o">.</span><span class="n">vectors</span> <span class="o">=</span> <span class="n">idx</span>
+
+<span class="c1"># perform data manipulations, if you want.</span>
+</pre>
+</div>

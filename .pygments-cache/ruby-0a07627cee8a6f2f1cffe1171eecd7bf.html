@@ -1,0 +1,17 @@
+<div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;daru/view&#39;</span>
+
+<span class="c1">#  set adapter</span>
+<span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">.</span><span class="n">plotting_library</span> <span class="o">=</span> <span class="ss">:nyaplot</span>
+
+<span class="c1"># define dataframe</span>
+<span class="n">df</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">DataFrame</span><span class="o">.</span><span class="n">new</span><span class="p">({</span>
+  <span class="n">a</span><span class="p">:</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">0</span><span class="o">]</span><span class="p">,</span>
+  <span class="n">b</span><span class="p">:</span> <span class="o">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="o">]</span><span class="p">,</span>
+  <span class="n">c</span><span class="p">:</span> <span class="o">[</span><span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="s1">&#39;II&#39;</span><span class="p">,</span> <span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="s1">&#39;III&#39;</span><span class="p">,</span> <span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="s1">&#39;III&#39;</span><span class="p">,</span> <span class="s1">&#39;II&#39;</span><span class="o">]</span>
+  <span class="p">})</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_category</span> <span class="ss">:c</span>
+
+<span class="c1"># creating scatter chart</span>
+<span class="n">scatter_chart</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">::</span><span class="no">Plot</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">type</span><span class="p">:</span> <span class="ss">:scatter</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="ss">:a</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="ss">:b</span><span class="p">,</span> <span class="n">categorized</span><span class="p">:</span> <span class="p">{</span><span class="n">by</span><span class="p">:</span> <span class="ss">:c</span><span class="p">,</span> <span class="nb">method</span><span class="p">:</span> <span class="ss">:color</span><span class="p">})</span>
+</pre>
+</div>

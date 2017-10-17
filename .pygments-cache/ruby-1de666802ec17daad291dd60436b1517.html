@@ -1,0 +1,5 @@
+<div class="highlight"><pre><span class="n">mod</span> <span class="o">=</span> <span class="no">LMM</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">:</span> <span class="s2">&quot;y ~ x + (1|a) + (1|a:b)&quot;</span><span class="p">,</span> 
+                       <span class="n">data</span><span class="p">:</span> <span class="n">df</span><span class="p">,</span> <span class="n">reml</span><span class="p">:</span> <span class="kp">false</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="n">mod</span><span class="o">.</span><span class="n">ran_ef_summary</span><span class="o">.</span><span class="n">inspect</span>
+</pre>
+</div>

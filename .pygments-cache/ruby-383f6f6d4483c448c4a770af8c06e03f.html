@@ -1,0 +1,11 @@
+<div class="highlight"><pre><span class="c1"># Tell Daru which variables are categorical</span>
+<span class="n">shelter_data</span><span class="o">.</span><span class="n">to_category</span> <span class="s1">&#39;OutcomeType&#39;</span><span class="p">,</span> <span class="s1">&#39;AnimalType&#39;</span><span class="p">,</span> <span class="s1">&#39;SexuponOutcome&#39;</span><span class="p">,</span> <span class="s1">&#39;Breed&#39;</span><span class="p">,</span> <span class="s1">&#39;Color&#39;</span>
+
+<span class="c1"># Or quantize a numerical variable to categorical</span>
+<span class="n">shelter_data</span><span class="o">[</span><span class="s1">&#39;AgeuponOutcome&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="n">shelter_data</span><span class="o">[</span><span class="s1">&#39;AgeuponOutcome(Weeks)&#39;</span><span class="o">].</span><span class="n">cut</span> <span class="o">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="mi">260</span><span class="p">,</span> <span class="mi">1500</span><span class="o">]</span><span class="p">,</span>
+    <span class="n">labels</span><span class="p">:</span> <span class="o">[</span><span class="ss">:less_than_week</span><span class="p">,</span> <span class="ss">:less_than_month</span><span class="p">,</span> <span class="ss">:less_than_year</span><span class="p">,</span> <span class="ss">:one_to_five_years</span><span class="p">,</span> <span class="ss">:more_than__five_years</span><span class="o">]</span>
+
+<span class="c1"># Do your operations on categorical data</span>
+<span class="n">shelter_data</span><span class="o">[</span><span class="s1">&#39;AgeuponOutcome&#39;</span><span class="o">].</span><span class="n">frequencies</span><span class="o">.</span><span class="n">sort</span> <span class="n">ascending</span><span class="p">:</span> <span class="kp">false</span>
+</pre>
+</div>

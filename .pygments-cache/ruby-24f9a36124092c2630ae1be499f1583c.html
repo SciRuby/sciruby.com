@@ -1,0 +1,16 @@
+<div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;daru&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;statsample-timeseries&#39;</span>
+
+<span class="n">ts</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">Vector</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">100</span><span class="o">.</span><span class="n">times</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="nb">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="p">},</span> <span class="n">index</span><span class="p">:</span> <span class="no">Daru</span><span class="o">::</span><span class="no">DateTimeIndex</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="ss">:start</span> <span class="o">=&gt;</span> <span class="s1">&#39;2012-2&#39;</span><span class="p">,</span> <span class="ss">:periods</span> <span class="o">=&gt;</span> <span class="mi">100</span><span class="p">))</span>
+<span class="n">ts</span><span class="o">.</span><span class="n">acf</span> <span class="c1"># Calculate auto-correlation</span>
+<span class="n">ts</span><span class="o">.</span><span class="n">pacf</span> <span class="c1"># Calculate partial autocorrelation</span>
+<span class="c1"># Partial autocorrelation with 11 lags by maximum likelihood estimation</span>
+<span class="n">ts</span><span class="o">.</span><span class="n">pacf</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="s1">&#39;mle&#39;</span><span class="p">)</span> 
+<span class="n">ts</span><span class="o">.</span><span class="n">ar</span> <span class="c1"># Autoregressive coefficients</span>
+
+<span class="c1"># ARIMA(2, 1, 1)</span>
+<span class="n">k_obj</span> <span class="o">=</span> <span class="no">Statsample</span><span class="o">::</span><span class="no">TimeSeries</span><span class="o">.</span><span class="n">arima</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">k_obj</span><span class="o">.</span><span class="n">ar</span> <span class="c1"># autoregressive coefficients</span>
+<span class="n">k_obj</span><span class="o">.</span><span class="n">ma</span> <span class="c1"># moving average coefficients</span>
+</pre>
+</div>

@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>module NMatrix::LAPACKE::BLAS - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+</script>
+
+<script src="../../js/jquery.js"></script>
+<script src="../../js/darkfish.js"></script>
+
+<link href="../../css/fonts.css" rel="stylesheet">
+<link href="../../css/rdoc.css" rel="stylesheet">
+
+
+
+<body id="top" role="document" class="module">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="../../index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="../../table_of_contents.html#pages">Pages</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    
+    
+    
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    
+    <li ><a href="#method-c-cblas_asum">::cblas_asum</a>
+    
+    <li ><a href="#method-c-cblas_gemm">::cblas_gemm</a>
+    
+    <li ><a href="#method-c-cblas_gemv">::cblas_gemv</a>
+    
+    <li ><a href="#method-c-cblas_herk">::cblas_herk</a>
+    
+    <li ><a href="#method-c-cblas_imax">::cblas_imax</a>
+    
+    <li ><a href="#method-c-cblas_nrm2">::cblas_nrm2</a>
+    
+    <li ><a href="#method-c-cblas_rot">::cblas_rot</a>
+    
+    <li ><a href="#method-c-cblas_rotg">::cblas_rotg</a>
+    
+    <li ><a href="#method-c-cblas_scal">::cblas_scal</a>
+    
+    <li ><a href="#method-c-cblas_syrk">::cblas_syrk</a>
+    
+    <li ><a href="#method-c-cblas_trmm">::cblas_trmm</a>
+    
+    <li ><a href="#method-c-cblas_trsm">::cblas_trsm</a>
+    
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="module-NMatrix::LAPACKE::BLAS">
+  <h1 id="module-NMatrix::LAPACKE::BLAS" class="module">
+    module NMatrix::LAPACKE::BLAS
+  </h1>
+
+  <section class="description">
+    
+  </section>
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Class Methods</h3>
+       </header>
+
+    
+      <div id="method-c-cblas_asum" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cblas_asum</span><span
+            class="method-args">(p1, p2, p3)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Call any of the cblas_xasum functions as directly as possible.</p>
+
+<p>xASUM is a <a href="BLAS.html">BLAS</a> level 1 routine which calculates
+the sum of absolute values of the entries of a vector x.</p>
+
+<p>Arguments:</p>
+
+<pre>* n     :: length of x, must be at least 0
+* x     :: pointer to first entry of input vector
+* incx  :: stride of x, must be POSITIVE (ATLAS says non-zero, but 3.8.4 code only allows positive)</pre>
+
+<p>You probably don&#39;t want to call this function. Instead, why don&#39;t
+you try asum, which is more flexible with its arguments?</p>
+
+<p>This function does almost no type checking. Seriously, be really careful
+when you call it! There&#39;s no exception handling, so you can easily
+crash Ruby!</p>
+          
+          
+
+          
+          <div class="method-source-code" id="cblas_asum-source">
+            <pre>static VALUE nm_lapacke_cblas_asum(VALUE self, VALUE n, VALUE x, VALUE incx) {
+
+  static void (*ttable[nm::NUM_DTYPES])(const int N, const void* X, const int incX, void* sum) = {
+      nm::math::lapacke::cblas_asum&lt;uint8_t,uint8_t&gt;,
+      nm::math::lapacke::cblas_asum&lt;int8_t,int8_t&gt;,
+      nm::math::lapacke::cblas_asum&lt;int16_t,int16_t&gt;,
+      nm::math::lapacke::cblas_asum&lt;int32_t,int32_t&gt;,
+      nm::math::lapacke::cblas_asum&lt;int64_t,int64_t&gt;,
+      nm::math::lapacke::cblas_asum&lt;float32_t,float32_t&gt;,
+      nm::math::lapacke::cblas_asum&lt;float64_t,float64_t&gt;,
+      nm::math::lapacke::cblas_asum&lt;float32_t,nm::Complex64&gt;,
+      nm::math::lapacke::cblas_asum&lt;float64_t,nm::Complex128&gt;,
+      nm::math::lapacke::cblas_asum&lt;nm::RubyObject,nm::RubyObject&gt;
+  };
+
+  nm::dtype_t dtype  = NM_DTYPE(x);
+
+  // Determine the return dtype and allocate it
+  nm::dtype_t rdtype = dtype;
+  if      (dtype == nm::COMPLEX64)  rdtype = nm::FLOAT32;
+  else if (dtype == nm::COMPLEX128) rdtype = nm::FLOAT64;
+
+  void *Result = NM_ALLOCA_N(char, DTYPE_SIZES[rdtype]);
+
+  ttable[dtype](FIX2INT(n), NM_STORAGE_DENSE(x)-&gt;elements, FIX2INT(incx), Result);
+
+  return rubyobj_from_cval(Result, rdtype).rval;
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-cblas_gemm" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cblas_gemm</span><span
+            class="method-args">(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Call any of the cblas_xgemm functions as directly as possible.</p>
+
+<p>The cblas_xgemm functions (dgemm, sgemm, cgemm, and zgemm) define the
+following operation:</p>
+
+<pre class="ruby"><span class="ruby-constant">C</span> = <span class="ruby-identifier">alpha</span><span class="ruby-operator">*</span><span class="ruby-identifier">op</span>(<span class="ruby-constant">A</span>)<span class="ruby-operator">*</span><span class="ruby-identifier">op</span>(<span class="ruby-constant">B</span>) <span class="ruby-operator">+</span> <span class="ruby-identifier">beta</span><span class="ruby-operator">*</span><span class="ruby-constant">C</span>
+</pre>
+
+<p>where op(X) is one of <code>op(X) = X</code>, <code>op(X) = X**T</code>, or
+the complex conjugate of X.</p>
+
+<p>Note that this will only work for dense matrices that are of types
+:float32, :float64, :complex64, and :complex128. Other types are not
+implemented in <a href="BLAS.html">BLAS</a>, and while they exist in <a
+href="../../NMatrix.html">NMatrix</a>, this method is intended only to
+expose the ultra-optimized ATLAS versions.</p>
+
+<h2 id="method-c-cblas_gemm-label-Arguments">Arguments<span><a href="#method-c-cblas_gemm-label-Arguments">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>See: <a
+href="http://www.netlib.org/blas/dgemm.f">www.netlib.org/blas/dgemm.f</a></p>
+
+<p>You probably don&#39;t want to call this function. Instead, why don&#39;t
+you try gemm, which is more flexible with its arguments?</p>
+
+<p>This function does almost no type checking. Seriously, be really careful
+when you call it! There&#39;s no exception handling, so you can easily
+crash Ruby!</p>
+          
+          
+
+          
+          <div class="method-source-code" id="cblas_gemm-source">
+            <pre>static VALUE nm_lapacke_cblas_gemm(VALUE self,
+                           VALUE order,
+                           VALUE trans_a, VALUE trans_b,
+                           VALUE m, VALUE n, VALUE k,
+                           VALUE alpha,
+                           VALUE a, VALUE lda,
+                           VALUE b, VALUE ldb,
+                           VALUE beta,
+                           VALUE c, VALUE ldc)
+{
+  NAMED_DTYPE_TEMPLATE_TABLE(ttable, nm::math::lapacke::cblas_gemm, void, const enum CBLAS_ORDER Order, const enum CBLAS_TRANSPOSE trans_a, const enum CBLAS_TRANSPOSE trans_b, int m, int n, int k, void* alpha, void* a, int lda, void* b, int ldb, void* beta, void* c, int ldc);
+
+  nm::dtype_t dtype = NM_DTYPE(a);
+
+  void *pAlpha = NM_ALLOCA_N(char, DTYPE_SIZES[dtype]),
+       *pBeta  = NM_ALLOCA_N(char, DTYPE_SIZES[dtype]);
+  rubyval_to_cval(alpha, dtype, pAlpha);
+  rubyval_to_cval(beta, dtype, pBeta);
+
+  ttable[dtype](blas_order_sym(order), blas_transpose_sym(trans_a), blas_transpose_sym(trans_b), FIX2INT(m), FIX2INT(n), FIX2INT(k), pAlpha, NM_STORAGE_DENSE(a)-&gt;elements, FIX2INT(lda), NM_STORAGE_DENSE(b)-&gt;elements, FIX2INT(ldb), pBeta, NM_STORAGE_DENSE(c)-&gt;elements, FIX2INT(ldc));
+
+  return c;
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-cblas_gemv" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cblas_gemv</span><span
+            class="method-args">(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Call any of the cblas_xgemv functions as directly as possible.</p>
+
+<p>The cblas_xgemv functions (dgemv, sgemv, cgemv, and zgemv) define the
+following operation:</p>
+
+<pre class="ruby"><span class="ruby-identifier">y</span> = <span class="ruby-identifier">alpha</span><span class="ruby-operator">*</span><span class="ruby-identifier">op</span>(<span class="ruby-constant">A</span>)<span class="ruby-operator">*</span><span class="ruby-identifier">x</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">beta</span><span class="ruby-operator">*</span><span class="ruby-identifier">y</span>
+</pre>
+
+<p>where op(A) is one of <code>op(A) = A</code>, <code>op(A) = A**T</code>, or
+the complex conjugate of A.</p>
+
+<p>Note that this will only work for dense matrices that are of types
+:float32, :float64, :complex64, and :complex128. Other types are not
+implemented in <a href="BLAS.html">BLAS</a>, and while they exist in <a
+href="../../NMatrix.html">NMatrix</a>, this method is intended only to
+expose the ultra-optimized ATLAS versions.</p>
+
+<h2 id="method-c-cblas_gemv-label-Arguments">Arguments<span><a href="#method-c-cblas_gemv-label-Arguments">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>See: <a
+href="http://www.netlib.org/blas/dgemm.f">www.netlib.org/blas/dgemm.f</a></p>
+
+<p>You probably don&#39;t want to call this function. Instead, why don&#39;t
+you try <a href="BLAS.html#method-c-cblas_gemv">::cblas_gemv</a>, which is
+more flexible with its arguments?</p>
+
+<p>This function does almost no type checking. Seriously, be really careful
+when you call it! There&#39;s no exception handling, so you can easily
+crash Ruby!</p>
+          
+          
+
+          
+          <div class="method-source-code" id="cblas_gemv-source">
+            <pre>static VALUE nm_lapacke_cblas_gemv(VALUE self,
+                           VALUE trans_a,
+                           VALUE m, VALUE n,
+                           VALUE alpha,
+                           VALUE a, VALUE lda,
+                           VALUE x, VALUE incx,
+                           VALUE beta,
+                           VALUE y, VALUE incy)
+{
+  NAMED_DTYPE_TEMPLATE_TABLE(ttable, nm::math::lapacke::cblas_gemv, bool, const enum CBLAS_TRANSPOSE, const int, const int, const void*, const void*, const int, const void*, const int, const void*, void*, const int)
+
+  nm::dtype_t dtype = NM_DTYPE(a);
+
+  void *pAlpha = NM_ALLOCA_N(char, DTYPE_SIZES[dtype]),
+       *pBeta  = NM_ALLOCA_N(char, DTYPE_SIZES[dtype]);
+  rubyval_to_cval(alpha, dtype, pAlpha);
+  rubyval_to_cval(beta, dtype, pBeta);
+
+  return ttable[dtype](blas_transpose_sym(trans_a), FIX2INT(m), FIX2INT(n), pAlpha, NM_STORAGE_DENSE(a)-&gt;elements, FIX2INT(lda), NM_STORAGE_DENSE(x)-&gt;elements, FIX2INT(incx), pBeta, NM_STORAGE_DENSE(y)-&gt;elements, FIX2INT(incy)) ? Qtrue : Qfalse;
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-cblas_herk" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cblas_herk</span><span
+            class="method-args">(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="cblas_herk-source">
+            <pre>static VALUE nm_lapacke_cblas_herk(VALUE self,
+                           VALUE order,
+                           VALUE uplo,
+                           VALUE trans,
+                           VALUE n, VALUE k,
+                           VALUE alpha,
+                           VALUE a, VALUE lda,
+                           VALUE beta,
+                           VALUE c, VALUE ldc)
+{
+
+  nm::dtype_t dtype = NM_DTYPE(a);
+
+  if (dtype == nm::COMPLEX64) {
+    cblas_cherk(blas_order_sym(order), blas_uplo_sym(uplo), blas_transpose_sym(trans), FIX2INT(n), FIX2INT(k), NUM2DBL(alpha), NM_STORAGE_DENSE(a)-&gt;elements, FIX2INT(lda), NUM2DBL(beta), NM_STORAGE_DENSE(c)-&gt;elements, FIX2INT(ldc));
+  } else if (dtype == nm::COMPLEX128) {
+    cblas_zherk(blas_order_sym(order), blas_uplo_sym(uplo), blas_transpose_sym(trans), FIX2INT(n), FIX2INT(k), NUM2DBL(alpha), NM_STORAGE_DENSE(a)-&gt;elements, FIX2INT(lda), NUM2DBL(beta), NM_STORAGE_DENSE(c)-&gt;elements, FIX2INT(ldc));
+  } else
+    rb_raise(rb_eNotImpError, &quot;this matrix operation undefined for non-complex dtypes&quot;);
+  return Qtrue;
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-cblas_imax" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            NMatrix::BLAS.cblas_imax(n, vector, inc) &rarr; Fixnum
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p><a href="BLAS.html">BLAS</a> level 1 routine.</p>
+
+<p>Return the index of the largest element of <code>vector</code>.</p>
+<ul><li>
+<p><code>n</code> -&gt; Vector&#39;s size. Generally, you can use <a
+href="../../NMatrix.html#method-i-rows">NMatrix#rows</a> or <a
+href="../../NMatrix.html#method-i-cols">NMatrix#cols</a>.</p>
+</li><li>
+<p><code>vector</code> -&gt; A <a href="../../NMatrix.html">NMatrix</a> of
+shape [n,1] or [1,n] with any dtype.</p>
+</li><li>
+<p><code>inc</code> -&gt; It&#39;s the increment used when searching. Use 1
+except if you know what you&#39;re doing.</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="cblas_imax-source">
+            <pre>static VALUE nm_lapacke_cblas_imax(VALUE self, VALUE n, VALUE x, VALUE incx) {
+  NAMED_DTYPE_TEMPLATE_TABLE(ttable, nm::math::lapacke::cblas_imax, int, const int n, const void* x, const int incx);
+
+  nm::dtype_t dtype = NM_DTYPE(x);
+
+  int index = ttable[dtype](FIX2INT(n), NM_STORAGE_DENSE(x)-&gt;elements, FIX2INT(incx));
+
+  // Convert to Ruby&#39;s Int value.
+  return INT2FIX(index);
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-cblas_nrm2" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cblas_nrm2</span><span
+            class="method-args">(p1, p2, p3)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Call any of the cblas_xnrm2 functions as directly as possible.</p>
+
+<p>xNRM2 is a <a href="BLAS.html">BLAS</a> level 1 routine which calculates
+the 2-norm of an n-vector x.</p>
+
+<p>Arguments:</p>
+
+<pre>* n     :: length of x, must be at least 0
+* x     :: pointer to first entry of input vector
+* incx  :: stride of x, must be POSITIVE (ATLAS says non-zero, but 3.8.4 code only allows positive)</pre>
+
+<p>You probably don&#39;t want to call this function. Instead, why don&#39;t
+you try nrm2, which is more flexible with its arguments?</p>
+
+<p>This function does almost no type checking. Seriously, be really careful
+when you call it! There&#39;s no exception handling, so you can easily
+crash Ruby!</p>
+          
+          
+
+          
+          <div class="method-source-code" id="cblas_nrm2-source">
+            <pre>static VALUE nm_lapacke_cblas_nrm2(VALUE self, VALUE n, VALUE x, VALUE incx) {
+
+  static void (*ttable[nm::NUM_DTYPES])(const int N, const void* X, const int incX, void* sum) = {
+      NULL, NULL, NULL, NULL, NULL, // no help for integers
+      nm::math::lapacke::cblas_nrm2&lt;float32_t,float32_t&gt;,
+      nm::math::lapacke::cblas_nrm2&lt;float64_t,float64_t&gt;,
+      nm::math::lapacke::cblas_nrm2&lt;float32_t,nm::Complex64&gt;,
+      nm::math::lapacke::cblas_nrm2&lt;float64_t,nm::Complex128&gt;,
+      nm::math::lapacke::cblas_nrm2&lt;nm::RubyObject,nm::RubyObject&gt;
+  };
+
+  nm::dtype_t dtype  = NM_DTYPE(x);
+
+  if (!ttable[dtype]) {
+    rb_raise(nm_eDataTypeError, &quot;this operation undefined for integer vectors&quot;);
+    return Qnil;
+
+  } else {
+    // Determine the return dtype and allocate it
+    nm::dtype_t rdtype = dtype;
+    if      (dtype == nm::COMPLEX64)  rdtype = nm::FLOAT32;
+    else if (dtype == nm::COMPLEX128) rdtype = nm::FLOAT64;
+
+    void *Result = NM_ALLOCA_N(char, DTYPE_SIZES[rdtype]);
+
+    ttable[dtype](FIX2INT(n), NM_STORAGE_DENSE(x)-&gt;elements, FIX2INT(incx), Result);
+
+    return rubyobj_from_cval(Result, rdtype).rval;
+  }
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-cblas_rot" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cblas_rot</span><span
+            class="method-args">(p1, p2, p3, p4, p5, p6, p7)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Call any of the cblas_xrot functions as directly as possible.</p>
+
+<p>xROT is a <a href="BLAS.html">BLAS</a> level 1 routine (taking two vectors)
+which applies a plane rotation.</p>
+
+<p>It&#39;s tough to find documentation on xROT. Here are what we think the
+arguments are for:</p>
+
+<pre>* n     :: number of elements to consider in x and y
+* x     :: a vector (expects an NVector)
+* incx  :: stride of x
+* y     :: a vector (expects an NVector)
+* incy  :: stride of y
+* c     :: cosine of the angle of rotation
+* s     :: sine of the angle of rotation</pre>
+
+<p>Note that c and s will be the same dtype as x and y, except when x and y
+are complex. If x and y are complex, c and s will be float for Complex64 or
+double for Complex128.</p>
+
+<p>You probably don&#39;t want to call this function. Instead, why don&#39;t
+you try rot, which is more flexible with its arguments?</p>
+
+<p>This function does almost no type checking. Seriously, be really careful
+when you call it! There&#39;s no exception handling, so you can easily
+crash Ruby!</p>
+          
+          
+
+          
+          <div class="method-source-code" id="cblas_rot-source">
+            <pre>static VALUE nm_lapacke_cblas_rot(VALUE self, VALUE n, VALUE x, VALUE incx, VALUE y, VALUE incy, VALUE c, VALUE s) {
+  static void (*ttable[nm::NUM_DTYPES])(const int N, void*, const int, void*, const int, const void*, const void*) = {
+      NULL, NULL, NULL, NULL, NULL, // can&#39;t represent c and s as integers, so no point in having integer operations.
+      nm::math::lapacke::cblas_rot&lt;float,float&gt;,
+      nm::math::lapacke::cblas_rot&lt;double,double&gt;,
+      nm::math::lapacke::cblas_rot&lt;nm::Complex64,float&gt;,
+      nm::math::lapacke::cblas_rot&lt;nm::Complex128,double&gt;,
+      nm::math::lapacke::cblas_rot&lt;nm::RubyObject,nm::RubyObject&gt;
+  };
+
+  nm::dtype_t dtype = NM_DTYPE(x);
+
+
+  if (!ttable[dtype]) {
+    rb_raise(nm_eDataTypeError, &quot;this operation undefined for integer vectors&quot;);
+    return Qfalse;
+  } else {
+    void *pC, *pS;
+
+    // We need to ensure the cosine and sine arguments are the correct dtype -- which may differ from the actual dtype.
+    if (dtype == nm::COMPLEX64) {
+      pC = NM_ALLOCA_N(float,1);
+      pS = NM_ALLOCA_N(float,1);
+      rubyval_to_cval(c, nm::FLOAT32, pC);
+      rubyval_to_cval(s, nm::FLOAT32, pS);
+    } else if (dtype == nm::COMPLEX128) {
+      pC = NM_ALLOCA_N(double,1);
+      pS = NM_ALLOCA_N(double,1);
+      rubyval_to_cval(c, nm::FLOAT64, pC);
+      rubyval_to_cval(s, nm::FLOAT64, pS);
+    } else {
+      pC = NM_ALLOCA_N(char, DTYPE_SIZES[dtype]);
+      pS = NM_ALLOCA_N(char, DTYPE_SIZES[dtype]);
+      rubyval_to_cval(c, dtype, pC);
+      rubyval_to_cval(s, dtype, pS);
+    }
+
+
+    ttable[dtype](FIX2INT(n), NM_STORAGE_DENSE(x)-&gt;elements, FIX2INT(incx), NM_STORAGE_DENSE(y)-&gt;elements, FIX2INT(incy), pC, pS);
+
+    return Qtrue;
+  }
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-cblas_rotg" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cblas_rotg</span><span
+            class="method-args">(p1)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Call any of the cblas_xrotg functions as directly as possible.</p>
+
+<p>xROTG computes the elements of a Givens plane rotation matrix such that:</p>
+
+<pre>|  c s |   | a |   | r |
+| -s c | * | b | = | 0 |</pre>
+
+<p>where r = +- sqrt( a**2 + b**2 ) and c**2 + s**2 = 1.</p>
+
+<p>The Givens plane rotation can be used to introduce zero elements into a
+matrix selectively.</p>
+
+<p>This function differs from most of the other raw <a
+href="BLAS.html">BLAS</a> accessors. Instead of providing a, b, c, s as
+arguments, you should only provide a and b (the inputs), and you should
+provide them as the first two elements of any dense <a
+href="../../NMatrix.html">NMatrix</a> type.</p>
+
+<p>The outputs [c,s] will be returned in a Ruby <a
+href="../../Array.html">Array</a> at the end; the input <a
+href="../../NMatrix.html">NMatrix</a> will also be modified in-place.</p>
+
+<p>This function, like the other cblas_ functions, does minimal type-checking.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="cblas_rotg-source">
+            <pre>static VALUE nm_lapacke_cblas_rotg(VALUE self, VALUE ab) {
+  static void (*ttable[nm::NUM_DTYPES])(void* a, void* b, void* c, void* s) = {
+      NULL, NULL, NULL, NULL, NULL, // can&#39;t represent c and s as integers, so no point in having integer operations.
+      nm::math::lapacke::cblas_rotg&lt;float&gt;,
+      nm::math::lapacke::cblas_rotg&lt;double&gt;,
+      nm::math::lapacke::cblas_rotg&lt;nm::Complex64&gt;,
+      nm::math::lapacke::cblas_rotg&lt;nm::Complex128&gt;,
+      NULL //nm::math::lapacke::cblas_rotg&lt;nm::RubyObject&gt;
+  };
+
+  nm::dtype_t dtype = NM_DTYPE(ab);
+
+  if (!ttable[dtype]) {
+    rb_raise(nm_eDataTypeError, &quot;this operation undefined for integer vectors&quot;);
+    return Qnil;
+
+  } else {
+    NM_CONSERVATIVE(nm_register_value(&amp;self));
+    NM_CONSERVATIVE(nm_register_value(&amp;ab));
+    void *pC = NM_ALLOCA_N(char, DTYPE_SIZES[dtype]),
+         *pS = NM_ALLOCA_N(char, DTYPE_SIZES[dtype]);
+
+    // extract A and B from the NVector (first two elements)
+    void* pA = NM_STORAGE_DENSE(ab)-&gt;elements;
+    void* pB = (char*)(NM_STORAGE_DENSE(ab)-&gt;elements) + DTYPE_SIZES[dtype];
+    // c and s are output
+
+    ttable[dtype](pA, pB, pC, pS);
+
+    VALUE result = rb_ary_new2(2);
+
+    if (dtype == nm::RUBYOBJ) {
+      rb_ary_store(result, 0, *reinterpret_cast&lt;VALUE*&gt;(pC));
+      rb_ary_store(result, 1, *reinterpret_cast&lt;VALUE*&gt;(pS));
+    } else {
+      rb_ary_store(result, 0, rubyobj_from_cval(pC, dtype).rval);
+      rb_ary_store(result, 1, rubyobj_from_cval(pS, dtype).rval);
+    }
+    NM_CONSERVATIVE(nm_unregister_value(&amp;ab));
+    NM_CONSERVATIVE(nm_unregister_value(&amp;self));
+    return result;
+  }
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-cblas_scal" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            NMatrix::BLAS.cblas_scal(n, alpha, vector, inc) &rarr; NMatrix
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p><a href="BLAS.html">BLAS</a> level 1 function <code>scal</code>. Works with
+all dtypes.</p>
+
+<p>Scale <code>vector</code> in-place by <code>alpha</code> and also return
+it. The operation is as follows:</p>
+
+<pre class="ruby"><span class="ruby-identifier">x</span> <span class="ruby-operator">&lt;</span><span class="ruby-operator">-</span> <span class="ruby-identifier">alpha</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">x</span>
+</pre>
+<ul><li>
+<p><code>n</code> -&gt; Number of elements of <code>vector</code>.</p>
+</li><li>
+<p><code>alpha</code> -&gt; Scalar value used in the operation.</p>
+</li><li>
+<p><code>vector</code> -&gt; <a href="../../NMatrix.html">NMatrix</a> of shape
+[n,1] or [1,n]. Modified in-place.</p>
+</li><li>
+<p><code>inc</code> -&gt; Increment used in the scaling function. Should
+generally be 1.</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="cblas_scal-source">
+            <pre>static VALUE nm_lapacke_cblas_scal(VALUE self, VALUE n, VALUE alpha, VALUE vector, VALUE incx) {
+  nm::dtype_t dtype = NM_DTYPE(vector);
+
+  void* scalar = NM_ALLOCA_N(char, DTYPE_SIZES[dtype]);
+  rubyval_to_cval(alpha, dtype, scalar);
+
+  NAMED_DTYPE_TEMPLATE_TABLE(ttable, nm::math::lapacke::cblas_scal, void, const int n,
+      const void* scalar, void* x, const int incx);
+
+  ttable[dtype](FIX2INT(n), scalar, NM_STORAGE_DENSE(vector)-&gt;elements,
+      FIX2INT(incx));
+
+  return vector;
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-cblas_syrk" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cblas_syrk</span><span
+            class="method-args">(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="cblas_syrk-source">
+            <pre>static VALUE nm_lapacke_cblas_syrk(VALUE self,
+                           VALUE order,
+                           VALUE uplo,
+                           VALUE trans,
+                           VALUE n, VALUE k,
+                           VALUE alpha,
+                           VALUE a, VALUE lda,
+                           VALUE beta,
+                           VALUE c, VALUE ldc)
+{
+  static void (*ttable[nm::NUM_DTYPES])(const enum CBLAS_ORDER, const enum CBLAS_UPLO, const enum CBLAS_TRANSPOSE,
+                                        const int n, const int k, const void* alpha, const void* a,
+                                        const int lda, const void* beta, void* c, const int ldc) = {
+      NULL, NULL, NULL, NULL, NULL, // integers not allowed due to division
+      nm::math::lapacke::cblas_syrk&lt;float&gt;,
+      nm::math::lapacke::cblas_syrk&lt;double&gt;,
+      cblas_csyrk, cblas_zsyrk, // call directly, same function signature!
+      NULL
+  };
+
+  nm::dtype_t dtype = NM_DTYPE(a);
+
+  if (!ttable[dtype]) {
+    rb_raise(nm_eDataTypeError, &quot;this matrix operation undefined for integer matrices&quot;);
+  } else {
+    void *pAlpha = NM_ALLOCA_N(char, DTYPE_SIZES[dtype]),
+         *pBeta = NM_ALLOCA_N(char, DTYPE_SIZES[dtype]);
+    rubyval_to_cval(alpha, dtype, pAlpha);
+    rubyval_to_cval(beta, dtype, pBeta);
+
+    ttable[dtype](blas_order_sym(order), blas_uplo_sym(uplo), blas_transpose_sym(trans), FIX2INT(n), FIX2INT(k), pAlpha, NM_STORAGE_DENSE(a)-&gt;elements, FIX2INT(lda), pBeta, NM_STORAGE_DENSE(c)-&gt;elements, FIX2INT(ldc));
+  }
+
+  return Qtrue;
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-cblas_trmm" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cblas_trmm</span><span
+            class="method-args">(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="cblas_trmm-source">
+            <pre>static VALUE nm_lapacke_cblas_trmm(VALUE self,
+                           VALUE order,
+                           VALUE side, VALUE uplo,
+                           VALUE trans_a, VALUE diag,
+                           VALUE m, VALUE n,
+                           VALUE alpha,
+                           VALUE a, VALUE lda,
+                           VALUE b, VALUE ldb)
+{
+  static void (*ttable[nm::NUM_DTYPES])(const enum CBLAS_ORDER,
+                                        const enum CBLAS_SIDE, const enum CBLAS_UPLO,
+                                        const enum CBLAS_TRANSPOSE, const enum CBLAS_DIAG,
+                                        const int m, const int n, const void* alpha, const void* a,
+                                        const int lda, void* b, const int ldb) = {
+      NULL, NULL, NULL, NULL, NULL, // integers not allowed due to division
+      nm::math::lapacke::cblas_trmm&lt;float&gt;,
+      nm::math::lapacke::cblas_trmm&lt;double&gt;,
+      cblas_ctrmm, cblas_ztrmm, // call directly, same function signature!
+      NULL
+  };
+
+  nm::dtype_t dtype = NM_DTYPE(a);
+
+  if (!ttable[dtype]) {
+    rb_raise(nm_eDataTypeError, &quot;this matrix operation not yet defined for non-BLAS dtypes&quot;);
+  } else {
+    void *pAlpha = NM_ALLOCA_N(char, DTYPE_SIZES[dtype]);
+    rubyval_to_cval(alpha, dtype, pAlpha);
+
+    ttable[dtype](blas_order_sym(order), blas_side_sym(side), blas_uplo_sym(uplo), blas_transpose_sym(trans_a), blas_diag_sym(diag), FIX2INT(m), FIX2INT(n), pAlpha, NM_STORAGE_DENSE(a)-&gt;elements, FIX2INT(lda), NM_STORAGE_DENSE(b)-&gt;elements, FIX2INT(ldb));
+  }
+
+  return b;
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-cblas_trsm" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cblas_trsm</span><span
+            class="method-args">(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="cblas_trsm-source">
+            <pre>static VALUE nm_lapacke_cblas_trsm(VALUE self,
+                           VALUE order,
+                           VALUE side, VALUE uplo,
+                           VALUE trans_a, VALUE diag,
+                           VALUE m, VALUE n,
+                           VALUE alpha,
+                           VALUE a, VALUE lda,
+                           VALUE b, VALUE ldb)
+{
+  static void (*ttable[nm::NUM_DTYPES])(const enum CBLAS_ORDER, const enum CBLAS_SIDE, const enum CBLAS_UPLO,
+                                        const enum CBLAS_TRANSPOSE, const enum CBLAS_DIAG,
+                                        const int m, const int n, const void* alpha, const void* a,
+                                        const int lda, void* b, const int ldb) = {
+      NULL, NULL, NULL, NULL, NULL, // integers not allowed due to division
+      nm::math::lapacke::cblas_trsm&lt;float&gt;,
+      nm::math::lapacke::cblas_trsm&lt;double&gt;,
+      cblas_ctrsm, cblas_ztrsm, // call directly, same function signature!
+      nm::math::lapacke::cblas_trsm&lt;nm::RubyObject&gt;
+  };
+
+  nm::dtype_t dtype = NM_DTYPE(a);
+
+  if (!ttable[dtype]) {
+    rb_raise(nm_eDataTypeError, &quot;this matrix operation undefined for integer matrices&quot;);
+  } else {
+    void *pAlpha = NM_ALLOCA_N(char, DTYPE_SIZES[dtype]);
+    rubyval_to_cval(alpha, dtype, pAlpha);
+
+    ttable[dtype](blas_order_sym(order), blas_side_sym(side), blas_uplo_sym(uplo), blas_transpose_sym(trans_a), blas_diag_sym(diag), FIX2INT(m), FIX2INT(n), pAlpha, NM_STORAGE_DENSE(a)-&gt;elements, FIX2INT(lda), NM_STORAGE_DENSE(b)-&gt;elements, FIX2INT(ldb));
+  }
+
+  return Qtrue;
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="http://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+

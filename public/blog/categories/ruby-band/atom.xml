@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ruby-band | SciRuby]]></title>
+  <link href="http://sciruby.com/blog/categories/ruby-band/atom.xml" rel="self"/>
+  <link href="http://sciruby.com/"/>
+  <updated>2017-10-17T20:48:02+09:00</updated>
+  <id>http://sciruby.com/</id>
+  <author>
+    <name><![CDATA[SciRuby]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[GSOC 2013: Data mining in JRuby with Ruby Band]]></title>
+    <link href="http://sciruby.com/blog/2013/09/24/gsoc-2013-data-mining-in-jruby-with-ruby-band/"/>
+    <updated>2013-09-24T10:44:00+09:00</updated>
+    <id>http://sciruby.com/blog/2013/09/24/gsoc-2013-data-mining-in-jruby-with-ruby-band</id>
+    <content type="html"><![CDATA[<p class="note"><strong>Editor's Note:</strong> This is the first of four blog posts detailing
+our Google Summer of Code 2013 students' work, edited by John Woods.</p>
+
+
+<p>In the context of the Google Summer of Code 2013, I have developed a Ruby gem called <a href="https://github.com/arrigonialberto86/ruby-band">Ruby Band</a>
+that makes some selected Java software for data mining and machine learning applications available to the JRuby/Ruby
+users. This project complements existing software already developed for SciRuby by adding support for the Weka Toolkit
+and general functions included in the Apache Commons Math library.</p>
+
+<p>As Weka does, Ruby Band features a comprehensive collection of data preprocessing and modeling techniques, and supports
+several standard data mining tasks, more specifically: data pre-processing (filtering), clustering, classification,
+regression, and feature selection.</p>
+
+<p>All of Ruby Band's techniques have been built on the assumption that the data is
+available as a single flat file or relation, where each datum is described by a fixed number of attributes. The
+loaded datasets are stored in Weka Instances objects, which are used as 'core' data types for the interactions with
+other software (Apache Commons Math) or platforms.</p>
+
+<p>Originally, Ruby Band was called Ruby Mining. I renamed it Ruby Band, as I imagine
+different software sources (Weka, Apache, etc.) working as a whole, like in a real band. Ruby Band has been designed
+with a modular structure, so that it can be easily extended and integrated with other Java software. The Core module is
+allows data types from different sources to be defined and integrated using converter methods;
+functionalities from each piece of additional software are independently imported. This structure increases the
+extensibility of the product, as in the future other developers may add functionalities according to their needs.</p>
+
+<p>Though Ruby Band provides full support for the greatest part of the Weka APIs, some topics still need to be addressed
+properly. As I coded, I utilized the Weka Java APIs documentation as my roadmap; if you want to contribute,
+<a href="http://weka.wikispaces.com/Use+WEKA+in+your+Java+code">go see what is still missing</a>. The best and easiest way
+to introduce a new functionality into the Ruby Band framework is to write up a pertinent Cucumber test, as a number of
+Weka recipes have been posted online by the creators.</p>
+
+<p>The beta version of Ruby Band has already been released for general use on Rubygems (<code>gem install ruby-band</code>).</p>
+
+<p>This is a quick example of how to train a classifier on a dataset parsed from an ARFF file:</p>
+
+<pre><code>require 'ruby-band'
+
+# parse a dataset
+dataset = Core::Parser.parse_ARFF(my_file.arff)
+
+# initialize and train a classifier
+classifier = Weka::Classifier::Lazy::KStar::Base.new do
+  set_options '-M d'
+  set_data dataset
+  set_class_index 4
+end
+
+# cross-validate the trained classifier
+puts classifier.cross_validate(3)
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>
