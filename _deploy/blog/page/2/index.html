@@ -9,8 +9,7 @@
   <meta name="author" content="SciRuby">
 
   
-  <meta name="description" content="Almost two months ago, in December, we release our first beta of NMatrix, our
-linear algebra library for the Ruby language. Rather than discussing &hellip;">
+  <meta name="description" content="Introduction This summer I&#8217;ve been participating in Google Summer of Code with GnuplotRB project (plotting tool for Ruby users based on Gnuplot &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -83,6 +82,544 @@ linear algebra library for the Ruby language. Rather than discussing &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/18/gnuplotrb-project/">GnuplotRB and GSoC 2015</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Ivan Evgrafov</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-18T23:26:00+09:00" pubdate data-updated="true">Aug 18<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Introduction</h2>
+
+<p>This summer I&#8217;ve been participating in Google Summer of Code
+ with <a href="https://github.com/dilcom/gnuplotrb">GnuplotRB project</a> (plotting tool for Ruby users based on <a href="http://www.gnuplot.info/">Gnuplot</a>)
+ for <a href="http://sciruby.com/">SciRuby</a>. GSoC is almost over and I&#8217;m releasing v0.3.1 of GnuplotRB as a <a href="https://rubygems.org/gems/gnuplotrb/">gem</a>.
+ In this blog post I want to introduce the gem and highlight some of its capabilities.</p>
+
+<h2>Features</h2>
+
+<p>There are several existing plotting tools for Ruby such as Nyaplot, Plotrb, Rubyvis
+ and Gnuplot gem. However they are not designed for large datasets and have fewer
+ plotting styles and options than Gnuplot. Gnuplot gem was developed long ago and nowadays consists
+ mostly of hacks and does not support modern Gnuplot features such as multiplot.</p>
+
+<p>Therefore my goal was to develop new gem for Gnuplot which would allow full use of its
+ features in Ruby. I was inspired to build an easy-to-use interface for the most commonly
+ used features of Gnuplot and allow users to customize their plots with
+ Gnuplot options as easily as possible in Rubyesque way.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/08/18/gnuplotrb-project/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/17/ruby-wrappers-for-symengine/">Ruby Wrappers for SymEngine, a C++ Symbolic Manipulation Library</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Abinash Meher</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-17T14:30:00+09:00" pubdate data-updated="true">Aug 17<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I am sure you have heard about <a href="http://www.wolframalpha.com/">Wolfram Alpha</a>. Some of you would have used its <a href="http://www.wolframalpha.com/examples/Math.html">Mathematics section</a> at some point of time to cross check your solution to a maths problem. If you haven&#8217;t, please do. A computer algebra system (CAS) does the same thing. Algebraic computation or symbolic computation are all used interchangeably. A CAS solves problems the same way a human does, but way more quickly and precisely. There is very less chance for an error, that we humans often make.</p>
+
+<h2>Introduction</h2>
+
+<p>My project was to write the Ruby extensions for the library <a href="https://github.com/sympy/symengine">SymEngine</a> and come up with a Ruby-ish interface, after which we can use the features of SymEngine from Ruby.</p>
+
+<p><a href="https://github.com/sympy/symengine">SymEngine</a> is a library for symbolic computation in C++. You may ask, why SymEngine? There are other CASs that I know of. This question was indeed asked. At the beginning, the idea was to use ruby wrappers for <a href="http://www.sagemath.org/">sage</a> (a mathematics software system) which uses <a href="http://pynac.org/">Pynac</a>, an interface to <a href="http://www.ginac.de/">GiNaC</a> (another CAS). As it turns out from the benchmarks, SymEngine is much faster than Pynac. What about directly wrapping GiNaC? SymEngine is also a bit faster than GiNaC.</p>
+
+<p>The motivation for <a href="https://github.com/sympy/symengine">SymEngine</a> itself is to develop it once in C++ and then use it from other languages rather than doing the same thing all over again for each language that it is required in. In particular, a long term goal is to make Sage as well as SymPy use it by default, thus unifying the Python CAS communities. The goal of implementing the Ruby wrappers is to provide a CAS for the Ruby community.</p>
+
+<h3>How will this be useful?</h3>
+
+<p>There are times when we might need a symbolic computation library. Here is an incomplete list of some of the situations:</p>
+
+<ul>
+<li>We need to do some algebra to get systems of equations in suitable form for numerical computation.</li>
+<li>We need to make substitutions for some variables and don’t want to risk a math error by hand. There might be times when we want to partially simplify an expression by substituting only a few of its variables.</li>
+<li>We have a situation where we need to find the optimum number of something to maximise our profits, and the mathematical model devised is just too complicated to solve by hand.</li>
+<li>We need to perform non-trivial derivatives or integrals.</li>
+<li>We are trying to understand the domain of a new function.</li>
+<li>Most root finding algorithms search for a single root, whereas often there are more than one.</li>
+<li>We need to solve a linear system or manipulate a symbolic matrix exactly.</li>
+<li>We need to manipulate exact expressions and solutions, as opposed to approximate ones using a numerical method.</li>
+</ul>
+
+
+<p>With that said, a symbolic manipulation library is indispensable for scientists and students. Ruby has gained a great deal of popularity over the years, and a symbolic manipulation library gem  like this project in Ruby might prove to be the foundation for a computer algebra system in Ruby. With many efforts like these, Ruby might become the first choice for academicians given how easy it is to code your logic in Ruby.</p>
+
+<h2>How to install the gem?</h2>
+
+<p>To install, please follow the <a href="https://github.com/sympy/symengine/blob/master/symengine/ruby/README.md">compile instructions given in the README</a>. After you are done, I would suggest to test the extensions. To run the test suite execute <code>rspec spec</code> on the command line, from the <code>symengine/ruby</code> dir.</p>
+
+<p>The gem is still in alpha release. Please help us out by reporting any issues in <a href="https://github.com/sympy/symengine/issues">the repo issue tracker</a>.</p>
+
+<h2>What can I do with the gem?</h2>
+
+<p>Currently, the following features are available in the gem:
+- Construct expressions out of variables (mathematical).
+- Simplify the expressions.
+- Carry out arithmetic operations like <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>**</code> with the variables and expressions.
+- Extract arguments or variables from an expression.
+- Differentiate an expression with respect to another.
+- Substitute variables with other expressions.</p>
+
+<p>Features that will soon be ported to the SymEngine gem
+- Functions, including trigonometric, hyperbolic and some special functions.
+- Matrices, and their operations.
+- Basic number-theoretic functions.</p>
+
+<p>I have developed a <a href="https://github.com/sympy/symengine/tree/master/symengine/ruby/notebooks">few IRuby notebooks</a> that demonstrate the use of the new SymEngine module in ruby.</p>
+
+<p>Below is an example taken from the notebooks.</p>
+
+<hr />
+
+<h2>Using the SymEngine Gem</h2>
+
+<p>SymEngine is a module in the extensions, and the classes are a part of it. So first you fire up the interpreter or an IRuby notebook and load the file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;symengine&#39;</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="kp">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Go ahead and try a function:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">SymEngine</span><span class="o">.</span><span class="n">ascii_art</span>
+</span><span class='line'><span class="o">=&gt;</span>   <span class="n">_____</span>           <span class="n">_____</span>         <span class="n">_</span>
+</span><span class='line'>    <span class="o">|</span>   <span class="n">__</span><span class="o">|</span><span class="n">_</span> <span class="n">_</span> <span class="n">_____</span><span class="o">|</span>   <span class="n">__</span><span class="o">|</span><span class="n">___</span> <span class="n">___</span><span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="n">___</span> <span class="n">___</span>
+</span><span class='line'>    <span class="o">|</span><span class="n">__</span>   <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>     <span class="o">|</span>   <span class="n">__</span><span class="o">|</span>   <span class="o">|</span> <span class="o">.</span> <span class="o">|</span> <span class="o">|</span>   <span class="o">|</span> <span class="o">-</span><span class="n">_</span><span class="o">|</span>
+</span><span class='line'>    <span class="o">|</span><span class="n">_____</span><span class="o">|</span><span class="n">_</span>  <span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="n">_____</span><span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="n">_</span>  <span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="n">___</span><span class="o">|</span>
+</span><span class='line'>          <span class="o">|</span><span class="n">___</span><span class="o">|</span>               <span class="o">|</span><span class="n">___</span><span class="o">|</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>or create a variable:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">basic</span> <span class="o">=</span> <span class="no">SymEngine</span><span class="o">::</span><span class="no">Basic</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="c1">#&lt;SymEngine::Basic:0x00000001e95290&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This shows that we have successfully loaded the module.</p>
+
+<h3>SymEngine::Symbol</h3>
+
+<p>Just like there are variables like x, y, and z in a mathematical expression or equation, we have <code>SymEngine::Symbol</code> in SymEngine to represent them. To use a variable, first we need to make a <code>SymEngine::Symbol</code> object with the string we are going to represent the variable with.:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="n">x</span> <span class="o">=</span> <span class="no">SymEngine</span><span class="o">::</span><span class="no">Symbol</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="nb">puts</span> <span class="n">y</span> <span class="o">=</span> <span class="no">SymEngine</span><span class="o">::</span><span class="no">Symbol</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="nb">puts</span> <span class="n">z</span> <span class="o">=</span> <span class="no">SymEngine</span><span class="o">::</span><span class="no">Symbol</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">x</span>
+</span><span class='line'><span class="n">y</span>
+</span><span class='line'><span class="n">z</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then we can construct expressions out of them:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">e</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="n">y</span><span class="o">/</span><span class="n">z</span><span class="p">)</span>
+</span><span class='line'><span class="n">e</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="s2">&quot;x**y*(x - y)/z&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In SymEngine, every object is an instance of Basic or its subclasses. So, even an instance of <code>SymEngine::Symbol</code> is a Basic object.:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">x</span><span class="o">.</span><span class="n">class</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="no">SymEngine</span><span class="o">::</span><span class="no">Symbol</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">x</span><span class="o">.</span><span class="n">is_a?</span> <span class="no">SymEngine</span><span class="o">::</span><span class="no">Basic</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="kp">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now that we have an expression, we would like to see it&#8217;s expanded form using <code>#expand</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">f</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span>
+</span><span class='line'><span class="n">f</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="s2">&quot;x**(1 + y)/z - x**y*y/z&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Or check if two expressions are same:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">f</span> <span class="o">==</span> <span class="o">-</span> <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="n">y</span><span class="o">*</span><span class="n">y</span><span class="o">/</span><span class="n">z</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="n">y</span><span class="o">*</span><span class="n">x</span><span class="o">/</span><span class="n">z</span><span class="p">)</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="kp">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But <code>e</code> and <code>f</code> are not equal since they are only mathematically equal, not structurally:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">e</span> <span class="o">==</span> <span class="n">f</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="kp">false</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let us suppose you want to know <strong>what variables/symbols your expression has</strong>. You can do that with the <code>#free_symbols</code> method, which returns a set of the symbols that are in the expression.:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">f</span><span class="o">.</span><span class="n">free_symbols</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="c1">#&lt;Set: {#&lt;SymEngine::Basic:0x00000001f0ca70&gt;, #&lt;SymEngine::Basic:0x00000001f0ca48&gt;, #&lt;SymEngine::Basic:0x00000001f0ca20&gt;}&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let us use <code>#map</code> method to see the elements of the <code>Set</code>.:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">f</span><span class="o">.</span><span class="n">free_symbols</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="o">.</span><span class="n">to_s</span> <span class="p">}</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>#args</code> returns the terms of the expression,:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">f</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="o">.</span><span class="n">to_s</span> <span class="p">}</span>
+</span><span class='line'><span class="o">[</span><span class="s2">&quot;-x**y*y/z&quot;</span><span class="p">,</span> <span class="s2">&quot;x**(1 + y)/z&quot;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>or if it is a single term it breaks down the elements:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">f</span><span class="o">.</span><span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">args</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">k</span><span class="o">|</span> <span class="n">k</span><span class="o">.</span><span class="n">to_s</span> <span class="p">}</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;-1&quot;</span><span class="p">,</span> <span class="s2">&quot;x**y&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;z**(-1)&quot;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>SymEngine::Integer</h3>
+
+<p>You can make objects of class <code>SymEngine::Integer</code>. It&#8217;s like regular <code>Integer</code> in ruby kernel, except it can do all the operations a <code>Basic</code> object can &mdash; such as arithmetic operations, etc.:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="no">SymEngine</span><span class="o">::</span><span class="nb">Integer</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+</span><span class='line'><span class="n">b</span> <span class="o">=</span> <span class="no">SymEngine</span><span class="o">::</span><span class="nb">Integer</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span>
+</span><span class='line'><span class="n">a</span><span class="o">**</span><span class="n">b</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">=&gt;</span> <span class="mi">1168422057627266461843148138873451659428421700563161428957815831003136</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Additionally, it can support numbers of arbitrarily large length.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="p">(</span><span class="n">a</span><span class="o">**</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="s2">&quot;12**x&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>SymEngine::Rational</h3>
+
+<p>You can also make objects of class <code>SymEngine::Rational</code> which is the SymEngine counterpart for <code>Rationals</code> in Ruby.:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">c</span> <span class="o">=</span> <span class="no">Rational</span><span class="p">(</span><span class="s1">&#39;2/3&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="n">d</span> <span class="o">=</span> <span class="no">SymEngine</span><span class="o">::</span><span class="no">Rational</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">=&gt;</span> <span class="mi">2</span><span class="o">/</span><span class="mi">3</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Like any other <code>Basic</code> object arithmetic operations can be done on this rational type too.:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="p">(</span><span class="n">a</span><span class="o">-</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="s2">&quot;34/3&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<hr />
+
+<p>You <strong>need not create</strong> an instance of <code>SymEngine::Integer</code> or <code>SymEngine::Rational</code>, every time you want to use them in an expression that uses many <code>Integer</code>s. Let us say you already have <code>Integer</code>/<code>Rational</code> object. Even then you can use them without having to create a new <code>SymEngine</code> object.:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">k</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">c</span> <span class="o">+</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span> <span class="c1"># c is a Rational object, not SymEngine::Rational</span>
+</span><span class='line'><span class="n">k</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="s2">&quot;(2/3 + x*y)*(2 + 1/(x*y) - x*y)&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As you can see, ruby kernel <code>Integer</code>s and <code>Rational</code>s interoperate seamlessly with the <code>SymEngine</code> objects.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">k</span><span class="o">.</span><span class="n">expand</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="s2">&quot;7/3 + (2/3)*1/(x*y) + (4/3)*x*y - x**2*y**2&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<hr />
+
+<h2>What I learned</h2>
+
+<p>In the rest of the post, I would like to summarise my work and what I learned as a participant of <a href="https://www.google-melange.com/gsoc/homepage/google/gsoc2015">Google Summer of Code 2015</a>.</p>
+
+<h2>Pre-midterm Evaluations</h2>
+
+<p>I am a newbie when it comes to Ruby, and it took me a while to setup the gem and configure files for the building of extensions.</p>
+
+<h3>The struggle between shared, static and dynamic libraries</h3>
+
+<p>I faced a lot of problem in the early stages, when I was trying to build the extensions. <a href="https://github.com/certik">Ondrej</a>, my mentor, and <a href="https://github.com/isuruf">Isuru</a>, a fellow GSoC student, helped me a lot. There were many C flags that were being reported as missing. Some flags <code>cmake</code> added by default but <code>extconf.rb</code> didn&#8217;t, the same one that was required to be added to build it as a shared library. I am still confused about the details, some of which are <a href="http://abinashmeher999.github.io/2015/05/29/Building-the-wrappers/">explored in greater detail in my personal blog</a>. Finally, the library had to be built as a dynamic one. The problem of missing C flags was resolved later by hooking the process to <code>cmake</code> rather than <code>mkmf</code>.</p>
+
+<h3>Load Errors and problems in linking</h3>
+
+<p>Many <a href="http://abinashmeher999.github.io/2015/06/12/The-Load-Error/"><code>LoadError</code>s</a> popped up, but were eventually solved. <a href="https://github.com/dilcom/">Ivan</a> helped a lot in debugging the errors. In the end, it turned out to be a simple file missing in the gemspec, that was not being installed.</p>
+
+<h3>Reconfiguring building</h3>
+
+<p>One of our aims during developing this was to get rid of unessential dependencies. The ones we already had the tools for. Like later the file <code>extconf.rb</code>, that is used to generate Makefile for the extension was removed, because that could also be done by <code>cmake</code>. Flags were added to <code>cmake</code> for building the Ruby extensions, like the flag <code>-DWITH_RUBY=yes</code>. The <code>Makefile</code> then generates the library <code>symengine.so</code> in the directory <code>lib/symengine</code>.Along with <code>extconf.rb</code>, the file <code>extconf.h</code> was also gone. Along these lines, the dependency on <code>rake</code> was also removed, and with that the <code>Rakefile</code>. Any task automation will most probably be done in python. So, the <code>Rake::ExtensionTask</code> was done by <code>cmake</code> and the <code>Rake::GemPackageTask</code> was replaced by the manual method of <code>gem build symengine.gemspec</code> and <code>gem install symengine-0.0.0.gem</code></p>
+
+<h3>Travis setup</h3>
+
+<p>Not many projects have travis-ci setup for multiple languages. Not even the tutorials had clearly mentioned about setting up for multiple languages. But I did know about one of them, which is Shogun, the machine-learning toolbox. I referred to their <code>.travis.yml</code> and setup it up. If something like this wouldn&#8217;t have worked the plan was to manually install the required version of ruby and then execute the shell commands.</p>
+
+<h3>Making a basic object</h3>
+
+<p>Finally, I was able to successfully build the extensions, link the extensions with the SymEngine library, load the ruby-extension library in the interpreter and successfully instantiate an object of type <code>Basic</code>.</p>
+
+<h3>Inheritance and Symbols</h3>
+
+<p>At this time, the way inheritance works(like the sequence of formation and destruction of objects of a class that had a superclass) with the Ruby C API, was confusing for all of us. I designed an <a href="http://abinashmeher999.github.io/2015/06/26/the-symbol-class/#inheritance-in-ruby-c-api">experiment</a>
+to check what was actually happening. That cleared things out, and made the it easier to wrap things from now on. I also wrapped the <code>Symbol</code> class during the course.</p>
+
+<h2>Post-midterm Evaluations</h2>
+
+<h3>Redesign of the C interface</h3>
+
+<p>We had to design an ugly function to wrap vector in C. That led us to redesign the C interface. This approach had no reinterpret casting that was being done earlier. Each data structure had a type that was determined at compile time. For C, it was an opaque structure, while for C++ the opaque structure declared in the shared header file was implemented in the source file that had C++ data types. This <a href="http://abinashmeher999.github.io/2015/07/03/improving-the-c-interface/">blog post</a> explains it further.</p>
+
+<h3>Integer and Rational</h3>
+
+<p>While trying to port the SymEngine classes, <code>Integer</code> and <code>Rational</code>, I had to port many methods in <code>Basic</code> before that. I also replicated the <code>rake</code> tasks in NMatrix, for detection of memory leaks, in form of bash scripts.</p>
+
+<h3>Common enumeration</h3>
+
+<p>Since all objects in the Ruby C API are of the type <code>CBasic</code>, we needed a function that would give us the typename during the runtime for the corresponding objects to be wrapped in ruby, as an object of the correct <code>Class</code> in ruby. Since, this was achieved with <code>enum</code> in C++, the same thing could be done in C too, with all the classes written manually again. But there was no guarantee for this to be consistent, if ever the features required to be wrapped for a new language, and also manually adding the class in all the enum list everytime a new class is added was prone to errors. So, to make this DRY, we automated this by sharing the list of enums. More details for the implementation can be found <a href="http://abinashmeher999.github.io/2015/07/17/common-enumeration-in-c-and-c++/">here</a>.</p>
+
+<h3>Class coercion and interoperability</h3>
+
+<p>To support interoperability with the builtin ruby types, I had to overload the methods in builtin classes earlier(this was not continued). Overriding all the existing binary operations for a ruby class to support SymEngine types, violated the open/closed principle. There was indeed another way, which is <em>&#8216;Class Coercion&#8217;</em>. It was suggested by <a href="https://github.com/isuruf/">Isuru</a>. After that, SymEngine types could seamlessly interoperate between the ruby types.</p>
+
+<h3>Arithmetic operations</h3>
+
+<p>After this, all the arithmetic operations had been successfully ported. Each <code>Basic</code> object can now perform arithmetic operations with other <code>Basic</code> object(sometimes even ruby objects like <code>Integer</code>). The test file in python, that had all the corresponding test cases was ported to its RSpec counterpart.</p>
+
+<h3>Substitutions</h3>
+
+<p>Recently I completed porting the substitutions module to the extensions(<code>#subs</code>). This feature has added a lot of convenience as now you can substitute a <code>SymEngine::Symbol</code> with some other value in an expression and then <code>#expand</code> to get the result.</p>
+
+<h3>Trigonometric functions</h3>
+
+<p>Currently, I am working on porting the trigonometric functions in SymEngine to the extensions. This would first require to wrap the <code>Function</code> class and then the <code>TrigFunction</code> class in SymEngine.</p>
+
+<h3>Integration of other Ruby gems</h3>
+
+<p>I also have plans to integrate the ruby bindings for <code>gmp</code>, <code>mpfr</code> and <code>mpc</code> libraries, that are already available as gems, with ruby bindings for our library. I have created an issue <a href="https://github.com/sympy/symengine/issues/490">here</a>. Feel free to drop any suggestions.</p>
+
+<hr />
+
+<p>There is much scope for improvement in both the projects. For SymEngine, to support more features like polynomials and series-expansion in the near future, and improving the user interface and the exception handling for the extensions. In short, making the extensions more ruby-ish.</p>
+
+<p>I am grateful to my mentor, <a href="https://github.com/certik">Mr. Ondřej Čertík</a>, the <a href="http://sciruby.com/">Ruby Science Foundation</a> and the <a href="http://www.sympy.org/en/index.html">SymPy Organisation</a> for the opportunity that they gave me and guiding me through the project, and my team-mates for helping me with the issues. I hope more people will contribute to the project and together we will give a nice symbolic manipulation gem to the Ruby community.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/16/summary-of-work-on-daru-this-summer-for-gsoc-2015/">Summary of Work on Daru This Summer for GSOC 2015</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Sameer Deshmukh</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-16T23:53:00+09:00" pubdate data-updated="true">Aug 16<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Over this summer as a part of <a href="www.google-melange.com">Google Summer of Code 2015</a>, <a href="www.github.com/v0dro/daru/">daru</a> received a lot of upgrades and new features which have it made a pretty robust tool for data analysis in pure Ruby. Of course, a lot of work still remains for bringing daru at par with the other data analysis solutions on offer today, but I feel the work done this summer has put daru on that path.</p>
+
+<p>The new features led to the inclusion of daru in many of SciRuby&#8217;s gems, which use daru&#8217;s data storage, access and indexing features for storing and carrying around data. <a href="https://github.com/SciRuby/statsample">Statsample</a>, <a href="https://github.com/SciRuby/statsample-glm">statsample-glm</a>, <a href="https://github.com/SciRuby/statsample-timeseries">statsample-timeseries</a>, <a href="https://github.com/SciRuby/statsample-bivariate-extension">statsample-bivariate-extensions</a> are all now compatible with daru and use <code>Daru::Vector</code> and <code>Daru::DataFrame</code> as their primary data structures. I also overhauled Daru&#8217;s <a href="http://nbviewer.ipython.org/github/SciRuby/sciruby-notebooks/blob/master/Visualization/Visualizing%20data%20with%20daru%20DataFrame.ipynb">plotting functionality</a>, that interfaced with <a href="https://github.com/domitry/nyaplot">nyaplot</a> for creating interactive plots directly from the data.</p>
+
+<p>Also, new gems developed by other GSOC students, notably <a href="https://github.com/dilcom/gnuplotrb">Ivan&#8217;s GnuplotRB gem</a> and <a href="https://github.com/agisga/mixed_models">Alexej&#8217;s mixed_models gem</a> both now accept data from daru data structures. Do see their repo pages for seeing interesting ways of using daru.</p>
+
+<p>The work on daru is also proving to be quite useful for other people, which led to a talk/presentation at <a href="http://www.deccanrubyconf.org/">DeccanRubyConf 2015</a>, which is one of the three major Ruby conferences in India. You can see the slides and notebooks presented at the talk <a href="https://github.com/v0dro/talks/tree/master/DeccanRubyConf15">here</a>. Given the current interest in data analysis and the need for a viable solution in Ruby, I plan to take daru much further. Keep watching the repo for interesting updates :)</p>
+
+<p>In the rest of this post I&#8217;ll elaborate on all the work done this summer.</p>
+
+<h2>Pre-mid term submissions</h2>
+
+<p>Daru as a gem before GSOC was not exactly user friendly. There were many cases, particularly the iterators, that required some thinking before anybody used them. This is against the design philosophy of daru, or even Ruby general, where surprising programmers with ubiqtuos constructs is usually frowned down upon by the community. So the first thing that I did mainly concerned overhauling the daru&#8217;s many iterators for both <code>Vector</code> and <code>DataFrame</code>.</p>
+
+<p>For example, the <code>#map</code> iterator from <code>Enumerable</code> returns an <code>Array</code> no matter object you call it on. This was not the case before, where <code>#map</code> would a <code>Daru::Vector</code> or <code>Daru::DataFrame</code>. This behaviour was changed, and now <code>#map</code> returns an <code>Array</code>. If you want a <code>Vector</code> or a <code>DataFrame</code> of the modified values, you should call <code>#recode</code> on <code>Vector</code> or <code>DataFrame</code>.</p>
+
+<p>Each of these iterators also accepts an optional argument, <code>:row</code> or <code>:vector</code>, which will define the axis over which iteration is supposed to be carried out. So now there are the <code>#each</code>, <code>#map</code>, <code>#map!</code>, <code>#recode</code>, <code>#recode!</code>, <code>#collect</code>, <code>#collect_matrix</code>, <code>#all?</code>, <code>#any?</code>, <code>#keep_vector_if</code> and <code>#keep_row_if</code>. To iterate over elements along with their respective indexes (or labels), you can likewise use <code>#each_row_with_index</code>, <code>#each_vector_with_index</code>, <code>#map_rows_with_index</code>, <code>#map_vector_with_index</code>, <code>#collect_rows_with_index</code>, <code>#collect_vector_with_index</code> or <code>#each_index</code>. I urge you to go over the docs of each of these methods to utilize the full power of daru.</p>
+
+<p>Apart from the improvements to iterators there was also quite a bit of refactoring involved for many methods (courtesy <a href="https://github.com/agisga">Alexej</a>). The refactoring of certain core methods has made daru much faster than previous versions.</p>
+
+<p>The next (major) thing to do was making daru compatible with Statsample. This was very essential since statsample is very important tool for statistics in Ruby and it was using its own <code>Vector</code> and <code>Dataset</code> classes, which weren&#8217;t very robust as computation tools and very difficult to use when it came to cleaning or munging data. So I replaced statsample&#8217;s Vector and Dataset clases with <code>Daru::Vector</code> and <code>Daru::DataFrame</code>. It involved a significant amount of work on both statsample and daru &mdash; Statsample because many constructs had to be changed to make them compatible with daru, and daru because there was a lot of essential functionality in these classes that had to be ported to daru.</p>
+
+<p>Porting code from statsample to daru improved daru significantly. There were a whole of statistics methods in statsample that were imported into daru and you can now use all them from daru. Statsample also works well with <a href="https://github.com/clbustos/rubyvis">rubyvis</a>, a great tool for visualization. <a href="https://github.com/SciRuby/statsample#visualizations">You can now do that with daru as well</a>.</p>
+
+<p>Many new methods for reading and writing data to and from files were also added to daru. You can now read and write data to and from CSV, Excel, plain text files or even SQL databases.</p>
+
+<p>In effect, daru is now completely compatible with Statsample (and all the other Statsample extensions). You can use daru data structures for storing data and pass them to statsample for performing computations. The biggest advantage of this approach is that the analysed data can be passed around to other scientific Ruby libraries (some of which listed above) that use daru as well. Since daru offers in-built functions to better &#8216;see&#8217; your data, better visualization is possible.</p>
+
+<p>See these <a href="https://github.com/v0dro/daru#blog-posts">blogs</a> and <a href="https://github.com/v0dro/daru#notebooks">notebooks</a> for a complete overview of daru&#8217;s new features.</p>
+
+<p>Also see the <a href="https://github.com/SciRuby/statsample#notebooks">notebooks in the statsample README</a> for using daru with statsample.</p>
+
+<h2>Post-mid term submissions</h2>
+
+<p>Most of time post the mid term submissions was spent in implementing the time series functions for daru.</p>
+
+<p>I implemented a new index, the DateTimeIndex, which can used for indexing data on time stamps. It enables users to query data based on time stamps. Time stamps can either be specified with precise Ruby DateTime objects or can be specified as strings, which will lead to retrival of all the data falling under that time. For example specifying &#8216;2012&#8217; returns all data that falls in the year 2012. See detailed usage of <code>DateTimeIndex</code> and <code>DateTime</code> in conjunction with other daru constructs <a href="https://github.com/v0dro/daru/blob/master/README.md">in the daru README</a>.</p>
+
+<p>An essential utility in implementing <code>DateTimeIndex</code> was <code>DateOffset</code>, which is a new set of classes that offsets dates based on certain rules or business logic. It can advance or lag a Ruby <code>DateTime</code> to the nearest day, or any day of the week, or the end or beginning of the month, etc. <code>DateOffset</code> is an essential part of <code>DateTimeIndex</code> and can also be used as a stand-alone utility for advancing/lagging <code>DateTime</code> objects. <a href="http://v0dro.github.io/blog/2015/07/27/date-offsets-in-daru/">This blog post</a> elaborates more on the nuances of <code>DateOffset</code> and its usage.</p>
+
+<p>The last thing done during the post mid term was complete compatibility with <a href="https://github.com/AnkurGel">Ankur Goel</a>&#8217;s <a href="https://github.com/SciRuby/statsample-timeseries">statsample-timeseries</a>, which was created by  during GSOC 2013. Statsample-timeseries is a comprehensive suite offering various functions for statistical analysis of time sries data. It now works with daru containers and can be used for statistical analysis of data indexed on <code>Daru::DateTimeIndex</code>. See some use cases <a href="https://github.com/SciRuby/statsample-timeseries/blob/master/README.rdoc">in the README</a>.</p>
+
+<p>I&#8217;d like to conclude by thanking all the people directly and indirectly involved in making this project a success - My mentor <a href="https://github.com/agarie">Carlos</a> for his help and support throughout the summer, <a href="https://github.com/dilcom">Ivan</a>, <a href="https://github.com/agisga">Alexej</a> and <a href="https://github.com/wlevine">Will</a> for their support and feedback in various stages of developing daru. Also a big thank you to all the <a href="https://github.com/orgs/SciRuby/teams">SciRuby maintainers</a> for making this happen!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1016,217 +1553,6 @@ JScience and JRuby.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/06/19/progress-on-minimization-methods/">Progress on Minimization Methods</a></h1>
-    
-    
-      <p class="meta">
-        
-  
-
-<span class="byline author vcard"><span class="fn">Lahiru Lasandun</span></span>
- &bull; 
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-19T01:00:00+09:00" pubdate data-updated="true">Jun 19<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Current Progress on Minimization Gem</h2>
-
-<p>In the first half of the summer, I plan to introduce some new numerical minimization methods to SciRuby&#8217;s Minimization gem. As per my proposal, I began by implementing the Powell&#8217;s multidimensional minimization method. Powell&#8217;s method has a better convergence in most cases than the Nelder&ndash;Mead algorithm, and is also a multidimensional minimization method which doesn&#8217;t use any derivative of the function.</p>
-
-<p>I started by studying SciPy and Apache Commons library&#8217;s Powell&#8217;s optimizer. I decided to base my implementation on the method from the <a href="http://commons.apache.org/proper/commons-math/">Apache Commons Mathematics Library</a>. Powell&#8217;s method requires a line minimum searching algorithm, for which I used Brent minimizer (already available in SciRuby).</p>
-
-<p>Having finished with Powell&#8217;s method, I am now working on the Fletcher&#8211;Reeves minimization method &mdash; a gradient method which uses the first derivative of the integrating function.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/06/18/introduction-minimization-and-integration/">Introduction: Minimization and Integration (Lahiru)</a></h1>
-    
-    
-      <p class="meta">
-        
-  
-
-<span class="byline author vcard"><span class="fn">Lahiru Lasandun</span></span>
- &bull; 
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-18T16:45:00+09:00" pubdate data-updated="true">Jun 18<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p class="note"><strong>Editor&#8217;s Note:</strong> We have two students
-working on numerical minimization and integration this summer, Rajat and
-Lahiru. Rajat&#8217;s introductory post appeared two weeks ago.</p>
-
-
-<h2>Introduction </h2>
-
-<p>I&#8217;m Lahiru Lasandun and I&#8217;m an undergraduate of University of Moratuwa, Sri Lanka. I&#8217;ve been selected for
-Google Summer of Code 2014 for SciRuby&#8217;s Minimization and Integration projects.</p>
-
-<p>I was working with SciRuby about a month before GSOC started and did some tests on how to enhance the performance of
-these numerical computations. My first idea was to use multi-threading. With the instuctions and guidance of mentors, I
-tested more methods such as Erlang multi-processing, the AKKA package of multi-threading, and finally OpenCL. The final
-decision was to use OpenCL to enhance computation power of these mathematical computations with the support of multi-cores
-and GPUs.</p>
-
-<h2>Minimization Gem</h2>
-
-<p>After GSOC started, I began working on SciRuby&#8217;s Minimization gem. I proposed multidimensional minimization methods for the
-Minimization gem, which already had plenty of unidimensional minimization methods. I chose two non-gradient
-and two gradient minimization methods as well as simulated annealing.</p>
-
-<h2>Integration Gem</h2>
-
-<p>For Integration, I proposed to replicate some unidimensional integration methods from the GNU Scientific Library, GSL. Additionally, I proposed to add OpenCL support to enhance performance of integration methods.</p>
-
-<h2>Current Progress</h2>
-
-<p>Currently, I am working on Nelder&ndash;Mead multidimensional minimization
-method which is a non-gradient method, including working on the relevant
-test cases.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/06/04/introduction-to-the-minimization-and-integration-project/">Introduction to the Minimization and Integration Project (Rajat)</a></h1>
-    
-    
-      <p class="meta">
-        
-  
-
-<span class="byline author vcard"><span class="fn">Rajat Kapoor</span></span>
- &bull; 
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-04T14:23:00+09:00" pubdate data-updated="true">Jun 4<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p class="note"><strong>Editor&#8217;s Note:</strong> We have two students
-working on numerical minimization and integration this summer, Rajat and
-Lahiru. Lahiru will be writing a separate post about his work.</p>
-
-
-<h2>Introduction to the Minimization and Integration Project</h2>
-
-<p>Hi. My name is Rajat Kapoor and I have been selected to work with
-SciRuby for Google Summer of Code 2014.</p>
-
-<p><a href="https://github.com/SciRuby/minimization">Minimization</a> and
-<a href="https://github.com/SciRuby/integration">Integration</a> are two of the
-many available gems in the SciRuby suite. My project this year aims to
-improve these gems to replicate the functionality provided by GNU&#8217;s
-GSL. I will be trying to implement all the minimization and
-integration algorithms present in GSL in pure Ruby, with improvements
-as needed, so that these functions are easily accesible to all Ruby
-users, while the users which have GSL already installed will have an
-advantage in terms of speedy computations.</p>
-
-<h2>What Minimization and Integration actually mean</h2>
-
-<p>Minimization refers to the process of finding out the minimum of a
-mathematical function whose values might depend on multiple
-variables. Unidimensional minimization restricts these problems to
-functions of one single variable. Integration is the same as the very
-widely used concept in calculus which basically boils down to finding
-the summation of the value of a function at small intervals, when the
-width of the intervals in infinitesimally small. I can bet that you
-knowingly or unknowingly use both these things on a daily basis.</p>
-
-<h2>The plan</h2>
-
-<p>The project can be broken into two major parts: Minimization and
-Integration, as these are two seperate gems.</p>
-
-<p>The Minimization gem can be broken in two parts: unidimensional (or
-univariate) and multidimensional (multivariate). With respect to
-coding, these two can again be broken down into sub-parts: pure Ruby
-implementations and GSL support. The Integration gem will include
-the pure Ruby implementations as well as GSL support. Along with this,
-some support for symbolic integration will be added for JRuby
-users by way of the JScience library.</p>
-
-<h2>Progress</h2>
-
-<p>The pure Ruby implementations of the unidimensional minimization part
-are almost finished. I am also working on the GSL support for the same
-along with it. I plan to finish up any unidimensional minimization
-work by the end of this week and start the work with multidimensional
-minimization methods.</p>
-
-<p>Keep watching this blog for more updates regarding my project.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -1250,6 +1576,14 @@ minimization methods.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/">GSoC 2017 : Data visualization using daru-view</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats/">GSoC 2017 : Support to Import & Export of more formats</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/">GSoC 2016: Adding Categorical Data Support</a>
       </li>
     
@@ -1259,14 +1593,6 @@ minimization methods.</p>
     
       <li class="post">
         <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/">GSoC 2016 : A Look at SpiceRub::Body</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-time/">GSoC 2016 : A Look at SpiceRub::Time</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/10/25/gsoc-2016-port-nmatrix-to-jruby/">GSoC 2016: NMatrix and JRuby</a>
       </li>
     
   </ul>

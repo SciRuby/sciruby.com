@@ -9,7 +9,8 @@
   <meta name="author" content="SciRuby">
 
   
-  <meta name="description" content="Warning: This code predates v0.0.9 alpha, which is when the NMatrix constructor changed. Please check the NMatrix Getting Started guide for the most &hellip;">
+  <meta name="description" content="Editor&#8217;s Note: This is the second of four blog posts detailing our Google Summer of
+Code 2013 students&#8217; work. I edited it to include a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +83,409 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/12/ruby-and-the-semantic-web-rdf-sparql-publisci/">Ruby and the Semantic Web, RDF, and SPARQL: PubliSci</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Will Strinz</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-12T16:36:00+09:00" pubdate data-updated="true">Oct 12<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p class="note"><strong>Editor&#8217;s Note:</strong> This is the second of four blog posts detailing our Google Summer of
+Code 2013 students&#8217; work. I edited it to include a very incomplete list of public RDF repositories. &mdash;John Woods</p>
+
+
+<h2>Introduction</h2>
+
+<p>Across all fields and disciplines, contemporary scientists are faced with a massive and growing volume of data. It often
+won&#8217;t fit in a lab notebook, and there is a pressing need to share it more quickly and widely than publication in a
+journal article would allow for. Database software is one great solution for storage of such data, but relational
+databases become brittle in the face of changes or new information, do not play nicely with other databases or data
+derived from such databases, and may not be fully machine (or human) readable without pre-existing knowledge.</p>
+
+<p>Meanwhile, the Internet is an extremely useful place to discover and share useful information, but it is essentially
+built around linked documents, rather than pure data, and so our primary mechanism for sharing data is as HTML or text.</p>
+
+<p>RDF and related technologies propose to provide the means to move beyond a web of documents to a web of data. Along
+the way, these technologies may address many of the problems with conventional relational databases (e.g., SQL). At its
+core, RDF defines an extremely flexible method for representing data on the web &mdash; which is nonetheless
+unambiguously defined, without any external context, and can be linked to other data as web documents link to each
+other. Because RDF data can be understood as either a set of subject&ndash;predicate&ndash;object statements or a
+directed graph with labeled edges, a number of supporting standards and tools that have grown up around it to provide
+powerful storage and access methods that are often easier to implement and use than those associated with relational
+databases and the document-based web.</p>
+
+<h2>Enter PubliSci</h2>
+
+<p>This summer I created a Ruby gem, <a href="http://github.com/sciruby/publisci">PubliSci</a>, to facilitate data publication and interaction using
+the <a href="https://en.wikipedia.org/wiki/Semantic_web">Semantic Web</a>. The format offers a unified way to share and combine
+information from multiple sources, support for machine learning tools,
+a <a href="https://en.wikipedia.org/wiki/SPARQL">flexible query language</a> that makes application integration easy, and the
+backing of the World Wide Web Consortium (W3C) and other standards-setting bodies.</p>
+
+<p>The PubliSci gem comprises a set of parsers for converting various input formats using
+the <a href="http://semanticweb.com/w3c-publishes-last-call-working-drafts-for-rdf-data-cube-dcat_b35950">RDF Data Cube vocabulary</a>, and
+a Ruby interface for defining new ones. Since the relationship between external datasets and semantic web formats is
+sometimes up to interpretation, a domain-specific language is included to allow end users to resolve ambiguities and
+provide additional metadata.</p>
+
+<p>Along with the conversion tool, a standalone server is available as an extension to the gem that simplifies setting up and interacting
+with RDF data stores. The server allows import, export, querying, and management of external <a href="https://en.wikipedia.org/wiki/Triplestore">triplestores</a> such as
+<a href="http://4store.org/">4store</a>, and supports both cross-domain access and content negotiation so the gem can be accessed
+using Javascript or other applications.</p>
+
+<p class="note"><strong>Triplestores</strong> are databases for the storage and retrieval of <strong>triples</strong>,
+which are typically subject&ndash;object&ndash;predicate relationships (e.g., <i>Bob knows Fred</i>).</p>
+
+
+<p>If you&#8217;d like to contribute, the <a href="https://github.com/sciruby/publisci">source code is available on Github</a>, and <a href="http://gsocsemantic.wordpress.com/2013/08/05/bio-publisci/">a broad
+outline of the to do list can be had as well</a>.</p>
+
+<h2>Usage</h2>
+
+<p>Once you&#8217;ve done <code>gem install publisci</code>, you can require the gem in the normal way (<code>require 'publisci'</code>). To invoke the
+domain-specific language, you&#8217;ll also want to include the <code>DSL</code> module:</p>
+
+<pre><code>require 'publisci'
+include PubliSci::DSL
+</code></pre>
+
+<p>Input data can be specified like so:</p>
+
+<pre><code># Specify input data
+data do
+  # Use local or remote paths to point to the data file you want to load:
+  source 'https://github.com/wstrinz/publisci/raw/master/spec/csv/bacon.csv'
+
+  # Specify datacube properties.
+  dimension 'producer', 'pricerange'
+  measure 'chunkiness'
+
+  # Set parser-specific options.
+  option 'label_column', 'producer'
+end
+</code></pre>
+
+<p>You can provide meta-data on your dataset as well.</p>
+
+<pre><code>metadata do
+  dataset 'bacon'
+  title 'Bacon dataset'
+  creator 'Will Strinz'
+  description 'some data about bacon'
+  date '1-10-2010'
+end
+</code></pre>
+
+<p>Sending the data to a repository is simple.</p>
+
+<pre><code># Send output to an RDF::Repository
+#  can also use 'generate_n3' to output a turtle string
+repo = to_repository
+</code></pre>
+
+<p>SPARQL queries can be run on the dataset using the <code>QueryHelper</code> module.</p>
+
+<pre><code># run SPARQL queries on the dataset
+PubliSci::QueryHelper.execute('select * where {?s ?p ?o} limit 5', repo)
+</code></pre>
+
+<p>Finally, data can be exported in other formats, such as ARFF:</p>
+
+<pre><code># export in other formats
+PubliSci::Writers::ARFF.new.from_store(repo)
+</code></pre>
+
+<h2>Some places to look for RDF repositories</h2>
+
+<ul>
+<li>Social sciences and economics: <a href="http://wiki.planet-data.eu/web/Datasets">PlanetData wiki: Datasets</a>, <a href="http://270a.info/">270a Linked Dataspaces</a></li>
+<li>Chemistry: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3118380/">Resource description framework technologies in chemistry</a></li>
+<li>Molecular biology: <a href="http://www.ebi.ac.uk/rdf/">EMBL-EBI: Current RDF Resources</a>, <a href="http://bio2rdf.org/">Bio2RDF</a>,
+<a href="http://www.geneontology.org/GO.format.rdfxml.shtml">Gene Ontology</a></li>
+<li>Ecology: <a href="http://www.bbc.co.uk/nature/feedsanddata">BBC Wildlife Finder</a></li>
+<li>General: <a href="http://dataincubator.org/">Data Incubator: Growing the Web of Data</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/24/gsoc-2013-data-mining-in-jruby-with-ruby-band/">GSOC 2013: Data Mining in JRuby With Ruby Band</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Alberto Arrigoni</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-24T10:44:00+09:00" pubdate data-updated="true">Sep 24<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p class="note"><strong>Editor&#8217;s Note:</strong> This is the first of four blog posts detailing
+our Google Summer of Code 2013 students&#8217; work, edited by John Woods.</p>
+
+
+<p>In the context of the Google Summer of Code 2013, I have developed a Ruby gem called <a href="https://github.com/arrigonialberto86/ruby-band">Ruby Band</a>
+that makes some selected Java software for data mining and machine learning applications available to the JRuby/Ruby
+users. This project complements existing software already developed for SciRuby by adding support for the Weka Toolkit
+and general functions included in the Apache Commons Math library.</p>
+
+<p>As Weka does, Ruby Band features a comprehensive collection of data preprocessing and modeling techniques, and supports
+several standard data mining tasks, more specifically: data pre-processing (filtering), clustering, classification,
+regression, and feature selection.</p>
+
+<p>All of Ruby Band&#8217;s techniques have been built on the assumption that the data is
+available as a single flat file or relation, where each datum is described by a fixed number of attributes. The
+loaded datasets are stored in Weka Instances objects, which are used as &#8216;core&#8217; data types for the interactions with
+other software (Apache Commons Math) or platforms.</p>
+
+<p>Originally, Ruby Band was called Ruby Mining. I renamed it Ruby Band, as I imagine
+different software sources (Weka, Apache, etc.) working as a whole, like in a real band. Ruby Band has been designed
+with a modular structure, so that it can be easily extended and integrated with other Java software. The Core module is
+allows data types from different sources to be defined and integrated using converter methods;
+functionalities from each piece of additional software are independently imported. This structure increases the
+extensibility of the product, as in the future other developers may add functionalities according to their needs.</p>
+
+<p>Though Ruby Band provides full support for the greatest part of the Weka APIs, some topics still need to be addressed
+properly. As I coded, I utilized the Weka Java APIs documentation as my roadmap; if you want to contribute,
+<a href="http://weka.wikispaces.com/Use+WEKA+in+your+Java+code">go see what is still missing</a>. The best and easiest way
+to introduce a new functionality into the Ruby Band framework is to write up a pertinent Cucumber test, as a number of
+Weka recipes have been posted online by the creators.</p>
+
+<p>The beta version of Ruby Band has already been released for general use on Rubygems (<code>gem install ruby-band</code>).</p>
+
+<p>This is a quick example of how to train a classifier on a dataset parsed from an ARFF file:</p>
+
+<pre><code>require 'ruby-band'
+
+# parse a dataset
+dataset = Core::Parser.parse_ARFF(my_file.arff)
+
+# initialize and train a classifier
+classifier = Weka::Classifier::Lazy::KStar::Base.new do
+  set_options '-M d'
+  set_data dataset
+  set_class_index 4
+end
+
+# cross-validate the trained classifier
+puts classifier.cross_validate(3)
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/18/nmatrix-nearing-beta-release/">NMatrix Nearing Beta Release</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">John Woods</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-18T15:18:00+09:00" pubdate data-updated="true">Sep 18<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>As of this writing, NMatrix v0.0.9 is available on RubyGems. It is likely that the next version will be a beta release
+candidate, as there&#8217;s only one critical feature still missing (<code>==</code> between matrices of different storage types).</p>
+
+<p>An enormous amount has changed since my last entry.</p>
+
+<h2>New, friendlier constructor</h2>
+
+<p>First and foremost, NMatrix sports a new constructor, based
+on <a href="https://groups.google.com/d/msg/sciruby-dev/tPwnmPbRR_U/PL0Nc92gdzEJ">helpful comments from folks on the listserv</a>. Here
+are some examples of construction:</p>
+
+<pre><code>NMatrix.new([4,4], 0) # 4x4 dense matrix of :int32, all 0
+NMatrix.new([4,4], 0.0) # 4x4 dense matrix of :float64, all 0.0
+NMatrix.new([4,4], 0.0, dtype: :complex64) # 4x4 dense matrix of :complex64
+NMatrix.new([1,4], stype: :yale) # size 4 sparse (Yale) row vector of 0s
+NMatrix.new([4,3], [0,1,2]) # 4 rows, 3 columns: gradient across each row from 0 to 2 (int32)
+NMatrix.new([4,3], [0,1,2], stype: :yale, default: 0) # same as above, but Yale storage (int32)
+NMatrix.new([4,1], stype: :list, dtype: :rational128) # size 4 sparse (list) column vector of rational 0s
+NMatrix.new([4,4]) # 4x4 dense matrix containing nils
+NMatrix.new([4,4], dtype: :int64) # 4x4 uninitialized dense matrix containing 64-bit integers
+NMatrix.new(4)     # same as above
+</code></pre>
+
+<p>The different storage types (stypes) have slightly different behaviors when no initialization value is provided. This
+may change in the future, but addresses the somewhat different use-cases of these storage types.</p>
+
+<p>I show a variety of examples above, several of which are not particularly wise uses &#8212; for example, the <code>[0,1,2]</code> Yale
+gradient, which uses 32-bit integers and must store 11 column indices and pointers (which are most likely unsigned
+long integers) in addition to the 11 entries (4 for the always-stored diagonal, 1 for the default, and 6 for the
+non-diagonal non-zeros).</p>
+
+<p>The key to understanding the differing construction is the default value. All sparse matrices need a default. Usually we
+think of sparse matrices as being zero-based (only non-zero values are stored), but NMatrix now allows other defaults.
+However, dense matrices don&#8217;t need defaults, and in fact sometimes it&#8217;s more efficient to allocate them without
+initializing them &#8212; such as if they&#8217;re about to store the results of some LAPACK function call. But if they contain
+Ruby objects, they <strong>have</strong> to be initialized, which is why they become nil.</p>
+
+<p>We&#8217;re still working out a few bugs in construction. If you find any, please report them in our <a href="http://github.com/SciRuby/nmatrix/issues">issue tracker</a>.</p>
+
+<h2>Elimination of NVectors</h2>
+
+<p>We removed the NVector class. Frankly, it didn&#8217;t make sense. A vector can&#8217;t have an orientation unless it has multiple
+dimensions &#8212; even if some of those dimensions have length 1. Now, vectors and matrices are treated the same in the code.</p>
+
+<p>The good news is that element access (<code>[]</code>) has been rewritten so that the programmer only needs provide the coordinates
+whose dimensions are not 1. For example:</p>
+
+<pre><code>n = NMatrix.new([4,1,3], 0) # 3-dimensional matrix of 0s
+n[2,1] == n[2,0,1]
+=&gt; true
+</code></pre>
+
+<p>The same rule applies to slicing.</p>
+
+<h2>Slicing improvements</h2>
+
+<p>Aleksey Timin contributed the framework for matrix slicing. Matrices can be sliced by copying or by reference. Modifying
+a copy-slice does not modify the original matrix; but modifying a reference slice does.</p>
+
+<p>A copy of some portion of the matrix may be made using <code>NMatrix#slice</code>:</p>
+
+<pre><code>new_matrix = n.slice(0..1,0..2)
+</code></pre>
+
+<p>And what appears to be a copy, but is actually a reference, may be made using brackets:</p>
+
+<pre><code>ref = n[0..1,0..2]
+</code></pre>
+
+<p>Reference slices may also be modified in a variety of ways:</p>
+
+<pre><code>n[0..4,2..8] = 0   # change all entries to 0
+n[0..4,2..8] = [0,1,2]  # change the selected entries to [0,1,2,0,1,2,0,1,2...]
+n[0..4,2..8] = NMatrix.new([3,3], [0,1,2]) # same as above
+</code></pre>
+
+<p>For the sake of speed, each of these <code>[]=</code> returns the right-hand value, whether that value is an array, matrix, or
+single value. So, you can do this:</p>
+
+<pre><code>x = m[0..4,2..8] = n[0..1,0..2] = [1,2,3]
+</code></pre>
+
+<p>and <code>x</code> will be equal to <code>[1,2,3]</code> after the evaluation.</p>
+
+<h2>Iteration</h2>
+
+<p>Matrices are now enumerable. There are a variety of enumerators &#8212; namely <code>each_with_indices</code> (and <code>each</code>), <code>each_stored_with_indices</code>,
+and <code>each_ordered_stored_with_indices</code>. The first, <code>each</code>, is guaranteed to produce the same iteration regardless of the
+storage type. The other two iterate only across the stored entries.</p>
+
+<h2>Elementwise comparisons</h2>
+
+<p>A regular matrix comparison, returning a single boolean, can be accomplished using <code>==</code> or <code>!=</code>. In earlier versions of
+NMatrix, the results of the element-wise versions, <code>=~</code>, <code>!~</code>, <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, and <code>&lt;=</code>, were matrices of 0s and 1s,
+stored using the <code>:byte</code> dtype.</p>
+
+<p>Now, these comparisons return matrices of Ruby objects:</p>
+
+<pre><code>n &lt; m
+=&gt; [ true,  false, false, true,
+     false, false, false, true,
+     true,  true,  true,  true  ]
+</code></pre>
+
+<p>Try experimenting with sparse matrices to see how the default value (<code>#default_value</code>) is initialized on the result during an
+elementwise comparison.</p>
+
+<h2>Chunky bacon</h2>
+
+<p>I&#8217;m really excited about all of the chunky bacon in our latest release. I feel like things are really coming together
+for our library. I&#8217;m also glad to see that people are using it.</p>
+
+<p>If you&#8217;re thinking of using NMatrix yourself, I strongly encourage it. Although I&#8217;m writing my dissertation, I plan to
+prioritize troubleshooting ahead of just about everything else. I want using NMatrix to be an easy choice for every
+Rubyist.</p>
+
+<p>Thanks for reading!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -411,145 +815,6 @@ relatively silent since then.</div>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/04/11/first-nmatrix-alpha-released/">First NMatrix Alpha Released</a></h1>
-    
-    
-      <p class="meta">
-        
-  
-
-<span class="byline author vcard"><span class="fn">John Woods</span></span>
- &bull; 
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-04-11T13:36:00+09:00" pubdate data-updated="true">Apr 11<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p class="warning"><strong>Warning:</strong> Code in this blog post is very old and likely will not work with the current version of NMatrix. Please check the <a href="https://github.com/SciRuby/nmatrix/wiki/">NMatrix wiki</a> for the most recent information.</p>
-
-
-<p>Two months ago, I <a href="2012/02/11/numeric-matrix-considerations">mentioned the existence of a prototype Ruby linear algebra library</a>, written in C.</p>
-
-<p>I am pleased to announce that yesterday we released our first alpha of said library, <a href="/nmatrix/">NMatrix</a> v0.0.1.</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/04/11/first-nmatrix-alpha-released/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/02/11/numeric-matrix-considerations/">Numeric Matrix Considerations</a></h1>
-    
-    
-      <p class="meta">
-        
-  
-
-<span class="byline author vcard"><span class="fn">John Woods</span></span>
- &bull; 
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-02-11T17:35:00+09:00" pubdate data-updated="true">Feb 11<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Maybe you&#8217;ve been wondering why the SciRuby people have been so quiet lately.</p>
-
-<p>Mostly, we&#8217;ve been working on <a href="http://github.com/SciRuby/nmatrix">NMatrix</a>, which is our prototype linear algebra library, written as a Ruby C extension.</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/02/11/numeric-matrix-considerations/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/11/02/first-pre-alpha-release/">First Pre-alpha Release</a></h1>
-    
-    
-      <p class="meta">
-        
-  
-
-<span class="byline author vcard"><span class="fn">John Woods</span></span>
- &bull; 
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-11-02T21:39:00+09:00" pubdate data-updated="true">Nov 2<span>nd</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://news.ycombinator.com/item?id=3180369">We made it to the top spot on Hacker News</a> on Halloween (three days ago now). We weren&#8217;t quite prepared for the level of interest generated by that posting, so we&#8217;ve experienced a few growing pains. (Please please please don&#8217;t send us to Slashdot.) </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2011/11/02/first-pre-alpha-release/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -573,6 +838,14 @@ relatively silent since then.</div>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/">GSoC 2017 : Data visualization using daru-view</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats/">GSoC 2017 : Support to Import & Export of more formats</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/">GSoC 2016: Adding Categorical Data Support</a>
       </li>
     
@@ -582,14 +855,6 @@ relatively silent since then.</div>
     
       <li class="post">
         <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/">GSoC 2016 : A Look at SpiceRub::Body</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-time/">GSoC 2016 : A Look at SpiceRub::Time</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/10/25/gsoc-2016-port-nmatrix-to-jruby/">GSoC 2016: NMatrix and JRuby</a>
       </li>
     
   </ul>

@@ -171,6 +171,10 @@
         <lastmod>2017-10-17T20:18:09+09:00</lastmod>
     </url>
     <url>
+        <loc>http://sciruby.com/blog/2016/08/23/spice_rub_report/</loc>
+        <lastmod>2017-10-17T20:47:19+09:00</lastmod>
+    </url>
+    <url>
         <loc>http://sciruby.com/blog/2016/10/25/gsoc-2016-port-nmatrix-to-jruby/</loc>
         <lastmod>2017-10-17T20:18:09+09:00</lastmod>
     </url>
@@ -191,20 +195,32 @@
         <lastmod>2017-10-17T20:18:09+09:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://sciruby.com/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats/
+        </loc>
+        <lastmod>2017-10-17T20:47:19+09:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://sciruby.com/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/
+        </loc>
+        <lastmod>2017-10-17T20:47:19+09:00</lastmod>
+    </url>
+    <url>
         <loc>http://sciruby.com/publications/</loc>
         <lastmod>2017-10-17T20:18:09+09:00</lastmod>
     </url>
     <url>
         <loc>http://sciruby.com/</loc>
-        <lastmod>2017-10-17T20:18:09+09:00</lastmod>
+        <lastmod>2017-10-17T20:47:19+09:00</lastmod>
     </url>
     <url>
         <loc>http://sciruby.com/blog/archives/</loc>
-        <lastmod>2017-10-17T20:18:09+09:00</lastmod>
+        <lastmod>2017-10-17T20:47:19+09:00</lastmod>
     </url>
     <url>
         <loc>http://sciruby.com/blog/</loc>
-        <lastmod>2017-10-17T20:18:09+09:00</lastmod>
+        <lastmod>2017-10-17T20:47:19+09:00</lastmod>
     </url>
     <url>
         <loc>http://sciruby.com/docs/</loc>

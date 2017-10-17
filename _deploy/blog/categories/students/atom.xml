@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Students | SciRuby]]></title>
   <link href="http://sciruby.com/blog/categories/students/atom.xml" rel="self"/>
   <link href="http://sciruby.com/"/>
-  <updated>2017-10-17T20:33:21+09:00</updated>
+  <updated>2017-10-17T20:48:02+09:00</updated>
   <id>http://sciruby.com/</id>
   <author>
     <name><![CDATA[SciRuby]]></name>
@@ -12,6 +12,489 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2017 : Data visualization using daru-view]]></title>
+    <link href="http://sciruby.com/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/"/>
+    <updated>2017-09-01T22:46:00+09:00</updated>
+    <id>http://sciruby.com/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view</id>
+    <content type="html"><![CDATA[<p>Hello, Rubyist! Are looking for good ruby gem for interactive data
+visualization? Then you must try <a href="https://github.com/Shekharrajak/daru-view"><code>daru-view</code></a>, a plugin gem for <a href="https://github.com/SciRuby/daru"><code>daru</code></a>.</p>
+
+<h2>What makes daru-view different ?</h2>
+
+<ul>
+<li><p><code>daru-view</code> is designed for interactive plotting of charts and tables.It
+provide different plotting tools like Nyaplot, HighCharts, GoogleCharts,
+DataTable. So you don't have to write any JavaScript code from these sites
+and no need to shift to other language to get charts.</p></li>
+<li><p>It can work with <strong>any ruby web application framework like Rails/Sinatra/Nanoc/Hanami</strong>. If you want to try few examples then please look into the
+<a href="https://github.com/Shekharrajak/daru-view/tree/master/spec"><code>daru-view/spec/dummy_*</code></a> examples of Rails, Sinatra, Nanoc web applications.</p></li>
+<li><p>Now Ruby developers are using IRuby notebook for interactive programming.
+<code>daru-view</code> support IRuby notebook as well. So if you just want to see chart
+for some DataFrame or Array of data, you can use <code>daru-view</code>.</p></li>
+<li><p><code>daru-view</code> can generate chart images to download and save.</p></li>
+<li><p><code>daru-view</code> adapters <code>googlecharts</code>, <code>highcharts</code> are able to geneate 3D charts as well.</p></li>
+<li><p><code>Table</code> have some main features like pagination, search and many more to be added.It is
+designed to load large data set smoothly.</p></li>
+</ul>
+
+
+<h2>Introduction</h2>
+
+<p>Daru is doing pretty good work as the data analysis &amp; manipulation in IRuby notebook as well as backend part of web application. Ruby web application frameworks like Ruby on Rails, Sinatra, Nanoc are popular frameworks. So if Ruby developers get the gem like daru which can do data analysis
+and visualization work in applications, then there is no need of shifting to another language or usage of other gem.</p>
+
+<p>My project for <abbr title="Google Summer of Code 2017"> GSoC 2017</abbr> was to "make Daru more ready for integration with modern Web framework" in terms of visualization.</p>
+
+<p>To improve in terms of viewing data,
+<a href="https://github.com/Shekharrajak/daru-view">daru-view</a>, a plugin gem for
+<a href="https://github.com/SciRuby/daru">daru</a> is created. <a href="https://github.com/Shekharrajak/daru-view">daru-view</a> is for easy and interactive plotting in web application &amp; IRuby notebook. It can work in frameworks like Rails, Sinatra, Nanoc and hopefully in others too.</p>
+
+<p>To see a quick overview of daru-view's features, have a look at these examples:</p>
+
+<ul>
+<li><p><a href="http://nbviewer.jupyter.org/github/shekharrajak/daru-view/tree/master/spec/dummy_iruby/">IRuby Notebook Examples</a></p></li>
+<li><p><a href="https://github.com/Shekharrajak/daru_examples_io_view_rails">daru io and daru-view usage in Rails app</a></p></li>
+<li><p><a href="https://github.com/Shekharrajak/daru-view/blob/master/README.md">README of daru-view</a></p></li>
+</ul>
+
+
+<h2>Examples</h2>
+
+<p>This is how we can create a Plot class object:</p>
+
+<p>```ruby</p>
+
+<p>Daru::View::Plot.new(data, options)
+```</p>
+
+<ul>
+<li><p><code>data</code> can be <code>Daru::DataFrame</code>, data array or the format that the adapter support.</p></li>
+<li><p><code>options</code> is a hash that contains various options to customize the chart.
+If you have chosen a plotting library then you must use the options according
+to the options the library providing. Here is the library <code>daru-view</code> uses.
+Please check the examples options, they are passing in javascript code:</p>
+
+<ul>
+<li><p>GoogleCharts: <a href="https://developers.google.com/chart/interactive/docs/gallery">https://developers.google.com/chart/interactive/docs/gallery</a></p></li>
+<li><p>HighCharts: <a href="https://www.highcharts.com/demo">https://www.highcharts.com/demo</a></p></li>
+<li><p>Nyaplot: <a href="https://github.com/SciRuby/nyaplot">https://github.com/SciRuby/nyaplot</a> (it works same as <code>daru</code>)</p></li>
+</ul>
+</li>
+</ul>
+
+
+<p>Note: User must have some knowledge about the plotting tool(that you want to
+use) to use it in <code>daru-view</code>. So that you can pass the correct options.</p>
+
+<h3>GoogleCharts:</h3>
+
+<p>Set the plotting library to <code>:googlecharts</code> to use this adapter. This will
+load the required js files in your webpage or IRuby notebook.</p>
+
+<p><code>ruby
+require 'daru/view'
+Daru::View.plotting_library = :googlecharts
+</code></p>
+
+<p>Let's create a DataFrame :</p>
+
+<p>```ruby
+idx = Daru::Index.new ['Year', 'Sales']
+data_rows = [</p>
+
+<pre><code>      ['2004',  1000],
+      ['2005',  1170],
+      ['2006',  660],
+      ['2007',  1030]
+</code></pre>
+
+<p>]
+df_sale_exp = Daru::DataFrame.rows(data_rows)
+df_sale_exp.vectors = idx</p>
+
+<h1>perform data manipulations, if you want.</h1>
+
+<p>```</p>
+
+<p>Now time to plot it:</p>
+
+<p><code>ruby
+line_basic_chart = Daru::View::Plot.new(df_sale_exp)
+line_basic_chart.chart
+</code></p>
+
+<p>This will return the chart object we created using GoogleCharts.
+In IRuby notebook, you will see this:</p>
+
+<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlecharts_line1.png?raw=true" title="Basic line chart using GoogleCharts" alt="Basic line chart using GoogleCharts"></p>
+
+<p>You can find the IRuby notebook example in <a href="http://nbviewer.jupyter.org/github/shekharrajak/daru-view/blob/master/spec/dummy_iruby/Google%20Chart%20%7C%20%20Line%20Chart.ipynb">this link</a>.</p>
+
+<p>These are various charts type we can use e.g. line, area, bar, bubble,
+candlestick, combo, histogram, org, pie, stepped area chart, timeline, treemap,
+gauge, column, scatter, etc. We can find the customization options in the
+<a href="https://developers.google.com/chart/interactive/docs/gallery">google charts site</a>.</p>
+
+<p>Let me try another chart type Geo :</p>
+
+<p>```ruby
+country_population = [</p>
+
+<pre><code>      ['Germany', 200],
+      ['United States', 300],
+      ['Brazil', 400],
+      ['Canada', 500],
+      ['France', 600],
+      ['RU', 700]
+</code></pre>
+
+<p>]</p>
+
+<p>df_cp = Daru::DataFrame.rows(country_population)
+df_cp.vectors = Daru::Index.new(['Country', 'Population'])</p>
+
+<p>geochart = Daru::View::Plot.new(</p>
+
+<pre><code>df_cp, type: :geo, adapter: :googlecharts
+</code></pre>
+
+<p>)</p>
+
+<p>```</p>
+
+<p>Note: If you have already loaded the dependent JS files for the library then you can use <code>adapter: :googlecharts</code> in your Plot initialization.</p>
+
+<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_geo1.png?raw=true" title="Basic Geo chart using GoogleCharts" alt="Basic Geo chart using GoogleCharts"></p>
+
+<h3>HighCharts:</h3>
+
+<p>Set the plotting library to <code>:highcharts</code> to use this adapter. This will
+load the required js files in your webpage or IRuby notebook.</p>
+
+<p><code>ruby
+require 'daru/view'
+Daru::View.plotting_library = :highcharts
+</code></p>
+
+<p>Let's pass the <code>data</code> as HighCharts support (we can pass a DataFrame as well):</p>
+
+<p>```
+data = [</p>
+
+<pre><code>['Firefox',   45.0],
+['IE',       26.8],
+{
+   :name=&gt; 'Chrome',
+   :y=&gt; 12.8,
+   :sliced=&gt; true,
+   :selected=&gt; true
+},
+['Safari',    8.5],
+['Opera',     6.2],
+['Others',   0.7]
+</code></pre>
+
+<p>]
+plt_pie = Daru::View::Plot.new data, type: :pie
+```</p>
+
+<p>This will return the <code>Plot</code> object we created.
+In IRuby notebook, you will see this:</p>
+
+<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/highcharts_pie.png?raw=true" title="Basic pie chart using HighCharts" alt="Basic pie chart using HighCharts"></p>
+
+<p>You can find the IRuby notebook example in <a href="http://nbviewer.jupyter.org/github/shekharrajak/daru-view/blob/master/spec/dummy_iruby/HighCharts-%20Pie%20charts.ipynb">this link</a>.</p>
+
+<p>There are various charts type we can use e.g. line, area, bar, bubble,
+dynamic chart, pie, column, scatter, etc. We can find the customization options in the
+<a href="https://www.highcharts.com/demo">HighCharts site</a>.</p>
+
+<h3>Nyaplot</h3>
+
+<p>```ruby
+require 'daru/view'</p>
+
+<h1>set adapter</h1>
+
+<p>Daru::View.plotting_library = :nyaplot</p>
+
+<h1>define dataframe</h1>
+
+<p>df = Daru::DataFrame.new({
+  a: [1, 2, 4, -2, 5, 23, 0],
+  b: [3, 1, 3, -6, 2, 1, 0],
+  c: ['I', 'II', 'I', 'III', 'I', 'III', 'II']
+  })
+df.to_category :c</p>
+
+<h1>creating scatter chart</h1>
+
+<p>scatter_chart = Daru::View::Plot.new(df, type: :scatter, x: :a, y: :b, categorized: {by: :c, method: :color})</p>
+
+<p>```</p>
+
+<p>In IRuby notebook:</p>
+
+<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/nyaplot_scatter.png?raw=true" title="Basic scatter chart using Nyaplot" alt="Basic scatter chart using Nyaplot"></p>
+
+<h3>GoogleChart data table</h3>
+
+<p>```ruby
+require 'daru/view'</p>
+
+<h1>set adapter</h1>
+
+<h1>You don't need this line if you have already using google chart for plotting.</h1>
+
+<h1>It is just for loading the dependent js files.</h1>
+
+<p>Daru::View.table_library = :googlechart</p>
+
+<h1>Lets use array as <code>data</code> (we can pass Daru::DataFrame as well)</h1>
+
+<p>data = [
+  ['Galaxy', 'Distance', 'Brightness'],</p>
+
+<pre><code>      ['Canis Major Dwarf', 8000, 230.3],
+      ['Sagittarius Dwarf', 24000, 4000.5],
+      ['Ursa Major II Dwarf', 30000, 1412.3],
+      ['Lg. Magellanic Cloud', 50000, 120.9],
+      ['Bootes I', 60000, 1223.1]
+</code></pre>
+
+<p>  ]
+galaxy_table = Daru::View::Table.new(data)
+galaxy_table.table
+```</p>
+
+<p>This will return the table object we created using GoogleCharts tool.
+In IRuby notebook, you will see this:</p>
+
+<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_table1.png?raw=true" title="Basic table using GoogleCharts" alt="Basic table using GoogleCharts"></p>
+
+<p>We can create table using Vectors as well.</p>
+
+<p>```ruby
+dv = Daru::Vector.new [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]</p>
+
+<h1>adding pagination and some customization [optional]</h1>
+
+<p>opts_pagination = {
+  width: '100%', height: '100%' ,
+  pageSize: 5,
+}</p>
+
+<p>table_vec = Daru::View::Table.new(dv, opts_pagination)</p>
+
+<p>```
+In Ruby Notebook:</p>
+
+<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_vec_table1.png?raw=true" title="Basic vector table using GoogleCharts" alt="Basic vector table using GoogleCharts"></p>
+
+<h3>DataTable</h3>
+
+<p>```ruby
+require 'daru/view'</p>
+
+<h1>set adapter.</h1>
+
+<p>Daru::View.table_library = :datatables</p>
+
+<h1>Lets use Daru::DataFrame as <code>data</code> (we can pass Array as well)</h1>
+
+<p>df = Daru::DataFrame.new(
+  {</p>
+
+<pre><code>b: [11,12,13,14,15],
+a: [1,2,3,4,5],
+c: [11,22,33,44,55]
+</code></pre>
+
+<p>  },</p>
+
+<pre><code>order: [:a, :b, :c],
+index: [:one, :two, :three, :four, :five]
+</code></pre>
+
+<p>)
+df_datatable = Daru::View::Table.new(df, pageLength: 3)
+<code>``
+Currently there is some problem to diplay it in IRuby notebook, but in web application
+you can see something like this using</code>df_datatable.div` :</p>
+
+<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/datatables_basic1.png?raw=true" title="Basic table using Datatables" alt="Basic table using Datatables"></p>
+
+<h2>How to use it in Ruby web application</h2>
+
+<p>As we know, we can get the HTML, JS code for the chart from the
+<code>Daru::View::Plot</code> or <code>Daru:View::Table</code> object using <code>#div</code> method. So just
+need to add that HTML, JS code in webpage in proper place.</p>
+
+<p>There is few things to be noted:</p>
+
+<ol>
+<li><p>In layout of the webpage, you have to load all the dependent JS files.
+So that HTML, JS code that is genearted work smoothly in that webpage. You
+can load the dependent js file for nyaplot library using <code>Daru::View.dependent_script(:nyaplot)</code>, similarly for other library.</p></li>
+<li><p>If you are using multiple library in one webpage then load multiple
+dependent JS files, in that webpage layout (generally in head tag).</p></li>
+</ol>
+
+
+<p>We can set default adapter using <code>Daru::View.plotting_library = :googlecharts</code>
+and also we can change it for particular object while initializing object,
+i.e. <code>Daru::View::Plot.new(data, {adapter: :googlecharts})</code>. Just we have
+to make sure that dependent JS files are loaded for it.</p>
+
+<p>To make it easy, we have defined <code>daru_chart</code> (that works same as Daru::View::Plot.new) , <code>daru_table</code> (works same as Daru::View::Table.new) for Rails application.</p>
+
+<p>So you can easily use it in controller or view of the application. For reference you can check the <a href="https://github.com/Shekharrajak/daru_examples_io_view_rails">demo Rails app</a>.</p>
+
+<h2>Design of daru-view</h2>
+
+<p><a href="https://github.com/Shekharrajak/daru-view">daru-view</a>, currently using
+<a href="https://github.com/SciRuby/nyaplot">Nyaplot</a>, <a href="https://www.highcharts.com/">HighCharts</a>, <a href="https://developers.google.com/chart/interactive/docs/gallery">GoogleCharts</a> for plotting the charts. It is also
+generating tables using <a href="https://datatables.net/">DataTables</a> and <a href="https://developers.google.com/chart/interactive/docs/gallery">GoogleCharts</a> with pagination, search and various features.</p>
+
+<h3>Design Pattern in daru-view</h3>
+
+<p>daru-view mainly uses the <a href="https://en.wikipedia.org/wiki/Adapter_pattern">adapter design pattern</a> and <a href="https://en.wikipedia.org/wiki/Composite_pattern">composite design pattern</a>.</p>
+
+<ul>
+<li><p><strong>Why Adapter design pattern:</strong></p>
+
+<ul>
+<li><p>Adapter pattern’s motivation is that we can reuse existing gems if we can modify the interface.</p></li>
+<li><p>daru-view joins functionalities of independent or incompatible interfaces of different gems.</p></li>
+<li><p><code>daru-view</code> have <a href="https://github.com/Shekharrajak/daru-view/blob/master/lib/daru/view/plot.rb"><code>Plot</code></a> and <a href="https://github.com/Shekharrajak/daru-view/blob/master/lib/daru/view/table.rb"><code>Table</code></a> class, which are using a <a href="https://github.com/Shekharrajak/daru-view/tree/master/lib/daru/view/adapters">adapter</a> when adapter(library to be used for plotting) is set for <code>Plot</code>, <code>Table</code> instance.</p></li>
+</ul>
+</li>
+<li><p><strong>Why Composite design pattern:</strong></p>
+
+<ul>
+<li><p>To define common objects and use it for defining composite objects.</p></li>
+<li><p>In <code>daru-view</code> we try to write common functions in a module and include it whenever needed.</p></li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Implementation</h2>
+
+<p>daru-view ensure that it's functions are usable in both IRuby notebook as well
+as ruby web application frameworks.</p>
+
+<p>The main thing we need to display something in web application or IRuby
+notebook is <code>HTML</code> code of it. daru-view generates the <code>HTML</code> code of the
+chart, table and the same can be used to display in web application &amp; IRuby
+notebook.</p>
+
+<p>These are the libraries which is used in daru-view currently:</p>
+
+<h3>Nyaplot</h3>
+
+<p><a href="https://github.com/SciRuby/nyaplot">Nyaplot</a> is good library for
+visualization in IRuby notebook only. When we use Nyaplot as the adapter in
+daru-view, it is usable in both IRuby notebook and web applications. Daru
+DataFrame or Vector is used as the data source of the chart. It works
+similar to the initial <code>daru</code> plotting system.</p>
+
+<p>If user want to use the Nyaplot methods then it can be done on Nyaplot object.We
+can get nyplot object using <code>daru_plot_obj.chart</code>.</p>
+
+<p>i.e.</p>
+
+<p>```ruby
+daru_view_obj = Daru::View::Plot.new(</p>
+
+<pre><code>              daru_dataframe, options={adapter: :nyaplot})
+</code></pre>
+
+<p>nyaplot_obj = daru_view_obj.chart</p>
+
+<p>```</p>
+
+<p>Now user can operate all the methods for Nyaplot object. Same thing is for
+all other adapter in daru-view.</p>
+
+<h3>HighCharts</h3>
+
+<p>To add the <a href="https://www.highcharts.com/">HighCharts</a> features for plotting various chart types, daru-view uses the <a href="https://github.com/michelson/lazy_high_charts">lazy_high_charts</a> gem with additional features.</p>
+
+<p>In this adapter data source can be Array of data, Daru::DataFrame, Daru::Vector or HTML table code of the data.</p>
+
+<p>There are various of options in HighCharts. One can see the options that can
+be used in <a href="https://www.highcharts.com/demo">HighCharts demo link</a>, which can
+be directly used in daru-view Plot.</p>
+
+<p><strong>HighCharts adaptor can work offline as well in daru-view. Developers can update the saved the JS files (in daru-view) using rake task automatically.</strong></p>
+
+<p>If you is familiar with <code>lazy_high_chart</code> gem and want to use it for
+config the chart then user can access the <code>lazy_high_chart</code> object using
+<code>Daru::View::Plot#chart</code> and can do necessary operations.</p>
+
+<h3>GoogleCharts</h3>
+
+<p>To add the <a href="https://developers.google.com/chart/interactive/docs/gallery">GoogleCharts</a> features for plotting various chart types, daru-view uses the <a href="https://github.com/winston/google_visualr/">google_visualr</a> gem with additional features(in this module more new features are updated).</p>
+
+<p>We want GoogleChart adapter to be very strong since Google chart tools always gets updated and it has amazing plotting features. Similar to the HighCharts module, here also we can use all the options described in Google Charts website.</p>
+
+<p>User can access the <code>google_visualr</code> object using <code>Daru::View::Plot#chart</code>, if
+they want to operate <code>google_visualr</code> methods.</p>
+
+<h4>GoogleCharts as data table</h4>
+
+<p>One of the good thing about google chart tool is, it can be used for generating table
+for web application and IRuby Notebook with pagination and other features.</p>
+
+<p><strong><code>Daru::View::Plot</code> can take data Array, Daru::DataFrame, Daru::Vector,
+Daru::View::Table as data source.</strong></p>
+
+<p><strong><code>Daru::View::Table</code> can take data Array, daru DataFrame, Daru Vector as data
+ source.</strong></p>
+
+<h3>DataTables</h3>
+
+<p><a href="https://datatables.net/">DataTables</a> has interaction controls to any HTML table. It can handle large set of data and have many cool features.</p>
+
+<p>To use it, daru-view uses <a href="https://github.com/Shekharrajak/data_tables">https://github.com/Shekharrajak/data_tables</a> gem. [Note: the gem name will be changed in near future]</p>
+
+<p>It basically uses the HTML table code and add features that user want. So internally HTML table code of Daru::DataFrame and Daru::Vector is passed as data source parameter.</p>
+
+<h2>Future Work</h2>
+
+<p>daru-view will be more powerful and simple in near future. Developers can add
+more libraries in daru-view easily, if required. To add library follow the setups given in
+<a href="https://github.com/Shekharrajak/daru-view/blob/master/CONTRIBUTING.md">CONTRIBUTING.md</a></p>
+
+<h2>Conclusion</h2>
+
+<p>The aim of the daru-view is to plot charts in IRuby notebook and ruby web
+application easily, so that developers need not have to use any other gem or
+language for visualization.</p>
+
+<p>It can work smoothly in Rails/Sinatra/Nanoc web frameworks and I hope it can work in other ruby frameworks as well, because daru-view is generating the html code and javascript code for the chart, which is basic need of the webpage.</p>
+
+<p><strong>Why not use the plotting libraries directly?</strong></p>
+
+<p>If you are using daru gem for analyzing the data and want to visualize it, then it will be good if you have data-visualization within daru and can plot it directly using DataFrame/Vector objects of daru.</p>
+
+<p>daru-view will be helpful in plotting charts and tables directly from the Daru::DataFrame and Daru::Vector . daru-view using nyaplot, highcharts , google charts right now to plot the chart. So user can set the plotting library and get the chart accordingly.</p>
+
+<p>Most of the plotting libraries doesn't provide the features of plotting charts in iruby notebook. They are defined only for web applications (mostly for Rails). But daru-view can plot charts in any ruby web application as well as iruby notebook.</p>
+
+<h2>Acknowledgements</h2>
+
+<p>I would like to thank to my mentors <a href="https://github.com/v0dro">Sameer Deshmukh</a>
+,<a href="https://github.com/lokeshh">Lokesh Sharma</a> and <a href="https://github.com/zverok">Victor Shepelev</a> for their response and support and I am very grateful to the <a href="http://sciruby.com/">Ruby Science Foundation</a> for this golden opportunity.</p>
+
+<p>I thank my fellow GSoC participants <a href="https://github.com/athityakumar">Athitya Kumar</a> and <a href="https://github.com/prasunanand">Prasun Anand</a> for their support and discussions on various topics.</p>
+
+<p>Thanks to Google for conducting <a href="https://summerofcode.withgoogle.com">Google Summer of Code</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[GSoC 2016 : A Look at SpiceRub::Body]]></title>
@@ -759,7 +1242,7 @@ and feedback throughout the summer.</p>
 
 <p>Plot examples:</p>
 
-<p><img src="{{ site.url }}/images/gnuplotrb-gsoc2015/plots.jpg" alt="Plot example" style="width: 100%;"/></p>
+<p><img src="http://sciruby.com/images/gnuplotrb-gsoc2015/plots.jpg" alt="Plot example" style="width: 100%;"/></p>
 
 <p>For code examples please see
  <a href="https://github.com/dilcom/gnuplotrb/blob/master/README.rdoc">the repository README</a>,
@@ -775,7 +1258,7 @@ and feedback throughout the summer.</p>
 <p>Here is a multiplot example
  (taken from <a href="http://nbviewer.ipython.org/github/SciRuby/sciruby-notebooks/blob/master/Data%20Analysis/Analyzing%20baby%20names/Use%20Case%20-%20Daru%20for%20analyzing%20baby%20names%20data.ipynb">Sameer's notebook</a>):</p>
 
-<p><img src="{{ site.url }}/images/gnuplotrb-gsoc2015/multiplot.jpg" alt="Multiplot example" style="width: 80%; align: middle;"/></p>
+<p><img src="http://sciruby.com/images/gnuplotrb-gsoc2015/multiplot.jpg" alt="Multiplot example" style="width: 80%; align: middle;"/></p>
 
 <h3>Animated plots</h3>
 
@@ -784,7 +1267,7 @@ and feedback throughout the summer.</p>
  multiplot does and outputs them one-by-one as frames of gif animation.
  <a href="http://nbviewer.ipython.org/github/dilcom/gnuplotrb/blob/master/notebooks/animated_plots.ipynb">Animation notebook</a>.</p>
 
-<p><img src="{{ site.url }}/images/gnuplotrb-gsoc2015/trajectory.gif" alt="Trajectory example" style="width: 80%; align: middle;"/></p>
+<p><img src="http://sciruby.com/images/gnuplotrb-gsoc2015/trajectory.gif" alt="Trajectory example" style="width: 80%; align: middle;"/></p>
 
 <h3>Fit</h3>
 
@@ -838,275 +1321,6 @@ and feedback throughout the summer.</p>
 <li><a href="https://github.com/dilcom/gnuplotrb/blob/master/notebooks/README.rdoc">iRuby notebooks</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ruby Wrappers for SymEngine, a C++ symbolic manipulation library]]></title>
-    <link href="http://sciruby.com/blog/2015/08/17/ruby-wrappers-for-symengine/"/>
-    <updated>2015-08-17T14:30:00+09:00</updated>
-    <id>http://sciruby.com/blog/2015/08/17/ruby-wrappers-for-symengine</id>
-    <content type="html"><![CDATA[<p>I am sure you have heard about <a href="http://www.wolframalpha.com/">Wolfram Alpha</a>. Some of you would have used its <a href="http://www.wolframalpha.com/examples/Math.html">Mathematics section</a> at some point of time to cross check your solution to a maths problem. If you haven't, please do. A computer algebra system (CAS) does the same thing. Algebraic computation or symbolic computation are all used interchangeably. A CAS solves problems the same way a human does, but way more quickly and precisely. There is very less chance for an error, that we humans often make.</p>
-
-<h2>Introduction</h2>
-
-<p>My project was to write the Ruby extensions for the library <a href="https://github.com/sympy/symengine">SymEngine</a> and come up with a Ruby-ish interface, after which we can use the features of SymEngine from Ruby.</p>
-
-<p><a href="https://github.com/sympy/symengine">SymEngine</a> is a library for symbolic computation in C++. You may ask, why SymEngine? There are other CASs that I know of. This question was indeed asked. At the beginning, the idea was to use ruby wrappers for <a href="http://www.sagemath.org/">sage</a> (a mathematics software system) which uses <a href="http://pynac.org/">Pynac</a>, an interface to <a href="http://www.ginac.de/">GiNaC</a> (another CAS). As it turns out from the benchmarks, SymEngine is much faster than Pynac. What about directly wrapping GiNaC? SymEngine is also a bit faster than GiNaC.</p>
-
-<p>The motivation for <a href="https://github.com/sympy/symengine">SymEngine</a> itself is to develop it once in C++ and then use it from other languages rather than doing the same thing all over again for each language that it is required in. In particular, a long term goal is to make Sage as well as SymPy use it by default, thus unifying the Python CAS communities. The goal of implementing the Ruby wrappers is to provide a CAS for the Ruby community.</p>
-
-<h3>How will this be useful?</h3>
-
-<p>There are times when we might need a symbolic computation library. Here is an incomplete list of some of the situations:</p>
-
-<ul>
-<li>We need to do some algebra to get systems of equations in suitable form for numerical computation.</li>
-<li>We need to make substitutions for some variables and don’t want to risk a math error by hand. There might be times when we want to partially simplify an expression by substituting only a few of its variables.</li>
-<li>We have a situation where we need to find the optimum number of something to maximise our profits, and the mathematical model devised is just too complicated to solve by hand.</li>
-<li>We need to perform non-trivial derivatives or integrals.</li>
-<li>We are trying to understand the domain of a new function.</li>
-<li>Most root finding algorithms search for a single root, whereas often there are more than one.</li>
-<li>We need to solve a linear system or manipulate a symbolic matrix exactly.</li>
-<li>We need to manipulate exact expressions and solutions, as opposed to approximate ones using a numerical method.</li>
-</ul>
-
-
-<p>With that said, a symbolic manipulation library is indispensable for scientists and students. Ruby has gained a great deal of popularity over the years, and a symbolic manipulation library gem  like this project in Ruby might prove to be the foundation for a computer algebra system in Ruby. With many efforts like these, Ruby might become the first choice for academicians given how easy it is to code your logic in Ruby.</p>
-
-<h2>How to install the gem?</h2>
-
-<p>To install, please follow the <a href="https://github.com/sympy/symengine/blob/master/symengine/ruby/README.md">compile instructions given in the README</a>. After you are done, I would suggest to test the extensions. To run the test suite execute <code>rspec spec</code> on the command line, from the <code>symengine/ruby</code> dir.</p>
-
-<p>The gem is still in alpha release. Please help us out by reporting any issues in <a href="https://github.com/sympy/symengine/issues">the repo issue tracker</a>.</p>
-
-<h2>What can I do with the gem?</h2>
-
-<p>Currently, the following features are available in the gem:
-- Construct expressions out of variables (mathematical).
-- Simplify the expressions.
-- Carry out arithmetic operations like <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>**</code> with the variables and expressions.
-- Extract arguments or variables from an expression.
-- Differentiate an expression with respect to another.
-- Substitute variables with other expressions.</p>
-
-<p>Features that will soon be ported to the SymEngine gem
-- Functions, including trigonometric, hyperbolic and some special functions.
-- Matrices, and their operations.
-- Basic number-theoretic functions.</p>
-
-<p>I have developed a <a href="https://github.com/sympy/symengine/tree/master/symengine/ruby/notebooks">few IRuby notebooks</a> that demonstrate the use of the new SymEngine module in ruby.</p>
-
-<p>Below is an example taken from the notebooks.</p>
-
-<hr />
-
-<h2>Using the SymEngine Gem</h2>
-
-<p>SymEngine is a module in the extensions, and the classes are a part of it. So first you fire up the interpreter or an IRuby notebook and load the file:
-<code>ruby
-require 'symengine'
-=&gt; true
-</code>
-Go ahead and try a function:
-```ruby
-SymEngine.ascii_art
-=>   <strong><strong><em>           </em></strong></strong>         _</p>
-
-<pre><code>|   __|_ _ _____|   __|___ ___|_|___ ___
-|__   | | |     |   __|   | . | |   | -_|
-|_____|_  |_|_|_|_____|_|_|_  |_|_|_|___|
-      |___|               |___|          
-</code></pre>
-
-<p><code>
-or create a variable:
-</code>ruby
-basic = SymEngine::Basic.new
-=> #&lt;SymEngine::Basic:0x00000001e95290>
-```
-This shows that we have successfully loaded the module.</p>
-
-<h3>SymEngine::Symbol</h3>
-
-<p>Just like there are variables like x, y, and z in a mathematical expression or equation, we have <code>SymEngine::Symbol</code> in SymEngine to represent them. To use a variable, first we need to make a <code>SymEngine::Symbol</code> object with the string we are going to represent the variable with.:
-```ruby
-puts x = SymEngine::Symbol.new("x")
-puts y = SymEngine::Symbol.new("y")
-puts z = SymEngine::Symbol.new("z")</p>
-
-<p>x
-y
-z
-<code>
-Then we can construct expressions out of them:
-</code>ruby
-e = (x-y)<em>(x<strong>y/z)
-e.to_s
-=> "x</strong>y</em>(x - y)/z"
-<code>
-In SymEngine, every object is an instance of Basic or its subclasses. So, even an instance of `SymEngine::Symbol` is a Basic object.:
-</code>ruby
-x.class
-=> SymEngine::Symbol</p>
-
-<p>x.is_a? SymEngine::Basic
-=> true
-<code>
-Now that we have an expression, we would like to see it's expanded form using `#expand`:
-</code>ruby
-f = e.expand()
-f.to_s
-=> "x<strong>(1 + y)/z - x</strong>y<em>y/z"
-<code>
-Or check if two expressions are same:
-</code>ruby
-f == - (x**y</em>y/z) + (x<strong>y*x/z)
-=> true
-<code>
-But `e` and `f` are not equal since they are only mathematically equal, not structurally:
-</code>ruby
-e == f
-=> false
-<code>
-Let us suppose you want to know **what variables/symbols your expression has**. You can do that with the `#free_symbols` method, which returns a set of the symbols that are in the expression.:
-</code>ruby
-f.free_symbols
-=> #&lt;Set: {#&lt;SymEngine::Basic:0x00000001f0ca70>, #&lt;SymEngine::Basic:0x00000001f0ca48>, #&lt;SymEngine::Basic:0x00000001f0ca20>}>
-<code>
-Let us use `#map` method to see the elements of the `Set`.:
-</code>ruby
-f.free_symbols.map { |x| x.to_s }
-=> ["x", "y", "z"]
-<code>
-`#args` returns the terms of the expression,:
-</code>ruby
-f.args.map { |x| x.to_s }
-["-x</strong>y*y/z", "x<strong>(1 + y)/z"]
-<code>
-or if it is a single term it breaks down the elements:
-</code>ruby
-f.args[0].args.map { |k| k.to_s }
-=> ["-1", "x</strong>y", "y", "z**(-1)"]
-```</p>
-
-<h3>SymEngine::Integer</h3>
-
-<p>You can make objects of class <code>SymEngine::Integer</code>. It's like regular <code>Integer</code> in ruby kernel, except it can do all the operations a <code>Basic</code> object can &mdash; such as arithmetic operations, etc.:
-```ruby
-a = SymEngine::Integer.new(12)
-b = SymEngine::Integer.new(64)
-a**b</p>
-
-<p>=> 1168422057627266461843148138873451659428421700563161428957815831003136
-<code>
-Additionally, it can support numbers of arbitrarily large length.
-</code>ruby
-(a<strong>x).to_s
-=> "12</strong>x"
-```</p>
-
-<h3>SymEngine::Rational</h3>
-
-<p>You can also make objects of class <code>SymEngine::Rational</code> which is the SymEngine counterpart for <code>Rationals</code> in Ruby.:
-```ruby
-c = Rational('2/3')
-d = SymEngine::Rational.new(c)</p>
-
-<p>=> 2/3
-<code>
-Like any other `Basic` object arithmetic operations can be done on this rational type too.:
-</code>ruby
-(a-d).to_s
-=> "34/3"</p>
-
-<h2>```</h2>
-
-<p>You <strong>need not create</strong> an instance of <code>SymEngine::Integer</code> or <code>SymEngine::Rational</code>, every time you want to use them in an expression that uses many <code>Integer</code>s. Let us say you already have <code>Integer</code>/<code>Rational</code> object. Even then you can use them without having to create a new <code>SymEngine</code> object.:
-<code>ruby
-k = (1 / (x * y) - x * y + 2) * (c + x * y) # c is a Rational object, not SymEngine::Rational
-k.to_s
-=&gt; "(2/3 + x*y)*(2 + 1/(x*y) - x*y)"
-</code>
-As you can see, ruby kernel <code>Integer</code>s and <code>Rational</code>s interoperate seamlessly with the <code>SymEngine</code> objects.
-```ruby
-k.expand.to_s
-=> "7/3 + (2/3)<em>1/(x</em>y) + (4/3)<em>x</em>y - x<strong>2*y</strong>2"</p>
-
-<h2>```</h2>
-
-<h2>What I learned</h2>
-
-<p>In the rest of the post, I would like to summarise my work and what I learned as a participant of <a href="https://www.google-melange.com/gsoc/homepage/google/gsoc2015">Google Summer of Code 2015</a>.</p>
-
-<h2>Pre-midterm Evaluations</h2>
-
-<p>I am a newbie when it comes to Ruby, and it took me a while to setup the gem and configure files for the building of extensions.</p>
-
-<h3>The struggle between shared, static and dynamic libraries</h3>
-
-<p>I faced a lot of problem in the early stages, when I was trying to build the extensions. <a href="https://github.com/certik">Ondrej</a>, my mentor, and <a href="https://github.com/isuruf">Isuru</a>, a fellow GSoC student, helped me a lot. There were many C flags that were being reported as missing. Some flags <code>cmake</code> added by default but <code>extconf.rb</code> didn't, the same one that was required to be added to build it as a shared library. I am still confused about the details, some of which are <a href="http://abinashmeher999.github.io/2015/05/29/Building-the-wrappers/">explored in greater detail in my personal blog</a>. Finally, the library had to be built as a dynamic one. The problem of missing C flags was resolved later by hooking the process to <code>cmake</code> rather than <code>mkmf</code>.</p>
-
-<h3>Load Errors and problems in linking</h3>
-
-<p>Many <a href="http://abinashmeher999.github.io/2015/06/12/The-Load-Error/"><code>LoadError</code>s</a> popped up, but were eventually solved. <a href="https://github.com/dilcom/">Ivan</a> helped a lot in debugging the errors. In the end, it turned out to be a simple file missing in the gemspec, that was not being installed.</p>
-
-<h3>Reconfiguring building</h3>
-
-<p>One of our aims during developing this was to get rid of unessential dependencies. The ones we already had the tools for. Like later the file <code>extconf.rb</code>, that is used to generate Makefile for the extension was removed, because that could also be done by <code>cmake</code>. Flags were added to <code>cmake</code> for building the Ruby extensions, like the flag <code>-DWITH_RUBY=yes</code>. The <code>Makefile</code> then generates the library <code>symengine.so</code> in the directory <code>lib/symengine</code>.Along with <code>extconf.rb</code>, the file <code>extconf.h</code> was also gone. Along these lines, the dependency on <code>rake</code> was also removed, and with that the <code>Rakefile</code>. Any task automation will most probably be done in python. So, the <code>Rake::ExtensionTask</code> was done by <code>cmake</code> and the <code>Rake::GemPackageTask</code> was replaced by the manual method of <code>gem build symengine.gemspec</code> and <code>gem install symengine-0.0.0.gem</code></p>
-
-<h3>Travis setup</h3>
-
-<p>Not many projects have travis-ci setup for multiple languages. Not even the tutorials had clearly mentioned about setting up for multiple languages. But I did know about one of them, which is Shogun, the machine-learning toolbox. I referred to their <code>.travis.yml</code> and setup it up. If something like this wouldn't have worked the plan was to manually install the required version of ruby and then execute the shell commands.</p>
-
-<h3>Making a basic object</h3>
-
-<p>Finally, I was able to successfully build the extensions, link the extensions with the SymEngine library, load the ruby-extension library in the interpreter and successfully instantiate an object of type <code>Basic</code>.</p>
-
-<h3>Inheritance and Symbols</h3>
-
-<p>At this time, the way inheritance works(like the sequence of formation and destruction of objects of a class that had a superclass) with the Ruby C API, was confusing for all of us. I designed an <a href="http://abinashmeher999.github.io/2015/06/26/the-symbol-class/#inheritance-in-ruby-c-api">experiment</a>
-to check what was actually happening. That cleared things out, and made the it easier to wrap things from now on. I also wrapped the <code>Symbol</code> class during the course.</p>
-
-<h2>Post-midterm Evaluations</h2>
-
-<h3>Redesign of the C interface</h3>
-
-<p>We had to design an ugly function to wrap vector in C. That led us to redesign the C interface. This approach had no reinterpret casting that was being done earlier. Each data structure had a type that was determined at compile time. For C, it was an opaque structure, while for C++ the opaque structure declared in the shared header file was implemented in the source file that had C++ data types. This <a href="http://abinashmeher999.github.io/2015/07/03/improving-the-c-interface/">blog post</a> explains it further.</p>
-
-<h3>Integer and Rational</h3>
-
-<p>While trying to port the SymEngine classes, <code>Integer</code> and <code>Rational</code>, I had to port many methods in <code>Basic</code> before that. I also replicated the <code>rake</code> tasks in NMatrix, for detection of memory leaks, in form of bash scripts.</p>
-
-<h3>Common enumeration</h3>
-
-<p>Since all objects in the Ruby C API are of the type <code>CBasic</code>, we needed a function that would give us the typename during the runtime for the corresponding objects to be wrapped in ruby, as an object of the correct <code>Class</code> in ruby. Since, this was achieved with <code>enum</code> in C++, the same thing could be done in C too, with all the classes written manually again. But there was no guarantee for this to be consistent, if ever the features required to be wrapped for a new language, and also manually adding the class in all the enum list everytime a new class is added was prone to errors. So, to make this DRY, we automated this by sharing the list of enums. More details for the implementation can be found <a href="http://abinashmeher999.github.io/2015/07/17/common-enumeration-in-c-and-c++/">here</a>.</p>
-
-<h3>Class coercion and interoperability</h3>
-
-<p>To support interoperability with the builtin ruby types, I had to overload the methods in builtin classes earlier(this was not continued). Overriding all the existing binary operations for a ruby class to support SymEngine types, violated the open/closed principle. There was indeed another way, which is <em>'Class Coercion'</em>. It was suggested by <a href="https://github.com/isuruf/">Isuru</a>. After that, SymEngine types could seamlessly interoperate between the ruby types.</p>
-
-<h3>Arithmetic operations</h3>
-
-<p>After this, all the arithmetic operations had been successfully ported. Each <code>Basic</code> object can now perform arithmetic operations with other <code>Basic</code> object(sometimes even ruby objects like <code>Integer</code>). The test file in python, that had all the corresponding test cases was ported to its RSpec counterpart.</p>
-
-<h3>Substitutions</h3>
-
-<p>Recently I completed porting the substitutions module to the extensions(<code>#subs</code>). This feature has added a lot of convenience as now you can substitute a <code>SymEngine::Symbol</code> with some other value in an expression and then <code>#expand</code> to get the result.</p>
-
-<h3>Trigonometric functions</h3>
-
-<p>Currently, I am working on porting the trigonometric functions in SymEngine to the extensions. This would first require to wrap the <code>Function</code> class and then the <code>TrigFunction</code> class in SymEngine.</p>
-
-<h3>Integration of other Ruby gems</h3>
-
-<p>I also have plans to integrate the ruby bindings for <code>gmp</code>, <code>mpfr</code> and <code>mpc</code> libraries, that are already available as gems, with ruby bindings for our library. I have created an issue <a href="https://github.com/sympy/symengine/issues/490">here</a>. Feel free to drop any suggestions.</p>
-
-<hr />
-
-<p>There is much scope for improvement in both the projects. For SymEngine, to support more features like polynomials and series-expansion in the near future, and improving the user interface and the exception handling for the extensions. In short, making the extensions more ruby-ish.</p>
-
-<p>I am grateful to my mentor, <a href="https://github.com/certik">Mr. Ondřej Čertík</a>, the <a href="http://sciruby.com/">Ruby Science Foundation</a> and the <a href="http://www.sympy.org/en/index.html">SymPy Organisation</a> for the opportunity that they gave me and guiding me through the project, and my team-mates for helping me with the issues. I hope more people will contribute to the project and together we will give a nice symbolic manipulation gem to the Ruby community.</p>
 ]]></content>
   </entry>
   

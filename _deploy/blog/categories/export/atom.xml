@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Export | SciRuby]]></title>
+  <link href="http://sciruby.com/blog/categories/export/atom.xml" rel="self"/>
+  <link href="http://sciruby.com/"/>
+  <updated>2017-10-17T20:48:02+09:00</updated>
+  <id>http://sciruby.com/</id>
+  <author>
+    <name><![CDATA[SciRuby]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2017 : Support to Import & Export of more formats]]></title>
+    <link href="http://sciruby.com/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats/"/>
+    <updated>2017-08-29T17:16:00+09:00</updated>
+    <id>http://sciruby.com/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats</id>
+    <content type="html"><![CDATA[<h2>Introduction</h2>
+
+<blockquote><p>"Hello friend. Hello friend? That's lame." - S01E01 (Pilot), Mr.Robot</p></blockquote>
+
+<p>My name is Athitya Kumar, and I'm a 4th year undergrad from IIT Kharagpur, India. I
+was selected as a GSoC 2017 student developer by Ruby Science Foundation for project daru-io.</p>
+
+<p><a href="https://github.com/athityakumar/daru-io">Daru-IO</a> is a plugin-gem to
+<a href="https://github.com/SciRuby/daru">Daru</a> gem, that extends support for many Import and Export
+methods of <code>Daru::DataFrame</code>. This gem is intended to help Rubyists who are into Data Analysis
+or Web Development, by serving as a general purpose conversion library.</p>
+
+<p>Through this summer, I worked on adding support for various Importers and Exporters
+while also porting some existing modules. Feel free to find a comprehensive set
+of useful links in
+<a href="https://athityakumar.github.io/blog/posts/GSoC_2017_-_Final_Work_Submission/">Final Work Submission</a>
+and <a href="https://github.com/athityakumar/daru-io/blob/master/README.md">README</a>. Before proceeding any
+further, you might also be interested in checking out a sample showcase of
+<a href="https://daru-examples-io-view-rails.herokuapp.com/">Rails example</a> and
+<a href="https://github.com/Shekharrajak/daru_examples_io_view_rails">the code</a> making it work.</p>
+
+<h2>Mark Anthony's Speech (ft. daru)</h2>
+
+<blockquote><p>"Rubyists, Data Analysts and Web Developers, lend me your ears;</p>
+
+<p>I come to write about my GSoC project, not to earn praise for it."</p></blockquote>
+
+<p>For the uninitiated, Google Summer of Code (GSoC) 2017 is a 3-month program that
+focuses on introducing selected students to open-source software development.
+To know more about GSoC, feel free to click
+<a href="https://summerofcode.withgoogle.com/about/">here</a>.</p>
+
+<p><a href="https://github.com/SciRuby/daru">daru</a> is a Ruby gem that stands for Data Analysis in RUby. My
+<a href="https://drive.google.com/file/d/0B4shBmKvdinIZUNqcGwtWDZtb1NMMHg3SG51SFRqNlVqZkIw/">initial proposal</a>
+was to make daru easier to integrate with Ruby web frameworks through better import-export features
+(<a href="https://github.com/athityakumar/daru-io">daru-io</a>) and visualization methods
+(<a href="https://github.com/Shekharrajak/daru-view">daru-view</a>). However, as both
+<a href="https://github.com/Shekharrajak">Shekhar</a> and I
+were selected for the same proposal, we split this amongst ourselves : daru-io was allocated to me
+and daru-view was allocated to <a href="https://github.com/Shekharrajak">Shekhar</a>.</p>
+
+<h2></h2>
+
+<blockquote><p>"The open-source contributions that people do, live after them;</p>
+
+<p>But their private contributions, are oft interred with their bones."</p></blockquote>
+
+<p>This is one of the reasons why I (and all open-source developers) are enthusiastic
+about open-source. In open-source, one's work can be re-used in other projects
+in accordance with the listed LICENSE and attribution, compared to the restrictions
+and risk of Intellectual Property Right claims in private work.</p>
+
+<h2></h2>
+
+<blockquote><p>"So be it. The noble Pythonistas and R developers;</p>
+
+<p>Might not have chosen to try daru yet."</p></blockquote>
+
+<p>It is quite understandable that Pythonistas and R developers feel that their corresponding
+languages have sufficient tools for Data Analysis. So, why would they switch to Ruby and
+start using daru?</p>
+
+<h2></h2>
+
+<blockquote><p>"If it were so, it may have been a grievous fault;</p>
+
+<p>Give daru a try, with daru-io and daru-view."</p></blockquote>
+
+<p>First of all, I don't mean any offense when I say "grievous fault". But please, do give
+Ruby and daru family a try, with an open mind.</p>
+
+<p>Voila - the daru family has two new additions, namely
+<a href="https://github.com/athityakumar/daru-io">daru-io</a> and
+<a href="https://github.com/Shekharrajak/daru-view">daru-view</a>. Ruby is a language
+which is extensively used in Web Development with multiple frameworks such as Rails, Sinatra,
+Nanoc, Jekyll, etc. With such a background, it only makes sense for daru to have daru-io and
+daru-view as separate plugins, thus making the daru family easily integrable with Ruby web
+frameworks.</p>
+
+<h2></h2>
+
+<blockquote><p>"Here, for attention of Rubyists and the rest–</p>
+
+<p>For Pandas is an honourable library;</p>
+
+<p>So are they all, all honourable libraries and languages–</p>
+
+<p>Come I to speak about daru-io's inception."</p></blockquote>
+
+<p>Sure, the alternatives in other languages like Python, R and Hadoop are also good data analysis
+tools. But, how readily can they be integrated into any web application? R &amp; Hadoop don't have a
+battle-tested web framework yet, and are usually pipelined into the back-end of any application
+to perform any analysis. I'm no one to judge such pipelines, but I feel that pipelines are
+hackish workarounds rather than being a clean way of integrating.</p>
+
+<p>Meanwhile, though Python too has its own set of web frameworks (like Django, Flask and more),
+Pandas doesn't quite work out-of-the-box with these frameworks and requires the web developer
+to write lines and lines of code to integrate Pandas with parsing libraries and plotting
+libraries.</p>
+
+<h2></h2>
+
+<blockquote><p>"daru-io is a ruby gem, and open-sourced to all of us;</p>
+
+<p>But some might think it was an ambitious idea;</p>
+
+<p>And they are all honourable men."</p></blockquote>
+
+<p>As described above, daru-io is open-sourced under the MIT License with attribution to
+myself and Ruby Science Foundation. Being a ruby gem, daru-io follows the best practices
+mentioned in the Rubygems guides and is all geared up with a v0.1.0 release.</p>
+
+<p>Disclaimer - By "men", I'm not stereotyping "them" to be all male, but I'm just merely
+retaining the resemblence to the original speech of Mark Anthony.</p>
+
+<h2></h2>
+
+<blockquote><p>"daru-io helps convert data in many formats to Daru::DataFrame;</p>
+
+<p>Whose methods can be used to analyze huge amounts of data.</p>
+
+<p>Does this in daru-io seem ambitious?"</p></blockquote>
+
+<p><a href="https://github.com/SciRuby/daru">Daru</a> has done a great job of encapsulating the two main
+structures of Data Analysis - DataFrames and Vectors - with a ton of functionalities that are
+growing day by day. But obviously, the huge amounts of data aren't going to be manually fed into
+the DataFrames right?</p>
+
+<p>One part of <a href="https://github.com/athityakumar/daru-io">daru-io</a> is the battalion of Importers that
+ship along with it. Importers are used to read from a file / Ruby instance, and create DataFrame(s).
+These are the Importers being supported by v0.1.0 of daru-io :</p>
+
+<ul>
+<li>General file formats : CSV, Excel (xls and xlsx), HTML, JSON, Plaintext.</li>
+<li>Special file formats : Avro, RData, RDS.</li>
+<li>Database related : ActiveRecord, Mongo, Redis, SQLite, DBI.</li>
+</ul>
+
+
+<p>For more specific information about the Importers, please have a look at the
+<a href="https://github.com/athityakumar/daru-io/blob/master/README.md#table-of-contents">README</a>
+and <a href="http://www.rubydoc.info/github/athityakumar/daru-io/master/Daru/IO/Importers/">YARD Docs</a>.</p>
+
+<p>Let's take a simple example of the JSON Importer, to import from GitHub's GraphQL API response. By
+default, the API response is paginated and 30 repositories are listed in the url :
+<code>https://api.github.com/users/#{username}/repos</code>.</p>
+
+<p>```ruby
+require 'daru/io/importers/json'</p>
+
+<p>dataframe = %w[athityakumar zverok v0dro lokeshh].map do |username|
+  Daru::DataFrame.read_json(</p>
+
+<pre><code>"https://api.github.com/users/#{username}/repos",
+RepositoryName: '$..full_name',
+Stars: '$..stargazers_count',
+Size: '$..size',
+Forks: '$..forks_count'
+</code></pre>
+
+<p>  )
+end.reduce(:concat)</p>
+
+<h1>=> #&lt;Daru::DataFrame(120x4)></h1>
+
+<h1>Repository   Stars   Size   Forks</h1>
+
+<h1>0  athityakum       0      6       0</h1>
+
+<h1>1  athityakum       0    212       0</h1>
+
+<h1>2  athityakum       0    112       0</h1>
+
+<h1>...    ...          ...   ...     ...</h1>
+
+<p>```</p>
+
+<h2></h2>
+
+<blockquote><p>"When working with a team of Pythonistas and R developers;</p>
+
+<p>daru-io helps convert Daru::DataFrame to multiple formats.</p>
+
+<p>Does this in daru-io seem ambitious?</p></blockquote>
+
+<p>The second part of <a href="https://github.com/athityakumar/daru-io">daru-io</a> is the collection of Exporters
+that ship with it. Exporters are used to write the data in a DataFrame, to a file / database. These
+are the Exporters being supported by v0.1.0 of daru-io :</p>
+
+<ul>
+<li>General file formats : CSV, Excel (xls), JSON.</li>
+<li>Special file formats : Avro, RData, RDS.</li>
+<li>Database related : SQL.</li>
+</ul>
+
+
+<p>For more specific information about the Exporters, please have a look at the
+<a href="https://github.com/athityakumar/daru-io/blob/master/README.md#table-of-contents">README</a>
+and <a href="http://www.rubydoc.info/github/athityakumar/daru-io/master/Daru/IO/Exporters/">YARD Docs</a>.</p>
+
+<p>Let's take a simple example of the RDS Exporter. Say, your best friend is a R developer who'd like
+to analyze a <code>Daru::DataFrame</code> that you have obtained, and perform further analysis. You don't want
+to break your friendship, and your friend is skeptical of learning Ruby. No issues, simply use the RDS
+Exporter to export your <code>Daru::DataFrame</code> into a .rds file, which can be easily loaded by your friend
+in R.</p>
+
+<p>```ruby
+require 'daru/io/exporters/rds'</p>
+
+<p>dataframe #! Say, the DataFrame is obtained from the above JSON Importer example</p>
+
+<h1>=> #&lt;Daru::DataFrame(120x4)></h1>
+
+<h1>Repository   Stars   Size   Forks</h1>
+
+<h1>0  athityakum       0      6       0</h1>
+
+<h1>1  athityakum       0    212       0</h1>
+
+<h1>2  athityakum       0    112       0</h1>
+
+<h1>...    ...          ...   ...     ...</h1>
+
+<p>dataframe.write_rds('github_api.rds', 'github.api.dataframe')
+```</p>
+
+<h2></h2>
+
+<blockquote><p>"You all did see that in the repository's README;</p>
+
+<p>Codeclimate presented a 4.0 GPA;</p>
+
+<p>Code and tests were humbly cleaned;</p>
+
+<p>with help of rubocop, rspec, rubocop-rspec and saharspec.</p>
+
+<p>Ambition shouldn't have been made of humble stuff.</p>
+
+<p>Yet some might think it is an ambitious idea;</p>
+
+<p>And sure, they are all honourable men."</p></blockquote>
+
+<p>Thanks to guidance from my mentors
+<a href="https://github.com/zverok">Victor Shepelev</a>, <a href="https://github.com/v0dro">Sameer Deshmukh</a>
+and <a href="https://github.com/lokeshh">Lokesh Sharma</a>, I've come to know about quite a lot
+of Ruby tools that could be used to keep the codebase sane and clean.</p>
+
+<ul>
+<li><a href="https://github.com/bbatsov/rubocop">rubocop</a> : A Ruby static code analyzer, which enforces
+specified Ruby style guidelines.</li>
+<li><a href="https://github.com/rspec/rspec">rspec</a> : A unit-testing framework, which makes sure that codes
+of block are doing what they're logically supposed to do.</li>
+<li><a href="https://github.com/backus/rubocop-rspec">rubocop-rspec</a> : A plugin gem to rubocop, that extends
+rspec-related rules.</li>
+<li><a href="https://github.com/zverok/saharspec">saharspec</a> : A gem with a
+<a href="https://github.com/zverok/saharspec/blob/master/README.md#saharspec-specs-dry-as-sahara">punny name</a>, that extends a few features to rspec-its that are more readable. For example, <code>its_call</code>.</li>
+</ul>
+
+
+<h2></h2>
+
+<blockquote><p>"I speak not to disapprove of what other libraries do;</p>
+
+<p>But here I am to speak what I do know.</p>
+
+<p>Give daru-io a try and y'all will love it, not without cause:</p>
+
+<p>Does anything withhold you then, from using daru-io?"</p></blockquote>
+
+<p>I really mean it, when I discretely specify "I speak not to disapprove of what other libraries do".
+In the world of open-source, there should never be hate among developers regarding languages,
+or libraries. Developers definitely have their (strong) opinions and preferences, and it's
+understandable that difference in opinion do arise. But, as long as there's mutual respect for
+each other's opinion and choice, all is well.</p>
+
+<h2></h2>
+
+<blockquote><p>"O Ruby community! Thou should definitely try out daru-io,</p>
+
+<p>With daru and daru-view. Bear with me;</p>
+
+<p>My heart is thankful to the community of Ruby Science Foundation,</p>
+
+<p>And I must pause till I write another blog post."</p></blockquote>
+
+<p>If you've read all the way till down here, I feel that you'd be interested in trying out the
+daru family, after having seen the impressive demonstration of Importers &amp; Exporters above, and
+the Rails example (<a href="https://daru-examples-io-view-rails.herokuapp.com/">Website</a> |
+<a href="https://github.com/Shekharrajak/daru_examples_io_view_rails">Code</a>). I'm very thankful to mentors
+<a href="https://github.com/zverok">Victor Shepelev</a>, <a href="https://github.com/v0dro">Sameer Deshmukh</a>
+and <a href="https://github.com/lokeshh">Lokesh Sharma</a> for their timely Pull Request reviews and open
+discussions regarding features. Daru-IO would not have been possible without them and the active
+community of Ruby Science Foundation, who provided their useful feedback(s) whenever they could.
+The community has been very supportive overall, and hence I'd definitely be interested to involve
+with SciRuby via more open-source projects.</p>
+]]></content>
+  </entry>
+  
+</feed>

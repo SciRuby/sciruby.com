@@ -9,8 +9,8 @@
   <meta name="author" content="SciRuby">
 
   
-  <meta name="description" content="Support for categorical data is important for any data analysis
-tool. This summer I implemented categorical data capabilities for: Convenient and &hellip;">
+  <meta name="description" content="Hello, Rubyist! Are looking for good ruby gem for interactive data
+visualization? Then you must try daru-view, a plugin gem for daru. What makes daru &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -83,6 +83,942 @@ tool. This summer I implemented categorical data capabilities for: Convenient an
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/">GSoC 2017 : Data Visualization Using Daru-view</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Shekhar Prasad Rajak</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-09-01T22:46:00+09:00" pubdate data-updated="true">Sep 1<span>st</span>, 2017</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Hello, Rubyist! Are looking for good ruby gem for interactive data
+visualization? Then you must try <a href="https://github.com/Shekharrajak/daru-view"><code>daru-view</code></a>, a plugin gem for <a href="https://github.com/SciRuby/daru"><code>daru</code></a>.</p>
+
+<h2>What makes daru-view different ?</h2>
+
+<ul>
+<li><p><code>daru-view</code> is designed for interactive plotting of charts and tables.It
+provide different plotting tools like Nyaplot, HighCharts, GoogleCharts,
+DataTable. So you don&#8217;t have to write any JavaScript code from these sites
+and no need to shift to other language to get charts.</p></li>
+<li><p>It can work with <strong>any ruby web application framework like Rails/Sinatra/Nanoc/Hanami</strong>. If you want to try few examples then please look into the
+<a href="https://github.com/Shekharrajak/daru-view/tree/master/spec"><code>daru-view/spec/dummy_*</code></a> examples of Rails, Sinatra, Nanoc web applications.</p></li>
+<li><p>Now Ruby developers are using IRuby notebook for interactive programming.
+<code>daru-view</code> support IRuby notebook as well. So if you just want to see chart
+for some DataFrame or Array of data, you can use <code>daru-view</code>.</p></li>
+<li><p><code>daru-view</code> can generate chart images to download and save.</p></li>
+<li><p><code>daru-view</code> adapters <code>googlecharts</code>, <code>highcharts</code> are able to geneate 3D charts as well.</p></li>
+<li><p><code>Table</code> have some main features like pagination, search and many more to be added.It is
+designed to load large data set smoothly.</p></li>
+</ul>
+
+
+<h2>Introduction</h2>
+
+<p>Daru is doing pretty good work as the data analysis &amp; manipulation in IRuby notebook as well as backend part of web application. Ruby web application frameworks like Ruby on Rails, Sinatra, Nanoc are popular frameworks. So if Ruby developers get the gem like daru which can do data analysis
+and visualization work in applications, then there is no need of shifting to another language or usage of other gem.</p>
+
+<p>My project for <abbr title="Google Summer of Code 2017"> GSoC 2017</abbr> was to &#8220;make Daru more ready for integration with modern Web framework&#8221; in terms of visualization.</p>
+
+<p>To improve in terms of viewing data,
+<a href="https://github.com/Shekharrajak/daru-view">daru-view</a>, a plugin gem for
+<a href="https://github.com/SciRuby/daru">daru</a> is created. <a href="https://github.com/Shekharrajak/daru-view">daru-view</a> is for easy and interactive plotting in web application &amp; IRuby notebook. It can work in frameworks like Rails, Sinatra, Nanoc and hopefully in others too.</p>
+
+<p>To see a quick overview of daru-view&#8217;s features, have a look at these examples:</p>
+
+<ul>
+<li><p><a href="http://nbviewer.jupyter.org/github/shekharrajak/daru-view/tree/master/spec/dummy_iruby/">IRuby Notebook Examples</a></p></li>
+<li><p><a href="https://github.com/Shekharrajak/daru_examples_io_view_rails">daru io and daru-view usage in Rails app</a></p></li>
+<li><p><a href="https://github.com/Shekharrajak/daru-view/blob/master/README.md">README of daru-view</a></p></li>
+</ul>
+
+
+<h2>Examples</h2>
+
+<p>This is how we can create a Plot class object:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">::</span><span class="no">Plot</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><p><code>data</code> can be <code>Daru::DataFrame</code>, data array or the format that the adapter support.</p></li>
+<li><p><code>options</code> is a hash that contains various options to customize the chart.
+If you have chosen a plotting library then you must use the options according
+to the options the library providing. Here is the library <code>daru-view</code> uses.
+Please check the examples options, they are passing in javascript code:</p>
+
+<ul>
+<li><p>GoogleCharts: <a href="https://developers.google.com/chart/interactive/docs/gallery">https://developers.google.com/chart/interactive/docs/gallery</a></p></li>
+<li><p>HighCharts: <a href="https://www.highcharts.com/demo">https://www.highcharts.com/demo</a></p></li>
+<li><p>Nyaplot: <a href="https://github.com/SciRuby/nyaplot">https://github.com/SciRuby/nyaplot</a> (it works same as <code>daru</code>)</p></li>
+</ul>
+</li>
+</ul>
+
+
+<p>Note: User must have some knowledge about the plotting tool(that you want to
+use) to use it in <code>daru-view</code>. So that you can pass the correct options.</p>
+
+<h3>GoogleCharts:</h3>
+
+<p>Set the plotting library to <code>:googlecharts</code> to use this adapter. This will
+load the required js files in your webpage or IRuby notebook.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;daru/view&#39;</span>
+</span><span class='line'><span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">.</span><span class="n">plotting_library</span> <span class="o">=</span> <span class="ss">:googlecharts</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let&#8217;s create a DataFrame :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">idx</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">Index</span><span class="o">.</span><span class="n">new</span> <span class="o">[</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="s1">&#39;Sales&#39;</span><span class="o">]</span>
+</span><span class='line'><span class="n">data_rows</span> <span class="o">=</span> <span class="o">[</span>
+</span><span class='line'>          <span class="o">[</span><span class="s1">&#39;2004&#39;</span><span class="p">,</span>  <span class="mi">1000</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>          <span class="o">[</span><span class="s1">&#39;2005&#39;</span><span class="p">,</span>  <span class="mi">1170</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>          <span class="o">[</span><span class="s1">&#39;2006&#39;</span><span class="p">,</span>  <span class="mi">660</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>          <span class="o">[</span><span class="s1">&#39;2007&#39;</span><span class="p">,</span>  <span class="mi">1030</span><span class="o">]</span>
+</span><span class='line'><span class="o">]</span>
+</span><span class='line'><span class="n">df_sale_exp</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">DataFrame</span><span class="o">.</span><span class="n">rows</span><span class="p">(</span><span class="n">data_rows</span><span class="p">)</span>
+</span><span class='line'><span class="n">df_sale_exp</span><span class="o">.</span><span class="n">vectors</span> <span class="o">=</span> <span class="n">idx</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># perform data manipulations, if you want.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now time to plot it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">line_basic_chart</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">::</span><span class="no">Plot</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">df_sale_exp</span><span class="p">)</span>
+</span><span class='line'><span class="n">line_basic_chart</span><span class="o">.</span><span class="n">chart</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will return the chart object we created using GoogleCharts.
+In IRuby notebook, you will see this:</p>
+
+<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlecharts_line1.png?raw=true" title="Basic line chart using GoogleCharts" alt="Basic line chart using GoogleCharts"></p>
+
+<p>You can find the IRuby notebook example in <a href="http://nbviewer.jupyter.org/github/shekharrajak/daru-view/blob/master/spec/dummy_iruby/Google%20Chart%20%7C%20%20Line%20Chart.ipynb">this link</a>.</p>
+
+<p>These are various charts type we can use e.g. line, area, bar, bubble,
+candlestick, combo, histogram, org, pie, stepped area chart, timeline, treemap,
+gauge, column, scatter, etc. We can find the customization options in the
+<a href="https://developers.google.com/chart/interactive/docs/gallery">google charts site</a>.</p>
+
+<p>Let me try another chart type Geo :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">country_population</span> <span class="o">=</span> <span class="o">[</span>
+</span><span class='line'>          <span class="o">[</span><span class="s1">&#39;Germany&#39;</span><span class="p">,</span> <span class="mi">200</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>          <span class="o">[</span><span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="mi">300</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>          <span class="o">[</span><span class="s1">&#39;Brazil&#39;</span><span class="p">,</span> <span class="mi">400</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>          <span class="o">[</span><span class="s1">&#39;Canada&#39;</span><span class="p">,</span> <span class="mi">500</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>          <span class="o">[</span><span class="s1">&#39;France&#39;</span><span class="p">,</span> <span class="mi">600</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>          <span class="o">[</span><span class="s1">&#39;RU&#39;</span><span class="p">,</span> <span class="mi">700</span><span class="o">]</span>
+</span><span class='line'><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">df_cp</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">DataFrame</span><span class="o">.</span><span class="n">rows</span><span class="p">(</span><span class="n">country_population</span><span class="p">)</span>
+</span><span class='line'><span class="n">df_cp</span><span class="o">.</span><span class="n">vectors</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">Index</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;Country&#39;</span><span class="p">,</span> <span class="s1">&#39;Population&#39;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">geochart</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">::</span><span class="no">Plot</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
+</span><span class='line'>    <span class="n">df_cp</span><span class="p">,</span> <span class="n">type</span><span class="p">:</span> <span class="ss">:geo</span><span class="p">,</span> <span class="n">adapter</span><span class="p">:</span> <span class="ss">:googlecharts</span>
+</span><span class='line'><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note: If you have already loaded the dependent JS files for the library then you can use <code>adapter: :googlecharts</code> in your Plot initialization.</p>
+
+<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_geo1.png?raw=true" title="Basic Geo chart using GoogleCharts" alt="Basic Geo chart using GoogleCharts"></p>
+
+<h3>HighCharts:</h3>
+
+<p>Set the plotting library to <code>:highcharts</code> to use this adapter. This will
+load the required js files in your webpage or IRuby notebook.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;daru/view&#39;</span>
+</span><span class='line'><span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">.</span><span class="n">plotting_library</span> <span class="o">=</span> <span class="ss">:highcharts</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let&#8217;s pass the <code>data</code> as HighCharts support (we can pass a DataFrame as well):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">data</span> <span class="o">=</span> <span class="o">[</span>
+</span><span class='line'>    <span class="o">[</span><span class="s1">&#39;Firefox&#39;</span><span class="p">,</span>   <span class="mi">45</span><span class="o">.</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>    <span class="o">[</span><span class="s1">&#39;IE&#39;</span><span class="p">,</span>       <span class="mi">26</span><span class="o">.</span><span class="mi">8</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>       <span class="ss">:name</span><span class="o">=&gt;</span> <span class="s1">&#39;Chrome&#39;</span><span class="p">,</span>
+</span><span class='line'>       <span class="ss">:y</span><span class="o">=&gt;</span> <span class="mi">12</span><span class="o">.</span><span class="mi">8</span><span class="p">,</span>
+</span><span class='line'>       <span class="ss">:sliced</span><span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span>
+</span><span class='line'>       <span class="ss">:selected</span><span class="o">=&gt;</span> <span class="kp">true</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="o">[</span><span class="s1">&#39;Safari&#39;</span><span class="p">,</span>    <span class="mi">8</span><span class="o">.</span><span class="mi">5</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>    <span class="o">[</span><span class="s1">&#39;Opera&#39;</span><span class="p">,</span>     <span class="mi">6</span><span class="o">.</span><span class="mi">2</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>    <span class="o">[</span><span class="s1">&#39;Others&#39;</span><span class="p">,</span>   <span class="mi">0</span><span class="o">.</span><span class="mi">7</span><span class="o">]</span>
+</span><span class='line'><span class="o">]</span>
+</span><span class='line'><span class="n">plt_pie</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">::</span><span class="no">Plot</span><span class="o">.</span><span class="n">new</span> <span class="n">data</span><span class="p">,</span> <span class="n">type</span><span class="p">:</span> <span class="ss">:pie</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will return the <code>Plot</code> object we created.
+In IRuby notebook, you will see this:</p>
+
+<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/highcharts_pie.png?raw=true" title="Basic pie chart using HighCharts" alt="Basic pie chart using HighCharts"></p>
+
+<p>You can find the IRuby notebook example in <a href="http://nbviewer.jupyter.org/github/shekharrajak/daru-view/blob/master/spec/dummy_iruby/HighCharts-%20Pie%20charts.ipynb">this link</a>.</p>
+
+<p>There are various charts type we can use e.g. line, area, bar, bubble,
+dynamic chart, pie, column, scatter, etc. We can find the customization options in the
+<a href="https://www.highcharts.com/demo">HighCharts site</a>.</p>
+
+<h3>Nyaplot</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;daru/view&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#  set adapter</span>
+</span><span class='line'><span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">.</span><span class="n">plotting_library</span> <span class="o">=</span> <span class="ss">:nyaplot</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># define dataframe</span>
+</span><span class='line'><span class="n">df</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">DataFrame</span><span class="o">.</span><span class="n">new</span><span class="p">({</span>
+</span><span class='line'>  <span class="n">a</span><span class="p">:</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">0</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">b</span><span class="p">:</span> <span class="o">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">c</span><span class="p">:</span> <span class="o">[</span><span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="s1">&#39;II&#39;</span><span class="p">,</span> <span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="s1">&#39;III&#39;</span><span class="p">,</span> <span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="s1">&#39;III&#39;</span><span class="p">,</span> <span class="s1">&#39;II&#39;</span><span class="o">]</span>
+</span><span class='line'>  <span class="p">})</span>
+</span><span class='line'><span class="n">df</span><span class="o">.</span><span class="n">to_category</span> <span class="ss">:c</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># creating scatter chart</span>
+</span><span class='line'><span class="n">scatter_chart</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">::</span><span class="no">Plot</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">type</span><span class="p">:</span> <span class="ss">:scatter</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="ss">:a</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="ss">:b</span><span class="p">,</span> <span class="n">categorized</span><span class="p">:</span> <span class="p">{</span><span class="n">by</span><span class="p">:</span> <span class="ss">:c</span><span class="p">,</span> <span class="nb">method</span><span class="p">:</span> <span class="ss">:color</span><span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In IRuby notebook:</p>
+
+<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/nyaplot_scatter.png?raw=true" title="Basic scatter chart using Nyaplot" alt="Basic scatter chart using Nyaplot"></p>
+
+<h3>GoogleChart data table</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;daru/view&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#  set adapter</span>
+</span><span class='line'><span class="c1"># You don&#39;t need this line if you have already using google chart for plotting.</span>
+</span><span class='line'><span class="c1"># It is just for loading the dependent js files.</span>
+</span><span class='line'><span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">.</span><span class="n">table_library</span> <span class="o">=</span> <span class="ss">:googlechart</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Lets use array as `data` (we can pass Daru::DataFrame as well)</span>
+</span><span class='line'><span class="n">data</span> <span class="o">=</span> <span class="o">[</span>
+</span><span class='line'>  <span class="o">[</span><span class="s1">&#39;Galaxy&#39;</span><span class="p">,</span> <span class="s1">&#39;Distance&#39;</span><span class="p">,</span> <span class="s1">&#39;Brightness&#39;</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>          <span class="o">[</span><span class="s1">&#39;Canis Major Dwarf&#39;</span><span class="p">,</span> <span class="mi">8000</span><span class="p">,</span> <span class="mi">230</span><span class="o">.</span><span class="mi">3</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>          <span class="o">[</span><span class="s1">&#39;Sagittarius Dwarf&#39;</span><span class="p">,</span> <span class="mi">24000</span><span class="p">,</span> <span class="mi">4000</span><span class="o">.</span><span class="mi">5</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>          <span class="o">[</span><span class="s1">&#39;Ursa Major II Dwarf&#39;</span><span class="p">,</span> <span class="mi">30000</span><span class="p">,</span> <span class="mi">1412</span><span class="o">.</span><span class="mi">3</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>          <span class="o">[</span><span class="s1">&#39;Lg. Magellanic Cloud&#39;</span><span class="p">,</span> <span class="mi">50000</span><span class="p">,</span> <span class="mi">120</span><span class="o">.</span><span class="mi">9</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>          <span class="o">[</span><span class="s1">&#39;Bootes I&#39;</span><span class="p">,</span> <span class="mi">60000</span><span class="p">,</span> <span class="mi">1223</span><span class="o">.</span><span class="mi">1</span><span class="o">]</span>
+</span><span class='line'>  <span class="o">]</span>
+</span><span class='line'><span class="n">galaxy_table</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">::</span><span class="no">Table</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span class='line'><span class="n">galaxy_table</span><span class="o">.</span><span class="n">table</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will return the table object we created using GoogleCharts tool.
+In IRuby notebook, you will see this:</p>
+
+<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_table1.png?raw=true" title="Basic table using GoogleCharts" alt="Basic table using GoogleCharts"></p>
+
+<p>We can create table using Vectors as well.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">dv</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">Vector</span><span class="o">.</span><span class="n">new</span> <span class="o">[</span><span class="mi">43934</span><span class="p">,</span> <span class="mi">52503</span><span class="p">,</span> <span class="mi">57177</span><span class="p">,</span> <span class="mi">69658</span><span class="p">,</span> <span class="mi">97031</span><span class="p">,</span> <span class="mi">119931</span><span class="p">,</span> <span class="mi">137133</span><span class="p">,</span> <span class="mi">154175</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># adding pagination and some customization [optional]</span>
+</span><span class='line'><span class="n">opts_pagination</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">width</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span> <span class="p">,</span>
+</span><span class='line'>  <span class="n">pageSize</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">table_vec</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">::</span><span class="no">Table</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">dv</span><span class="p">,</span> <span class="n">opts_pagination</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In Ruby Notebook:</p>
+
+<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_vec_table1.png?raw=true" title="Basic vector table using GoogleCharts" alt="Basic vector table using GoogleCharts"></p>
+
+<h3>DataTable</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;daru/view&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#  set adapter.</span>
+</span><span class='line'><span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">.</span><span class="n">table_library</span> <span class="o">=</span> <span class="ss">:datatables</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Lets use Daru::DataFrame as `data` (we can pass Array as well)</span>
+</span><span class='line'><span class="n">df</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">DataFrame</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>    <span class="n">b</span><span class="p">:</span> <span class="o">[</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">15</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">a</span><span class="p">:</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">c</span><span class="p">:</span> <span class="o">[</span><span class="mi">11</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="mi">33</span><span class="p">,</span><span class="mi">44</span><span class="p">,</span><span class="mi">55</span><span class="o">]</span>
+</span><span class='line'>  <span class="p">},</span>
+</span><span class='line'>    <span class="n">order</span><span class="p">:</span> <span class="o">[</span><span class="ss">:a</span><span class="p">,</span> <span class="ss">:b</span><span class="p">,</span> <span class="ss">:c</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">index</span><span class="p">:</span> <span class="o">[</span><span class="ss">:one</span><span class="p">,</span> <span class="ss">:two</span><span class="p">,</span> <span class="ss">:three</span><span class="p">,</span> <span class="ss">:four</span><span class="p">,</span> <span class="ss">:five</span><span class="o">]</span>
+</span><span class='line'><span class="p">)</span>
+</span><span class='line'><span class="n">df_datatable</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">::</span><span class="no">Table</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pageLength</span><span class="p">:</span> <span class="mi">3</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Currently there is some problem to diplay it in IRuby notebook, but in web application
+you can see something like this using <code>df_datatable.div</code> :</p>
+
+<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/datatables_basic1.png?raw=true" title="Basic table using Datatables" alt="Basic table using Datatables"></p>
+
+<h2>How to use it in Ruby web application</h2>
+
+<p>As we know, we can get the HTML, JS code for the chart from the
+<code>Daru::View::Plot</code> or <code>Daru:View::Table</code> object using <code>#div</code> method. So just
+need to add that HTML, JS code in webpage in proper place.</p>
+
+<p>There is few things to be noted:</p>
+
+<ol>
+<li><p>In layout of the webpage, you have to load all the dependent JS files.
+So that HTML, JS code that is genearted work smoothly in that webpage. You
+can load the dependent js file for nyaplot library using <code>Daru::View.dependent_script(:nyaplot)</code>, similarly for other library.</p></li>
+<li><p>If you are using multiple library in one webpage then load multiple
+dependent JS files, in that webpage layout (generally in head tag).</p></li>
+</ol>
+
+
+<p>We can set default adapter using <code>Daru::View.plotting_library = :googlecharts</code>
+and also we can change it for particular object while initializing object,
+i.e. <code>Daru::View::Plot.new(data, {adapter: :googlecharts})</code>. Just we have
+to make sure that dependent JS files are loaded for it.</p>
+
+<p>To make it easy, we have defined <code>daru_chart</code> (that works same as Daru::View::Plot.new) , <code>daru_table</code> (works same as Daru::View::Table.new) for Rails application.</p>
+
+<p>So you can easily use it in controller or view of the application. For reference you can check the <a href="https://github.com/Shekharrajak/daru_examples_io_view_rails">demo Rails app</a>.</p>
+
+<h2>Design of daru-view</h2>
+
+<p><a href="https://github.com/Shekharrajak/daru-view">daru-view</a>, currently using
+<a href="https://github.com/SciRuby/nyaplot">Nyaplot</a>, <a href="https://www.highcharts.com/">HighCharts</a>, <a href="https://developers.google.com/chart/interactive/docs/gallery">GoogleCharts</a> for plotting the charts. It is also
+generating tables using <a href="https://datatables.net/">DataTables</a> and <a href="https://developers.google.com/chart/interactive/docs/gallery">GoogleCharts</a> with pagination, search and various features.</p>
+
+<h3>Design Pattern in daru-view</h3>
+
+<p>daru-view mainly uses the <a href="https://en.wikipedia.org/wiki/Adapter_pattern">adapter design pattern</a> and <a href="https://en.wikipedia.org/wiki/Composite_pattern">composite design pattern</a>.</p>
+
+<ul>
+<li><p><strong>Why Adapter design pattern:</strong></p>
+
+<ul>
+<li><p>Adapter pattern’s motivation is that we can reuse existing gems if we can modify the interface.</p></li>
+<li><p>daru-view joins functionalities of independent or incompatible interfaces of different gems.</p></li>
+<li><p><code>daru-view</code> have <a href="https://github.com/Shekharrajak/daru-view/blob/master/lib/daru/view/plot.rb"><code>Plot</code></a> and <a href="https://github.com/Shekharrajak/daru-view/blob/master/lib/daru/view/table.rb"><code>Table</code></a> class, which are using a <a href="https://github.com/Shekharrajak/daru-view/tree/master/lib/daru/view/adapters">adapter</a> when adapter(library to be used for plotting) is set for <code>Plot</code>, <code>Table</code> instance.</p></li>
+</ul>
+</li>
+<li><p><strong>Why Composite design pattern:</strong></p>
+
+<ul>
+<li><p>To define common objects and use it for defining composite objects.</p></li>
+<li><p>In <code>daru-view</code> we try to write common functions in a module and include it whenever needed.</p></li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Implementation</h2>
+
+<p>daru-view ensure that it&#8217;s functions are usable in both IRuby notebook as well
+as ruby web application frameworks.</p>
+
+<p>The main thing we need to display something in web application or IRuby
+notebook is <code>HTML</code> code of it. daru-view generates the <code>HTML</code> code of the
+chart, table and the same can be used to display in web application &amp; IRuby
+notebook.</p>
+
+<p>These are the libraries which is used in daru-view currently:</p>
+
+<h3>Nyaplot</h3>
+
+<p><a href="https://github.com/SciRuby/nyaplot">Nyaplot</a> is good library for
+visualization in IRuby notebook only. When we use Nyaplot as the adapter in
+daru-view, it is usable in both IRuby notebook and web applications. Daru
+DataFrame or Vector is used as the data source of the chart. It works
+similar to the initial <code>daru</code> plotting system.</p>
+
+<p>If user want to use the Nyaplot methods then it can be done on Nyaplot object.We
+can get nyplot object using <code>daru_plot_obj.chart</code>.</p>
+
+<p>i.e.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">daru_view_obj</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">::</span><span class="no">Plot</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
+</span><span class='line'>                  <span class="n">daru_dataframe</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="n">adapter</span><span class="p">:</span> <span class="ss">:nyaplot</span><span class="p">})</span>
+</span><span class='line'><span class="n">nyaplot_obj</span> <span class="o">=</span> <span class="n">daru_view_obj</span><span class="o">.</span><span class="n">chart</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now user can operate all the methods for Nyaplot object. Same thing is for
+all other adapter in daru-view.</p>
+
+<h3>HighCharts</h3>
+
+<p>To add the <a href="https://www.highcharts.com/">HighCharts</a> features for plotting various chart types, daru-view uses the <a href="https://github.com/michelson/lazy_high_charts">lazy_high_charts</a> gem with additional features.</p>
+
+<p>In this adapter data source can be Array of data, Daru::DataFrame, Daru::Vector or HTML table code of the data.</p>
+
+<p>There are various of options in HighCharts. One can see the options that can
+be used in <a href="https://www.highcharts.com/demo">HighCharts demo link</a>, which can
+be directly used in daru-view Plot.</p>
+
+<p><strong>HighCharts adaptor can work offline as well in daru-view. Developers can update the saved the JS files (in daru-view) using rake task automatically.</strong></p>
+
+<p>If you is familiar with <code>lazy_high_chart</code> gem and want to use it for
+config the chart then user can access the <code>lazy_high_chart</code> object using
+<code>Daru::View::Plot#chart</code> and can do necessary operations.</p>
+
+<h3>GoogleCharts</h3>
+
+<p>To add the <a href="https://developers.google.com/chart/interactive/docs/gallery">GoogleCharts</a> features for plotting various chart types, daru-view uses the <a href="https://github.com/winston/google_visualr/">google_visualr</a> gem with additional features(in this module more new features are updated).</p>
+
+<p>We want GoogleChart adapter to be very strong since Google chart tools always gets updated and it has amazing plotting features. Similar to the HighCharts module, here also we can use all the options described in Google Charts website.</p>
+
+<p>User can access the <code>google_visualr</code> object using <code>Daru::View::Plot#chart</code>, if
+they want to operate <code>google_visualr</code> methods.</p>
+
+<h4>GoogleCharts as data table</h4>
+
+<p>One of the good thing about google chart tool is, it can be used for generating table
+for web application and IRuby Notebook with pagination and other features.</p>
+
+<p><strong><code>Daru::View::Plot</code> can take data Array, Daru::DataFrame, Daru::Vector,
+Daru::View::Table as data source.</strong></p>
+
+<p><strong><code>Daru::View::Table</code> can take data Array, daru DataFrame, Daru Vector as data
+ source.</strong></p>
+
+<h3>DataTables</h3>
+
+<p><a href="https://datatables.net/">DataTables</a> has interaction controls to any HTML table. It can handle large set of data and have many cool features.</p>
+
+<p>To use it, daru-view uses <a href="https://github.com/Shekharrajak/data_tables">https://github.com/Shekharrajak/data_tables</a> gem. [Note: the gem name will be changed in near future]</p>
+
+<p>It basically uses the HTML table code and add features that user want. So internally HTML table code of Daru::DataFrame and Daru::Vector is passed as data source parameter.</p>
+
+<h2>Future Work</h2>
+
+<p>daru-view will be more powerful and simple in near future. Developers can add
+more libraries in daru-view easily, if required. To add library follow the setups given in
+<a href="https://github.com/Shekharrajak/daru-view/blob/master/CONTRIBUTING.md">CONTRIBUTING.md</a></p>
+
+<h2>Conclusion</h2>
+
+<p>The aim of the daru-view is to plot charts in IRuby notebook and ruby web
+application easily, so that developers need not have to use any other gem or
+language for visualization.</p>
+
+<p>It can work smoothly in Rails/Sinatra/Nanoc web frameworks and I hope it can work in other ruby frameworks as well, because daru-view is generating the html code and javascript code for the chart, which is basic need of the webpage.</p>
+
+<p><strong>Why not use the plotting libraries directly?</strong></p>
+
+<p>If you are using daru gem for analyzing the data and want to visualize it, then it will be good if you have data-visualization within daru and can plot it directly using DataFrame/Vector objects of daru.</p>
+
+<p>daru-view will be helpful in plotting charts and tables directly from the Daru::DataFrame and Daru::Vector . daru-view using nyaplot, highcharts , google charts right now to plot the chart. So user can set the plotting library and get the chart accordingly.</p>
+
+<p>Most of the plotting libraries doesn&#8217;t provide the features of plotting charts in iruby notebook. They are defined only for web applications (mostly for Rails). But daru-view can plot charts in any ruby web application as well as iruby notebook.</p>
+
+<h2>Acknowledgements</h2>
+
+<p>I would like to thank to my mentors <a href="https://github.com/v0dro">Sameer Deshmukh</a>
+,<a href="https://github.com/lokeshh">Lokesh Sharma</a> and <a href="https://github.com/zverok">Victor Shepelev</a> for their response and support and I am very grateful to the <a href="http://sciruby.com/">Ruby Science Foundation</a> for this golden opportunity.</p>
+
+<p>I thank my fellow GSoC participants <a href="https://github.com/athityakumar">Athitya Kumar</a> and <a href="https://github.com/prasunanand">Prasun Anand</a> for their support and discussions on various topics.</p>
+
+<p>Thanks to Google for conducting <a href="https://summerofcode.withgoogle.com">Google Summer of Code</a>.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats/">GSoC 2017 : Support to Import & Export of More Formats</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Athitya Kumar</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-08-29T17:16:00+09:00" pubdate data-updated="true">Aug 29<span>th</span>, 2017</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Introduction</h2>
+
+<blockquote><p>&#8220;Hello friend. Hello friend? That&#8217;s lame.&#8221; - S01E01 (Pilot), Mr.Robot</p></blockquote>
+
+<p>My name is Athitya Kumar, and I&#8217;m a 4th year undergrad from IIT Kharagpur, India. I
+was selected as a GSoC 2017 student developer by Ruby Science Foundation for project daru-io.</p>
+
+<p><a href="https://github.com/athityakumar/daru-io">Daru-IO</a> is a plugin-gem to
+<a href="https://github.com/SciRuby/daru">Daru</a> gem, that extends support for many Import and Export
+methods of <code>Daru::DataFrame</code>. This gem is intended to help Rubyists who are into Data Analysis
+or Web Development, by serving as a general purpose conversion library.</p>
+
+<p>Through this summer, I worked on adding support for various Importers and Exporters
+while also porting some existing modules. Feel free to find a comprehensive set
+of useful links in
+<a href="https://athityakumar.github.io/blog/posts/GSoC_2017_-_Final_Work_Submission/">Final Work Submission</a>
+and <a href="https://github.com/athityakumar/daru-io/blob/master/README.md">README</a>. Before proceeding any
+further, you might also be interested in checking out a sample showcase of
+<a href="https://daru-examples-io-view-rails.herokuapp.com/">Rails example</a> and
+<a href="https://github.com/Shekharrajak/daru_examples_io_view_rails">the code</a> making it work.</p>
+
+<h2>Mark Anthony&#8217;s Speech (ft. daru)</h2>
+
+<blockquote><p>&#8220;Rubyists, Data Analysts and Web Developers, lend me your ears;</p>
+
+<p>I come to write about my GSoC project, not to earn praise for it.&#8221;</p></blockquote>
+
+<p>For the uninitiated, Google Summer of Code (GSoC) 2017 is a 3-month program that
+focuses on introducing selected students to open-source software development.
+To know more about GSoC, feel free to click
+<a href="https://summerofcode.withgoogle.com/about/">here</a>.</p>
+
+<p><a href="https://github.com/SciRuby/daru">daru</a> is a Ruby gem that stands for Data Analysis in RUby. My
+<a href="https://drive.google.com/file/d/0B4shBmKvdinIZUNqcGwtWDZtb1NMMHg3SG51SFRqNlVqZkIw/">initial proposal</a>
+was to make daru easier to integrate with Ruby web frameworks through better import-export features
+(<a href="https://github.com/athityakumar/daru-io">daru-io</a>) and visualization methods
+(<a href="https://github.com/Shekharrajak/daru-view">daru-view</a>). However, as both
+<a href="https://github.com/Shekharrajak">Shekhar</a> and I
+were selected for the same proposal, we split this amongst ourselves : daru-io was allocated to me
+and daru-view was allocated to <a href="https://github.com/Shekharrajak">Shekhar</a>.</p>
+
+<h2></h2>
+
+<blockquote><p>&#8220;The open-source contributions that people do, live after them;</p>
+
+<p>But their private contributions, are oft interred with their bones.&#8221;</p></blockquote>
+
+<p>This is one of the reasons why I (and all open-source developers) are enthusiastic
+about open-source. In open-source, one&#8217;s work can be re-used in other projects
+in accordance with the listed LICENSE and attribution, compared to the restrictions
+and risk of Intellectual Property Right claims in private work.</p>
+
+<h2></h2>
+
+<blockquote><p>&#8220;So be it. The noble Pythonistas and R developers;</p>
+
+<p>Might not have chosen to try daru yet.&#8221;</p></blockquote>
+
+<p>It is quite understandable that Pythonistas and R developers feel that their corresponding
+languages have sufficient tools for Data Analysis. So, why would they switch to Ruby and
+start using daru?</p>
+
+<h2></h2>
+
+<blockquote><p>&#8220;If it were so, it may have been a grievous fault;</p>
+
+<p>Give daru a try, with daru-io and daru-view.&#8221;</p></blockquote>
+
+<p>First of all, I don&#8217;t mean any offense when I say &#8220;grievous fault&#8221;. But please, do give
+Ruby and daru family a try, with an open mind.</p>
+
+<p>Voila - the daru family has two new additions, namely
+<a href="https://github.com/athityakumar/daru-io">daru-io</a> and
+<a href="https://github.com/Shekharrajak/daru-view">daru-view</a>. Ruby is a language
+which is extensively used in Web Development with multiple frameworks such as Rails, Sinatra,
+Nanoc, Jekyll, etc. With such a background, it only makes sense for daru to have daru-io and
+daru-view as separate plugins, thus making the daru family easily integrable with Ruby web
+frameworks.</p>
+
+<h2></h2>
+
+<blockquote><p>&#8220;Here, for attention of Rubyists and the rest–</p>
+
+<p>For Pandas is an honourable library;</p>
+
+<p>So are they all, all honourable libraries and languages–</p>
+
+<p>Come I to speak about daru-io&#8217;s inception.&#8221;</p></blockquote>
+
+<p>Sure, the alternatives in other languages like Python, R and Hadoop are also good data analysis
+tools. But, how readily can they be integrated into any web application? R &amp; Hadoop don&#8217;t have a
+battle-tested web framework yet, and are usually pipelined into the back-end of any application
+to perform any analysis. I&#8217;m no one to judge such pipelines, but I feel that pipelines are
+hackish workarounds rather than being a clean way of integrating.</p>
+
+<p>Meanwhile, though Python too has its own set of web frameworks (like Django, Flask and more),
+Pandas doesn&#8217;t quite work out-of-the-box with these frameworks and requires the web developer
+to write lines and lines of code to integrate Pandas with parsing libraries and plotting
+libraries.</p>
+
+<h2></h2>
+
+<blockquote><p>&#8220;daru-io is a ruby gem, and open-sourced to all of us;</p>
+
+<p>But some might think it was an ambitious idea;</p>
+
+<p>And they are all honourable men.&#8221;</p></blockquote>
+
+<p>As described above, daru-io is open-sourced under the MIT License with attribution to
+myself and Ruby Science Foundation. Being a ruby gem, daru-io follows the best practices
+mentioned in the Rubygems guides and is all geared up with a v0.1.0 release.</p>
+
+<p>Disclaimer - By &#8220;men&#8221;, I&#8217;m not stereotyping &#8220;them&#8221; to be all male, but I&#8217;m just merely
+retaining the resemblence to the original speech of Mark Anthony.</p>
+
+<h2></h2>
+
+<blockquote><p>&#8220;daru-io helps convert data in many formats to Daru::DataFrame;</p>
+
+<p>Whose methods can be used to analyze huge amounts of data.</p>
+
+<p>Does this in daru-io seem ambitious?&#8221;</p></blockquote>
+
+<p><a href="https://github.com/SciRuby/daru">Daru</a> has done a great job of encapsulating the two main
+structures of Data Analysis - DataFrames and Vectors - with a ton of functionalities that are
+growing day by day. But obviously, the huge amounts of data aren&#8217;t going to be manually fed into
+the DataFrames right?</p>
+
+<p>One part of <a href="https://github.com/athityakumar/daru-io">daru-io</a> is the battalion of Importers that
+ship along with it. Importers are used to read from a file / Ruby instance, and create DataFrame(s).
+These are the Importers being supported by v0.1.0 of daru-io :</p>
+
+<ul>
+<li>General file formats : CSV, Excel (xls and xlsx), HTML, JSON, Plaintext.</li>
+<li>Special file formats : Avro, RData, RDS.</li>
+<li>Database related : ActiveRecord, Mongo, Redis, SQLite, DBI.</li>
+</ul>
+
+
+<p>For more specific information about the Importers, please have a look at the
+<a href="https://github.com/athityakumar/daru-io/blob/master/README.md#table-of-contents">README</a>
+and <a href="http://www.rubydoc.info/github/athityakumar/daru-io/master/Daru/IO/Importers/">YARD Docs</a>.</p>
+
+<p>Let&#8217;s take a simple example of the JSON Importer, to import from GitHub&#8217;s GraphQL API response. By
+default, the API response is paginated and 30 repositories are listed in the url :
+<code>https://api.github.com/users/#{username}/repos</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;daru/io/importers/json&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dataframe</span> <span class="o">=</span> <span class="sx">%w[athityakumar zverok v0dro lokeshh]</span><span class="o">.</span><span class="n">map</span> <span class="k">do</span> <span class="o">|</span><span class="n">username</span><span class="o">|</span>
+</span><span class='line'>  <span class="no">Daru</span><span class="o">::</span><span class="no">DataFrame</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span>
+</span><span class='line'>    <span class="s2">&quot;https://api.github.com/users/</span><span class="si">#{</span><span class="n">username</span><span class="si">}</span><span class="s2">/repos&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="no">RepositoryName</span><span class="p">:</span> <span class="s1">&#39;$..full_name&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="no">Stars</span><span class="p">:</span> <span class="s1">&#39;$..stargazers_count&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="no">Size</span><span class="p">:</span> <span class="s1">&#39;$..size&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="no">Forks</span><span class="p">:</span> <span class="s1">&#39;$..forks_count&#39;</span>
+</span><span class='line'>  <span class="p">)</span>
+</span><span class='line'><span class="k">end</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="ss">:concat</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#=&gt; #&lt;Daru::DataFrame(120x4)&gt;</span>
+</span><span class='line'><span class="c1">#      Repository   Stars   Size   Forks</span>
+</span><span class='line'><span class="c1">#   0  athityakum       0      6       0</span>
+</span><span class='line'><span class="c1">#   1  athityakum       0    212       0</span>
+</span><span class='line'><span class="c1">#   2  athityakum       0    112       0</span>
+</span><span class='line'><span class="c1">#  ...    ...          ...   ...     ...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2></h2>
+
+<blockquote><p>&#8220;When working with a team of Pythonistas and R developers;</p>
+
+<p>daru-io helps convert Daru::DataFrame to multiple formats.</p>
+
+<p>Does this in daru-io seem ambitious?</p></blockquote>
+
+<p>The second part of <a href="https://github.com/athityakumar/daru-io">daru-io</a> is the collection of Exporters
+that ship with it. Exporters are used to write the data in a DataFrame, to a file / database. These
+are the Exporters being supported by v0.1.0 of daru-io :</p>
+
+<ul>
+<li>General file formats : CSV, Excel (xls), JSON.</li>
+<li>Special file formats : Avro, RData, RDS.</li>
+<li>Database related : SQL.</li>
+</ul>
+
+
+<p>For more specific information about the Exporters, please have a look at the
+<a href="https://github.com/athityakumar/daru-io/blob/master/README.md#table-of-contents">README</a>
+and <a href="http://www.rubydoc.info/github/athityakumar/daru-io/master/Daru/IO/Exporters/">YARD Docs</a>.</p>
+
+<p>Let&#8217;s take a simple example of the RDS Exporter. Say, your best friend is a R developer who&#8217;d like
+to analyze a <code>Daru::DataFrame</code> that you have obtained, and perform further analysis. You don&#8217;t want
+to break your friendship, and your friend is skeptical of learning Ruby. No issues, simply use the RDS
+Exporter to export your <code>Daru::DataFrame</code> into a .rds file, which can be easily loaded by your friend
+in R.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;daru/io/exporters/rds&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dataframe</span> <span class="c1">#! Say, the DataFrame is obtained from the above JSON Importer example</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#=&gt; #&lt;Daru::DataFrame(120x4)&gt;</span>
+</span><span class='line'><span class="c1">#      Repository   Stars   Size   Forks</span>
+</span><span class='line'><span class="c1">#   0  athityakum       0      6       0</span>
+</span><span class='line'><span class="c1">#   1  athityakum       0    212       0</span>
+</span><span class='line'><span class="c1">#   2  athityakum       0    112       0</span>
+</span><span class='line'><span class="c1">#  ...    ...          ...   ...     ...</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dataframe</span><span class="o">.</span><span class="n">write_rds</span><span class="p">(</span><span class="s1">&#39;github_api.rds&#39;</span><span class="p">,</span> <span class="s1">&#39;github.api.dataframe&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2></h2>
+
+<blockquote><p>&#8220;You all did see that in the repository&#8217;s README;</p>
+
+<p>Codeclimate presented a 4.0 GPA;</p>
+
+<p>Code and tests were humbly cleaned;</p>
+
+<p>with help of rubocop, rspec, rubocop-rspec and saharspec.</p>
+
+<p>Ambition shouldn&#8217;t have been made of humble stuff.</p>
+
+<p>Yet some might think it is an ambitious idea;</p>
+
+<p>And sure, they are all honourable men.&#8221;</p></blockquote>
+
+<p>Thanks to guidance from my mentors
+<a href="https://github.com/zverok">Victor Shepelev</a>, <a href="https://github.com/v0dro">Sameer Deshmukh</a>
+and <a href="https://github.com/lokeshh">Lokesh Sharma</a>, I&#8217;ve come to know about quite a lot
+of Ruby tools that could be used to keep the codebase sane and clean.</p>
+
+<ul>
+<li><a href="https://github.com/bbatsov/rubocop">rubocop</a> : A Ruby static code analyzer, which enforces
+specified Ruby style guidelines.</li>
+<li><a href="https://github.com/rspec/rspec">rspec</a> : A unit-testing framework, which makes sure that codes
+of block are doing what they&#8217;re logically supposed to do.</li>
+<li><a href="https://github.com/backus/rubocop-rspec">rubocop-rspec</a> : A plugin gem to rubocop, that extends
+rspec-related rules.</li>
+<li><a href="https://github.com/zverok/saharspec">saharspec</a> : A gem with a
+<a href="https://github.com/zverok/saharspec/blob/master/README.md#saharspec-specs-dry-as-sahara">punny name</a>, that extends a few features to rspec-its that are more readable. For example, <code>its_call</code>.</li>
+</ul>
+
+
+<h2></h2>
+
+<blockquote><p>&#8220;I speak not to disapprove of what other libraries do;</p>
+
+<p>But here I am to speak what I do know.</p>
+
+<p>Give daru-io a try and y&#8217;all will love it, not without cause:</p>
+
+<p>Does anything withhold you then, from using daru-io?&#8221;</p></blockquote>
+
+<p>I really mean it, when I discretely specify &#8220;I speak not to disapprove of what other libraries do&#8221;.
+In the world of open-source, there should never be hate among developers regarding languages,
+or libraries. Developers definitely have their (strong) opinions and preferences, and it&#8217;s
+understandable that difference in opinion do arise. But, as long as there&#8217;s mutual respect for
+each other&#8217;s opinion and choice, all is well.</p>
+
+<h2></h2>
+
+<blockquote><p>&#8220;O Ruby community! Thou should definitely try out daru-io,</p>
+
+<p>With daru and daru-view. Bear with me;</p>
+
+<p>My heart is thankful to the community of Ruby Science Foundation,</p>
+
+<p>And I must pause till I write another blog post.&#8221;</p></blockquote>
+
+<p>If you&#8217;ve read all the way till down here, I feel that you&#8217;d be interested in trying out the
+daru family, after having seen the impressive demonstration of Importers &amp; Exporters above, and
+the Rails example (<a href="https://daru-examples-io-view-rails.herokuapp.com/">Website</a> |
+<a href="https://github.com/Shekharrajak/daru_examples_io_view_rails">Code</a>). I&#8217;m very thankful to mentors
+<a href="https://github.com/zverok">Victor Shepelev</a>, <a href="https://github.com/v0dro">Sameer Deshmukh</a>
+and <a href="https://github.com/lokeshh">Lokesh Sharma</a> for their timely Pull Request reviews and open
+discussions regarding features. Daru-IO would not have been possible without them and the active
+community of Ruby Science Foundation, who provided their useful feedback(s) whenever they could.
+The community has been very supportive overall, and hence I&#8217;d definitely be interested to involve
+with SciRuby via more open-source projects.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -2150,6 +3086,98 @@ helped me with certain aspects of my project.</p>
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/08/23/spice_rub_report/">GSOC 2016 : Final Report (SpiceRub)</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">SciRuby</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-08-23T03:30:35+09:00" pubdate data-updated="true">Aug 23<span>rd</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Finally, GSOC 2016 has come to an end. This last blog post will aim to sum up the work done in these
+past few months and how the project can proceed to hit more milestones. Below are some links to my work :-</p>
+
+<p><a href="http://github.com/gau27/spice_rub">Working Repository</a> : GitHub Repo</p>
+
+<p><a href="https://github.com/gau27/spice_rub/commits/master">List of Commits</a> : List of commits to the above repository</p>
+
+<p><a href="https://github.com/gau27/spice_rub/tree/master/examples">Example iRuby Notebooks</a> : A bunch of iRuby Notebook examples of the Ruby API</p>
+
+<p>Firstly, I must admit that I was unable to meet all the goals of my proposal. In retrospect, perhaps it was a bit too ambitious for my skill level at the time, and I undoubtedly spent a lot of time learning, about Ruby-C extensions, the SPICE Toolkit, and good Ruby code and API.</p>
+
+<p>General software requirements such as a shippable gem with an install script that downloads the correct binary dependencies and a dataset fetcher were among the targets in my proposal that I could not meet. If you&#8217;d like to read the full proposal, you can have a look at it <a href="https://summerofcode.withgoogle.com/serve/5210336198131712/">here</a>.</p>
+
+<p>With that said, I am happy with what I did complete, and along with most of the functions in the proposal list being ported successfuly, I have added 3 Ruby classes to provide a better abstracted experience while using the Ephemerides subsystem of SPICE. Given the vastness of SPICE itself, this seems like meagre coverage, but it is a stepping stone that I (and I hope others) would build upon.</p>
+
+<h2><strong>The SpiceRub API</strong></h2>
+
+<p>Please follow the blog links below to read the posts concerning the Ruby classes, the posts basically demonstrate the simple API that can be used for various tasks involving ephemerides. It would help if you followed the order of the links below as they build on top of each other.</p>
+
+<p><a href="http://sciruby.com/blog/2016/11/24/spicerub-kernelpool-and-kernels/">KernelPool</a> :- A Singleton class to handle the loading and unloading of SPICE Data (Kernels)</p>
+
+<p><a href="http://sciruby.com/blog/2016/11/24/gsoc-2016-a-look-at-spicerub-time/">Time</a> :- A class that references ephemeris time and has flexible construction functions</p>
+
+<p><a href="http://sciruby.com/blog/2016/11/24/gsoc-2016-a-look-at-spicerub-body/">Body</a> :- A class that represents a body in space whose motion can be observed with respect to another body.</p>
+
+<p>I spent majority of the post mid-term period on the latter two classes, while most of the time before was spent on writing C extensions to port the SPICE API to Ruby. (and learning good  <code>spec</code> manners, something that was not that quick to grow on me but towards the end got ingrained into me)</p>
+
+<p>I ran into a lot of bugs, learnt more about compiler flags and other building options, and it gave me surprisingly good exposure to low level language trivia for a high level Ruby project. Honestly, I can type <code>SpiceRub</code> faster than most words on my keyboard now =)</p>
+
+<h2><strong>Future Road Map</strong></h2>
+
+<p>Things that I&#8217;ll tackle (after a short break) include :-</p>
+
+<p>1) Installation Integrity so that <code>gem install</code> does everything needed for installation.</p>
+
+<p>2) Complete Documentation</p>
+
+<p>3) The test coverage of SpiceRub::Time is currently lacking because I changed the API at the last minute, but as most of these functions wrap around Native functions that have already been tested, this won&#8217;t be too high a priority, but it will be done.</p>
+
+<p>4) Kernel Fetcher Script : Having to crawl the web for relevant Kernels was a massive headache during this project, and adding something that directly refers to NAIF&#8217;s FTP servers would be a neat addition.</p>
+
+<p>5) Expand the API : There is a lot of SPICE concept I am not well versed with, and there are a bunch of functions ported that would work very well with a better API. (Most immediate task I can see is making a better API for the Geometry Finder subsystem, of which many functions have already been ported in <code>/ext/spice_rub/spice_geometry.c</code>)</p>
+
+<h2><strong>Acknowledgements</strong></h2>
+
+<p>I&#8217;d like to thank my mentors for this project, Dr. John Woods, Shaun Stewart, and Victor Shepelev for their guidance and knowledge. John and Shaun with their expertise in Astro research and Victor&#8217;s vast knowledge about professional Ruby code has helped keep this whole ship together, and I&#8217;m looking forward to sailing it a few more journeys.</p>
+
+<p>Also, John made <a href="https://github.com/sciruby/nmatrix">NMatrix</a> which is sort of the backbone for a lot of SpiceRub&#8217;s functionality.</p>
+
+<p>Finally, I would like to thank Andrew Annex who wrote <a href="https://github.com/AndrewAnnex/SpiceyPy">SpicePy</a>, and Philip Rasch who wrote <a href="https://github.com/darasch/spiceminer">spiceminer</a> , two Python wrappers for the SPICE Toolkit. SpicePy has a high port and test coverage (I lifted a lot of tests from here that weren&#8217;t available in the SPICE documentation and SpiceMiner had an OOP style API which I referred to while designing the <code>Body</code> class.</p>
+
+<p>It&#8217;s been an incredible summer, thank you for reading :)</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/08/19/gsoc-2015-mixed-models/">Statistical Linear Mixed Models in Ruby With Mixed_models (GSoC2015)</a></h1>
     
     
@@ -2694,544 +3722,6 @@ and feedback throughout the summer.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/18/gnuplotrb-project/">GnuplotRB and GSoC 2015</a></h1>
-    
-    
-      <p class="meta">
-        
-  
-
-<span class="byline author vcard"><span class="fn">Ivan Evgrafov</span></span>
- &bull; 
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-08-18T23:26:00+09:00" pubdate data-updated="true">Aug 18<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Introduction</h2>
-
-<p>This summer I&#8217;ve been participating in Google Summer of Code
- with <a href="https://github.com/dilcom/gnuplotrb">GnuplotRB project</a> (plotting tool for Ruby users based on <a href="http://www.gnuplot.info/">Gnuplot</a>)
- for <a href="http://sciruby.com/">SciRuby</a>. GSoC is almost over and I&#8217;m releasing v0.3.1 of GnuplotRB as a <a href="https://rubygems.org/gems/gnuplotrb/">gem</a>.
- In this blog post I want to introduce the gem and highlight some of its capabilities.</p>
-
-<h2>Features</h2>
-
-<p>There are several existing plotting tools for Ruby such as Nyaplot, Plotrb, Rubyvis
- and Gnuplot gem. However they are not designed for large datasets and have fewer
- plotting styles and options than Gnuplot. Gnuplot gem was developed long ago and nowadays consists
- mostly of hacks and does not support modern Gnuplot features such as multiplot.</p>
-
-<p>Therefore my goal was to develop new gem for Gnuplot which would allow full use of its
- features in Ruby. I was inspired to build an easy-to-use interface for the most commonly
- used features of Gnuplot and allow users to customize their plots with
- Gnuplot options as easily as possible in Rubyesque way.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/08/18/gnuplotrb-project/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/17/ruby-wrappers-for-symengine/">Ruby Wrappers for SymEngine, a C++ Symbolic Manipulation Library</a></h1>
-    
-    
-      <p class="meta">
-        
-  
-
-<span class="byline author vcard"><span class="fn">Abinash Meher</span></span>
- &bull; 
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-08-17T14:30:00+09:00" pubdate data-updated="true">Aug 17<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I am sure you have heard about <a href="http://www.wolframalpha.com/">Wolfram Alpha</a>. Some of you would have used its <a href="http://www.wolframalpha.com/examples/Math.html">Mathematics section</a> at some point of time to cross check your solution to a maths problem. If you haven&#8217;t, please do. A computer algebra system (CAS) does the same thing. Algebraic computation or symbolic computation are all used interchangeably. A CAS solves problems the same way a human does, but way more quickly and precisely. There is very less chance for an error, that we humans often make.</p>
-
-<h2>Introduction</h2>
-
-<p>My project was to write the Ruby extensions for the library <a href="https://github.com/sympy/symengine">SymEngine</a> and come up with a Ruby-ish interface, after which we can use the features of SymEngine from Ruby.</p>
-
-<p><a href="https://github.com/sympy/symengine">SymEngine</a> is a library for symbolic computation in C++. You may ask, why SymEngine? There are other CASs that I know of. This question was indeed asked. At the beginning, the idea was to use ruby wrappers for <a href="http://www.sagemath.org/">sage</a> (a mathematics software system) which uses <a href="http://pynac.org/">Pynac</a>, an interface to <a href="http://www.ginac.de/">GiNaC</a> (another CAS). As it turns out from the benchmarks, SymEngine is much faster than Pynac. What about directly wrapping GiNaC? SymEngine is also a bit faster than GiNaC.</p>
-
-<p>The motivation for <a href="https://github.com/sympy/symengine">SymEngine</a> itself is to develop it once in C++ and then use it from other languages rather than doing the same thing all over again for each language that it is required in. In particular, a long term goal is to make Sage as well as SymPy use it by default, thus unifying the Python CAS communities. The goal of implementing the Ruby wrappers is to provide a CAS for the Ruby community.</p>
-
-<h3>How will this be useful?</h3>
-
-<p>There are times when we might need a symbolic computation library. Here is an incomplete list of some of the situations:</p>
-
-<ul>
-<li>We need to do some algebra to get systems of equations in suitable form for numerical computation.</li>
-<li>We need to make substitutions for some variables and don’t want to risk a math error by hand. There might be times when we want to partially simplify an expression by substituting only a few of its variables.</li>
-<li>We have a situation where we need to find the optimum number of something to maximise our profits, and the mathematical model devised is just too complicated to solve by hand.</li>
-<li>We need to perform non-trivial derivatives or integrals.</li>
-<li>We are trying to understand the domain of a new function.</li>
-<li>Most root finding algorithms search for a single root, whereas often there are more than one.</li>
-<li>We need to solve a linear system or manipulate a symbolic matrix exactly.</li>
-<li>We need to manipulate exact expressions and solutions, as opposed to approximate ones using a numerical method.</li>
-</ul>
-
-
-<p>With that said, a symbolic manipulation library is indispensable for scientists and students. Ruby has gained a great deal of popularity over the years, and a symbolic manipulation library gem  like this project in Ruby might prove to be the foundation for a computer algebra system in Ruby. With many efforts like these, Ruby might become the first choice for academicians given how easy it is to code your logic in Ruby.</p>
-
-<h2>How to install the gem?</h2>
-
-<p>To install, please follow the <a href="https://github.com/sympy/symengine/blob/master/symengine/ruby/README.md">compile instructions given in the README</a>. After you are done, I would suggest to test the extensions. To run the test suite execute <code>rspec spec</code> on the command line, from the <code>symengine/ruby</code> dir.</p>
-
-<p>The gem is still in alpha release. Please help us out by reporting any issues in <a href="https://github.com/sympy/symengine/issues">the repo issue tracker</a>.</p>
-
-<h2>What can I do with the gem?</h2>
-
-<p>Currently, the following features are available in the gem:
-- Construct expressions out of variables (mathematical).
-- Simplify the expressions.
-- Carry out arithmetic operations like <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>**</code> with the variables and expressions.
-- Extract arguments or variables from an expression.
-- Differentiate an expression with respect to another.
-- Substitute variables with other expressions.</p>
-
-<p>Features that will soon be ported to the SymEngine gem
-- Functions, including trigonometric, hyperbolic and some special functions.
-- Matrices, and their operations.
-- Basic number-theoretic functions.</p>
-
-<p>I have developed a <a href="https://github.com/sympy/symengine/tree/master/symengine/ruby/notebooks">few IRuby notebooks</a> that demonstrate the use of the new SymEngine module in ruby.</p>
-
-<p>Below is an example taken from the notebooks.</p>
-
-<hr />
-
-<h2>Using the SymEngine Gem</h2>
-
-<p>SymEngine is a module in the extensions, and the classes are a part of it. So first you fire up the interpreter or an IRuby notebook and load the file:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;symengine&#39;</span>
-</span><span class='line'><span class="o">=&gt;</span> <span class="kp">true</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Go ahead and try a function:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">SymEngine</span><span class="o">.</span><span class="n">ascii_art</span>
-</span><span class='line'><span class="o">=&gt;</span>   <span class="n">_____</span>           <span class="n">_____</span>         <span class="n">_</span>
-</span><span class='line'>    <span class="o">|</span>   <span class="n">__</span><span class="o">|</span><span class="n">_</span> <span class="n">_</span> <span class="n">_____</span><span class="o">|</span>   <span class="n">__</span><span class="o">|</span><span class="n">___</span> <span class="n">___</span><span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="n">___</span> <span class="n">___</span>
-</span><span class='line'>    <span class="o">|</span><span class="n">__</span>   <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>     <span class="o">|</span>   <span class="n">__</span><span class="o">|</span>   <span class="o">|</span> <span class="o">.</span> <span class="o">|</span> <span class="o">|</span>   <span class="o">|</span> <span class="o">-</span><span class="n">_</span><span class="o">|</span>
-</span><span class='line'>    <span class="o">|</span><span class="n">_____</span><span class="o">|</span><span class="n">_</span>  <span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="n">_____</span><span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="n">_</span>  <span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="n">___</span><span class="o">|</span>
-</span><span class='line'>          <span class="o">|</span><span class="n">___</span><span class="o">|</span>               <span class="o">|</span><span class="n">___</span><span class="o">|</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>or create a variable:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">basic</span> <span class="o">=</span> <span class="no">SymEngine</span><span class="o">::</span><span class="no">Basic</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="o">=&gt;</span> <span class="c1">#&lt;SymEngine::Basic:0x00000001e95290&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This shows that we have successfully loaded the module.</p>
-
-<h3>SymEngine::Symbol</h3>
-
-<p>Just like there are variables like x, y, and z in a mathematical expression or equation, we have <code>SymEngine::Symbol</code> in SymEngine to represent them. To use a variable, first we need to make a <code>SymEngine::Symbol</code> object with the string we are going to represent the variable with.:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="n">x</span> <span class="o">=</span> <span class="no">SymEngine</span><span class="o">::</span><span class="no">Symbol</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="nb">puts</span> <span class="n">y</span> <span class="o">=</span> <span class="no">SymEngine</span><span class="o">::</span><span class="no">Symbol</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="nb">puts</span> <span class="n">z</span> <span class="o">=</span> <span class="no">SymEngine</span><span class="o">::</span><span class="no">Symbol</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">x</span>
-</span><span class='line'><span class="n">y</span>
-</span><span class='line'><span class="n">z</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Then we can construct expressions out of them:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">e</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="n">y</span><span class="o">/</span><span class="n">z</span><span class="p">)</span>
-</span><span class='line'><span class="n">e</span><span class="o">.</span><span class="n">to_s</span>
-</span><span class='line'><span class="o">=&gt;</span> <span class="s2">&quot;x**y*(x - y)/z&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In SymEngine, every object is an instance of Basic or its subclasses. So, even an instance of <code>SymEngine::Symbol</code> is a Basic object.:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">x</span><span class="o">.</span><span class="n">class</span>
-</span><span class='line'><span class="o">=&gt;</span> <span class="no">SymEngine</span><span class="o">::</span><span class="no">Symbol</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">x</span><span class="o">.</span><span class="n">is_a?</span> <span class="no">SymEngine</span><span class="o">::</span><span class="no">Basic</span>
-</span><span class='line'><span class="o">=&gt;</span> <span class="kp">true</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now that we have an expression, we would like to see it&#8217;s expanded form using <code>#expand</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">f</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span>
-</span><span class='line'><span class="n">f</span><span class="o">.</span><span class="n">to_s</span>
-</span><span class='line'><span class="o">=&gt;</span> <span class="s2">&quot;x**(1 + y)/z - x**y*y/z&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Or check if two expressions are same:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">f</span> <span class="o">==</span> <span class="o">-</span> <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="n">y</span><span class="o">*</span><span class="n">y</span><span class="o">/</span><span class="n">z</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="n">y</span><span class="o">*</span><span class="n">x</span><span class="o">/</span><span class="n">z</span><span class="p">)</span>
-</span><span class='line'><span class="o">=&gt;</span> <span class="kp">true</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But <code>e</code> and <code>f</code> are not equal since they are only mathematically equal, not structurally:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">e</span> <span class="o">==</span> <span class="n">f</span>
-</span><span class='line'><span class="o">=&gt;</span> <span class="kp">false</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Let us suppose you want to know <strong>what variables/symbols your expression has</strong>. You can do that with the <code>#free_symbols</code> method, which returns a set of the symbols that are in the expression.:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">f</span><span class="o">.</span><span class="n">free_symbols</span>
-</span><span class='line'><span class="o">=&gt;</span> <span class="c1">#&lt;Set: {#&lt;SymEngine::Basic:0x00000001f0ca70&gt;, #&lt;SymEngine::Basic:0x00000001f0ca48&gt;, #&lt;SymEngine::Basic:0x00000001f0ca20&gt;}&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Let us use <code>#map</code> method to see the elements of the <code>Set</code>.:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">f</span><span class="o">.</span><span class="n">free_symbols</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="o">.</span><span class="n">to_s</span> <span class="p">}</span>
-</span><span class='line'><span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>#args</code> returns the terms of the expression,:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">f</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="o">.</span><span class="n">to_s</span> <span class="p">}</span>
-</span><span class='line'><span class="o">[</span><span class="s2">&quot;-x**y*y/z&quot;</span><span class="p">,</span> <span class="s2">&quot;x**(1 + y)/z&quot;</span><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>or if it is a single term it breaks down the elements:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">f</span><span class="o">.</span><span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">args</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">k</span><span class="o">|</span> <span class="n">k</span><span class="o">.</span><span class="n">to_s</span> <span class="p">}</span>
-</span><span class='line'><span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;-1&quot;</span><span class="p">,</span> <span class="s2">&quot;x**y&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;z**(-1)&quot;</span><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>SymEngine::Integer</h3>
-
-<p>You can make objects of class <code>SymEngine::Integer</code>. It&#8217;s like regular <code>Integer</code> in ruby kernel, except it can do all the operations a <code>Basic</code> object can &mdash; such as arithmetic operations, etc.:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="no">SymEngine</span><span class="o">::</span><span class="nb">Integer</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
-</span><span class='line'><span class="n">b</span> <span class="o">=</span> <span class="no">SymEngine</span><span class="o">::</span><span class="nb">Integer</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span>
-</span><span class='line'><span class="n">a</span><span class="o">**</span><span class="n">b</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">=&gt;</span> <span class="mi">1168422057627266461843148138873451659428421700563161428957815831003136</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Additionally, it can support numbers of arbitrarily large length.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="p">(</span><span class="n">a</span><span class="o">**</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span>
-</span><span class='line'><span class="o">=&gt;</span> <span class="s2">&quot;12**x&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>SymEngine::Rational</h3>
-
-<p>You can also make objects of class <code>SymEngine::Rational</code> which is the SymEngine counterpart for <code>Rationals</code> in Ruby.:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">c</span> <span class="o">=</span> <span class="no">Rational</span><span class="p">(</span><span class="s1">&#39;2/3&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="n">d</span> <span class="o">=</span> <span class="no">SymEngine</span><span class="o">::</span><span class="no">Rational</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">=&gt;</span> <span class="mi">2</span><span class="o">/</span><span class="mi">3</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Like any other <code>Basic</code> object arithmetic operations can be done on this rational type too.:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="p">(</span><span class="n">a</span><span class="o">-</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span>
-</span><span class='line'><span class="o">=&gt;</span> <span class="s2">&quot;34/3&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<hr />
-
-<p>You <strong>need not create</strong> an instance of <code>SymEngine::Integer</code> or <code>SymEngine::Rational</code>, every time you want to use them in an expression that uses many <code>Integer</code>s. Let us say you already have <code>Integer</code>/<code>Rational</code> object. Even then you can use them without having to create a new <code>SymEngine</code> object.:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">k</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">c</span> <span class="o">+</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span> <span class="c1"># c is a Rational object, not SymEngine::Rational</span>
-</span><span class='line'><span class="n">k</span><span class="o">.</span><span class="n">to_s</span>
-</span><span class='line'><span class="o">=&gt;</span> <span class="s2">&quot;(2/3 + x*y)*(2 + 1/(x*y) - x*y)&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>As you can see, ruby kernel <code>Integer</code>s and <code>Rational</code>s interoperate seamlessly with the <code>SymEngine</code> objects.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">k</span><span class="o">.</span><span class="n">expand</span><span class="o">.</span><span class="n">to_s</span>
-</span><span class='line'><span class="o">=&gt;</span> <span class="s2">&quot;7/3 + (2/3)*1/(x*y) + (4/3)*x*y - x**2*y**2&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<hr />
-
-<h2>What I learned</h2>
-
-<p>In the rest of the post, I would like to summarise my work and what I learned as a participant of <a href="https://www.google-melange.com/gsoc/homepage/google/gsoc2015">Google Summer of Code 2015</a>.</p>
-
-<h2>Pre-midterm Evaluations</h2>
-
-<p>I am a newbie when it comes to Ruby, and it took me a while to setup the gem and configure files for the building of extensions.</p>
-
-<h3>The struggle between shared, static and dynamic libraries</h3>
-
-<p>I faced a lot of problem in the early stages, when I was trying to build the extensions. <a href="https://github.com/certik">Ondrej</a>, my mentor, and <a href="https://github.com/isuruf">Isuru</a>, a fellow GSoC student, helped me a lot. There were many C flags that were being reported as missing. Some flags <code>cmake</code> added by default but <code>extconf.rb</code> didn&#8217;t, the same one that was required to be added to build it as a shared library. I am still confused about the details, some of which are <a href="http://abinashmeher999.github.io/2015/05/29/Building-the-wrappers/">explored in greater detail in my personal blog</a>. Finally, the library had to be built as a dynamic one. The problem of missing C flags was resolved later by hooking the process to <code>cmake</code> rather than <code>mkmf</code>.</p>
-
-<h3>Load Errors and problems in linking</h3>
-
-<p>Many <a href="http://abinashmeher999.github.io/2015/06/12/The-Load-Error/"><code>LoadError</code>s</a> popped up, but were eventually solved. <a href="https://github.com/dilcom/">Ivan</a> helped a lot in debugging the errors. In the end, it turned out to be a simple file missing in the gemspec, that was not being installed.</p>
-
-<h3>Reconfiguring building</h3>
-
-<p>One of our aims during developing this was to get rid of unessential dependencies. The ones we already had the tools for. Like later the file <code>extconf.rb</code>, that is used to generate Makefile for the extension was removed, because that could also be done by <code>cmake</code>. Flags were added to <code>cmake</code> for building the Ruby extensions, like the flag <code>-DWITH_RUBY=yes</code>. The <code>Makefile</code> then generates the library <code>symengine.so</code> in the directory <code>lib/symengine</code>.Along with <code>extconf.rb</code>, the file <code>extconf.h</code> was also gone. Along these lines, the dependency on <code>rake</code> was also removed, and with that the <code>Rakefile</code>. Any task automation will most probably be done in python. So, the <code>Rake::ExtensionTask</code> was done by <code>cmake</code> and the <code>Rake::GemPackageTask</code> was replaced by the manual method of <code>gem build symengine.gemspec</code> and <code>gem install symengine-0.0.0.gem</code></p>
-
-<h3>Travis setup</h3>
-
-<p>Not many projects have travis-ci setup for multiple languages. Not even the tutorials had clearly mentioned about setting up for multiple languages. But I did know about one of them, which is Shogun, the machine-learning toolbox. I referred to their <code>.travis.yml</code> and setup it up. If something like this wouldn&#8217;t have worked the plan was to manually install the required version of ruby and then execute the shell commands.</p>
-
-<h3>Making a basic object</h3>
-
-<p>Finally, I was able to successfully build the extensions, link the extensions with the SymEngine library, load the ruby-extension library in the interpreter and successfully instantiate an object of type <code>Basic</code>.</p>
-
-<h3>Inheritance and Symbols</h3>
-
-<p>At this time, the way inheritance works(like the sequence of formation and destruction of objects of a class that had a superclass) with the Ruby C API, was confusing for all of us. I designed an <a href="http://abinashmeher999.github.io/2015/06/26/the-symbol-class/#inheritance-in-ruby-c-api">experiment</a>
-to check what was actually happening. That cleared things out, and made the it easier to wrap things from now on. I also wrapped the <code>Symbol</code> class during the course.</p>
-
-<h2>Post-midterm Evaluations</h2>
-
-<h3>Redesign of the C interface</h3>
-
-<p>We had to design an ugly function to wrap vector in C. That led us to redesign the C interface. This approach had no reinterpret casting that was being done earlier. Each data structure had a type that was determined at compile time. For C, it was an opaque structure, while for C++ the opaque structure declared in the shared header file was implemented in the source file that had C++ data types. This <a href="http://abinashmeher999.github.io/2015/07/03/improving-the-c-interface/">blog post</a> explains it further.</p>
-
-<h3>Integer and Rational</h3>
-
-<p>While trying to port the SymEngine classes, <code>Integer</code> and <code>Rational</code>, I had to port many methods in <code>Basic</code> before that. I also replicated the <code>rake</code> tasks in NMatrix, for detection of memory leaks, in form of bash scripts.</p>
-
-<h3>Common enumeration</h3>
-
-<p>Since all objects in the Ruby C API are of the type <code>CBasic</code>, we needed a function that would give us the typename during the runtime for the corresponding objects to be wrapped in ruby, as an object of the correct <code>Class</code> in ruby. Since, this was achieved with <code>enum</code> in C++, the same thing could be done in C too, with all the classes written manually again. But there was no guarantee for this to be consistent, if ever the features required to be wrapped for a new language, and also manually adding the class in all the enum list everytime a new class is added was prone to errors. So, to make this DRY, we automated this by sharing the list of enums. More details for the implementation can be found <a href="http://abinashmeher999.github.io/2015/07/17/common-enumeration-in-c-and-c++/">here</a>.</p>
-
-<h3>Class coercion and interoperability</h3>
-
-<p>To support interoperability with the builtin ruby types, I had to overload the methods in builtin classes earlier(this was not continued). Overriding all the existing binary operations for a ruby class to support SymEngine types, violated the open/closed principle. There was indeed another way, which is <em>&#8216;Class Coercion&#8217;</em>. It was suggested by <a href="https://github.com/isuruf/">Isuru</a>. After that, SymEngine types could seamlessly interoperate between the ruby types.</p>
-
-<h3>Arithmetic operations</h3>
-
-<p>After this, all the arithmetic operations had been successfully ported. Each <code>Basic</code> object can now perform arithmetic operations with other <code>Basic</code> object(sometimes even ruby objects like <code>Integer</code>). The test file in python, that had all the corresponding test cases was ported to its RSpec counterpart.</p>
-
-<h3>Substitutions</h3>
-
-<p>Recently I completed porting the substitutions module to the extensions(<code>#subs</code>). This feature has added a lot of convenience as now you can substitute a <code>SymEngine::Symbol</code> with some other value in an expression and then <code>#expand</code> to get the result.</p>
-
-<h3>Trigonometric functions</h3>
-
-<p>Currently, I am working on porting the trigonometric functions in SymEngine to the extensions. This would first require to wrap the <code>Function</code> class and then the <code>TrigFunction</code> class in SymEngine.</p>
-
-<h3>Integration of other Ruby gems</h3>
-
-<p>I also have plans to integrate the ruby bindings for <code>gmp</code>, <code>mpfr</code> and <code>mpc</code> libraries, that are already available as gems, with ruby bindings for our library. I have created an issue <a href="https://github.com/sympy/symengine/issues/490">here</a>. Feel free to drop any suggestions.</p>
-
-<hr />
-
-<p>There is much scope for improvement in both the projects. For SymEngine, to support more features like polynomials and series-expansion in the near future, and improving the user interface and the exception handling for the extensions. In short, making the extensions more ruby-ish.</p>
-
-<p>I am grateful to my mentor, <a href="https://github.com/certik">Mr. Ondřej Čertík</a>, the <a href="http://sciruby.com/">Ruby Science Foundation</a> and the <a href="http://www.sympy.org/en/index.html">SymPy Organisation</a> for the opportunity that they gave me and guiding me through the project, and my team-mates for helping me with the issues. I hope more people will contribute to the project and together we will give a nice symbolic manipulation gem to the Ruby community.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/16/summary-of-work-on-daru-this-summer-for-gsoc-2015/">Summary of Work on Daru This Summer for GSOC 2015</a></h1>
-    
-    
-      <p class="meta">
-        
-  
-
-<span class="byline author vcard"><span class="fn">Sameer Deshmukh</span></span>
- &bull; 
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-08-16T23:53:00+09:00" pubdate data-updated="true">Aug 16<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Over this summer as a part of <a href="www.google-melange.com">Google Summer of Code 2015</a>, <a href="www.github.com/v0dro/daru/">daru</a> received a lot of upgrades and new features which have it made a pretty robust tool for data analysis in pure Ruby. Of course, a lot of work still remains for bringing daru at par with the other data analysis solutions on offer today, but I feel the work done this summer has put daru on that path.</p>
-
-<p>The new features led to the inclusion of daru in many of SciRuby&#8217;s gems, which use daru&#8217;s data storage, access and indexing features for storing and carrying around data. <a href="https://github.com/SciRuby/statsample">Statsample</a>, <a href="https://github.com/SciRuby/statsample-glm">statsample-glm</a>, <a href="https://github.com/SciRuby/statsample-timeseries">statsample-timeseries</a>, <a href="https://github.com/SciRuby/statsample-bivariate-extension">statsample-bivariate-extensions</a> are all now compatible with daru and use <code>Daru::Vector</code> and <code>Daru::DataFrame</code> as their primary data structures. I also overhauled Daru&#8217;s <a href="http://nbviewer.ipython.org/github/SciRuby/sciruby-notebooks/blob/master/Visualization/Visualizing%20data%20with%20daru%20DataFrame.ipynb">plotting functionality</a>, that interfaced with <a href="https://github.com/domitry/nyaplot">nyaplot</a> for creating interactive plots directly from the data.</p>
-
-<p>Also, new gems developed by other GSOC students, notably <a href="https://github.com/dilcom/gnuplotrb">Ivan&#8217;s GnuplotRB gem</a> and <a href="https://github.com/agisga/mixed_models">Alexej&#8217;s mixed_models gem</a> both now accept data from daru data structures. Do see their repo pages for seeing interesting ways of using daru.</p>
-
-<p>The work on daru is also proving to be quite useful for other people, which led to a talk/presentation at <a href="http://www.deccanrubyconf.org/">DeccanRubyConf 2015</a>, which is one of the three major Ruby conferences in India. You can see the slides and notebooks presented at the talk <a href="https://github.com/v0dro/talks/tree/master/DeccanRubyConf15">here</a>. Given the current interest in data analysis and the need for a viable solution in Ruby, I plan to take daru much further. Keep watching the repo for interesting updates :)</p>
-
-<p>In the rest of this post I&#8217;ll elaborate on all the work done this summer.</p>
-
-<h2>Pre-mid term submissions</h2>
-
-<p>Daru as a gem before GSOC was not exactly user friendly. There were many cases, particularly the iterators, that required some thinking before anybody used them. This is against the design philosophy of daru, or even Ruby general, where surprising programmers with ubiqtuos constructs is usually frowned down upon by the community. So the first thing that I did mainly concerned overhauling the daru&#8217;s many iterators for both <code>Vector</code> and <code>DataFrame</code>.</p>
-
-<p>For example, the <code>#map</code> iterator from <code>Enumerable</code> returns an <code>Array</code> no matter object you call it on. This was not the case before, where <code>#map</code> would a <code>Daru::Vector</code> or <code>Daru::DataFrame</code>. This behaviour was changed, and now <code>#map</code> returns an <code>Array</code>. If you want a <code>Vector</code> or a <code>DataFrame</code> of the modified values, you should call <code>#recode</code> on <code>Vector</code> or <code>DataFrame</code>.</p>
-
-<p>Each of these iterators also accepts an optional argument, <code>:row</code> or <code>:vector</code>, which will define the axis over which iteration is supposed to be carried out. So now there are the <code>#each</code>, <code>#map</code>, <code>#map!</code>, <code>#recode</code>, <code>#recode!</code>, <code>#collect</code>, <code>#collect_matrix</code>, <code>#all?</code>, <code>#any?</code>, <code>#keep_vector_if</code> and <code>#keep_row_if</code>. To iterate over elements along with their respective indexes (or labels), you can likewise use <code>#each_row_with_index</code>, <code>#each_vector_with_index</code>, <code>#map_rows_with_index</code>, <code>#map_vector_with_index</code>, <code>#collect_rows_with_index</code>, <code>#collect_vector_with_index</code> or <code>#each_index</code>. I urge you to go over the docs of each of these methods to utilize the full power of daru.</p>
-
-<p>Apart from the improvements to iterators there was also quite a bit of refactoring involved for many methods (courtesy <a href="https://github.com/agisga">Alexej</a>). The refactoring of certain core methods has made daru much faster than previous versions.</p>
-
-<p>The next (major) thing to do was making daru compatible with Statsample. This was very essential since statsample is very important tool for statistics in Ruby and it was using its own <code>Vector</code> and <code>Dataset</code> classes, which weren&#8217;t very robust as computation tools and very difficult to use when it came to cleaning or munging data. So I replaced statsample&#8217;s Vector and Dataset clases with <code>Daru::Vector</code> and <code>Daru::DataFrame</code>. It involved a significant amount of work on both statsample and daru &mdash; Statsample because many constructs had to be changed to make them compatible with daru, and daru because there was a lot of essential functionality in these classes that had to be ported to daru.</p>
-
-<p>Porting code from statsample to daru improved daru significantly. There were a whole of statistics methods in statsample that were imported into daru and you can now use all them from daru. Statsample also works well with <a href="https://github.com/clbustos/rubyvis">rubyvis</a>, a great tool for visualization. <a href="https://github.com/SciRuby/statsample#visualizations">You can now do that with daru as well</a>.</p>
-
-<p>Many new methods for reading and writing data to and from files were also added to daru. You can now read and write data to and from CSV, Excel, plain text files or even SQL databases.</p>
-
-<p>In effect, daru is now completely compatible with Statsample (and all the other Statsample extensions). You can use daru data structures for storing data and pass them to statsample for performing computations. The biggest advantage of this approach is that the analysed data can be passed around to other scientific Ruby libraries (some of which listed above) that use daru as well. Since daru offers in-built functions to better &#8216;see&#8217; your data, better visualization is possible.</p>
-
-<p>See these <a href="https://github.com/v0dro/daru#blog-posts">blogs</a> and <a href="https://github.com/v0dro/daru#notebooks">notebooks</a> for a complete overview of daru&#8217;s new features.</p>
-
-<p>Also see the <a href="https://github.com/SciRuby/statsample#notebooks">notebooks in the statsample README</a> for using daru with statsample.</p>
-
-<h2>Post-mid term submissions</h2>
-
-<p>Most of time post the mid term submissions was spent in implementing the time series functions for daru.</p>
-
-<p>I implemented a new index, the DateTimeIndex, which can used for indexing data on time stamps. It enables users to query data based on time stamps. Time stamps can either be specified with precise Ruby DateTime objects or can be specified as strings, which will lead to retrival of all the data falling under that time. For example specifying &#8216;2012&#8217; returns all data that falls in the year 2012. See detailed usage of <code>DateTimeIndex</code> and <code>DateTime</code> in conjunction with other daru constructs <a href="https://github.com/v0dro/daru/blob/master/README.md">in the daru README</a>.</p>
-
-<p>An essential utility in implementing <code>DateTimeIndex</code> was <code>DateOffset</code>, which is a new set of classes that offsets dates based on certain rules or business logic. It can advance or lag a Ruby <code>DateTime</code> to the nearest day, or any day of the week, or the end or beginning of the month, etc. <code>DateOffset</code> is an essential part of <code>DateTimeIndex</code> and can also be used as a stand-alone utility for advancing/lagging <code>DateTime</code> objects. <a href="http://v0dro.github.io/blog/2015/07/27/date-offsets-in-daru/">This blog post</a> elaborates more on the nuances of <code>DateOffset</code> and its usage.</p>
-
-<p>The last thing done during the post mid term was complete compatibility with <a href="https://github.com/AnkurGel">Ankur Goel</a>&#8217;s <a href="https://github.com/SciRuby/statsample-timeseries">statsample-timeseries</a>, which was created by  during GSOC 2013. Statsample-timeseries is a comprehensive suite offering various functions for statistical analysis of time sries data. It now works with daru containers and can be used for statistical analysis of data indexed on <code>Daru::DateTimeIndex</code>. See some use cases <a href="https://github.com/SciRuby/statsample-timeseries/blob/master/README.rdoc">in the README</a>.</p>
-
-<p>I&#8217;d like to conclude by thanking all the people directly and indirectly involved in making this project a success - My mentor <a href="https://github.com/agarie">Carlos</a> for his help and support throughout the summer, <a href="https://github.com/dilcom">Ivan</a>, <a href="https://github.com/agisga">Alexej</a> and <a href="https://github.com/wlevine">Will</a> for their support and feedback in various stages of developing daru. Also a big thank you to all the <a href="https://github.com/orgs/SciRuby/teams">SciRuby maintainers</a> for making this happen!</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -3253,6 +3743,14 @@ to check what was actually happening. That cleared things out, and made the it e
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/">GSoC 2017 : Data visualization using daru-view</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats/">GSoC 2017 : Support to Import & Export of more formats</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/">GSoC 2016: Adding Categorical Data Support</a>
       </li>
     
@@ -3262,14 +3760,6 @@ to check what was actually happening. That cleared things out, and made the it e
     
       <li class="post">
         <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/">GSoC 2016 : A Look at SpiceRub::Body</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-time/">GSoC 2016 : A Look at SpiceRub::Time</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/10/25/gsoc-2016-port-nmatrix-to-jruby/">GSoC 2016: NMatrix and JRuby</a>
       </li>
     
   </ul>

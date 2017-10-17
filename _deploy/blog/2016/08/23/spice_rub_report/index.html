@@ -1,0 +1,367 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>GSOC 2016 : Final Report (SpiceRub) - SciRuby</title>
+  <meta name="author" content="SciRuby">
+
+  
+  <meta name="description" content="Finally, GSOC 2016 has come to an end. This last blog post will aim to sum up the work done in these
+past few months and how the project can proceed &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sciruby.com/blog/2016/08/23/spice_rub_report/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="SciRuby" type="application/atom+xml">
+  <!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-12735432-6']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">SciRuby</a></h1>
+  
+    <h2>Tools for Scientific Computing in Ruby</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:sciruby.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul role=main-navigation xmlns="http://www.w3.org/1999/html">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog">Blog</a></li>
+  <li><a href="/docs">Installation</a></li>
+  <li><a href="http://gems.sciruby.com/">Gems</a></li>
+  <li><a href="https://github.com/sciruby/sciruby">SciRuby</a></li>
+  <li><a href="/nmatrix">NMatrix</a></li>
+  <li><a href="/publications/">Citing SciRuby</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">GSOC 2016 : Final Report (SpiceRub)</h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">SciRuby</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-08-23T03:30:35+09:00" pubdate data-updated="true">Aug 23<span>rd</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Finally, GSOC 2016 has come to an end. This last blog post will aim to sum up the work done in these
+past few months and how the project can proceed to hit more milestones. Below are some links to my work :-</p>
+
+<p><a href="http://github.com/gau27/spice_rub">Working Repository</a> : GitHub Repo</p>
+
+<p><a href="https://github.com/gau27/spice_rub/commits/master">List of Commits</a> : List of commits to the above repository</p>
+
+<p><a href="https://github.com/gau27/spice_rub/tree/master/examples">Example iRuby Notebooks</a> : A bunch of iRuby Notebook examples of the Ruby API</p>
+
+<p>Firstly, I must admit that I was unable to meet all the goals of my proposal. In retrospect, perhaps it was a bit too ambitious for my skill level at the time, and I undoubtedly spent a lot of time learning, about Ruby-C extensions, the SPICE Toolkit, and good Ruby code and API.</p>
+
+<p>General software requirements such as a shippable gem with an install script that downloads the correct binary dependencies and a dataset fetcher were among the targets in my proposal that I could not meet. If you&#8217;d like to read the full proposal, you can have a look at it <a href="https://summerofcode.withgoogle.com/serve/5210336198131712/">here</a>.</p>
+
+<p>With that said, I am happy with what I did complete, and along with most of the functions in the proposal list being ported successfuly, I have added 3 Ruby classes to provide a better abstracted experience while using the Ephemerides subsystem of SPICE. Given the vastness of SPICE itself, this seems like meagre coverage, but it is a stepping stone that I (and I hope others) would build upon.</p>
+
+<h2><strong>The SpiceRub API</strong></h2>
+
+<p>Please follow the blog links below to read the posts concerning the Ruby classes, the posts basically demonstrate the simple API that can be used for various tasks involving ephemerides. It would help if you followed the order of the links below as they build on top of each other.</p>
+
+<p><a href="http://sciruby.com/blog/2016/11/24/spicerub-kernelpool-and-kernels/">KernelPool</a> :- A Singleton class to handle the loading and unloading of SPICE Data (Kernels)</p>
+
+<p><a href="http://sciruby.com/blog/2016/11/24/gsoc-2016-a-look-at-spicerub-time/">Time</a> :- A class that references ephemeris time and has flexible construction functions</p>
+
+<p><a href="http://sciruby.com/blog/2016/11/24/gsoc-2016-a-look-at-spicerub-body/">Body</a> :- A class that represents a body in space whose motion can be observed with respect to another body.</p>
+
+<p>I spent majority of the post mid-term period on the latter two classes, while most of the time before was spent on writing C extensions to port the SPICE API to Ruby. (and learning good  <code>spec</code> manners, something that was not that quick to grow on me but towards the end got ingrained into me)</p>
+
+<p>I ran into a lot of bugs, learnt more about compiler flags and other building options, and it gave me surprisingly good exposure to low level language trivia for a high level Ruby project. Honestly, I can type <code>SpiceRub</code> faster than most words on my keyboard now =)</p>
+
+<h2><strong>Future Road Map</strong></h2>
+
+<p>Things that I&#8217;ll tackle (after a short break) include :-</p>
+
+<p>1) Installation Integrity so that <code>gem install</code> does everything needed for installation.</p>
+
+<p>2) Complete Documentation</p>
+
+<p>3) The test coverage of SpiceRub::Time is currently lacking because I changed the API at the last minute, but as most of these functions wrap around Native functions that have already been tested, this won&#8217;t be too high a priority, but it will be done.</p>
+
+<p>4) Kernel Fetcher Script : Having to crawl the web for relevant Kernels was a massive headache during this project, and adding something that directly refers to NAIF&#8217;s FTP servers would be a neat addition.</p>
+
+<p>5) Expand the API : There is a lot of SPICE concept I am not well versed with, and there are a bunch of functions ported that would work very well with a better API. (Most immediate task I can see is making a better API for the Geometry Finder subsystem, of which many functions have already been ported in <code>/ext/spice_rub/spice_geometry.c</code>)</p>
+
+<h2><strong>Acknowledgements</strong></h2>
+
+<p>I&#8217;d like to thank my mentors for this project, Dr. John Woods, Shaun Stewart, and Victor Shepelev for their guidance and knowledge. John and Shaun with their expertise in Astro research and Victor&#8217;s vast knowledge about professional Ruby code has helped keep this whole ship together, and I&#8217;m looking forward to sailing it a few more journeys.</p>
+
+<p>Also, John made <a href="https://github.com/sciruby/nmatrix">NMatrix</a> which is sort of the backbone for a lot of SpiceRub&#8217;s functionality.</p>
+
+<p>Finally, I would like to thank Andrew Annex who wrote <a href="https://github.com/AndrewAnnex/SpiceyPy">SpicePy</a>, and Philip Rasch who wrote <a href="https://github.com/darasch/spiceminer">spiceminer</a> , two Python wrappers for the SPICE Toolkit. SpicePy has a high port and test coverage (I lifted a lot of tests from here that weren&#8217;t available in the SPICE documentation and SpiceMiner had an OOP style API which I referred to while designing the <code>Body</code> class.</p>
+
+<p>It&#8217;s been an incredible summer, thank you for reading :)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">SciRuby</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-08-23T03:30:35+09:00" pubdate data-updated="true">Aug 23<span>rd</span>, 2016</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/gsoc/'>gsoc</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://sciruby.com/blog/2016/08/23/spice_rub_report/" data-via="sciruby" data-counturl="http://sciruby.com/blog/2016/08/23/spice_rub_report/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/19/gsoc-2015-mixed-models/" title="Previous Post: Statistical linear mixed models in Ruby with mixed_models (GSoC2015)">&laquo; Statistical linear mixed models in Ruby with mixed_models (GSoC2015)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/10/25/gsoc-2016-port-nmatrix-to-jruby/" title="Next Post: GSoC 2016: NMatrix and JRuby">GSoC 2016: NMatrix and JRuby &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+
+
+<section>
+<div class="fb-like-box" data-href="http://www.facebook.com/SciRuby" data-width="" data-show-faces="false" data-stream="" data-header=""   ></div>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/">GSoC 2017 : Data visualization using daru-view</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats/">GSoC 2017 : Support to Import & Export of more formats</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/">GSoC 2016: Adding Categorical Data Support</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/spicerub-kernelpool-and-kernels/">GSoC 2016: SpiceRub::KernelPool and Kernels</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/">GSoC 2016 : A Look at SpiceRub::Body</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/SciRuby">@SciRuby</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'SciRuby',
+            count: 6,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("sciruby", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/sciruby" class="twitter-follow-button" data-show-count="false">Follow @sciruby</a>
+  
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - SciRuby -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sciruby';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,634 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>GSoC 2017 : Support to Import & Export of more formats - SciRuby</title>
+  <meta name="author" content="SciRuby">
+
+  
+  <meta name="description" content="Introduction &#8220;Hello friend. Hello friend? That&#8217;s lame.&#8221; - S01E01 (Pilot), Mr.Robot My name is Athitya Kumar, and I&#8217;m a 4th &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sciruby.com/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="SciRuby" type="application/atom+xml">
+  <!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-12735432-6']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">SciRuby</a></h1>
+  
+    <h2>Tools for Scientific Computing in Ruby</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:sciruby.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul role=main-navigation xmlns="http://www.w3.org/1999/html">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog">Blog</a></li>
+  <li><a href="/docs">Installation</a></li>
+  <li><a href="http://gems.sciruby.com/">Gems</a></li>
+  <li><a href="https://github.com/sciruby/sciruby">SciRuby</a></li>
+  <li><a href="/nmatrix">NMatrix</a></li>
+  <li><a href="/publications/">Citing SciRuby</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">GSoC 2017 : Support to Import & Export of More Formats</h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Athitya Kumar</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-08-29T17:16:00+09:00" pubdate data-updated="true">Aug 29<span>th</span>, 2017</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Introduction</h2>
+
+<blockquote><p>&#8220;Hello friend. Hello friend? That&#8217;s lame.&#8221; - S01E01 (Pilot), Mr.Robot</p></blockquote>
+
+<p>My name is Athitya Kumar, and I&#8217;m a 4th year undergrad from IIT Kharagpur, India. I
+was selected as a GSoC 2017 student developer by Ruby Science Foundation for project daru-io.</p>
+
+<p><a href="https://github.com/athityakumar/daru-io">Daru-IO</a> is a plugin-gem to
+<a href="https://github.com/SciRuby/daru">Daru</a> gem, that extends support for many Import and Export
+methods of <code>Daru::DataFrame</code>. This gem is intended to help Rubyists who are into Data Analysis
+or Web Development, by serving as a general purpose conversion library.</p>
+
+<p>Through this summer, I worked on adding support for various Importers and Exporters
+while also porting some existing modules. Feel free to find a comprehensive set
+of useful links in
+<a href="https://athityakumar.github.io/blog/posts/GSoC_2017_-_Final_Work_Submission/">Final Work Submission</a>
+and <a href="https://github.com/athityakumar/daru-io/blob/master/README.md">README</a>. Before proceeding any
+further, you might also be interested in checking out a sample showcase of
+<a href="https://daru-examples-io-view-rails.herokuapp.com/">Rails example</a> and
+<a href="https://github.com/Shekharrajak/daru_examples_io_view_rails">the code</a> making it work.</p>
+
+<h2>Mark Anthony&#8217;s Speech (ft. daru)</h2>
+
+<blockquote><p>&#8220;Rubyists, Data Analysts and Web Developers, lend me your ears;</p>
+
+<p>I come to write about my GSoC project, not to earn praise for it.&#8221;</p></blockquote>
+
+<p>For the uninitiated, Google Summer of Code (GSoC) 2017 is a 3-month program that
+focuses on introducing selected students to open-source software development.
+To know more about GSoC, feel free to click
+<a href="https://summerofcode.withgoogle.com/about/">here</a>.</p>
+
+<p><a href="https://github.com/SciRuby/daru">daru</a> is a Ruby gem that stands for Data Analysis in RUby. My
+<a href="https://drive.google.com/file/d/0B4shBmKvdinIZUNqcGwtWDZtb1NMMHg3SG51SFRqNlVqZkIw/">initial proposal</a>
+was to make daru easier to integrate with Ruby web frameworks through better import-export features
+(<a href="https://github.com/athityakumar/daru-io">daru-io</a>) and visualization methods
+(<a href="https://github.com/Shekharrajak/daru-view">daru-view</a>). However, as both
+<a href="https://github.com/Shekharrajak">Shekhar</a> and I
+were selected for the same proposal, we split this amongst ourselves : daru-io was allocated to me
+and daru-view was allocated to <a href="https://github.com/Shekharrajak">Shekhar</a>.</p>
+
+<h2></h2>
+
+<blockquote><p>&#8220;The open-source contributions that people do, live after them;</p>
+
+<p>But their private contributions, are oft interred with their bones.&#8221;</p></blockquote>
+
+<p>This is one of the reasons why I (and all open-source developers) are enthusiastic
+about open-source. In open-source, one&#8217;s work can be re-used in other projects
+in accordance with the listed LICENSE and attribution, compared to the restrictions
+and risk of Intellectual Property Right claims in private work.</p>
+
+<h2></h2>
+
+<blockquote><p>&#8220;So be it. The noble Pythonistas and R developers;</p>
+
+<p>Might not have chosen to try daru yet.&#8221;</p></blockquote>
+
+<p>It is quite understandable that Pythonistas and R developers feel that their corresponding
+languages have sufficient tools for Data Analysis. So, why would they switch to Ruby and
+start using daru?</p>
+
+<h2></h2>
+
+<blockquote><p>&#8220;If it were so, it may have been a grievous fault;</p>
+
+<p>Give daru a try, with daru-io and daru-view.&#8221;</p></blockquote>
+
+<p>First of all, I don&#8217;t mean any offense when I say &#8220;grievous fault&#8221;. But please, do give
+Ruby and daru family a try, with an open mind.</p>
+
+<p>Voila - the daru family has two new additions, namely
+<a href="https://github.com/athityakumar/daru-io">daru-io</a> and
+<a href="https://github.com/Shekharrajak/daru-view">daru-view</a>. Ruby is a language
+which is extensively used in Web Development with multiple frameworks such as Rails, Sinatra,
+Nanoc, Jekyll, etc. With such a background, it only makes sense for daru to have daru-io and
+daru-view as separate plugins, thus making the daru family easily integrable with Ruby web
+frameworks.</p>
+
+<h2></h2>
+
+<blockquote><p>&#8220;Here, for attention of Rubyists and the rest–</p>
+
+<p>For Pandas is an honourable library;</p>
+
+<p>So are they all, all honourable libraries and languages–</p>
+
+<p>Come I to speak about daru-io&#8217;s inception.&#8221;</p></blockquote>
+
+<p>Sure, the alternatives in other languages like Python, R and Hadoop are also good data analysis
+tools. But, how readily can they be integrated into any web application? R &amp; Hadoop don&#8217;t have a
+battle-tested web framework yet, and are usually pipelined into the back-end of any application
+to perform any analysis. I&#8217;m no one to judge such pipelines, but I feel that pipelines are
+hackish workarounds rather than being a clean way of integrating.</p>
+
+<p>Meanwhile, though Python too has its own set of web frameworks (like Django, Flask and more),
+Pandas doesn&#8217;t quite work out-of-the-box with these frameworks and requires the web developer
+to write lines and lines of code to integrate Pandas with parsing libraries and plotting
+libraries.</p>
+
+<h2></h2>
+
+<blockquote><p>&#8220;daru-io is a ruby gem, and open-sourced to all of us;</p>
+
+<p>But some might think it was an ambitious idea;</p>
+
+<p>And they are all honourable men.&#8221;</p></blockquote>
+
+<p>As described above, daru-io is open-sourced under the MIT License with attribution to
+myself and Ruby Science Foundation. Being a ruby gem, daru-io follows the best practices
+mentioned in the Rubygems guides and is all geared up with a v0.1.0 release.</p>
+
+<p>Disclaimer - By &#8220;men&#8221;, I&#8217;m not stereotyping &#8220;them&#8221; to be all male, but I&#8217;m just merely
+retaining the resemblence to the original speech of Mark Anthony.</p>
+
+<h2></h2>
+
+<blockquote><p>&#8220;daru-io helps convert data in many formats to Daru::DataFrame;</p>
+
+<p>Whose methods can be used to analyze huge amounts of data.</p>
+
+<p>Does this in daru-io seem ambitious?&#8221;</p></blockquote>
+
+<p><a href="https://github.com/SciRuby/daru">Daru</a> has done a great job of encapsulating the two main
+structures of Data Analysis - DataFrames and Vectors - with a ton of functionalities that are
+growing day by day. But obviously, the huge amounts of data aren&#8217;t going to be manually fed into
+the DataFrames right?</p>
+
+<p>One part of <a href="https://github.com/athityakumar/daru-io">daru-io</a> is the battalion of Importers that
+ship along with it. Importers are used to read from a file / Ruby instance, and create DataFrame(s).
+These are the Importers being supported by v0.1.0 of daru-io :</p>
+
+<ul>
+<li>General file formats : CSV, Excel (xls and xlsx), HTML, JSON, Plaintext.</li>
+<li>Special file formats : Avro, RData, RDS.</li>
+<li>Database related : ActiveRecord, Mongo, Redis, SQLite, DBI.</li>
+</ul>
+
+
+<p>For more specific information about the Importers, please have a look at the
+<a href="https://github.com/athityakumar/daru-io/blob/master/README.md#table-of-contents">README</a>
+and <a href="http://www.rubydoc.info/github/athityakumar/daru-io/master/Daru/IO/Importers/">YARD Docs</a>.</p>
+
+<p>Let&#8217;s take a simple example of the JSON Importer, to import from GitHub&#8217;s GraphQL API response. By
+default, the API response is paginated and 30 repositories are listed in the url :
+<code>https://api.github.com/users/#{username}/repos</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;daru/io/importers/json&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dataframe</span> <span class="o">=</span> <span class="sx">%w[athityakumar zverok v0dro lokeshh]</span><span class="o">.</span><span class="n">map</span> <span class="k">do</span> <span class="o">|</span><span class="n">username</span><span class="o">|</span>
+</span><span class='line'>  <span class="no">Daru</span><span class="o">::</span><span class="no">DataFrame</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span>
+</span><span class='line'>    <span class="s2">&quot;https://api.github.com/users/</span><span class="si">#{</span><span class="n">username</span><span class="si">}</span><span class="s2">/repos&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="no">RepositoryName</span><span class="p">:</span> <span class="s1">&#39;$..full_name&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="no">Stars</span><span class="p">:</span> <span class="s1">&#39;$..stargazers_count&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="no">Size</span><span class="p">:</span> <span class="s1">&#39;$..size&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="no">Forks</span><span class="p">:</span> <span class="s1">&#39;$..forks_count&#39;</span>
+</span><span class='line'>  <span class="p">)</span>
+</span><span class='line'><span class="k">end</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="ss">:concat</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#=&gt; #&lt;Daru::DataFrame(120x4)&gt;</span>
+</span><span class='line'><span class="c1">#      Repository   Stars   Size   Forks</span>
+</span><span class='line'><span class="c1">#   0  athityakum       0      6       0</span>
+</span><span class='line'><span class="c1">#   1  athityakum       0    212       0</span>
+</span><span class='line'><span class="c1">#   2  athityakum       0    112       0</span>
+</span><span class='line'><span class="c1">#  ...    ...          ...   ...     ...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2></h2>
+
+<blockquote><p>&#8220;When working with a team of Pythonistas and R developers;</p>
+
+<p>daru-io helps convert Daru::DataFrame to multiple formats.</p>
+
+<p>Does this in daru-io seem ambitious?</p></blockquote>
+
+<p>The second part of <a href="https://github.com/athityakumar/daru-io">daru-io</a> is the collection of Exporters
+that ship with it. Exporters are used to write the data in a DataFrame, to a file / database. These
+are the Exporters being supported by v0.1.0 of daru-io :</p>
+
+<ul>
+<li>General file formats : CSV, Excel (xls), JSON.</li>
+<li>Special file formats : Avro, RData, RDS.</li>
+<li>Database related : SQL.</li>
+</ul>
+
+
+<p>For more specific information about the Exporters, please have a look at the
+<a href="https://github.com/athityakumar/daru-io/blob/master/README.md#table-of-contents">README</a>
+and <a href="http://www.rubydoc.info/github/athityakumar/daru-io/master/Daru/IO/Exporters/">YARD Docs</a>.</p>
+
+<p>Let&#8217;s take a simple example of the RDS Exporter. Say, your best friend is a R developer who&#8217;d like
+to analyze a <code>Daru::DataFrame</code> that you have obtained, and perform further analysis. You don&#8217;t want
+to break your friendship, and your friend is skeptical of learning Ruby. No issues, simply use the RDS
+Exporter to export your <code>Daru::DataFrame</code> into a .rds file, which can be easily loaded by your friend
+in R.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;daru/io/exporters/rds&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dataframe</span> <span class="c1">#! Say, the DataFrame is obtained from the above JSON Importer example</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#=&gt; #&lt;Daru::DataFrame(120x4)&gt;</span>
+</span><span class='line'><span class="c1">#      Repository   Stars   Size   Forks</span>
+</span><span class='line'><span class="c1">#   0  athityakum       0      6       0</span>
+</span><span class='line'><span class="c1">#   1  athityakum       0    212       0</span>
+</span><span class='line'><span class="c1">#   2  athityakum       0    112       0</span>
+</span><span class='line'><span class="c1">#  ...    ...          ...   ...     ...</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dataframe</span><span class="o">.</span><span class="n">write_rds</span><span class="p">(</span><span class="s1">&#39;github_api.rds&#39;</span><span class="p">,</span> <span class="s1">&#39;github.api.dataframe&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2></h2>
+
+<blockquote><p>&#8220;You all did see that in the repository&#8217;s README;</p>
+
+<p>Codeclimate presented a 4.0 GPA;</p>
+
+<p>Code and tests were humbly cleaned;</p>
+
+<p>with help of rubocop, rspec, rubocop-rspec and saharspec.</p>
+
+<p>Ambition shouldn&#8217;t have been made of humble stuff.</p>
+
+<p>Yet some might think it is an ambitious idea;</p>
+
+<p>And sure, they are all honourable men.&#8221;</p></blockquote>
+
+<p>Thanks to guidance from my mentors
+<a href="https://github.com/zverok">Victor Shepelev</a>, <a href="https://github.com/v0dro">Sameer Deshmukh</a>
+and <a href="https://github.com/lokeshh">Lokesh Sharma</a>, I&#8217;ve come to know about quite a lot
+of Ruby tools that could be used to keep the codebase sane and clean.</p>
+
+<ul>
+<li><a href="https://github.com/bbatsov/rubocop">rubocop</a> : A Ruby static code analyzer, which enforces
+specified Ruby style guidelines.</li>
+<li><a href="https://github.com/rspec/rspec">rspec</a> : A unit-testing framework, which makes sure that codes
+of block are doing what they&#8217;re logically supposed to do.</li>
+<li><a href="https://github.com/backus/rubocop-rspec">rubocop-rspec</a> : A plugin gem to rubocop, that extends
+rspec-related rules.</li>
+<li><a href="https://github.com/zverok/saharspec">saharspec</a> : A gem with a
+<a href="https://github.com/zverok/saharspec/blob/master/README.md#saharspec-specs-dry-as-sahara">punny name</a>, that extends a few features to rspec-its that are more readable. For example, <code>its_call</code>.</li>
+</ul>
+
+
+<h2></h2>
+
+<blockquote><p>&#8220;I speak not to disapprove of what other libraries do;</p>
+
+<p>But here I am to speak what I do know.</p>
+
+<p>Give daru-io a try and y&#8217;all will love it, not without cause:</p>
+
+<p>Does anything withhold you then, from using daru-io?&#8221;</p></blockquote>
+
+<p>I really mean it, when I discretely specify &#8220;I speak not to disapprove of what other libraries do&#8221;.
+In the world of open-source, there should never be hate among developers regarding languages,
+or libraries. Developers definitely have their (strong) opinions and preferences, and it&#8217;s
+understandable that difference in opinion do arise. But, as long as there&#8217;s mutual respect for
+each other&#8217;s opinion and choice, all is well.</p>
+
+<h2></h2>
+
+<blockquote><p>&#8220;O Ruby community! Thou should definitely try out daru-io,</p>
+
+<p>With daru and daru-view. Bear with me;</p>
+
+<p>My heart is thankful to the community of Ruby Science Foundation,</p>
+
+<p>And I must pause till I write another blog post.&#8221;</p></blockquote>
+
+<p>If you&#8217;ve read all the way till down here, I feel that you&#8217;d be interested in trying out the
+daru family, after having seen the impressive demonstration of Importers &amp; Exporters above, and
+the Rails example (<a href="https://daru-examples-io-view-rails.herokuapp.com/">Website</a> |
+<a href="https://github.com/Shekharrajak/daru_examples_io_view_rails">Code</a>). I&#8217;m very thankful to mentors
+<a href="https://github.com/zverok">Victor Shepelev</a>, <a href="https://github.com/v0dro">Sameer Deshmukh</a>
+and <a href="https://github.com/lokeshh">Lokesh Sharma</a> for their timely Pull Request reviews and open
+discussions regarding features. Daru-IO would not have been possible without them and the active
+community of Ruby Science Foundation, who provided their useful feedback(s) whenever they could.
+The community has been very supportive overall, and hence I&#8217;d definitely be interested to involve
+with SciRuby via more open-source projects.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Athitya Kumar</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-08-29T17:16:00+09:00" pubdate data-updated="true">Aug 29<span>th</span>, 2017</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/daru/'>Daru</a>, <a class='category' href='/blog/categories/daru-io/'>Daru-IO</a>, <a class='category' href='/blog/categories/export/'>Export</a>, <a class='category' href='/blog/categories/gsoc/'>GSOC</a>, <a class='category' href='/blog/categories/gsoc-2017/'>GSOC 2017</a>, <a class='category' href='/blog/categories/import/'>Import</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://sciruby.com/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats/" data-via="sciruby" data-counturl="http://sciruby.com/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/" title="Previous Post: GSoC 2016: Adding Categorical Data Support">&laquo; GSoC 2016: Adding Categorical Data Support</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/" title="Next Post: GSoC 2017 : Data visualization using daru-view">GSoC 2017 : Data visualization using daru-view &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+
+
+<section>
+<div class="fb-like-box" data-href="http://www.facebook.com/SciRuby" data-width="" data-show-faces="false" data-stream="" data-header=""   ></div>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/">GSoC 2017 : Data visualization using daru-view</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats/">GSoC 2017 : Support to Import & Export of more formats</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/">GSoC 2016: Adding Categorical Data Support</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/spicerub-kernelpool-and-kernels/">GSoC 2016: SpiceRub::KernelPool and Kernels</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/">GSoC 2016 : A Look at SpiceRub::Body</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/SciRuby">@SciRuby</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'SciRuby',
+            count: 6,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("sciruby", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/sciruby" class="twitter-follow-button" data-show-count="false">Follow @sciruby</a>
+  
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - SciRuby -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sciruby';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sciruby.com/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats/';
+        var disqus_url = 'http://sciruby.com/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
