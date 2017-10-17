@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: GCI2013 | SciRuby]]></title>
+  <link href="http://sciruby.com/blog/categories/gci2013/atom.xml" rel="self"/>
+  <link href="http://sciruby.com/"/>
+  <updated>2017-10-17T20:33:21+09:00</updated>
+  <id>http://sciruby.com/</id>
+  <author>
+    <name><![CDATA[SciRuby]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Mentoring future computational power women for GCI 2013]]></title>
+    <link href="http://sciruby.com/blog/2013/10/25/mentoring-future-computational-power-women-for-gci-2013/"/>
+    <updated>2013-10-25T14:09:00+09:00</updated>
+    <id>http://sciruby.com/blog/2013/10/25/mentoring-future-computational-power-women-for-gci-2013</id>
+    <content type="html"><![CDATA[<p>My name is Anna, and I'm an engineer and a scientist. I study Materials Science and Engineering at the University of
+Michigan; and I graduated from Virginia Tech with a degree in Physics. My thesis project deals with computationally
+predicting the properties of materials used in lithium-ion batteries and airplane turbine blades.</p>
+
+<p><img src="http://sciruby.com/images/anna_belak.jpg" title="Anna Belak coding like a boss" /></p>
+
+<p>I'm writing this blog post for SciRuby, but I'm really writing it for the young women out there. SciRuby is applying to
+participate in <a href="https://developers.google.com/open-source/gci/">Google's Code-In 2013</a>, which aims to get high school
+students involved in the open source movement, and specifically in coding. It's great preparation for college and
+beyond — whatever you might choose to study.</p>
+
+<p>I became involved in science because I love figuring stuff out and working with smart, interesting people, and I want
+you to get involved, too. Modern science wouldn't be possible without open source software. Moreover, if you learn how
+to code, you'll always have a job. Always.</p>
+
+<p>And the cool part is that you don't have to know how to code in order to participate. Many of the tasks involve research
+and documentation in science and mathematics — which is a great way to obtain valuable experience for college
+applications.</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,378 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Introducing the FFTW SciRuby GSoC project - SciRuby</title>
+  <meta name="author" content="SciRuby">
+
+  
+  <meta name="description" content="My name is Magdalen Berns and I am a physics student with a technical
+background in live audio. I am particularly interested in using science
+and &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sciruby.com/blog/2014/06/04/introducing-the-fftw-sciruby-gsoc-project/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="SciRuby" type="application/atom+xml">
+  <!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-12735432-6']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">SciRuby</a></h1>
+  
+    <h2>Tools for Scientific Computing in Ruby</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:sciruby.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul role=main-navigation xmlns="http://www.w3.org/1999/html">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog">Blog</a></li>
+  <li><a href="/docs">Installation</a></li>
+  <li><a href="http://gems.sciruby.com/">Gems</a></li>
+  <li><a href="https://github.com/sciruby/sciruby">SciRuby</a></li>
+  <li><a href="/nmatrix">NMatrix</a></li>
+  <li><a href="/publications/">Citing SciRuby</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Introducing the FFTW SciRuby GSoC Project</h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Magdalen Berns</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-04T12:30:00+09:00" pubdate data-updated="true">Jun 4<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>My name is Magdalen Berns and I am a physics student with a technical
+background in live audio. I am particularly interested in using science
+and technology to improve access for all.</p>
+
+<p>This summer, I will be working on implementing the external library
+appropriately named &#8220;Fastest Fourier Transform in the West&#8221; version 3
+(FFTW3) C and Fortran API in Ruby for this year&#8217;s Google Summer of Code
+(GSoC).</p>
+
+<p>The primary aim of the project is to give SciRuby the capability to
+handle signal analysis, processing and synthesis by performing discrete
+fast Fourier transform operations on NMatrix objects.</p>
+
+<p>After some investigation during the preparation stages of GSoC, it was
+determined that implementing FFTW3 is more desirable than starting from
+scratch in pure Ruby because the FFTW3 API is already extensively used,
+developed, and optimised far beyond what would be achievable in just
+three months. So, putting FFTW3 in the driving seat allows the SciRuby
+project to take advantage of the good work of the FFTW3 developers by
+bringing it to Ruby.</p>
+
+<p>Putting NMatrix to the test with FFTW3 should give users the
+opportunity to test drive NMatrix &mdash; and SciRuby&#8217;s NMatrix developers a
+chance to root out bugs.</p>
+
+<p>Since a gem called ruby-fftw3 already existed to perform FFTW3 operations
+on NArray objects, I forked that repository as a starting point. <a href="https://github.com/thisMagpie/fftw">Things are progressing on my Github fork</a> right now.</p>
+
+<p>My mentor for this project is Colin Fuller who is an exceptionally
+talented programmer &mdash; and he really knows his git too. He has been a
+great help as I adapt to the learning curve of working in C and
+Ruby (languages which I am less familiar with than say, Java or
+JavaScript).</p>
+
+<p>As I work, I intend to share useful gems of information I gather. Those, in addition to my weekly project updates, will appear right here in this blog so others can hopefully benefit.</p>
+
+<p>I have already posted a few useful bits and bobs on
+<a href="http://thismagpie.com">thismagpie.com</a> which relate to my work so far.
+I hope to add those to the SciRuby blog, too, provided
+the readers are interested in that and time permits. Of course, readers here can feel free to have a browse
+of the keywords <a href="http://thismagpie.com/keyword/sciruby">sciruby</a>,
+<a href="http://thismagpie.com/keyword/ruby">ruby</a> and
+<a href="http://thismagpie.com/keyword/git">git</a> on there for the time being.
+I sometimes add posts, manuals and tutorials from external sites where I
+find useful ones on the web too, so watch out for these too.</p>
+
+<p>Please, feel free to watch or follow along as the project comes together
+and those inclined are welcome to share constructive comments and advice
+or raise bugs on the fftw3 issue tracker. Input about my work is very
+welcome as the project progresses. This gem is being written for the
+community, after all!</p>
+
+<p>You can find me on Twitter (Facebook) or GitHub under the username @thisMagpie.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Magdalen Berns</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-04T12:30:00+09:00" pubdate data-updated="true">Jun 4<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/fftw/'>FFTW</a>, <a class='category' href='/blog/categories/gsoc/'>GSOC</a>, <a class='category' href='/blog/categories/gsoc2014/'>GSOC2014</a>, <a class='category' href='/blog/categories/nmatrix/'>NMatrix</a>, <a class='category' href='/blog/categories/students/'>Students</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://sciruby.com/blog/2014/06/04/introducing-the-fftw-sciruby-gsoc-project/" data-via="sciruby" data-counturl="http://sciruby.com/blog/2014/06/04/introducing-the-fftw-sciruby-gsoc-project/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/06/02/introducing-gsoc-2014-the-d3-project/" title="Previous Post: Introducing the GSoC 2014 D3 Project">&laquo; Introducing the GSoC 2014 D3 Project</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/06/04/introduction-to-the-minimization-and-integration-project/" title="Next Post: Introduction to the Minimization and Integration project (Rajat)">Introduction to the Minimization and Integration project (Rajat) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+
+
+<section>
+<div class="fb-like-box" data-href="http://www.facebook.com/SciRuby" data-width="" data-show-faces="false" data-stream="" data-header=""   ></div>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/">GSoC 2016: Adding Categorical Data Support</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/spicerub-kernelpool-and-kernels/">GSoC 2016: SpiceRub::KernelPool and Kernels</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/">GSoC 2016 : A Look at SpiceRub::Body</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-time/">GSoC 2016 : A Look at SpiceRub::Time</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/10/25/gsoc-2016-port-nmatrix-to-jruby/">GSoC 2016: NMatrix and JRuby</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/SciRuby">@SciRuby</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'SciRuby',
+            count: 6,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("sciruby", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/sciruby" class="twitter-follow-button" data-show-count="false">Follow @sciruby</a>
+  
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - SciRuby -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sciruby';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sciruby.com/blog/2014/06/04/introducing-the-fftw-sciruby-gsoc-project/';
+        var disqus_url = 'http://sciruby.com/blog/2014/06/04/introducing-the-fftw-sciruby-gsoc-project/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

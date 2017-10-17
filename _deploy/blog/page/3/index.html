@@ -1,0 +1,1389 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>SciRuby</title>
+  <meta name="author" content="SciRuby">
+
+  
+  <meta name="description" content="My name is Magdalen Berns and I am a physics student with a technical
+background in live audio. I am particularly interested in using science
+and &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sciruby.com/blog/page/3/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="SciRuby" type="application/atom+xml">
+  <!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-12735432-6']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">SciRuby</a></h1>
+  
+    <h2>Tools for Scientific Computing in Ruby</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:sciruby.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul role=main-navigation xmlns="http://www.w3.org/1999/html">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog">Blog</a></li>
+  <li><a href="/docs">Installation</a></li>
+  <li><a href="http://gems.sciruby.com/">Gems</a></li>
+  <li><a href="https://github.com/sciruby/sciruby">SciRuby</a></li>
+  <li><a href="/nmatrix">NMatrix</a></li>
+  <li><a href="/publications/">Citing SciRuby</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/04/introducing-the-fftw-sciruby-gsoc-project/">Introducing the FFTW SciRuby GSoC Project</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Magdalen Berns</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-04T12:30:00+09:00" pubdate data-updated="true">Jun 4<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>My name is Magdalen Berns and I am a physics student with a technical
+background in live audio. I am particularly interested in using science
+and technology to improve access for all.</p>
+
+<p>This summer, I will be working on implementing the external library
+appropriately named &#8220;Fastest Fourier Transform in the West&#8221; version 3
+(FFTW3) C and Fortran API in Ruby for this year&#8217;s Google Summer of Code
+(GSoC).</p>
+
+<p>The primary aim of the project is to give SciRuby the capability to
+handle signal analysis, processing and synthesis by performing discrete
+fast Fourier transform operations on NMatrix objects.</p>
+
+<p>After some investigation during the preparation stages of GSoC, it was
+determined that implementing FFTW3 is more desirable than starting from
+scratch in pure Ruby because the FFTW3 API is already extensively used,
+developed, and optimised far beyond what would be achievable in just
+three months. So, putting FFTW3 in the driving seat allows the SciRuby
+project to take advantage of the good work of the FFTW3 developers by
+bringing it to Ruby.</p>
+
+<p>Putting NMatrix to the test with FFTW3 should give users the
+opportunity to test drive NMatrix &mdash; and SciRuby&#8217;s NMatrix developers a
+chance to root out bugs.</p>
+
+<p>Since a gem called ruby-fftw3 already existed to perform FFTW3 operations
+on NArray objects, I forked that repository as a starting point. <a href="https://github.com/thisMagpie/fftw">Things are progressing on my Github fork</a> right now.</p>
+
+<p>My mentor for this project is Colin Fuller who is an exceptionally
+talented programmer &mdash; and he really knows his git too. He has been a
+great help as I adapt to the learning curve of working in C and
+Ruby (languages which I am less familiar with than say, Java or
+JavaScript).</p>
+
+<p>As I work, I intend to share useful gems of information I gather. Those, in addition to my weekly project updates, will appear right here in this blog so others can hopefully benefit.</p>
+
+<p>I have already posted a few useful bits and bobs on
+<a href="http://thismagpie.com">thismagpie.com</a> which relate to my work so far.
+I hope to add those to the SciRuby blog, too, provided
+the readers are interested in that and time permits. Of course, readers here can feel free to have a browse
+of the keywords <a href="http://thismagpie.com/keyword/sciruby">sciruby</a>,
+<a href="http://thismagpie.com/keyword/ruby">ruby</a> and
+<a href="http://thismagpie.com/keyword/git">git</a> on there for the time being.
+I sometimes add posts, manuals and tutorials from external sites where I
+find useful ones on the web too, so watch out for these too.</p>
+
+<p>Please, feel free to watch or follow along as the project comes together
+and those inclined are welcome to share constructive comments and advice
+or raise bugs on the fftw3 issue tracker. Input about my work is very
+welcome as the project progresses. This gem is being written for the
+community, after all!</p>
+
+<p>You can find me on Twitter (Facebook) or GitHub under the username @thisMagpie.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/02/introducing-gsoc-2014-the-d3-project/">Introducing the GSoC 2014 D3 Project</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Naoki Nishida</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-02T14:00:00+09:00" pubdate data-updated="true">Jun 2<span>nd</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Hello. I am Naoki, one of four Google Summer of Code (GSoC) 2014
+students in SciRuby. Let me introduce my project. The goal of the GSoC
+2014 D3 Project is to create a new plotting library for
+SciRuby. <a href="http://d3js.org/">D3.js</a> is the most suitable JavaScript
+library to achieve this goal.</p>
+
+<p>There are several non-Ruby plotting software libraries in the wild,
+like ggplot, matplotlib, and ggplot2. Actually, SciRuby already has
+its own plotting libraries named
+<a href="https://github.com/SciRuby/plotrb">Plotrb</a> and
+<a href="https://github.com/SciRuby/rubyvis">Rubyvis</a>. The main feature of my
+project compared with those software packages is <em>interactivity</em>.
+Interactivity has various meanings here: interactivity when generating
+plots, interactivity when viewing them, and server&ndash;client
+interactivity. My project includes all of those.</p>
+
+<p>My project can be divided into two components, one JavaScript and the
+other Ruby. JavaScript serves as a back-end, and Ruby as a
+front-end. I&#8217;m currently working on the former part. Have a look at a
+few examples I&#8217;ve assembled:</p>
+
+<ul>
+<li><a href="http://bl.ocks.org/domitry/b8785f02f36deef567ce">Multiple panes</a></li>
+<li><a href="http://bl.ocks.org/domitry/2f53781449025f772676">Bar chart</a></li>
+<li><a href="http://bl.ocks.org/domitry/e9a914b78f3a576ed3bb">Line</a></li>
+<li><a href="http://bl.ocks.org/domitry/308e27d8d12c1374e61f">Scatter</a></li>
+<li><a href="http://bl.ocks.org/domitry/f215d5ff3bd3f5fec2ad">Another theme</a></li>
+</ul>
+
+
+<p>This project involves a number of challenges, but I believe it to be
+achievable during this Summer of Code. Thank you for reading!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/24/gsoc-2014/">Ruby Science Foundation Selected for GSoC 2014</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Colin Fuller</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-24T21:45:00+09:00" pubdate data-updated="true">Feb 24<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>We&#8217;re excited to announce that the Ruby Science Foundation has been selected as
+a mentoring organization for <a href="https://www.google-melange.com/gsoc/homepage/google/gsoc2014">Google Summer of Code 2014</a>!</p>
+
+<p>Last year
+was our first year as a mentoring organization, and we had a great group of
+students working with us on machine learning, timeseries statistics, the
+semantic web, and scientific plotting.</p>
+
+<p>This year we&#8217;ve got a super set of
+possible projects including more flexible matrix computations, automatic Ruby
+interface generation for scientific libraries, a dataframe library for
+structuring and manipulating datasets, interactive plotting, a scientific
+notebook, high-performance minimization and integration libraries, and a
+semantic web datastore backend for scientific computing.</p>
+
+<p>If you&#8217;re interested in applying as a student, learning more, or even
+contributing independent of GSoC, head over to our <a href="https://github.com/SciRuby/sciruby/wiki/Google-Summer-of-Code-2014-Ideas">GSoC 2014 ideas page</a>
+to see what projects we think are great.  Don&#8217;t hesitate to tell us if you&#8217;ve
+got an amazing idea for a different project, too! If you&#8217;re still left
+wondering where to start, check out the <a href="https://github.com/sciruby/nmatrix/issues">issue tracker for NMatrix</a>, the matrix computation
+library used as the basis for a number of our projects, and our top priority at
+the moment.</p>
+
+<p>Good luck to all the GSoC applicants out there, and happy coding!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/01/28/gsoc-alumni/">Some Words From GSoC 2013 Alumni</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Pjotr Prins</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-28T16:07:00+09:00" pubdate data-updated="true">Jan 28<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>In 2013, SciRuby was a mentoring organization for the Google Summer of Code. We
+asked our alumni:</p>
+
+<p>1) How did you experience GSoC/SciRuby and what has it brought you?</p>
+
+<p>2) What advice would you give new applicants?</p>
+
+<p>Monica Dragan from Romania worked on <a href="https://github.com/monicadragan/GeneValidator">gene validation</a>, see also her
+<a href="http://gene-prediction.blogspot.nl/2013/08/start-using-our-gene-validation-tool.html">blog</a>. Actually, Monica
+was part of a different GSoC organisation,
+<a href="http://informatics.nescent.org/wiki/Phyloinformatics_Summer_of_Code_2013">PhyloSoC</a>,
+but also participated in our Ruby-centric meetings and code reviews. She shared
+her SciRuby GSoC experience:</p>
+
+<p class="note"><strong>Monica:</strong>
+During the GSoC period I developed a bioinformatics tool written in Ruby. First of all I learned a new programming
+language, as I had no experience with Ruby before. On this GSoC occasion I had the opportunity to get in touch with the
+community and I met people passionate about their work, with whom I continued
+ the collaboration afterwards. But what I really gained from this experience is that I increased my enthusiasm about
+ bioinformatics and I confirmed myself that this is the field I want to focus on in the next years.
+</p>
+
+
+<p>Alberto Arrigoni from Italy worked on <a href="http://sciruby.com/blog/2013/09/24/gsoc-2013-data-mining-in-jruby-with-ruby-band/">data mining and machine learning algorithms for Ruby</a> and shared
+his GSoC experience:</p>
+
+<p class="note"><strong>Alberto:</strong>
+As a PhD student in the field of bioinformatics, my GSOC experience was very exciting and useful at different levels. On a training level, I had the
+unique chance to learn more in depth some topics of machine learning I had
+wanted to explore in the past, but never had quite the opportunity or the
+resources. On a more technical level, I appreciated the support of the GSOC
+mentors and the Sciruby community, which counts numerous experts and a very
+active mailing list.
+</p>
+
+
+<p>Ankur Goel from India worked on
+<a href="http://rubygems.org/gems/statsample-timeseries">statsample-timeseries</a> for Ruby.
+Ankur shared,</p>
+
+<p class="note"><strong>Ankur:</strong>
+It was the best learning experience. I learnt quite a lot of statistics while
+working on my TimeSeries extension; after GSoC, I picked up Machine Learning
+course and I was able to relate it to very easily after working on regression
+techniques in GLM extension. I can&#8217;t thank enough for the opportunity provided
+and the trust endowed by my mentor on me. Learning to write quality code and
+getting reviews was a cherry on cake! 
+</p>
+
+
+<p>Will Strinz from Madison, USA, worked on <a href="http://localhost:4000/blog/2013/10/12/ruby-and-the-semantic-web-rdf-sparql-publisci/">RDF generators for Ruby</a> for the
+semantic web:</p>
+
+<p class="note"><strong>Will:</strong>
+GSoC 2013 was a new experience for me in terms of managing my own time,
+planning my own project, and keeping up consistent interaction with my mentors
+across time zones. Despite a decent amount of prior experience with Ruby, it
+was also a challenge and an opportunity for me to really understand the tools
+and practices I knew, and learn to use the ones I wasn&#8217;t familiar with.
+
+As for what it&#8217;s brought me, aside from a job I secured partly through skills
+and project portfolio I gained during GSoC, and the power of knowing how to do
+just about any programming task using Ruby, I learned a lot about how to manage
+a project and interact with people in the real world.
+
+Communicating properly and in a timely manner over email and other asynchronous
+services is absolutely critical to the work I do now, and a lot harder than
+people make it out to be. Staying in touch with my mentors and making sure we
+were all on the same page about my project was something I spent a lot of time
+on, and in doing so I gained a lot of comfort with the process.
+
+Additionally, GSoC was my first true experience designing a large piece of
+software, where I couldn&#8217;t just give up and trash it when the code started
+getting messy or confusing. It really forced me to adopt good practices around
+testing and organization, especially since I had better programmers than myself
+looking over my work.
+
+Software architecture is something you just don&#8217;t learn in college level CS
+courses, and by the time I&#8217;d graduated, I&#8217;d started hearing a lot of my CS
+professors saying this too. Some day in the future, maybe soon, there will be
+classes taught about just this subject, but for now there&#8217;s no better way to
+learn about it than by working on a real project, with some accountability and
+motivation to actually get it done.
+
+
+</p>
+
+
+<p>Our alumni give new GSoC applicants the following advice:</p>
+
+<p class="note"><strong>Monica:</strong>
+GSoC is a great experience that you should try as a student! What is cool about GSoC is that you work on the project you are keen on and manage your time as
+ you wish. Also, working remotely involves additional challenges. In the end you improve your experience and get to know a lot of new and great people.
+
+</p>
+
+
+
+
+<p class="note"><strong>Alberto:</strong>
+
+I think one of the best features offered by the GSOC is the possibility to
+collaborate with (and learn from) people who share the same scientific
+interests and have very different backgrounds and skills. Though this may be
+somewhat &#8216;expected&#8217; for mentors, I was also lucky to find other GSOC students
+willing to bond and share experiences and opinions. My advice is to be
+cooperative and try to learn as much as possible from/with them!  
+
+</p>
+
+
+
+
+<p class="note"><strong>Ankur:</strong>
+Work really hard. Do your homework before you ask questions or before quoting
+anything in proposal. Writing a good proposal is necessary, and you must really
+be aware of what you are writing - a good research is necessary. SciRuby
+community members are readily available to help you at mailing list and #sciruby channel. A thorough discussion with the mentor will help you out.
+</p>
+
+
+
+
+<p class="note"><strong>Will:</strong>
+To new applicants this year I&#8217;d stress one thing above all else; get in
+touch with people on the sciruby mailing list. Introduce yourself as soon as
+possible, and start discussing your project ideas when you have something in
+mind. People on the mailing list are very friendly and helpful, so don&#8217;t be
+afraid to start a conversation, but also expect constructive criticism of your
+proposals.
+
+Answering any questions or concerns promptly and thoroughly not only shows that
+your know your stuff and are passionate about your project, it also shows that
+you are a good fit for GSoC in general. Don&#8217;t assume you&#8217;re in just because
+you&#8217;ve had a good dialogue, but plan and communicate as though you are; don&#8217;t
+wait for the project to start to fill in details or contact your prospective
+mentors personally.
+
+Once you&#8217;ve submitted a proposal, all of this goes double. The closer you get
+to the deadline, the less time there will be to polish your application and
+respond to questions, so make sure you&#8217;re doing it quickly and effectively.
+</p>
+
+
+<p>Our SciRuby GSoC alumni added:</p>
+
+<p class="note"><strong>Monica:</strong>
+If I don&#8217;t join this year, I wish you good luck with the new students!
+</p>
+
+
+
+
+<p class="note"><strong>Ankur:</strong>
+I will be happy to sign up again as student, this year!
+</p>
+
+
+
+
+<p class="note"><strong>Will:</strong>
+I know I&#8217;ve said this already, but GSoC last year was a defining moment in my
+path to becoming a software developer, career-wise sure, but more importantly
+in the coder vs hacker vs computer scientist vs software developer sense. If
+there&#8217;s anything I can do to get involved this year, I&#8217;ll be available.<p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/07/statistics-with-ruby-time-series-and-general-linear-models/">Statistics With Ruby: Time Series and General Linear Models</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Ankur Goel</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-07T13:15:00+09:00" pubdate data-updated="true">Nov 7<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p class="note"><strong>Editor&#8217;s Note:</strong> This is the third of four blog posts detailing our Google Summer of
+Code 2013 students&#8217; work, edited by John Woods.</p>
+
+
+
+
+<p class="note"><strong>Gem Maintainer&#8217;s Note:</strong> These gems have changed recently. Edits reflect the changes.</p>
+
+
+<h2>Introduction</h2>
+
+<p><a href="https://github.com/clbustos/statsample/">Statsample</a> is a basic and advanced statistics suite in Ruby. It attempts to support JRuby and MRI/YARV equally, and also provides pure Ruby implementations for many functions.</p>
+
+<p>Statsample is a ruby gem for statistical analysis in ruby.</p>
+
+<p>It includes a rich API, except for problems involving time series and generalized linear models (GLM), for which the functionality was rather basic.</p>
+
+<p>So, in this <a href="https://www.google-melange.com/gsoc/homepage/google/gsoc2013">Google Summer of Code 2013</a> program, working on the SciRuby Project, I released two extensions:</p>
+
+<ul>
+<li><a href="http://github.com/sciruby/statsample-timeseries">Statsample TimeSeries</a></li>
+<li><a href="https://github.com/sciruby/statsample-glm">Statsample GLM</a></li>
+</ul>
+
+
+<p>These gems aim to take Statsample further and incorporate various functionalities and estimation techniques on continuous data.</p>
+
+<h2>Statsample TimeSeries</h2>
+
+<p><a href="https://rubygems.org/gems/statsample-timeseries"><em>Statsample TimeSeries</em></a> is equipped with a variety of operations. A few of those functionalities are:</p>
+
+<ul>
+<li>_<a href="http://en.wikipedia.org/wiki/Autocorrelation">Autocorrelation</a> of series: For finding repeating patterns (like a periodic signal) in noisy data or for identifying persistence (if it rained today, will it rain tomorrow?).</li>
+<li><a href="http://en.wikipedia.org/wiki/Autoregressive_moving_average_model">Autoregressive and Moving Average</a>: Autoregressive models (AR and ARMA) are useful for describing random processes such as found in nature and economics believed to be
+predictable from past behavior (e.g., El Niño, the stock market).</li>
+<li><a href="http://en.wikipedia.org/wiki/Partial_autocorrelation_function">Partial autocorrelation</a> with Yule&ndash;Walker, a method for calculating the coefficients of autoregressive models.</li>
+<li><a href="http://en.wikipedia.org/wiki/Levinson_recursion">Levinson&ndash;Durbin</a> estimation: for <a href="http://www.mathworks.com/help/dsp/ref/levinsondurbin.html">solving linear equations</a> involving a <a href="http://en.wikipedia.org/wiki/Toeplitz_matrix">Toeplitz matrix</a>, such as in signal processing or cyclic signals.</li>
+<li><a href="http://en.wikipedia.org/wiki/Kalman_filter">Kalman filtering</a> (or linear quadratic estimation): often used for determining position and motion of a moving object based on sensor information (e.g., for drawing a vehicle&#8217;s position on a map using GPS data, or for aircraft or spacecraft navigation based on sensor inputs)</li>
+</ul>
+
+
+<p>To get your hands dirty,</p>
+
+<ul>
+<li>Install Statsample with <code>gem install statsample</code>.</li>
+<li>Next, install the TimeSeries extension with <code>gem install statsample-timeseries</code>.</li>
+</ul>
+
+
+<p>EDIT: Statsample-timeseries now uses <a href="www.github.com/v0dro/daru/">daru</a> for data storage and cleaning. Thus all ephemeral time series statistics functions (moving average, acf, etc.) have been moved to Daru::Vector, which can be indexed on a DateTimeIndex, which lets you access data indexed by a time stamp. See the <a href="https://github.com/v0dro/daru/blob/master/README.md">daru README</a> for examples.</p>
+
+<p><code>Statsample::TimeSeries::Series</code> has been deprecated in favour of <code>Daru::Vector</code>.</p>
+
+<p>To demonstrate:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;daru&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;statsample-timeseries&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">ts</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">Vector</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">100</span><span class="o">.</span><span class="n">times</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="nb">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="p">},</span> <span class="n">index</span><span class="p">:</span> <span class="no">Daru</span><span class="o">::</span><span class="no">DateTimeIndex</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="ss">:start</span> <span class="o">=&gt;</span> <span class="s1">&#39;2012-2&#39;</span><span class="p">,</span> <span class="ss">:periods</span> <span class="o">=&gt;</span> <span class="mi">100</span><span class="p">))</span>
+</span><span class='line'><span class="n">ts</span><span class="o">.</span><span class="n">acf</span> <span class="c1"># Calculate auto-correlation</span>
+</span><span class='line'><span class="n">ts</span><span class="o">.</span><span class="n">pacf</span> <span class="c1"># Calculate partial autocorrelation</span>
+</span><span class='line'><span class="c1"># Partial autocorrelation with 11 lags by maximum likelihood estimation</span>
+</span><span class='line'><span class="n">ts</span><span class="o">.</span><span class="n">pacf</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="s1">&#39;mle&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="n">ts</span><span class="o">.</span><span class="n">ar</span> <span class="c1"># Autoregressive coefficients</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># ARIMA(2, 1, 1)</span>
+</span><span class='line'><span class="n">k_obj</span> <span class="o">=</span> <span class="no">Statsample</span><span class="o">::</span><span class="no">TimeSeries</span><span class="o">.</span><span class="n">arima</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'><span class="n">k_obj</span><span class="o">.</span><span class="n">ar</span> <span class="c1"># autoregressive coefficients</span>
+</span><span class='line'><span class="n">k_obj</span><span class="o">.</span><span class="n">ma</span> <span class="c1"># moving average coefficients</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Statsample GLM</h2>
+
+<p><a href="https://rubygems.org/gems/statsample-glm"><em>Statsample GLM</em></a> includes many helpful regression techniques, which can be used for regression analysis on data.
+Some of those techniques are:</p>
+
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Poisson_regression">Poisson Regression</a>: used to model contingency tables and counts</li>
+<li><a href="http://en.wikipedia.org/wiki/Logistic_regression">Logistic Regression</a></li>
+<li>Exponential Regression: one case of <a href="http://en.wikipedia.org/wiki/Nonlinear_regression">nonlinear regression</a> (examples might include the <a href="http://mathbits.com/MathBits/TISection/Statistics2/exponential.htm">temperature of a cup of coffee</a> left in a cold room, or the decay of an orbit)</li>
+<li><a href="http://en.wikipedia.org/wiki/Iteratively_reweighted_least_squares">Iteratively Reweighted Least Squares</a>: used to mitigate the effects of outliers</li>
+</ul>
+
+
+<p>The top level module for regression techniques is <code>Statsample::GLM</code>.</p>
+
+<p>Using it is as simple as ever:</p>
+
+<ul>
+<li>First, install <code>statsample</code> by <code>gem install statsample</code>.</li>
+<li>Then, install GLM by <code>gem install</code>statsample-glm`.</li>
+</ul>
+
+
+<p>Let&#8217;s get started:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;daru&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;statsample-glm&#39;</span>
+</span><span class='line'><span class="c1"># Create the datasets:</span>
+</span><span class='line'><span class="n">x1</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">Vector</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="mi">537322309644812</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">717124209978434</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">519166718891331</span><span class="p">,</span><span class="mi">0</span><span class="o">.</span><span class="mi">434970973986765</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">761822002215759</span><span class="p">,</span><span class="mi">1</span><span class="o">.</span><span class="mi">51170030921189</span><span class="p">,</span><span class="mi">0</span><span class="o">.</span><span class="mi">883854199811195</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">908689798854196</span><span class="p">,</span><span class="mi">1</span><span class="o">.</span><span class="mi">70331977539793</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">246971150634099</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">59077593922623</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">721548040910253</span><span class="p">,</span><span class="mi">0</span><span class="o">.</span><span class="mi">467025703920194</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">510132788447137</span><span class="p">,</span><span class="mi">0</span><span class="o">.</span><span class="mi">430106510266798</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">144353683251536</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">54943800728303</span><span class="p">,</span><span class="mi">0</span><span class="o">.</span><span class="mi">849307651309298</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">640304240933579</span><span class="p">,</span><span class="mi">1</span><span class="o">.</span><span class="mi">31462478279425</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">399783455165345</span><span class="p">,</span><span class="mi">0</span><span class="o">.</span><span class="mo">0453055645017</span><span class="mi">902</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">58212161987746</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">16484414309359</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">08829266466281</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">243893919684792</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">96655661929441</span><span class="p">,</span><span class="mi">0</span><span class="o">.</span><span class="mi">301335373291024</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">665832694463588</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mo">0120650</span><span class="mi">855753837</span><span class="p">,</span><span class="mi">1</span><span class="o">.</span><span class="mi">5116066367604</span><span class="p">,</span><span class="mi">0</span><span class="o">.</span><span class="mi">557300353673344</span><span class="p">,</span><span class="mi">1</span><span class="o">.</span><span class="mi">12829931872045</span><span class="p">,</span><span class="mi">0</span><span class="o">.</span><span class="mi">234443748015922</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mo">034</span><span class="mi">86690662651</span><span class="p">,</span><span class="mi">0</span><span class="o">.</span><span class="mi">275544751380246</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">231465849558696</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">356880153225012</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">57746647541923</span><span class="p">,</span><span class="mi">1</span><span class="o">.</span><span class="mi">35758352580655</span><span class="p">,</span><span class="mi">1</span><span class="o">.</span><span class="mi">23971669378224</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">662466275100489</span><span class="p">,</span><span class="mi">0</span><span class="o">.</span><span class="mi">313263561921793</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">08783223256362</span><span class="p">,</span><span class="mi">1</span><span class="o">.</span><span class="mi">41964722846899</span><span class="p">,</span><span class="mi">1</span><span class="o">.</span><span class="mi">29325100940785</span><span class="p">,</span><span class="mi">0</span><span class="o">.</span><span class="mi">72153880625103</span><span class="p">,</span><span class="mi">0</span><span class="o">.</span><span class="mi">440580131022748</span><span class="p">,</span><span class="mi">0</span><span class="o">.</span><span class="mo">0351</span><span class="mi">917814720056</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">142353224879252</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="n">x2</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">Vector</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[-</span><span class="mi">0</span><span class="o">.</span><span class="mi">866655707911859</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">367820249977585</span><span class="p">,</span><span class="mi">0</span><span class="o">.</span><span class="mi">361486610435</span><span class="p">,</span><span class="mi">0</span><span class="o">.</span><span class="mi">857332626245179</span><span class="p">,</span><span class="mi">0</span><span class="o">.</span><span class="mi">133438466268095</span><span class="p">,</span><span class="mi">0</span><span class="o">.</span><span class="mi">716104533073575</span><span class="p">,</span><span class="mi">1</span><span class="o">.</span><span class="mi">77206093023382</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">10136697295802</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">777086491435508</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">204573554913706</span><span class="p">,</span><span class="mi">0</span><span class="o">.</span><span class="mi">963353531412233</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">10103024900542</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">404372761837392</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">230226345183469</span><span class="p">,</span><span class="mi">0</span><span class="o">.</span><span class="mo">0363730246</span><span class="mi">866971</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">838265540390497</span><span class="p">,</span><span class="mi">1</span><span class="o">.</span><span class="mi">12543549657924</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">57929175648001</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">747060244805248</span><span class="p">,</span><span class="mi">0</span><span class="o">.</span><span class="mi">58946979365152</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">531952663697324</span><span class="p">,</span><span class="mi">1</span><span class="o">.</span><span class="mi">53338594419818</span><span class="p">,</span><span class="mi">0</span><span class="o">.</span><span class="mi">521992029051441</span><span class="p">,</span><span class="mi">1</span><span class="o">.</span><span class="mi">41631763288724</span><span class="p">,</span><span class="mi">0</span><span class="o">.</span><span class="mi">611402316795129</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">518355638373296</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">515192557101107</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">672697937866108</span><span class="p">,</span><span class="mi">1</span><span class="o">.</span><span class="mi">84347042325327</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">21195540664804</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">269869371631611</span><span class="p">,</span><span class="mi">0</span><span class="o">.</span><span class="mi">296155694010096</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">18097898069634</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">21314663927206</span><span class="p">,</span><span class="mi">1</span><span class="o">.</span><span class="mi">49193669881581</span><span class="p">,</span><span class="mi">1</span><span class="o">.</span><span class="mi">38969280369493</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">400680808117106</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">87282814976479</span><span class="p">,</span><span class="mi">1</span><span class="o">.</span><span class="mi">82394870451051</span><span class="p">,</span><span class="mi">0</span><span class="o">.</span><span class="mi">637864732838274</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">141155946382493</span><span class="p">,</span><span class="mi">0</span><span class="o">.</span><span class="mo">06</span><span class="mi">99950644281617</span><span class="p">,</span><span class="mi">1</span><span class="o">.</span><span class="mi">32568550595165</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">412599258349398</span><span class="p">,</span><span class="mi">0</span><span class="o">.</span><span class="mi">14436832227506</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">16507785388489</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">16782049922428</span><span class="p">,</span><span class="mi">0</span><span class="o">.</span><span class="mi">24318371493798</span><span class="p">,</span><span class="mi">0</span><span class="o">.</span><span class="mi">258954871320764</span><span class="p">,</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">151966534521183</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">y</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">Vector</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">x</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">DataFrame</span><span class="o">.</span><span class="n">new</span><span class="p">({</span><span class="s2">&quot;x1&quot;</span><span class="o">=&gt;</span><span class="n">x1</span><span class="p">,</span><span class="s2">&quot;x2&quot;</span><span class="o">=&gt;</span><span class="n">x2</span><span class="p">})</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">obj</span> <span class="o">=</span> <span class="no">Statsample</span><span class="o">::</span><span class="no">GLM</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="ss">:binomial</span><span class="p">)</span>
+</span><span class='line'><span class="c1"># =&gt; Returns logistic regression object</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <a href="http://rubydoc.info/gems/statsample-glm/Statsample/Regression">documentation and API details is available here</a></p>
+
+<p>We have some more plans for GLM module. First in the list is to make the algorithms work with singular value decomposition, because manual inversion of matrices is not fun for larger values in a Poisson regression.</p>
+
+<h2>Conclusion</h2>
+
+<p>I have <a href="http://ankurgoel.com">blogged about most of the functionalities</a>; additional information is available there.</p>
+
+<p>For more updated use cases refer to the notebooks in the respective project READMEs.</p>
+
+<p>Please explore and use the libraries; I eagerly await your input, suggestions and questions. Feel free to leave any questions on <a href="http://github.com/SciRuby/statsample-glm/issues">the Statsample GLM tracker</a> or <a href="[the%20Statsample%20GLM%20tracker](http://github.com/SciRuby/statsample-glm/issues">the Statsample TimeSeries tracker</a>.</p>
+
+<p>I had an amazing summer!</p>
+
+<p>Stay tuned and Enjoy.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/01/call-for-funding-more-women-needed-in-open-source-science-software/">Call for Funding: More Women Needed in Open Source Science Software</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">John Woods</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-01T16:24:00+09:00" pubdate data-updated="true">Nov 1<span>st</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.ncwit.org/blog/did-you-know-demographics-technical-women">Women make up 51% of the American workforce, and yet only 20% of software engineers are female.</a> Worldwide,
+the situation is similar. <a href="http://www.networkworld.com/community/node/58218">In open source software engineering, the statistics are worse: only 1.5&ndash;5% are female.</a></p>
+
+<p>One of the organizations which presented at the Google Summer of Code Mentor Summit was the <a href="http://gnome.org/opw/">GNOME Foundation&#8217;s Outreach Program for Women</a> (OPW). OPW is
+similar to GSoC, except that OPW doesn&#8217;t require its applicants to be
+students &mdash; or know how to program when the coding period begins. The pay is competitive with GSoC. And of course,
+only women can apply.</p>
+
+<p>In the process of our Google Code-In 2013 application, I recruited several female mentors to work with female GCI
+students &mdash; not a requirement, but I think it helps to have supportive people involved with whom one can identify. Unfortunately,
+we weren&#8217;t selected for the Code-In (not too disappointing given <a href="https://groups.google.com/forum/#!topic/gci-announce/P73dzsxKdsM">the several venerable and accomplished organizations that were chosen</a>). But we want to have another go, this
+time by applying for the Outreach Program for Women.</p>
+
+<p>Here&#8217;s where we need your help.</p>
+
+<p>Work for a company that might want to support this goal? Show this to your boss. Have him or her get in touch with
+us (sciruby.project at gmail dot com).</p>
+
+<p>If you don&#8217;t work for such a company, but would still like to help, you can also get in touch at the same email address.
+As a general rule of thumb, <a href="https://pledgie.com/campaigns/15783">you can always donate via Pledgie</a>, even if you don&#8217;t
+have access to tons of money.</p>
+
+<p>By the way, <a href="/blog/2013/10/25/mentoring-future-computational-power-women-for-gci-2013/">here&#8217;s a blog post by one of our mentors, Anna Belak</a>.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/25/mentoring-future-computational-power-women-for-gci-2013/">Mentoring Future Computational Power Women for GCI 2013</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Anna Belak</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-25T14:09:00+09:00" pubdate data-updated="true">Oct 25<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>My name is Anna, and I&#8217;m an engineer and a scientist. I study Materials Science and Engineering at the University of
+Michigan; and I graduated from Virginia Tech with a degree in Physics. My thesis project deals with computationally
+predicting the properties of materials used in lithium-ion batteries and airplane turbine blades.</p>
+
+<p><img src="/images/anna_belak.jpg" title="Anna Belak coding like a boss" /></p>
+
+<p>I&#8217;m writing this blog post for SciRuby, but I&#8217;m really writing it for the young women out there. SciRuby is applying to
+participate in <a href="https://developers.google.com/open-source/gci/">Google&#8217;s Code-In 2013</a>, which aims to get high school
+students involved in the open source movement, and specifically in coding. It&#8217;s great preparation for college and
+beyond — whatever you might choose to study.</p>
+
+<p>I became involved in science because I love figuring stuff out and working with smart, interesting people, and I want
+you to get involved, too. Modern science wouldn&#8217;t be possible without open source software. Moreover, if you learn how
+to code, you&#8217;ll always have a job. Always.</p>
+
+<p>And the cool part is that you don&#8217;t have to know how to code in order to participate. Many of the tasks involve research
+and documentation in science and mathematics — which is a great way to obtain valuable experience for college
+applications.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/12/ruby-and-the-semantic-web-rdf-sparql-publisci/">Ruby and the Semantic Web, RDF, and SPARQL: PubliSci</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Will Strinz</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-12T16:36:00+09:00" pubdate data-updated="true">Oct 12<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p class="note"><strong>Editor&#8217;s Note:</strong> This is the second of four blog posts detailing our Google Summer of
+Code 2013 students&#8217; work. I edited it to include a very incomplete list of public RDF repositories. &mdash;John Woods</p>
+
+
+<h2>Introduction</h2>
+
+<p>Across all fields and disciplines, contemporary scientists are faced with a massive and growing volume of data. It often
+won&#8217;t fit in a lab notebook, and there is a pressing need to share it more quickly and widely than publication in a
+journal article would allow for. Database software is one great solution for storage of such data, but relational
+databases become brittle in the face of changes or new information, do not play nicely with other databases or data
+derived from such databases, and may not be fully machine (or human) readable without pre-existing knowledge.</p>
+
+<p>Meanwhile, the Internet is an extremely useful place to discover and share useful information, but it is essentially
+built around linked documents, rather than pure data, and so our primary mechanism for sharing data is as HTML or text.</p>
+
+<p>RDF and related technologies propose to provide the means to move beyond a web of documents to a web of data. Along
+the way, these technologies may address many of the problems with conventional relational databases (e.g., SQL). At its
+core, RDF defines an extremely flexible method for representing data on the web &mdash; which is nonetheless
+unambiguously defined, without any external context, and can be linked to other data as web documents link to each
+other. Because RDF data can be understood as either a set of subject&ndash;predicate&ndash;object statements or a
+directed graph with labeled edges, a number of supporting standards and tools that have grown up around it to provide
+powerful storage and access methods that are often easier to implement and use than those associated with relational
+databases and the document-based web.</p>
+
+<h2>Enter PubliSci</h2>
+
+<p>This summer I created a Ruby gem, <a href="http://github.com/sciruby/publisci">PubliSci</a>, to facilitate data publication and interaction using
+the <a href="https://en.wikipedia.org/wiki/Semantic_web">Semantic Web</a>. The format offers a unified way to share and combine
+information from multiple sources, support for machine learning tools,
+a <a href="https://en.wikipedia.org/wiki/SPARQL">flexible query language</a> that makes application integration easy, and the
+backing of the World Wide Web Consortium (W3C) and other standards-setting bodies.</p>
+
+<p>The PubliSci gem comprises a set of parsers for converting various input formats using
+the <a href="http://semanticweb.com/w3c-publishes-last-call-working-drafts-for-rdf-data-cube-dcat_b35950">RDF Data Cube vocabulary</a>, and
+a Ruby interface for defining new ones. Since the relationship between external datasets and semantic web formats is
+sometimes up to interpretation, a domain-specific language is included to allow end users to resolve ambiguities and
+provide additional metadata.</p>
+
+<p>Along with the conversion tool, a standalone server is available as an extension to the gem that simplifies setting up and interacting
+with RDF data stores. The server allows import, export, querying, and management of external <a href="https://en.wikipedia.org/wiki/Triplestore">triplestores</a> such as
+<a href="http://4store.org/">4store</a>, and supports both cross-domain access and content negotiation so the gem can be accessed
+using Javascript or other applications.</p>
+
+<p class="note"><strong>Triplestores</strong> are databases for the storage and retrieval of <strong>triples</strong>,
+which are typically subject&ndash;object&ndash;predicate relationships (e.g., <i>Bob knows Fred</i>).</p>
+
+
+<p>If you&#8217;d like to contribute, the <a href="https://github.com/sciruby/publisci">source code is available on Github</a>, and <a href="http://gsocsemantic.wordpress.com/2013/08/05/bio-publisci/">a broad
+outline of the to do list can be had as well</a>.</p>
+
+<h2>Usage</h2>
+
+<p>Once you&#8217;ve done <code>gem install publisci</code>, you can require the gem in the normal way (<code>require 'publisci'</code>). To invoke the
+domain-specific language, you&#8217;ll also want to include the <code>DSL</code> module:</p>
+
+<pre><code>require 'publisci'
+include PubliSci::DSL
+</code></pre>
+
+<p>Input data can be specified like so:</p>
+
+<pre><code># Specify input data
+data do
+  # Use local or remote paths to point to the data file you want to load:
+  source 'https://github.com/wstrinz/publisci/raw/master/spec/csv/bacon.csv'
+
+  # Specify datacube properties.
+  dimension 'producer', 'pricerange'
+  measure 'chunkiness'
+
+  # Set parser-specific options.
+  option 'label_column', 'producer'
+end
+</code></pre>
+
+<p>You can provide meta-data on your dataset as well.</p>
+
+<pre><code>metadata do
+  dataset 'bacon'
+  title 'Bacon dataset'
+  creator 'Will Strinz'
+  description 'some data about bacon'
+  date '1-10-2010'
+end
+</code></pre>
+
+<p>Sending the data to a repository is simple.</p>
+
+<pre><code># Send output to an RDF::Repository
+#  can also use 'generate_n3' to output a turtle string
+repo = to_repository
+</code></pre>
+
+<p>SPARQL queries can be run on the dataset using the <code>QueryHelper</code> module.</p>
+
+<pre><code># run SPARQL queries on the dataset
+PubliSci::QueryHelper.execute('select * where {?s ?p ?o} limit 5', repo)
+</code></pre>
+
+<p>Finally, data can be exported in other formats, such as ARFF:</p>
+
+<pre><code># export in other formats
+PubliSci::Writers::ARFF.new.from_store(repo)
+</code></pre>
+
+<h2>Some places to look for RDF repositories</h2>
+
+<ul>
+<li>Social sciences and economics: <a href="http://wiki.planet-data.eu/web/Datasets">PlanetData wiki: Datasets</a>, <a href="http://270a.info/">270a Linked Dataspaces</a></li>
+<li>Chemistry: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3118380/">Resource description framework technologies in chemistry</a></li>
+<li>Molecular biology: <a href="http://www.ebi.ac.uk/rdf/">EMBL-EBI: Current RDF Resources</a>, <a href="http://bio2rdf.org/">Bio2RDF</a>,
+<a href="http://www.geneontology.org/GO.format.rdfxml.shtml">Gene Ontology</a></li>
+<li>Ecology: <a href="http://www.bbc.co.uk/nature/feedsanddata">BBC Wildlife Finder</a></li>
+<li>General: <a href="http://dataincubator.org/">Data Incubator: Growing the Web of Data</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/24/gsoc-2013-data-mining-in-jruby-with-ruby-band/">GSOC 2013: Data Mining in JRuby With Ruby Band</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Alberto Arrigoni</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-24T10:44:00+09:00" pubdate data-updated="true">Sep 24<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p class="note"><strong>Editor&#8217;s Note:</strong> This is the first of four blog posts detailing
+our Google Summer of Code 2013 students&#8217; work, edited by John Woods.</p>
+
+
+<p>In the context of the Google Summer of Code 2013, I have developed a Ruby gem called <a href="https://github.com/arrigonialberto86/ruby-band">Ruby Band</a>
+that makes some selected Java software for data mining and machine learning applications available to the JRuby/Ruby
+users. This project complements existing software already developed for SciRuby by adding support for the Weka Toolkit
+and general functions included in the Apache Commons Math library.</p>
+
+<p>As Weka does, Ruby Band features a comprehensive collection of data preprocessing and modeling techniques, and supports
+several standard data mining tasks, more specifically: data pre-processing (filtering), clustering, classification,
+regression, and feature selection.</p>
+
+<p>All of Ruby Band&#8217;s techniques have been built on the assumption that the data is
+available as a single flat file or relation, where each datum is described by a fixed number of attributes. The
+loaded datasets are stored in Weka Instances objects, which are used as &#8216;core&#8217; data types for the interactions with
+other software (Apache Commons Math) or platforms.</p>
+
+<p>Originally, Ruby Band was called Ruby Mining. I renamed it Ruby Band, as I imagine
+different software sources (Weka, Apache, etc.) working as a whole, like in a real band. Ruby Band has been designed
+with a modular structure, so that it can be easily extended and integrated with other Java software. The Core module is
+allows data types from different sources to be defined and integrated using converter methods;
+functionalities from each piece of additional software are independently imported. This structure increases the
+extensibility of the product, as in the future other developers may add functionalities according to their needs.</p>
+
+<p>Though Ruby Band provides full support for the greatest part of the Weka APIs, some topics still need to be addressed
+properly. As I coded, I utilized the Weka Java APIs documentation as my roadmap; if you want to contribute,
+<a href="http://weka.wikispaces.com/Use+WEKA+in+your+Java+code">go see what is still missing</a>. The best and easiest way
+to introduce a new functionality into the Ruby Band framework is to write up a pertinent Cucumber test, as a number of
+Weka recipes have been posted online by the creators.</p>
+
+<p>The beta version of Ruby Band has already been released for general use on Rubygems (<code>gem install ruby-band</code>).</p>
+
+<p>This is a quick example of how to train a classifier on a dataset parsed from an ARFF file:</p>
+
+<pre><code>require 'ruby-band'
+
+# parse a dataset
+dataset = Core::Parser.parse_ARFF(my_file.arff)
+
+# initialize and train a classifier
+classifier = Weka::Classifier::Lazy::KStar::Base.new do
+  set_options '-M d'
+  set_data dataset
+  set_class_index 4
+end
+
+# cross-validate the trained classifier
+puts classifier.cross_validate(3)
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/18/nmatrix-nearing-beta-release/">NMatrix Nearing Beta Release</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">John Woods</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-18T15:18:00+09:00" pubdate data-updated="true">Sep 18<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>As of this writing, NMatrix v0.0.9 is available on RubyGems. It is likely that the next version will be a beta release
+candidate, as there&#8217;s only one critical feature still missing (<code>==</code> between matrices of different storage types).</p>
+
+<p>An enormous amount has changed since my last entry.</p>
+
+<h2>New, friendlier constructor</h2>
+
+<p>First and foremost, NMatrix sports a new constructor, based
+on <a href="https://groups.google.com/d/msg/sciruby-dev/tPwnmPbRR_U/PL0Nc92gdzEJ">helpful comments from folks on the listserv</a>. Here
+are some examples of construction:</p>
+
+<pre><code>NMatrix.new([4,4], 0) # 4x4 dense matrix of :int32, all 0
+NMatrix.new([4,4], 0.0) # 4x4 dense matrix of :float64, all 0.0
+NMatrix.new([4,4], 0.0, dtype: :complex64) # 4x4 dense matrix of :complex64
+NMatrix.new([1,4], stype: :yale) # size 4 sparse (Yale) row vector of 0s
+NMatrix.new([4,3], [0,1,2]) # 4 rows, 3 columns: gradient across each row from 0 to 2 (int32)
+NMatrix.new([4,3], [0,1,2], stype: :yale, default: 0) # same as above, but Yale storage (int32)
+NMatrix.new([4,1], stype: :list, dtype: :rational128) # size 4 sparse (list) column vector of rational 0s
+NMatrix.new([4,4]) # 4x4 dense matrix containing nils
+NMatrix.new([4,4], dtype: :int64) # 4x4 uninitialized dense matrix containing 64-bit integers
+NMatrix.new(4)     # same as above
+</code></pre>
+
+<p>The different storage types (stypes) have slightly different behaviors when no initialization value is provided. This
+may change in the future, but addresses the somewhat different use-cases of these storage types.</p>
+
+<p>I show a variety of examples above, several of which are not particularly wise uses &#8212; for example, the <code>[0,1,2]</code> Yale
+gradient, which uses 32-bit integers and must store 11 column indices and pointers (which are most likely unsigned
+long integers) in addition to the 11 entries (4 for the always-stored diagonal, 1 for the default, and 6 for the
+non-diagonal non-zeros).</p>
+
+<p>The key to understanding the differing construction is the default value. All sparse matrices need a default. Usually we
+think of sparse matrices as being zero-based (only non-zero values are stored), but NMatrix now allows other defaults.
+However, dense matrices don&#8217;t need defaults, and in fact sometimes it&#8217;s more efficient to allocate them without
+initializing them &#8212; such as if they&#8217;re about to store the results of some LAPACK function call. But if they contain
+Ruby objects, they <strong>have</strong> to be initialized, which is why they become nil.</p>
+
+<p>We&#8217;re still working out a few bugs in construction. If you find any, please report them in our <a href="http://github.com/SciRuby/nmatrix/issues">issue tracker</a>.</p>
+
+<h2>Elimination of NVectors</h2>
+
+<p>We removed the NVector class. Frankly, it didn&#8217;t make sense. A vector can&#8217;t have an orientation unless it has multiple
+dimensions &#8212; even if some of those dimensions have length 1. Now, vectors and matrices are treated the same in the code.</p>
+
+<p>The good news is that element access (<code>[]</code>) has been rewritten so that the programmer only needs provide the coordinates
+whose dimensions are not 1. For example:</p>
+
+<pre><code>n = NMatrix.new([4,1,3], 0) # 3-dimensional matrix of 0s
+n[2,1] == n[2,0,1]
+=&gt; true
+</code></pre>
+
+<p>The same rule applies to slicing.</p>
+
+<h2>Slicing improvements</h2>
+
+<p>Aleksey Timin contributed the framework for matrix slicing. Matrices can be sliced by copying or by reference. Modifying
+a copy-slice does not modify the original matrix; but modifying a reference slice does.</p>
+
+<p>A copy of some portion of the matrix may be made using <code>NMatrix#slice</code>:</p>
+
+<pre><code>new_matrix = n.slice(0..1,0..2)
+</code></pre>
+
+<p>And what appears to be a copy, but is actually a reference, may be made using brackets:</p>
+
+<pre><code>ref = n[0..1,0..2]
+</code></pre>
+
+<p>Reference slices may also be modified in a variety of ways:</p>
+
+<pre><code>n[0..4,2..8] = 0   # change all entries to 0
+n[0..4,2..8] = [0,1,2]  # change the selected entries to [0,1,2,0,1,2,0,1,2...]
+n[0..4,2..8] = NMatrix.new([3,3], [0,1,2]) # same as above
+</code></pre>
+
+<p>For the sake of speed, each of these <code>[]=</code> returns the right-hand value, whether that value is an array, matrix, or
+single value. So, you can do this:</p>
+
+<pre><code>x = m[0..4,2..8] = n[0..1,0..2] = [1,2,3]
+</code></pre>
+
+<p>and <code>x</code> will be equal to <code>[1,2,3]</code> after the evaluation.</p>
+
+<h2>Iteration</h2>
+
+<p>Matrices are now enumerable. There are a variety of enumerators &#8212; namely <code>each_with_indices</code> (and <code>each</code>), <code>each_stored_with_indices</code>,
+and <code>each_ordered_stored_with_indices</code>. The first, <code>each</code>, is guaranteed to produce the same iteration regardless of the
+storage type. The other two iterate only across the stored entries.</p>
+
+<h2>Elementwise comparisons</h2>
+
+<p>A regular matrix comparison, returning a single boolean, can be accomplished using <code>==</code> or <code>!=</code>. In earlier versions of
+NMatrix, the results of the element-wise versions, <code>=~</code>, <code>!~</code>, <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, and <code>&lt;=</code>, were matrices of 0s and 1s,
+stored using the <code>:byte</code> dtype.</p>
+
+<p>Now, these comparisons return matrices of Ruby objects:</p>
+
+<pre><code>n &lt; m
+=&gt; [ true,  false, false, true,
+     false, false, false, true,
+     true,  true,  true,  true  ]
+</code></pre>
+
+<p>Try experimenting with sparse matrices to see how the default value (<code>#default_value</code>) is initialized on the result during an
+elementwise comparison.</p>
+
+<h2>Chunky bacon</h2>
+
+<p>I&#8217;m really excited about all of the chunky bacon in our latest release. I feel like things are really coming together
+for our library. I&#8217;m also glad to see that people are using it.</p>
+
+<p>If you&#8217;re thinking of using NMatrix yourself, I strongly encourage it. Although I&#8217;m writing my dissertation, I plan to
+prioritize troubleshooting ahead of just about everything else. I want using NMatrix to be an easy choice for every
+Rubyist.</p>
+
+<p>Thanks for reading!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/4/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/2/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    
+
+
+<section>
+<div class="fb-like-box" data-href="http://www.facebook.com/SciRuby" data-width="" data-show-faces="false" data-stream="" data-header=""   ></div>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/">GSoC 2016: Adding Categorical Data Support</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/spicerub-kernelpool-and-kernels/">GSoC 2016: SpiceRub::KernelPool and Kernels</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/">GSoC 2016 : A Look at SpiceRub::Body</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-time/">GSoC 2016 : A Look at SpiceRub::Time</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/10/25/gsoc-2016-port-nmatrix-to-jruby/">GSoC 2016: NMatrix and JRuby</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/SciRuby">@SciRuby</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'SciRuby',
+            count: 6,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("sciruby", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/sciruby" class="twitter-follow-button" data-show-count="false">Follow @sciruby</a>
+  
+</section>
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - SciRuby -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sciruby';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

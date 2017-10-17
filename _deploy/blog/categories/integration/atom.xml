@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Integration | SciRuby]]></title>
+  <link href="http://sciruby.com/blog/categories/integration/atom.xml" rel="self"/>
+  <link href="http://sciruby.com/"/>
+  <updated>2017-10-17T20:33:21+09:00</updated>
+  <id>http://sciruby.com/</id>
+  <author>
+    <name><![CDATA[SciRuby]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Benchmarks for Integration Gem]]></title>
+    <link href="http://sciruby.com/blog/2014/07/28/benchmarks-for-integration-gem/"/>
+    <updated>2014-07-28T02:44:00+09:00</updated>
+    <id>http://sciruby.com/blog/2014/07/28/benchmarks-for-integration-gem</id>
+    <content type="html"><![CDATA[<p>The Integration gem now includes quite a few functions from which to
+choose. To make this choice easier, I have done some benchmarking to
+see how fast and acuurate each of these functions are.  The results of
+these tests for some randomly chosen functions are given below. The
+speed test reports shows the user CPU time, system CPU time, the sum
+of the user and system CPU times, and the elapsed real time to perform
+100 iterations of the code. The unit of time is seconds.</p>
+
+<h2>For function f(x)= x<sup>2+3*x+7</sup> on interval (0,1)</h2>
+
+<h3>Speed Tests</h3>
+
+<p>```
+Benchmarking with 100 iterations</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>rectangle                  72.040000   0.010000  72.050000 ( 72.058014)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>trapezoid                 105.500000   0.000000 105.500000 (105.489225)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>simpson                     0.020000   0.000000   0.020000 (  0.017601)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>romberg                     0.000000   0.000000   0.000000 (  0.002219)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>adaptive_quadrature         0.010000   0.000000   0.010000 (  0.002757)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>gauss                       0.010000   0.000000   0.010000 (  0.006439)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>gauss_kronrod               0.000000   0.000000   0.000000 (  0.008615)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>simpson3by8                 0.080000   0.000000   0.080000 (  0.074791)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>boole                       0.100000   0.000000   0.100000 (  0.100300)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>open_trapezoid            181.470000   0.050000 181.520000 (181.572745)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>milne                       0.060000   0.000000   0.060000 (  0.058677)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>qng                         0.000000   0.000000   0.000000 (  0.003788)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>qag                         0.010000   0.000000   0.010000 (  0.010407)
+```</p>
+
+<h3>Accuracy Tests</h3>
+
+<p><code>
++---------------------+-------------------+-------------------+------------------------+-------------------+
+|       Method        |      Result       |   Actual Result   |         Error          |     Accuracy      |
++---------------------+-------------------+-------------------+------------------------+-------------------+
+| rectangle           | 8.833333324123249 | 8.833333333333334 | 9.210085138988688e-09  | 99.99999989573489 |
+| trapezoid           | 8.83333334502252  | 8.833333333333334 | 1.1689186507624072e-08 | 99.99999986766959 |
+| simpson             | 8.833333333333332 | 8.833333333333334 | 1.7763568394002505e-15 | 99.99999999999997 |
+| romberg             | 9.0               | 8.833333333333334 | 0.16666666666666607    | 98.11320754716982 |
+| adaptive_quadrature | 8.833333333333334 | 8.833333333333334 | 0.0                    | 100.0             |
+| gauss               | 8.750000000006125 | 8.833333333333334 | 0.08333333332720905    | 99.05660377365425 |
+| gauss_kronrod       | 8.75              | 8.833333333333334 | 0.08333333333333393    | 99.0566037735849  |
+| simpson3by8         | 8.833333333333336 | 8.833333333333334 | 1.7763568394002505e-15 | 99.99999999999997 |
+| boole               | 8.833333333333336 | 8.833333333333334 | 1.7763568394002505e-15 | 99.99999999999997 |
+| open_trapezoid      | 8.833333325264693 | 8.833333333333334 | 8.068640866554233e-09  | 99.9999999086569  |
+| milne               | 8.833333333333334 | 8.833333333333334 | 0.0                    | 100.0             |
+| qng                 | 8.833333333333334 | 8.833333333333334 | 0.0                    | 100.0             |
+| qag                 | 8.833333333333336 | 8.833333333333334 | 1.7763568394002505e-15 | 99.99999999999997 |
++---------------------+-------------------+-------------------+------------------------+-------------------+
+</code></p>
+
+<h2>For function f(x) = x<sup>5+7*x<sup>2+2*cos(x)</sup></sup> on interval (0,1)</h2>
+
+<h3>Speed Tests</h3>
+
+<p>```
+Benchmarking with 100 iterations</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>rectangle                 534.790000   0.510000 535.300000 (538.238675)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>trapezoid                 835.950000   0.540000 836.490000 (839.233313)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>simpson                     0.650000   0.000000   0.650000 (  0.652694)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>romberg                     0.010000   0.000000   0.010000 (  0.002073)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>adaptive_quadrature         0.170000   0.000000   0.170000 (  0.167520)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>gauss                       0.000000   0.000000   0.000000 (  0.007621)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>gauss_kronrod               0.020000   0.000000   0.020000 (  0.010610)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>simpson3by8                 0.820000   0.000000   0.820000 (  0.831039)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>boole                       0.120000   0.000000   0.120000 (  0.119929)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>open_trapezoid            1019.100000   0.150000 1019.250000 (1020.034828)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>milne                       0.980000   0.000000   0.980000 (  0.970671)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>qng                         0.000000   0.000000   0.000000 (  0.008263)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>qag                         0.020000   0.000000   0.020000 (  0.020050)
+```</p>
+
+<h3>Accuracy Tests</h3>
+
+<p><code>
++---------------------+--------------------+--------------------+------------------------+-------------------+
+|       Method        |       Result       |   Actual Result    |         Error          |     Accuracy      |
++---------------------+--------------------+--------------------+------------------------+-------------------+
+| rectangle           | 4.182941950501391  | 4.1829419696157935 | 1.9114402505238104e-08 | 99.99999954303927 |
+| trapezoid           | 4.182941993679488  | 4.1829419696157935 | 2.406369414842402e-08  | 99.99999942471844 |
+| simpson             | 4.182941969798875  | 4.1829419696157935 | 1.8308110583120651e-10 | 99.99999999562314 |
+| romberg             | 5.54030230586814   | 4.1829419696157935 | 1.3573603362523468     | 67.5501035847021  |
+| adaptive_quadrature | 4.182941969702552  | 4.1829419696157935 | 8.675815621472793e-11  | 99.9999999979259  |
+| gauss               | 3.5364151237832213 | 4.1829419696157935 | 0.6465268458325721     | 84.54372901826423 |
+| gauss_kronrod       | 3.5364151237807455 | 4.1829419696157935 | 0.6465268458350479     | 84.54372901820506 |
+| simpson3by8         | 4.182941969676288  | 4.1829419696157935 | 6.049472034419523e-11  | 99.99999999855378 |
+| boole               | 4.182941969615793  | 4.1829419696157935 | 8.881784197001252e-16  | 99.99999999999997 |
+| open_trapezoid      | 4.182941952971977  | 4.1829419696157935 | 1.6643816103112385e-08 | 99.99999960210263 |
+| milne               | 4.18294196954598   | 4.1829419696157935 | 6.981348832368894e-11  | 99.99999999833099 |
+| qng                 | 4.182941969615793  | 4.1829419696157935 | 8.881784197001252e-16  | 99.99999999999997 |
+| qag                 | 4.1829419696157935 | 4.1829419696157935 | 0.0                    | 100.0             |
++---------------------+--------------------+--------------------+------------------------+-------------------+
+</code></p>
+
+<p>If you are keen to test any function of your choice you can pull from
+<a href="https://github.com/rajatkapoor/integration">my Integration gem fork</a>
+and change the files in the benchmark folder. For both the files,
+<code>accuracy.rb</code> and <code>speed.rb</code>, change the line <code>func = lambda{|x| f(x)}</code>
+with <code>f(x)</code> as your desired function. In case you want to perform
+accuracy benchmarks, make sure that you know the exact result of the
+integration operation before hand and assign this value to the
+variable <code>actual_result</code> Feel free to comment if you face any problem
+running the benchmarks with your desired functions.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Usage: Integration Gem Improvements]]></title>
+    <link href="http://sciruby.com/blog/2014/07/02/usage-integration-gem-improvements/"/>
+    <updated>2014-07-02T17:43:00+09:00</updated>
+    <id>http://sciruby.com/blog/2014/07/02/usage-integration-gem-improvements</id>
+    <content type="html"><![CDATA[<h2>Numerical Integration</h2>
+
+<p>Integration is the process of finding the summation of the value of a function at small intervals, when the width of the intervals is infinitesimally small.
+As there is no such thing as "infinitesimally small interval", there are several other methods which help us to approximate the values of integrals.</p>
+
+<p>Numerical integration is one such technique which helps us to estimate the value of the definite integral of a function over an interval.
+Numerical integration is based on the principle of evaluating the values of a function at specific points in the interval and then taking the product of those values with a corresponding weight, which is a standard constant specific to the method being used.</p>
+
+<h2>Integration Gem</h2>
+
+<p>The Integration gem is now equipped with a host of additional algorithms for approximating the integral of a function ranging from the simple ones like Simpson's method to the more complex ones like Gauss&ndash;Kronrod and Adaptive Quadrature method.</p>
+
+<h2>Example</h2>
+
+<p>Let us say you need to find out the integral of a function <code>5*x**2 -7*Math.cos(x)</code> over the interval <code>(0,1)</code>.
+We can solve this using the following snippet using the Integration gem:</p>
+
+<p>```ruby
+Integration.integrate(0,1,{:method=>:simpson}) {|x| 5<em>x**2 -7</em>Math.cos(x)}</p>
+
+<h1>=> -4.223630227110514</h1>
+
+<p>```</p>
+
+<p>We see that the actual value of this integral is <code>-4.2236302269886088799000849584</code>, which is pretty close to the value estimated by the integration gem.
+Instead of <code>{:method=&gt;:simpson}</code> in the above code, you can use any one of these implemented methods:</p>
+
+<p><code>ruby
+rectangle,:trapezoid,:simpson, :adaptive_quadrature , :gauss, :romberg, :monte_carlo, :gauss_kronrod, :simpson3by8, :boole, :open_trapezoid, :milne
+</code></p>
+
+<p>Each of these algorithms gives similar results &mdash; except if the function has rapid changes in the interval of integration, as is the nature of numerical integration.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Updates: Minimization and Integration]]></title>
+    <link href="http://sciruby.com/blog/2014/06/24/updates-minimization-and-integration/"/>
+    <updated>2014-06-24T14:32:00+09:00</updated>
+    <id>http://sciruby.com/blog/2014/06/24/updates-minimization-and-integration</id>
+    <content type="html"><![CDATA[<h2>Minimization</h2>
+
+<p>The Minimization gem now supports the following unidimensional function minimizations
+provided by GSL. The supported methods include the pure Ruby implementations of:</p>
+
+<ol>
+<li>Newton&ndash;Raphson</li>
+<li>Golden Section</li>
+<li>Brent</li>
+<li>Quad Golden</li>
+</ol>
+
+
+<p>Of these, the Golden Section, Brent, and Quad Golden are also
+available via Minimization's GSL interface (and are thus
+faster). Everything is organized in such a way that the faster C code
+(i.e., GSL) will be executed when GSL is available, but that otherwise
+the Ruby implementation will be used. I still have to beautify the
+code and add documentation.</p>
+
+<h2>Integration</h2>
+
+<p>The Integration gem has been transitioned from Hoe to Bundler. For
+Gauss&ndash;Kronrod Quadrature, I have hard-coded the values of nodes
+and weights (for 15, 21, 31, 41, and 61 points) --- which were already
+hardcoded in the case of the Gauss quadrature.</p>
+
+<p>Additionally, I added basic methods like Simpson's Three-Eighths
+Method, Milne's Method, Boole's Quadrature and Open Trapezoid.</p>
+
+<p>This week, I will be reviewing a <a href="https://github.com/clbustos/integration/pull/3">pull request</a> which aims to change the structure of the whole Integration gem.</p>
+
+<p>After that I plan to implement more adaptive methods and incorporate
+the non-adaptive methods under a single Newton&ndash;Cotes function.</p>
+
+<p>Lastly, I am brainstorming designs for symbolic integration using
+JScience and JRuby.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Introduction: Minimization and Integration (Lahiru)]]></title>
+    <link href="http://sciruby.com/blog/2014/06/18/introduction-minimization-and-integration/"/>
+    <updated>2014-06-18T16:45:00+09:00</updated>
+    <id>http://sciruby.com/blog/2014/06/18/introduction-minimization-and-integration</id>
+    <content type="html"><![CDATA[<p class="note"><strong>Editor's Note:</strong> We have two students
+working on numerical minimization and integration this summer, Rajat and
+Lahiru. Rajat's introductory post appeared two weeks ago.</p>
+
+
+<h2>Introduction </h2>
+
+<p>I'm Lahiru Lasandun and I'm an undergraduate of University of Moratuwa, Sri Lanka. I've been selected for
+Google Summer of Code 2014 for SciRuby's Minimization and Integration projects.</p>
+
+<p>I was working with SciRuby about a month before GSOC started and did some tests on how to enhance the performance of
+these numerical computations. My first idea was to use multi-threading. With the instuctions and guidance of mentors, I
+tested more methods such as Erlang multi-processing, the AKKA package of multi-threading, and finally OpenCL. The final
+decision was to use OpenCL to enhance computation power of these mathematical computations with the support of multi-cores
+and GPUs.</p>
+
+<h2>Minimization Gem</h2>
+
+<p>After GSOC started, I began working on SciRuby's Minimization gem. I proposed multidimensional minimization methods for the
+Minimization gem, which already had plenty of unidimensional minimization methods. I chose two non-gradient
+and two gradient minimization methods as well as simulated annealing.</p>
+
+<h2>Integration Gem</h2>
+
+<p>For Integration, I proposed to replicate some unidimensional integration methods from the GNU Scientific Library, GSL. Additionally, I proposed to add OpenCL support to enhance performance of integration methods.</p>
+
+<h2>Current Progress</h2>
+
+<p>Currently, I am working on Nelder&ndash;Mead multidimensional minimization
+method which is a non-gradient method, including working on the relevant
+test cases.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Introduction to the Minimization and Integration project (Rajat)]]></title>
+    <link href="http://sciruby.com/blog/2014/06/04/introduction-to-the-minimization-and-integration-project/"/>
+    <updated>2014-06-04T14:23:00+09:00</updated>
+    <id>http://sciruby.com/blog/2014/06/04/introduction-to-the-minimization-and-integration-project</id>
+    <content type="html"><![CDATA[<p class="note"><strong>Editor's Note:</strong> We have two students
+working on numerical minimization and integration this summer, Rajat and
+Lahiru. Lahiru will be writing a separate post about his work.</p>
+
+
+<h2>Introduction to the Minimization and Integration Project</h2>
+
+<p>Hi. My name is Rajat Kapoor and I have been selected to work with
+SciRuby for Google Summer of Code 2014.</p>
+
+<p><a href="https://github.com/SciRuby/minimization">Minimization</a> and
+<a href="https://github.com/SciRuby/integration">Integration</a> are two of the
+many available gems in the SciRuby suite. My project this year aims to
+improve these gems to replicate the functionality provided by GNU's
+GSL. I will be trying to implement all the minimization and
+integration algorithms present in GSL in pure Ruby, with improvements
+as needed, so that these functions are easily accesible to all Ruby
+users, while the users which have GSL already installed will have an
+advantage in terms of speedy computations.</p>
+
+<h2>What Minimization and Integration actually mean</h2>
+
+<p>Minimization refers to the process of finding out the minimum of a
+mathematical function whose values might depend on multiple
+variables. Unidimensional minimization restricts these problems to
+functions of one single variable. Integration is the same as the very
+widely used concept in calculus which basically boils down to finding
+the summation of the value of a function at small intervals, when the
+width of the intervals in infinitesimally small. I can bet that you
+knowingly or unknowingly use both these things on a daily basis.</p>
+
+<h2>The plan</h2>
+
+<p>The project can be broken into two major parts: Minimization and
+Integration, as these are two seperate gems.</p>
+
+<p>The Minimization gem can be broken in two parts: unidimensional (or
+univariate) and multidimensional (multivariate). With respect to
+coding, these two can again be broken down into sub-parts: pure Ruby
+implementations and GSL support. The Integration gem will include
+the pure Ruby implementations as well as GSL support. Along with this,
+some support for symbolic integration will be added for JRuby
+users by way of the JScience library.</p>
+
+<h2>Progress</h2>
+
+<p>The pure Ruby implementations of the unidimensional minimization part
+are almost finished. I am also working on the GSL support for the same
+along with it. I plan to finish up any unidimensional minimization
+work by the end of this week and start the work with multidimensional
+minimization methods.</p>
+
+<p>Keep watching this blog for more updates regarding my project.</p>
+]]></content>
+  </entry>
+  
+</feed>

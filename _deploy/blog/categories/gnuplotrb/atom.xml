@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Gnuplotrb | SciRuby]]></title>
+  <link href="http://sciruby.com/blog/categories/gnuplotrb/atom.xml" rel="self"/>
+  <link href="http://sciruby.com/"/>
+  <updated>2017-10-17T20:33:21+09:00</updated>
+  <id>http://sciruby.com/</id>
+  <author>
+    <name><![CDATA[SciRuby]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2016: Adding Categorical Data Support]]></title>
+    <link href="http://sciruby.com/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/"/>
+    <updated>2016-11-25T02:54:00+09:00</updated>
+    <id>http://sciruby.com/blog/2016/11/25/gsoc-2016-adding-categorical-data-support</id>
+    <content type="html"><![CDATA[<p>Support for categorical data is important for any data analysis
+tool. This summer I implemented categorical data capabilities for:</p>
+
+<ul>
+<li>Convenient and efficient data wrangling for categorical data in <a href="https://github.com/v0dro/daru">Daru</a></li>
+<li>Visualization of categorical data</li>
+<li>Multiple linear regression and generalized linear models (GLM) with categorical variables in <a href="https://github.com/SciRuby/statsample">Statsample</a> and <a href="https://github.com/SciRuby/statsample-glm">Statsample-GLM</a></li>
+</ul>
+
+
+<p>Lets talk about each of them in detail.</p>
+
+<h4>Analyzing catgorical data with Daru</h4>
+
+<p>Categorical data is now readily recognized by
+<a href="https://github.com/v0dro/daru">Daru</a> and Daru has all the necessary
+procedures for dealing with it.</p>
+
+<p>To analyze categorical variable, simply turn the numerical vector to categorical and you are ready to go.</p>
+
+<p>We will use, for demonstration purposes, animal shelter data taken
+from the <a href="https://www.kaggle.com/c/shelter-animal-outcomes">Kaggle Competition</a>. It is
+stored in <code>shelter_data</code>.</p>
+
+<p><img src="http://i65.tinypic.com/xeliqs.png" alt="" /></p>
+
+<p>```ruby</p>
+
+<h1>Tell Daru which variables are categorical</h1>
+
+<p>shelter_data.to_category 'OutcomeType', 'AnimalType', 'SexuponOutcome', 'Breed', 'Color'</p>
+
+<h1>Or quantize a numerical variable to categorical</h1>
+
+<p>shelter_data['AgeuponOutcome'] = shelter_data['AgeuponOutcome(Weeks)'].cut [0, 1, 4, 52, 260, 1500],</p>
+
+<pre><code>labels: [:less_than_week, :less_than_month, :less_than_year, :one_to_five_years, :more_than__five_years]
+</code></pre>
+
+<h1>Do your operations on categorical data</h1>
+
+<p>shelter_data['AgeuponOutcome'].frequencies.sort ascending: false
+```
+<img src="http://i67.tinypic.com/w1u3vs.png" alt="" /></p>
+
+<p>```ruby
+small['Breed'].categories.size</p>
+
+<h1>=> 1380</h1>
+
+<h1>Merge infrequent categories to make data analysis easy</h1>
+
+<p>other_cats = shelter_data['Breed'].categories.select { |i| shelter_data['Breed'].count(i) &lt; 10 }
+other_cats_hash = other_cats.zip(['other']*other_cats.size).to_h
+shelter_data['Breed'].rename_categories other_cats_hash
+shelter_data['Breed'].frequencies</p>
+
+<h1>View the data</h1>
+
+<p>small['Breed'].frequencies.sort(ascending: false).head(10)
+```
+<img src="http://i64.tinypic.com/25rcu8m.png" alt="" /></p>
+
+<p>Please refer to <a href="http://lokeshh.github.io/blog/2016/06/21/categorical-data/">this blog post</a> to know more.</p>
+
+<h4>Visualizing categorical data</h4>
+
+<p>With the help of <a href="https://github.com/SciRuby/nyaplot">Nyaplot</a>, <a href="https://github.com/SciRuby/gnuplotrb">GnuplotRB</a> and <a href="https://github.com/topfunky/gruff">Gruff</a>, Daru now provides ability to visualize categorical data as it does with numerical data.</p>
+
+<p>To plot a vector with Nyaplot one needs to call the function <code>#plot</code>.</p>
+
+<p>```ruby</p>
+
+<h1>dv is a caetgorical vector</h1>
+
+<p>dv = Daru::Vector.new ['III']<em>10 + ['II']</em>5 + ['I']*5, type: :category, categories: ['I', 'II', 'III']</p>
+
+<p>dv.plot(type: :bar, method: :fraction) do |p, d|
+  p.x_label 'Categories'
+  p.y_label 'Fraction'
+end
+```</p>
+
+<p><img src="http://i64.tinypic.com/2s6onsw.png" alt="" /></p>
+
+<p>Given a dataframe, one can plot the scatter plot such that the points
+color, shape and size can be varied acording to a categorical
+variable.</p>
+
+<p>```ruby</p>
+
+<h1>df is a dataframe with categorical variable :c</h1>
+
+<p>df = Daru::DataFrame.new({
+  a: [1, 2, 4, -2, 5, 23, 0],
+  b: [3, 1, 3, -6, 2, 1, 0],
+  c: ['I', 'II', 'I', 'III', 'I', 'III', 'II']
+  })
+df.to_category :c</p>
+
+<p>df.plot(type: :scatter, x: :a, y: :b, categorized: {by: :c, method: :color}) do |p, d|
+  p.xrange [-10, 10]
+  p.yrange [-10, 10]
+end
+```</p>
+
+<p><img src="http://i64.tinypic.com/2mcfx28.png" alt="" /></p>
+
+<p>In a similar manner Gnuplot and Gruff also support plotting of categorical variables.</p>
+
+<p>An additional work I did was to add Gruff with Daru. Now one can plot
+vectors and dataframes also using Gruff.</p>
+
+<p>See more notebooks on visualizing categorical data with Daru
+<a href="http://nbviewer.jupyter.org/github/SciRuby/sciruby-notebooks/tree/master/Data%20Analysis/Plotting/">here</a>.</p>
+
+<h4>Regression with categorical data</h4>
+
+<p>Now categorical data is supported in multiple linear regression and
+generalized linear models (GLM) in
+<a href="https://github.com/SciRuby/statsample">Statsample</a> and
+<a href="https://github.com/SciRuby/statsample-glm">Statsample-GLM</a>.</p>
+
+<p>A new formula language (like that used in R or
+<a href="https://github.com/pydata/patsy">Patsy</a>) has been introduced to ease
+the task of specifying regressions.</p>
+
+<p>Now there's no need to manually create a dataframe for regression.</p>
+
+<p>```ruby
+require 'statsample-glm'</p>
+
+<p>formula = 'OutcomeType_Adoption~AnimalType+Breed+AgeuponOutcome(Weeks)+Color+SexuponOutcome'
+glm_adoption = Statsample::GLM::Regression.new formula, train, :logistic
+glm_adoption.model.coefficients :hash</p>
+
+<h1>=> {:AnimalType_Cat=>0.8376443692275163, :"Breed_Pit Bull Mix"=>0.28200753488859803, :"Breed_German Shepherd Mix"=>1.0518504638731023, :"Breed_Chihuahua Shorthair Mix"=>1.1960242033878856, :"Breed_Labrador Retriever Mix"=>0.445803000000512, :"Breed_Domestic Longhair Mix"=>1.898703165797653, :"Breed_Siamese Mix"=>1.5248210169271197, :"Breed_Domestic Medium Hair Mix"=>-0.19504965010288533, :Breed_other=>0.7895601504638325, :"Color_Blue/White"=>0.3748263925801828, :Color_Tan=>0.11356334165122918, :"Color_Black/Tan"=>-2.6507089126322114, :"Color_Blue Tabby"=>0.5234717706465536, :"Color_Brown Tabby"=>0.9046099720184905, :Color_White=>0.07739310267363662, :Color_Black=>0.859906249787038, :Color_Brown=>-0.003740755055106689, :"Color_Orange Tabby/White"=>0.2336674067343927, :"Color_Black/White"=>0.22564205490196415, :"Color_Brown Brindle/White"=>-0.6744314269278774, :"Color_Orange Tabby"=>2.063785952843677, :"Color_Chocolate/White"=>0.6417921901449108, :Color_Blue=>-2.1969040091451704, :Color_Calico=>-0.08386525532631824, :"Color_Brown/Black"=>0.35936722899161305, :Color_Tricolor=>-0.11440457799048752, :"Color_White/Black"=>-2.3593561796090383, :Color_Tortie=>-0.4325130799770577, :"Color_Tan/White"=>0.09637439333330515, :"Color_Brown Tabby/White"=>0.12304448360566177, :"Color_White/Brown"=>0.5867441296328475, :Color_other=>0.08821407092892847, :"SexuponOutcome_Spayed Female"=>0.32626712478395975, :"SexuponOutcome_Intact Male"=>-3.971505056680895, :"SexuponOutcome_Intact Female"=>-3.619095491410668, :SexuponOutcome_Unknown=>-102.73807712615843, :"AgeuponOutcome(Weeks)"=>-0.006959545305620043}</h1>
+
+<p>```</p>
+
+<p>Additionally, through the work of <a href="https://github.com/agisga">Alexej Grossmann</a>,
+one can also predict on new data using the model.</p>
+
+<p><code>ruby
+predict = glm_adoption.predict test
+predict.map! { |i| i &lt; 0.5 ? 0 : 1 }
+predict.head 5
+</code>
+<img src="http://i67.tinypic.com/r1af7p.png" alt="" /></p>
+
+<p>This, I believe, makes Statsample-GLM very convenient to use.</p>
+
+<p>See <a href="http://nbviewer.jupyter.org/github/SciRuby/sciruby-notebooks/blob/master/Data%20Analysis/Categorical%20Data/examples/%5BExample%5D%20Formula%20language%20in%20Statsample-GLM.ipynb">this</a> for a complete example.</p>
+
+<h4>Other</h4>
+
+<p>In addition to the aforementioned, there are some other considerable changes:</p>
+
+<ul>
+<li>Improving overall structure of indexing in Daru and adding more capabilities. See <a href="http://nbviewer.jupyter.org/github/SciRuby/sciruby-notebooks/blob/master/Data%20Analysis/Categorical%20Data/Indexing%20in%20Vector.ipynb">this</a> and <a href="http://nbviewer.jupyter.org/github/SciRuby/sciruby-notebooks/blob/master/Data%20Analysis/Categorical%20Data/Indexing%20in%20DataFrame.ipynb">this</a>.</li>
+<li><code>CategoricalIndex</code> to handle the case when index column is a categorical data. <a href="http://lokeshh.github.io/blog/2016/06/14/categorical-index/">More about it here.</a></li>
+<li>Improving missing value API in Daru. <a href="http://lokeshh.github.io/blog/2016/08/18/improve-missing-values-api-in-daru/">Read more about it here.</a></li>
+<li>Configuring guard to enable automatic testing. <a href="https://github.com/v0dro/daru/blob/master/CONTRIBUTING.md#testing">More info here.</a></li>
+</ul>
+
+
+<h4>Documentation</h4>
+
+<p><a href="http://lokeshh.github.io/blog/2016/06/21/categorical-data/">You can read about all my work in detail here.</a>. <a href="https://summerofcode.withgoogle.com/archive/2016/projects/5356167010189312/">Additionally, my project page can be found here.</a></p>
+
+<p>I hope with these additions one will be able to see data more clearly with Daru.</p>
+]]></content>
+  </entry>
+  
+</feed>

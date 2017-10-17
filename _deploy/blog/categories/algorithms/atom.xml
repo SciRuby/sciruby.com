@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Algorithms | SciRuby]]></title>
+  <link href="http://sciruby.com/blog/categories/algorithms/atom.xml" rel="self"/>
+  <link href="http://sciruby.com/"/>
+  <updated>2017-10-17T20:33:21+09:00</updated>
+  <id>http://sciruby.com/</id>
+  <author>
+    <name><![CDATA[SciRuby]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[NMatrix's first beta release (belated announcement)]]></title>
+    <link href="http://sciruby.com/blog/2015/02/14/nmatrix-beta-released-belated-announcement/"/>
+    <updated>2015-02-14T14:56:00+09:00</updated>
+    <id>http://sciruby.com/blog/2015/02/14/nmatrix-beta-released-belated-announcement</id>
+    <content type="html"><![CDATA[<p>Almost two months ago, in December, we <a href="https://rubygems.org/gems/nmatrix">release our first beta of NMatrix</a>, our
+linear algebra library for the Ruby language.</p>
+
+<p>Rather than discussing what NMatrix has (which you can find in the <a href="https://github.com/SciRuby/nmatrix/blob/master/README.rdoc">readme</a>),
+I want to take this opportunity to discuss where we'd like it to go in the future. Think of this as our roadmap to 1.0.</p>
+
+<h2>External Library Requirements</h2>
+
+<p>NMatrix currently has an extremely limited set of Ruby gem dependencies &mdash; essentially only packable, which is
+needed for some of the I/O functionality &mdash; but as with other linear algebra libraries, its native library
+requirements can be problematic.</p>
+
+<p>Specifically, NMatrix requires ATLAS &mdash; which is virtually impossible to install on many Macs, and is no longer
+readily available with Yosemite &mdash; and also likes to have LAPACK around. Moreover, some would prefer to use other
+math libraries with NMatrix.</p>
+
+<p>There are several partial solutions. The clearest is that any components of NMatrix which require external non-standard
+libraries need to be abstracted into separate gems &mdash; such as <tt>nmatrix-atlas</tt> and <tt>nmatrix-io</tt> &mdash; and
+that these components should be interchangeable with others. NMatrix then needs to be able to fall back on either native
+C/C++ or Ruby implementations of certain functionalities.</p>
+
+<p>To this end, a number of simple LAPACK and CBLAS functions have been implemented in NMatrix, with volunteers working on
+a few others (the list is available in the README). <a href="https://github.com/SciRuby/sciruby/wiki/Google-Summer-of-Code-2015-Ideas#abstraction-of-atlascblasclapack-or-openblas-into-a-separate-gem">One of our proposed Google Summer of Code 2015 project ideas</a> involves
+breaking up NMatrix into several gems.</p>
+
+<p>The end result will be a much simpler installation process, and more freedom of choice.</p>
+
+<h2>Removal of Unnecessary Features</h2>
+
+<p>We thought it would be quite clever to include rational number support in NMatrix, including three types (32-bit, 64-bit,
+and 128-bit). Unfortunately, these types increase compilation time by about 30% (back-of-the-envelope calculation), and
+aren't particularly useful since most matrix operations with rationals as inputs give irrational-valued matrices
+as their outputs. The inclusion of rational types also complicates the codebase.</p>
+
+<p>Additionally, rationals are computationally problematic; what happens if there is overflow? Ruby handles overflow gracefully
+in its own rational type, which NMatrix users would still be able to utilize via the <tt>:object</tt> dtype.</p>
+
+<h2>You</h2>
+
+<p>The biggest change going forward is that NMatrix development needs to support actual use-cases. In the past, we've aimed
+to flesh out support for sparse storage formats, as well as math operations for the dense storage-type. It is folly to
+develop features no one wants to use. Future core development, then, will aim to make NMatrix's current feature set more
+usable.</p>
+
+<p>That means that future non-core development depends on you. What would you like to see in NMatrix? What would make it
+more useful for you?</p>
+
+<p>If you want to become involved, now is a good time. We're getting ready to submit a Google Summer of Code application
+(our third, I believe), and we're in need of students &mdash; <em>and especially mentors</em>. Please consider joining
+our <a href="https://groups.google.com/forum/#!forum/sciruby-dev">mailing list</a> and adding yourself as a mentor on the
+<a href="https://github.com/SciRuby/sciruby/wiki/Google-Summer-of-Code-2015-Ideas">ideas page</a>.</p>
+
+<p>Thanks so much for your support!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[First NMatrix Alpha Released]]></title>
+    <link href="http://sciruby.com/blog/2012/04/11/first-nmatrix-alpha-released/"/>
+    <updated>2012-04-11T13:36:00+09:00</updated>
+    <id>http://sciruby.com/blog/2012/04/11/first-nmatrix-alpha-released</id>
+    <content type="html"><![CDATA[<p class="warning"><strong>Warning:</strong> Code in this blog post is very old and likely will not work with the current version of NMatrix. Please check the <a href="https://github.com/SciRuby/nmatrix/wiki/">NMatrix wiki</a> for the most recent information.</p>
+
+
+<p>Two months ago, I <a href="2012/02/11/numeric-matrix-considerations">mentioned the existence of a prototype Ruby linear algebra library</a>, written in C.</p>
+
+<p>I am pleased to announce that yesterday we released our first alpha of said library, <a href="/nmatrix/">NMatrix</a> v0.0.1.<!--more--></p>
+
+<h2>Creating Matrices</h2>
+
+<p>There are lots of different ways to create matrices. The first and easiest is to supply dimensions and initial data:</p>
+
+<pre><code>>> n = NMatrix.new(4, 0) # a square 4x4 dense zero matrix
+=> #&lt;NMatrix:0x9a57e14shape:[4,4] dtype:int32 stype:dense&gt;
+>> n.pretty_print
+0  0  0  0
+0  0  0  0
+0  0  0  0
+0  0  0  0
+=> nil
+</code></pre>
+
+
+<h2>Data Types</h2>
+
+<p>You may notice that this first matrix defaulted to <tt>dtype=:int32</tt>. NMatrix will try to guess the <i>dtype</i> based on the
+first initial value you provide (e.g., <tt>NMatrix.new(4, [0.0, 1])</tt> will be :float32), but you can choose to provide
+a <i>dtype</i> in addition to or in lieu of initial values:</p>
+
+<pre><code>>> n = NMatrix.new(4, [0,1], :rational128)
+=> #&lt;NMatrix:0x9959e04shape:[4,4] dtype:rational128 stype:dense&gt;
+>> n.pretty_print
+0/1  1/1  0/1  1/1
+0/1  1/1  0/1  1/1
+0/1  1/1  0/1  1/1
+0/1  1/1  0/1  1/1
+>> m = NMatrix.new(4, :int64)  # no initialization of values
+=> #&lt;NMatrix:0x99fad68shape:[4,4] dtype:int64 stype:dense&gt;
+>> m.pretty_print
+-1217641248  161386160  161386100  161385680
+161385640  161385520  161385420  161384180
+161384120  161381060  161381020  161412140
+161411940  161411880  161411840  160879240
+=> nil
+</code></pre>
+
+
+<h2>Storage Formats</h2>
+
+<p>The storage type (<i>stype</i>) can also be specified, prior to the dimension argument. However, with sparse storage formats, initial values don't make sense, and these matrices will contain zeros by default.</p>
+
+<pre><code># empty list-of-lists-of-lists 4x3x4 matrix
+n = NMatrix.new(:list, [4,3,4], :int64)
+
+# Ruby objects in a 'Yale' sparse matrix
+m = NMatrix.new(:yale, [5,4], :object)
+
+# A byte matrix containing a gradient
+o = NMatrix.new(:dense, 5, [0,1,2,3,4], :byte)
+</code></pre>
+
+
+<p>The matrix <tt>m</tt> created above is a Yale-format sparse matrix, or more specifically, "new Yale," which differs from "old Yale" in that the diagonal is stored separately from the non-diagonal elements. Thus, diagonals can be accessed and set in constant time.</p>
+
+<p>Currently, all storage is row-based.</p>
+
+<h3>Conversion</h3>
+
+<p>You can also convert between any of these three stypes using <tt>cast</tt>, e.g.,</p>
+
+<pre><code>n = NMatrix.new(:list, 4, :int64)
+n[0,0] = 5
+n[0,3] = -2
+dense = n.cast(:dense, :int64)
+</code></pre>
+
+
+<h2>Vectors</h2>
+
+<p>Currently, only dense vectors are implemented as a child class of <tt>NMatrix</tt>, and creation is similar:</p>
+
+<pre><code>>> nv = NVector.new(5, :int64)
+=> #&lt;NVector:0x9a62328shape:[5,1] dtype:int64 stype:dense orientation:column&gt;
+</code></pre>
+
+
+<h2>Math Operations</h2>
+
+<p>Most element-wise mathematical operations are supported for Yale and dense types. These use the basic operators (e.g., +, -, /, *, ==).</p>
+
+<p>For non-element-wise matrix multiplication, use the <tt>dot</tt> instance method of NMatrix. Whole-matrix comparison (returning a single boolean value) is the <tt>equal?</tt> or <tt>eql?</tt> method.</p>
+
+<h2>Road Map</h2>
+
+<p>Much more remains to be written than has been completed. Here are some of our key priorities:</p>
+
+<ul>
+<li>determinants</li>
+<li>matrix-vector multiplication for Yale</li>
+<li>adaptation of SciRuby Matlab file reader to support NMatrix</li>
+<li>in-place transposition</li>
+</ul>
+
+
+<p>If you want to get involved, I suggest visiting the <a href="https://github.com/sciruby/nmatrix/issues">NMatrix issue tracker</a>. It will contain not only bugs, but also features that need to be implemented.</p>
+
+<h2>Conclusion</h2>
+
+<p>We're all pretty excited about NMatrix. But we couldn't have gotten this far without Masahiro Tanaka's <a href="http://narray.rubyforge.org/">NArray</a>, which has served as a model for our library.</p>
+
+<p>And we can't do it without your help. A numerical library in Ruby is no small endeavour, and probably requires at least one full-time programmer (which we do not have). Please consider contributing, even if it's just by letting us know what you think.</p>
+
+<p>Happy coding!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Numeric Matrix Considerations]]></title>
+    <link href="http://sciruby.com/blog/2012/02/11/numeric-matrix-considerations/"/>
+    <updated>2012-02-11T17:35:00+09:00</updated>
+    <id>http://sciruby.com/blog/2012/02/11/numeric-matrix-considerations</id>
+    <content type="html"><![CDATA[<p>Maybe you've been wondering why the SciRuby people have been so quiet lately.</p>
+
+<p>Mostly, we've been working on <a href="http://github.com/SciRuby/nmatrix">NMatrix</a>, which is our prototype linear algebra library, written as a Ruby C extension.<!--more--></p>
+
+<p>So far, we have dense and linked-list-of-linked-lists (or just "list") matrices, which can exist in an essentially unlimited number of dimensions. This week, I implemented the <a href="https://github.com/SciRuby/nmatrix/blob/sparse/ext/nmatrix/yale.c">beginnings of a two-dimensional sparse type known as "new Yale."</a> If you're curious, check out <em><a href="http://apps.nrbook.com/c/index.html">Numerical Recipes in C</a></em>, pp. 78-79.</p>
+
+<p>"New Yale" differs from "old Yale" (which SciPy uses for its CSR type) in that the diagonals are accessible in <tt>O(1)</tt> instead of <tt>O(log(n))</tt> time. Most libraries for Yale matrices include conditionals that permit both types to be used together (e.g., multiplying a new Yale matrix by an old Yale matrix).</p>
+
+<p>As I worked through implementation of matrix multiplication for Yale, I realized that matrix libraries are a bottomless pit. One could probably write matrix algorithms forever and still have lots left to do.</p>
+
+<p>So we need to set ourselves some limits.</p>
+
+<p>It's not just whether the diagonal is extracted from the rest of the matrix. It's also whether you want to be able to multiply integer-valued matrices by real-valued matrices without an expensive copy operation. It's whether you want to be able to multiply dense against Yale matrices or two Yale and list matrices that have different dtypes, or have separate storage for symmetric matrices, and so on.</p>
+
+<p>Some of this can be templated using generators. But the complexity begins to grow to the point where it's infeasible to test everything you've implemented. (You also start to get lost in a magical world of function pointers, which is yet another concern.)</p>
+
+<p>So, again, we need to set ourselves some limits.</p>
+
+<p>Where those limits might be, however, I know not. Weigh in on the Google Group, in the comments, or on <a href="https://plus.google.com/109304769076178160953/posts">our Google+ page</a>!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The Challenges of Copyrights]]></title>
+    <link href="http://sciruby.com/blog/2011/08/15/the-challenges-of-copyrights/"/>
+    <updated>2011-08-15T19:56:00+09:00</updated>
+    <id>http://sciruby.com/blog/2011/08/15/the-challenges-of-copyrights</id>
+    <content type="html"><![CDATA[<p>Last week, I thought it would be fun to translate some of the <em><a href="http://nr.com/">Numerical Recipes</a></em> algorithms into Ruby,
+ specifically those for the Gamma distribution and incomplete gamma function. I got them all working pretty well, and
+ they were only a hundred or so lines of code altogether.</p>
+
+<p>But a voice in the back of my head said, "Hey, you should ask Bill Press if he wants to be involved." <!--more--></p>
+
+<p><a href="http://en.wikipedia.org/wiki/William_H._Press">Bill Press</a>, by the way, is a pretty cool astrophysicist who decided he
+ wanted to come work here at UT as a computational biologist instead. He also happens to be first author on <em>Numerical
+ Recipes</em>, and a fairly regular attendee at my lab's weekly meetings. Once he had to pause my exam to take a call
+ from the White House, which was also pretty awesome.</p>
+
+<p>So I emailed Dr. Press to ask him if he'd be interested in helping out with SciRuby, and specifically if he might be
+ willing to donate a copy of NR. He was happy to donate a copy and to help out in whatever way he could, he wrote back,
+ but the license for NR wouldn't allow us to use the code from the book.</p>
+
+<p>My stomach sank. I had missed that disclaimer, and I was used to dealing with more-or-less public domain (or at least
+ GPLed) Ruby code.</p>
+
+<p>The email continued. We should be careful using other libraries, because many of them were illegally derived from
+ copyrighted materials.</p>
+
+<p>Several interesting discussions ensued (<a href="https://plus.google.com/108379995018215027591/posts/2AefG8i3nUX">including this public one</a>).
+ The take-away is that many people don't understand code copyrights (I among them). Consequently, most governments don't
+ understand copyrights (and it doesn't help that U.S. Congress isn't exactly full of programmers).</p>
+
+<p>Some were critical of Press and his coauthors for not simply giving us special permission to use his code, but such a
+ gimme would be complicated for NR. If they permitted us to use NR code in SciRuby, that code would then be available to
+ anyone else to use under the terms of the GPL. I imagine his publisher would be less than thrilled.</p>
+
+<p>So here are some general guidelines for those who want to contribute code to an open-source scientific project,
+ particularly SciRuby. Please keep in mind that I am not a lawyer, and take any of this with a grain of salt.</p>
+
+<ul>
+<li><p>If in doubt, check with the author.</p></li>
+<li><p>Do unto others as you would have them do unto you. In other words, honor closed source licenses if you wish your open
+source license to be honored.</p></li>
+<li><p><em>Always cite your sources.</em> If a copyright owner discovers apparently derivative code without a citation, it's easy
+to him or her to assume you plagiarized it directly from his or her work. If it has a citation, someone else gets the
+blame, or the copyright owner can determine that the code is only <em>apparently</em>, but not <em>actually</em>, derivative.</p></li>
+<li><p>If you write your own code, derived from your own math, document it. Scan your derivation and make it public (send it
+to our Google Group, for example).</p></li>
+</ul>
+
+
+<p>Any more words of wisdom? Stick them in the comments.</p>
+]]></content>
+  </entry>
+  
+</feed>

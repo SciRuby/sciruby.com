@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>CONTRIBUTING - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script src="./js/jquery.js"></script>
+<script src="./js/darkfish.js"></script>
+
+<link href="./css/fonts.css" rel="stylesheet">
+<link href="./css/rdoc.css" rel="stylesheet">
+
+
+
+<body id="top" role="document" class="file">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="./index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="./table_of_contents.html#pages">Pages</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+<div class="nav-section">
+  <h3>Table of Contents</h3>
+
+  <ul class="link-list" role="directory">
+    <li><a href="#label-How+to+help">How to help</a>
+    <li><a href="#label-Coding">Coding</a>
+    <li><a href="#label-Guidelines+for+interfacing+with+C-2FC-2B-2B">Guidelines for interfacing with C/C++</a>
+    <li><a href="#label-C-2FC-2B-2B+style+guide">C/C++ style guide</a>
+    <li><a href="#label-Documentation">Documentation</a>
+    <li><a href="#label-Conclusion">Conclusion</a>
+  </ul>
+</div>
+
+
+  <div id="project-metadata">
+    <div id="fileindex-section" class="nav-section">
+  <h3>Pages</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./CONTRIBUTING_md.html">CONTRIBUTING</a>
+  
+    <li><a href="./History_txt.html">History</a>
+  
+    <li><a href="./LICENSE_txt.html">LICENSE</a>
+  
+    <li><a href="./README_rdoc.html">README</a>
+  
+    <li><a href="./ext/nmatrix/binary_format_txt.html">binary_format</a>
+  
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-label="Page CONTRIBUTING.md">
+
+<p><a href="NMatrix.html">NMatrix</a> is part of SciRuby, a collaborative
+effort to bring scientific computation to Ruby. If you want to help, please
+do so!</p>
+
+<p>This guide covers ways in which you can contribute to the development of
+SciRuby and, more specifically, <a href="NMatrix.html">NMatrix</a>.</p>
+
+<h2 id="label-How+to+help">How to help<span><a href="#label-How+to+help">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>There are various ways to help NMatrix: bug reports, coding and
+documentation. All of them are important.</p>
+
+<p>First, you can help implement new features or bug fixes. To do that, visit
+our <a href="https://github.com/SciRuby/nmatrix/wiki/Roadmap">roadmap</a>
+or our <a
+href="https://github.com/sciruby/nmatrix/issues?sort=created&state=open">issue
+tracker</a>. If you find something that you want to work on, post it in the
+issue or on our <a
+href="https://groups.google.com/forum/?fromgroups#!forum/sciruby-dev">mailing
+list</a>.</p>
+
+<p>You need to send tests together with your code. No exceptions. You can ask
+for our opinion, but we won&#39;t accept patches without good spec
+coverage.</p>
+
+<p>We use RSpec for testing. If you aren&#39;t familiar with it, there&#39;s a
+good <a href="http://betterspecs.org/">guide to better specs with RSpec</a>
+that shows a bit of the syntax and how to use it properly. However, the
+best resource is probably the specs that already exist – so just read them.</p>
+
+<p>And don&#39;t forget to write documentation (we use RDoc). It&#39;s
+necessary to allow others to know what&#39;s available in the library.
+There&#39;s a section on it later in this guide.</p>
+
+<p>We only accept bug reports and pull requests in GitHub. You&#39;ll need to
+create a new (free) account if you don&#39;t have one already. To learn how
+to create a pull request, please see <a
+href="https://help.github.com/categories/63/articles">this guide on
+collaborating</a>.</p>
+
+<p>If you have a question about how to use <a href="NMatrix.html">NMatrix</a>
+or SciRuby in general or a feature/change in mind, please ask the <a
+href="https://groups.google.com/forum/?fromgroups#!forum/sciruby-dev">sciruby-dev
+mailing list</a>.</p>
+
+<p>Thanks!</p>
+
+<h2 id="label-Coding">Coding<span><a href="#label-Coding">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>To start helping with the code, you need to have all the dependencies in
+place:</p>
+<ul><li>
+<p>ATLAS and LAPACK</p>
+</li><li>
+<p>GCC 4.3+</p>
+</li><li>
+<p>git</p>
+</li><li>
+<p>Ruby 1.9+</p>
+</li><li>
+<p><code>bundler</code> gem</p>
+</li></ul>
+
+<p>Now, you need to clone the git repository:</p>
+
+<pre>$ git clone git://github.com/SciRuby/nmatrix.git
+$ cd nmatrix
+$ bundle install
+$ rake compile
+$ rake spec</pre>
+
+<p>This will install all dependencies, compile the extension and run the
+specs.</p>
+
+<p>If everything&#39;s fine until now, you can create a new branch to work on
+your feature:</p>
+
+<pre>$ git branch new-feature
+$ git checkout new-feature</pre>
+
+<p>Before commiting any code, please read our <a
+href="http://github.com/SciRuby/sciruby/wiki/Contributor-Agreement">Contributor
+Agreement</a>.</p>
+
+<h3 id="label-Guidelines+for+interfacing+with+C-2FC-2B-2B">Guidelines for interfacing with C/C++<span><a href="#label-Guidelines+for+interfacing+with+C-2FC-2B-2B">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p><a href="NMatrix.html">NMatrix</a> uses a lot of C/C++ to speed up
+execution of processes and give more control over data types, storage
+types, etc. Since we are interfacing between two very different languages,
+things can get out of hand pretty fast.</p>
+
+<p>Please go thorough this before you create any C accessors:</p>
+<ul><li>
+<p>Perform all pre-computation error checking in Ruby.</p>
+<ul><li>
+<p>Since this is (mostly) a trivial computation, doing this in Ruby before
+calling the actual C code will save immensely on time needed to read and
+write code. Plus, one won&#39;t need to write obscure code for accessing <a
+href="NMatrix.html">NMatrix</a> attributes in C code
+(<code>NM_SHAPE0(obj)</code> for example), saving both the readers&#39; and
+writers&#39; time.</p>
+</li></ul>
+</li><li>
+<p>Curate any extra data (cloned objects, trivial computations, etc.) in Ruby.</p>
+</li><li>
+<p>Every private/protected function name implemented in C <em>MUST</em> start
+and end with double underscores, and this name must be <em>the same</em> as
+the name of the Ruby function that will call the computation.</p>
+<ul><li>
+<p>For example, for <code>#solve</code>, you&#39;ll see a function <code>def
+solve .. end</code>; inside of which is a protected function implemented in
+C, which is called <code>__solve__</code>.</p>
+</li></ul>
+</li><li>
+<p>The corresponding extern “C” exposed function should have a name format
+<code>nm_#{function_name}</code>, this function should call a C++ function
+which should follow a convention
+<code>nm_#{sub_namespace}_#{function_name}</code> and the C++ templated
+function that is called by this function should be inside a namespace
+<code>nm::#{sub_namespace}</code>.</p>
+<ul><li>
+<p>For example, the C accessor for <code>__solve__</code> is
+<code>nm_solve</code>, and the C++ templated function called by
+<code>nm_solve</code> is <code>nm::math::solve</code>.</p>
+</li></ul>
+</li><li>
+<p>Do <em>NOT</em> resolve VALUE into constituent elements unless they reach
+the function where the elements are needed or it is absolutely necessary.
+Passing around a VALUE in the C/C++ core is much more convienient than
+passing around <code>void*</code> pointers which point to an array of
+matrix elements.</p>
+<ul><li>
+<p>If you&#39;ll look at <a
+href="https://github.com/v0dro/nmatrix/commit/b957c5fdbcef0bf1ebe78922f84f9ea37938b247#diff-55f2ba27400bce950282e78db97bfbcfR1791">this
+line</a>, you&#39;ll notice that matrix elements aren&#39;t resolved until
+the final step i.e. passing the elements into the
+<code>nm::math::solve</code> function for the actual computation.</p>
+</li></ul>
+</li></ul>
+
+<p>Basically, follow a practice of &#39;once you enter C, never look
+back!&#39;.</p>
+
+<p>If you have something more in mind, discuss it in the issue tracker or on
+<a
+href="https://groups.google.com/forum/#!topic/sciruby-dev/OJxhrGG309o">this</a>
+thread.</p>
+
+<h2 id="label-C-2FC-2B-2B+style+guide">C/C++ style guide<span><a href="#label-C-2FC-2B-2B+style+guide">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>This section is a work in progress. Add stuff to it whenever you feel that
+something should be stated explicitly, but isn&#39;t.</p>
+<ul><li>
+<p>Single statements following a
+<code>if</code>/<code>while</code>/<code>for</code> etc. should be
+preferably on the same line and <em>enclosed within braces</em>.</p>
+</li><li>
+<p>Use camel_case notation for arguments. No upper case.</p>
+</li><li>
+<p>Write a brief description of the arguments that your function receives in
+the comments directly above the function.</p>
+</li><li>
+<p>Explicitly state in the comments any anomalies that your function might
+have. For example, that it does not work with a certain storage or data
+type.</p>
+</li></ul>
+
+<h2 id="label-Documentation">Documentation<span><a href="#label-Documentation">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>There are two ways in which <a href="NMatrix.html">NMatrix</a> is being
+documented: guides and comments, which are converted with RDoc into the
+documentation seen in <a href="http://sciruby.com">sciruby.com</a>.</p>
+
+<p>If you want to write a guide on how to use <a
+href="NMatrix.html">NMatrix</a> to solve some problem or simply showing how
+to use one of its features, write it as a wiki page and send an e-mail on
+the <a
+href="https://groups.google.com/forum/?fromgroups#!forum/sciruby-dev">mailing
+list</a>. We&#39;re working to improve this process.</p>
+
+<p>If you aren&#39;t familiar with RDoc syntax, <a
+href="http://docs.seattlerb.org/rdoc/RDoc/Markup.html">this is the official
+documentation</a>.</p>
+
+<h2 id="label-Conclusion">Conclusion<span><a href="#label-Conclusion">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>This guide was heavily based on the <a
+href="http://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html">Contributing
+to Ruby on Rails guide</a>.</p>
+</main>
+
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="http://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+

@@ -1,0 +1,499 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>GSoC 2016: SpiceRub::KernelPool and Kernels - SciRuby</title>
+  <meta name="author" content="SciRuby">
+
+  
+  <meta name="description" content="So this post comes rather late, but I&#8217;d still like to talk about what I did in the first week, and a little into the second week.
+Firstly, &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sciruby.com/blog/2016/11/25/spicerub-kernelpool-and-kernels/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="SciRuby" type="application/atom+xml">
+  <!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-12735432-6']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">SciRuby</a></h1>
+  
+    <h2>Tools for Scientific Computing in Ruby</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:sciruby.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul role=main-navigation xmlns="http://www.w3.org/1999/html">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog">Blog</a></li>
+  <li><a href="/docs">Installation</a></li>
+  <li><a href="http://gems.sciruby.com/">Gems</a></li>
+  <li><a href="https://github.com/sciruby/sciruby">SciRuby</a></li>
+  <li><a href="/nmatrix">NMatrix</a></li>
+  <li><a href="/publications/">Citing SciRuby</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">GSoC 2016: SpiceRub::KernelPool and Kernels</h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Gaurav Tamba</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-11-25T02:32:35+09:00" pubdate data-updated="true">Nov 25<span>th</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>So this post comes rather late, but I&#8217;d still like to talk about what I did in the first week, and a little into the second week.
+Firstly, thanks to a pull request offered by my GSoC mentor John (<a href="https://github.com/mohawkjohn">@mohawkjohn</a>), I now have rake tasks set up properly in the repository and rake seems to be working.</p>
+
+<p>There are installation instructions in the <a href="https://github.com/sciruby/spice_rub/blob/master/README.rdoc">readme</a> and there are already some sample Kernel files in
+the spec folder to try out various routines on. Apart from cloning the repository, one additional thing you will need to do is <a href="https://naif.jpl.nasa.gov/naif/toolkit_C.html">download the SPICE toolkit</a>. You may want to keep the entire compressed file for later, but you&#8217;ll only need the <code>cspice.a</code> file in the <code>lib/</code> subdirectory. After this follow the instructions in the <a href="https://github.com/sciruby/spice_rub/blob/master/README.rdoc">readme</a> and you should be good to go. (Be sure to run <code>bundle install</code> to install any dependencies that you don&#8217;t already have.)</p>
+
+<p>After you&#8217;re done compiling and installing, run <code>rake pry</code> in the gem root directory.</p>
+
+<p>If you remember, almost any useful task involving the SPICE Toolkit is preceded by loading data through kernel files. The relevant routine to do this is called <code>furnsh_c()</code> , and the most direct way to access it through Ruby is by calling the function <code>SpiceRub::Native.furnsh</code>. (However, this is not recommended because SpiceRub has a specific Ruby class unifying all the kernel related methods, and also because SPICE maintains its own internal variables for both tracking loaded kernel files and unloading them.)</p>
+
+<p>Below is a crude dependency sequence:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">SpiceRub</span><span class="o">::</span><span class="no">KernelPool</span><span class="o">.</span><span class="n">load</span> <span class="o">-&gt;</span>  <span class="no">SpiceRub</span><span class="o">::</span><span class="no">Native</span><span class="o">.</span><span class="n">furnsh</span> <span class="o">-&gt;</span> <span class="n">furnsh_c</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Ruby</span> <span class="no">Interface</span>            <span class="o">-&gt;</span>  <span class="n">C</span> <span class="no">Accessor</span>              <span class="o">-&gt;</span> <span class="no">External</span> <span class="n">library</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Ruby</span>                      <span class="o">-&gt;</span>  <span class="no">Native</span> <span class="no">Ruby</span><span class="o">-</span><span class="n">C</span> <span class="no">API</span>       <span class="o">-&gt;</span> <span class="no">Native</span> <span class="mi">3</span><span class="n">rd</span> <span class="no">Party</span> <span class="n">C</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>That&#8217;s the basic design of the wrapper, so here are a few simple examples on using the Kernel API. <code>=&gt;</code> denotes the interpreted output of pry.</p>
+
+<p>First of all, the main KernelPool class is a singleton class, that means it can only be instantiated with the <code>#instance</code> method and the usual <code>#new</code> is private.
+Any subsequent calls to <code>#instance</code> will produce the same object.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">kernel_pool</span> <span class="o">=</span> <span class="no">SpiceRub</span><span class="o">::</span><span class="no">KernelPool</span><span class="o">.</span><span class="n">instance</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="c1">#&lt;SpiceRub::KernelPool:0x00000002db3218&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">rogue_kernel_pool</span> <span class="o">=</span> <span class="no">SpiceRub</span><span class="o">::</span><span class="no">KernelPool</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="no">NoMethodError</span><span class="p">:</span> <span class="kp">private</span> <span class="nb">method</span> <span class="sb">`new&#39; called for SpiceRub::KernelPool:Class</span>
+</span><span class='line'><span class="sb">from (pry):2:in `</span><span class="n">__pry__</span><span class="err">&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">rogue_kernel_pool</span> <span class="o">=</span> <span class="no">SpiceRub</span><span class="o">::</span><span class="no">KernelPool</span><span class="o">.</span><span class="n">instance</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="c1">#&lt;SpiceRub::KernelPool:0x00000002db3218&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">rogue_kernel_pool</span> <span class="o">==</span> <span class="n">kernel_pool</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="kp">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>This is to make sure there is only one KernelPool state being maintained at a time. Now we have a bunch of kernel files in the <code>spec/data/kernels</code> folder which we&#8217;ll use for this example. There is an accessor attribute called <code>@path</code> which can be used to point to a particular folder.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">kernel_pool</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;spec/data/kernels&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>From here on it&#8217;s required that you&#8217;re running pry or irb from the gem root folder in order for the paths to match in these examples.</p>
+
+<p>Now let&#8217;s load a couple of kernel files, you can type <code>system("ls", kernel_pool.path)</code> into your console to get a list of all the test kernels available in that folder. The KernelPool object has a <code>#load</code> method to load kernel files. If the variable path is set, then you only need to enter the file name, otherwise the entire path needs to be provided. An integer denoting the index of the kernel in the pool is returned if the load is successful.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">kernel_pool</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;naif0011.tls&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="mi">0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note that this is the same as providing the full relative path of <code>spec/data/kernels/naif0011.tls</code> when the <code>path</code>  variable is not set or nil.</p>
+
+<p>Let&#8217;s load two more files:-</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">kernel_pool</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;moon_pa_de421_1900-2050.bpc&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="mi">1</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">kernel_pool</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;de405_1960_2020.bsp&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="mi">2</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">kernel_pool</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="c1">#&lt;SpiceRub::KernelPool:0x00000002db3218</span>
+</span><span class='line'> <span class="vi">@path</span><span class="o">=</span><span class="s2">&quot;spec/data/kernels&quot;</span><span class="p">,</span>
+</span><span class='line'> <span class="vi">@pool</span><span class="o">=</span>
+</span><span class='line'>  <span class="o">[</span><span class="c1">#&lt;SpiceRub::KernelPool::SpiceKernel:0x0000000270fab0 @loaded=true, @path_to=&quot;spec/data/kernels/naif0011.tls&quot;&gt;,</span>
+</span><span class='line'>   <span class="c1">#&lt;SpiceRub::KernelPool::SpiceKernel:0x000000026bd698 @loaded=true, @path_to=&quot;spec/data/kernels/moon_pa_de421_1900-2050.bpc&quot;&gt;,</span>
+</span><span class='line'>   <span class="c1">#&lt;SpiceRub::KernelPool::SpiceKernel:0x000000024ce698 @loaded=true, @path_to=&quot;spec/data/kernels/de405_1960_2020.bsp&quot;&gt;]&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So now if you try to view the <code>@pool</code> member of <code>kernel_pool</code>, you&#8217;ll find three SpiceKernel objects with <code>@loaded=true</code> and their respective file paths.
+There isn&#8217;t much to do with a <code>SpiceKernel</code> object except unload it, or check its state. Note that you can only load kernel files into a <code>KernelPool</code> object and unload them via the <code>SpiceKernel</code> object.</p>
+
+<p>You can access the kernel pool by calling the <code>#[]</code> operator and using the index that was returned on load:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">kernel_pool</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="c1">#&lt;SpiceRub::KernelPool::SpiceKernel:0x0000000270fab0 @loaded=true, @path_to=&quot;spec/data/kernels/naif0011.tls&quot;&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">kernel_pool</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="mi">3</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">kernel_pool</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">unload!</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="kp">true</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">kernel_pool</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="mi">2</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So here we unload the first kernel and note that the count drops to 2. If you look up <code>kernel_pool[0]</code>, you&#8217;ll find that the kernel is still present &mdash; but its <code>@loaded</code> variable has been set to false, which means that it has been removed from the CSPICE internal kernel pool.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">kernel_pool</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="c1">#&lt;SpiceRub::KernelPool::SpiceKernel:0x0000000270fab0 @loaded=false, @path_to=&quot;spec/data/kernels/naif0011.tls&quot;&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To unload all kernels simultaneously and delete the kernel pool, use <code>#clear!</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">kernel_pool</span><span class="o">.</span><span class="n">clear!</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="kp">true</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">kernel_pool</span><span class="o">.</span><span class="n">empty?</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="kp">true</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">kernel_pool</span><span class="o">.</span><span class="n">pool</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="o">[]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And that about wraps up this blog post on basic kernel handling. Since we know how to load data but not use it yet, I&#8217;ll cover that and the various kernel types in the next blog post. Thank you for reading.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Gaurav Tamba</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-11-25T02:32:35+09:00" pubdate data-updated="true">Nov 25<span>th</span>, 2016</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/gsoc-/'>GSOC,</a>, <a class='category' href='/blog/categories/gsoc2016-/'>GSOC2016,</a>, <a class='category' href='/blog/categories/spice/'>SPICE</a>, <a class='category' href='/blog/categories/spicerub-/'>SpiceRub,</a>, <a class='category' href='/blog/categories/students-/'>Students,</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://sciruby.com/blog/2016/11/25/spicerub-kernelpool-and-kernels/" data-via="sciruby" data-counturl="http://sciruby.com/blog/2016/11/25/spicerub-kernelpool-and-kernels/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/" title="Previous Post: GSoC 2016 : A Look at SpiceRub::Body">&laquo; GSoC 2016 : A Look at SpiceRub::Body</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/" title="Next Post: GSoC 2016: Adding Categorical Data Support">GSoC 2016: Adding Categorical Data Support &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+
+
+<section>
+<div class="fb-like-box" data-href="http://www.facebook.com/SciRuby" data-width="" data-show-faces="false" data-stream="" data-header=""   ></div>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/">GSoC 2016: Adding Categorical Data Support</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/spicerub-kernelpool-and-kernels/">GSoC 2016: SpiceRub::KernelPool and Kernels</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/">GSoC 2016 : A Look at SpiceRub::Body</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-time/">GSoC 2016 : A Look at SpiceRub::Time</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/10/25/gsoc-2016-port-nmatrix-to-jruby/">GSoC 2016: NMatrix and JRuby</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/SciRuby">@SciRuby</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'SciRuby',
+            count: 6,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("sciruby", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/sciruby" class="twitter-follow-button" data-show-count="false">Follow @sciruby</a>
+  
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - SciRuby -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sciruby';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sciruby.com/blog/2016/11/25/spicerub-kernelpool-and-kernels/';
+        var disqus_url = 'http://sciruby.com/blog/2016/11/25/spicerub-kernelpool-and-kernels/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

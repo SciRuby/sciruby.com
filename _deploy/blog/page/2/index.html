@@ -1,0 +1,1379 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>SciRuby</title>
+  <meta name="author" content="SciRuby">
+
+  
+  <meta name="description" content="Almost two months ago, in December, we release our first beta of NMatrix, our
+linear algebra library for the Ruby language. Rather than discussing &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sciruby.com/blog/page/2/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="SciRuby" type="application/atom+xml">
+  <!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-12735432-6']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">SciRuby</a></h1>
+  
+    <h2>Tools for Scientific Computing in Ruby</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:sciruby.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul role=main-navigation xmlns="http://www.w3.org/1999/html">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog">Blog</a></li>
+  <li><a href="/docs">Installation</a></li>
+  <li><a href="http://gems.sciruby.com/">Gems</a></li>
+  <li><a href="https://github.com/sciruby/sciruby">SciRuby</a></li>
+  <li><a href="/nmatrix">NMatrix</a></li>
+  <li><a href="/publications/">Citing SciRuby</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/02/14/nmatrix-beta-released-belated-announcement/">NMatrix&#8217;s First Beta Release (Belated Announcement)</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">John Woods</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-14T14:56:00+09:00" pubdate data-updated="true">Feb 14<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Almost two months ago, in December, we <a href="https://rubygems.org/gems/nmatrix">release our first beta of NMatrix</a>, our
+linear algebra library for the Ruby language.</p>
+
+<p>Rather than discussing what NMatrix has (which you can find in the <a href="https://github.com/SciRuby/nmatrix/blob/master/README.rdoc">readme</a>),
+I want to take this opportunity to discuss where we&#8217;d like it to go in the future. Think of this as our roadmap to 1.0.</p>
+
+<h2>External Library Requirements</h2>
+
+<p>NMatrix currently has an extremely limited set of Ruby gem dependencies &mdash; essentially only packable, which is
+needed for some of the I/O functionality &mdash; but as with other linear algebra libraries, its native library
+requirements can be problematic.</p>
+
+<p>Specifically, NMatrix requires ATLAS &mdash; which is virtually impossible to install on many Macs, and is no longer
+readily available with Yosemite &mdash; and also likes to have LAPACK around. Moreover, some would prefer to use other
+math libraries with NMatrix.</p>
+
+<p>There are several partial solutions. The clearest is that any components of NMatrix which require external non-standard
+libraries need to be abstracted into separate gems &mdash; such as <tt>nmatrix-atlas</tt> and <tt>nmatrix-io</tt> &mdash; and
+that these components should be interchangeable with others. NMatrix then needs to be able to fall back on either native
+C/C++ or Ruby implementations of certain functionalities.</p>
+
+<p>To this end, a number of simple LAPACK and CBLAS functions have been implemented in NMatrix, with volunteers working on
+a few others (the list is available in the README). <a href="https://github.com/SciRuby/sciruby/wiki/Google-Summer-of-Code-2015-Ideas#abstraction-of-atlascblasclapack-or-openblas-into-a-separate-gem">One of our proposed Google Summer of Code 2015 project ideas</a> involves
+breaking up NMatrix into several gems.</p>
+
+<p>The end result will be a much simpler installation process, and more freedom of choice.</p>
+
+<h2>Removal of Unnecessary Features</h2>
+
+<p>We thought it would be quite clever to include rational number support in NMatrix, including three types (32-bit, 64-bit,
+and 128-bit). Unfortunately, these types increase compilation time by about 30% (back-of-the-envelope calculation), and
+aren&#8217;t particularly useful since most matrix operations with rationals as inputs give irrational-valued matrices
+as their outputs. The inclusion of rational types also complicates the codebase.</p>
+
+<p>Additionally, rationals are computationally problematic; what happens if there is overflow? Ruby handles overflow gracefully
+in its own rational type, which NMatrix users would still be able to utilize via the <tt>:object</tt> dtype.</p>
+
+<h2>You</h2>
+
+<p>The biggest change going forward is that NMatrix development needs to support actual use-cases. In the past, we&#8217;ve aimed
+to flesh out support for sparse storage formats, as well as math operations for the dense storage-type. It is folly to
+develop features no one wants to use. Future core development, then, will aim to make NMatrix&#8217;s current feature set more
+usable.</p>
+
+<p>That means that future non-core development depends on you. What would you like to see in NMatrix? What would make it
+more useful for you?</p>
+
+<p>If you want to become involved, now is a good time. We&#8217;re getting ready to submit a Google Summer of Code application
+(our third, I believe), and we&#8217;re in need of students &mdash; <em>and especially mentors</em>. Please consider joining
+our <a href="https://groups.google.com/forum/#!forum/sciruby-dev">mailing list</a> and adding yourself as a mentor on the
+<a href="https://github.com/SciRuby/sciruby/wiki/Google-Summer-of-Code-2015-Ideas">ideas page</a>.</p>
+
+<p>Thanks so much for your support!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/08/23/nyaplot-interactive-plots-generateor-with-ruby/">Nyaplot: Interactive Plots Generator With Ruby</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Naoki Nishida</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-23T10:07:00+09:00" pubdate data-updated="true">Aug 23<span>rd</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><iframe width="853" height="480" src="//www.youtube.com/embed/ZxjqsIluM88" frameborder="0" allowfullscreen></iframe>
+
+
+<h2>Introduction</h2>
+
+<p>Three months of GSoC 2014 term was over this week and finally I
+released my product <a href="http://rubygems.org/gems/nyaplot">Nyaplot as a gem</a>.
+This blog post was written to introduce Nyaplot version 0.1.1.</p>
+
+<h2>Features</h2>
+
+<p>There are various plotting libraries in the world as ggplot2 from R
+community and <a href="https://github.com/zuhao/plotrb">Plotrb</a> and
+<a href="https://github.com/clbustos/rubyvis">Rubyvis</a> from Ruby.  The
+features of Nyaplot compared with those libraries are
+<strong>interactivity</strong>, <strong>simplicity</strong>, and <strong>extensibility</strong>.</p>
+
+<p>Interactivity is the main theme of my D3 project in GSoC 2014. You can
+soon find the aforementioned interactivity by clicking plots with your
+mouse or trackpad. This feature is also available on browsers bundled
+with Android or iOS thanks to technologies like SVG and WebGL.</p>
+
+<p>However, the word &#8216;interactivity&#8217; is not limited to situations like
+the above. You can explore that for yourself by using Nyaplot in <a href="https://github.com/minad/iruby">IRuby notebook</a>. Various
+modules prepared
+by Nyaplot help you to create plots interactively in the notebook.
+You can also publish the result quickly by uploading the notebook to
+your Dropbox storage, a gist or pastebin, or somewhere else. <a href="http://nbviewer.ipython.org/gist/mgiraldo/a68b53175ce5892531bc">Here is an example</a>
+which Mauricio Giraldo created and published on gist.</p>
+
+<p>Simplicity is also an important element.  Many plotting libraries has
+MATLAB-like function-based API but Nyaplot does not.  Nyaplot is
+designed in a more Ruby-like object-oriented style, and its plots
+consist of various objects created from different classes. But Nyaplot
+has simple shortcut methods and users may avoid the more complex API.</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/47978121/gsoc/extensions_for_blog_post.png" alt="Extension libraries" /></p>
+
+<p>Nyaplot can be easily and dramatically extended with some JavaScript
+code. It bundles 3 extension libraries in its gem package: Nyaplot3D
+for 3D plots, Mapnya for map visualization, and Bionya for circular
+plots inspired by circos. Their structure is very simple and you can
+write the extension easily if you have a little experience in
+JavaScript and Ruby. For example, the Ruby part of Bionya has only
+about a hundred lines, even though the graphic&#8217;s style is far from
+that of standard plots.</p>
+
+<h2>Quick start</h2>
+
+<p>You can install Nyaplot by simply running <code>gem install nyaplot</code>.
+After that, find example code from
+<code>path_to_gems/nyaplot-0.1.1/examples/rb</code> and run some of them using
+<code>ruby</code> command.  These scripts will generate some plots with Nyaplot
+and export them as html files to current directory.</p>
+
+<p>In addition, I strongly recommend you to install <a href="https://github.com/minad/iruby">IRuby notebook</a> at
+the same time. IRuby is a
+web-based, interactive Ruby environment and is useful for quickly
+creating plots with Nyaplot. The introduction video embedded at the
+top of this post was also created on IRuby.</p>
+
+<p>IRuby depends on some software outside of Ruby-ecosystem, so its
+installation method is a bit complicated. Please read <a href="https://github.com/domitry/nyaplot#install-iruby-notebook">the description in the readme</a>
+to learn more.</p>
+
+<h2>Usage</h2>
+
+<p>I already wrote tutorials, so I&#8217;d like to limit the role of this
+paragraph to the introduction of the basic usage. You can skip
+reading this paragraph and find details in <a href="http://nbviewer.ipython.org/github/domitry/nyaplot/blob/master/examples/notebook/Index.ipynb">the nbviewer tutorial</a>
+and <a href="http://rubydoc.info/gems/nyaplot/0.1.1/frames">documentation</a>.</p>
+
+<p>The minimum code to create a scatter plot is as shown below:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">plot</span> <span class="o">=</span> <span class="no">Nyaplot</span><span class="o">::</span><span class="no">Plot</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">sc</span> <span class="o">=</span> <span class="n">plot</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="ss">:scatter</span><span class="p">,</span> <span class="o">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="o">]</span><span class="p">,</span> <span class="o">[-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="o">-</span><span class="mi">5</span><span class="o">]</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>Nyaplot::Plot</code> is the base class to create plots and
+<code>Nyaplot::Plot#add</code> is the method to add diagram to its instance.  The
+first argument is to specify the type of diagram, and the second and
+third are for data mapped into <em>x</em> and <em>y</em> axes.  <code>Plot#add</code> returns an
+instance of <code>Nyaplot::Diagram</code> and you can change attributes like
+color and stroke of each diagram component.</p>
+
+<p>For example you can change its color by running the code below.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">color</span> <span class="o">=</span> <span class="no">Nyaplot</span><span class="o">::</span><span class="no">Colors</span><span class="o">.</span><span class="n">qual</span>
+</span><span class='line'><span class="n">sc</span><span class="o">.</span><span class="n">color</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>Nyaplot::Colors</code> is the simple wrapper for
+<a href="http://colorbrewer2.org">Colorbrewer</a>, and one of its methods
+<code>Nyaplot::Colors.qual</code> randomly returns colorset suitable for
+qualitative data.</p>
+
+<p>If you execute this code in IRuby notebook, you can check if you favor
+the colorset through html-table based interface. <a href="http://nbviewer.ipython.org/github/domitry/nyaplot/blob/master/examples/notebook/Colors.ipynb">See the tutorial to learn more.</a></p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/47978121/gsoc/colors.png" alt="Nyaplot::Colors" /></p>
+
+<p>The plot generated from the code can be exported with two lines below.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">plot</span><span class="o">.</span><span class="n">show</span> <span class="c1"># show plot on IRuby notebook</span>
+</span><span class='line'><span class="n">plot</span><span class="o">.</span><span class="n">export_html</span> <span class="c1"># export plot to the current directory as a html file</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We cannot explain Nyaplot without <code>Nyaplot::DataFrame</code>. Example code
+above does not contain the word &#8216;DataFrame&#8217;, but the software
+internally create an instance of <code>Nyaplot:DataFrame</code> and creates plots
+based on it.</p>
+
+<p>To create the same scatter plot as above, run the code below.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">df</span> <span class="o">=</span> <span class="no">Nyaplot</span><span class="o">::</span><span class="no">DataFrame</span><span class="o">.</span><span class="n">new</span><span class="p">({</span><span class="n">a</span><span class="p">:</span> <span class="o">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="o">]</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="o">[-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="o">-</span><span class="mi">5</span><span class="o">]</span><span class="p">})</span>
+</span><span class='line'><span class="n">plot</span><span class="o">.</span><span class="n">add_with_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="ss">:scatter</span><span class="p">,</span> <span class="ss">:a</span><span class="p">,</span> <span class="ss">:b</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You may not feel any advantage of using <code>Plot#add_with_df</code> instead of <code>Plot#add</code>, but the former is useful when creating more complicated plots. <a href="http://nbviewer.ipython.org/github/domitry/Nyaplot/blob/master/examples/notebook/Interaction_with_DataFrame.ipynb">Have a look at the tutorial to learn more.</a></p>
+
+<h2>Conclusion</h2>
+
+<p>My GSoC term has concluded, but that do not mean the end of
+development.  There are still many things to do for improvement of
+this project.  For example Mapnya and Bionya are both experimental
+implementation, and the functionality of Nyaplot::DataFrame is
+relatively limited.  If you are interested in this project, please
+fork either or both of the two repositories below and send me
+pull-requests.</p>
+
+<ul>
+<li><a href="https://github.com/domitry/nyaplot">Nyaplot on GitHub</a></li>
+<li><a href="https://github.com/domitry/Nyaplotjs">Nyaplotjs on GitHub</a></li>
+</ul>
+
+
+<p>Any form of contribution is welcome.</p>
+
+<p>At last I&#8217;d like to express my gratitude to my mentor Pjotr Prins and
+other members of SciRuby community.  I would not have been able to
+finish my GSoC term without great help from them.  Feedback from
+people outside of the community also helped me a lot.  I had a great
+summer thanks to all people related to this project.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/28/benchmarks-for-integration-gem/">Benchmarks for Integration Gem</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Rajat Kapoor</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-28T02:44:00+09:00" pubdate data-updated="true">Jul 28<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>The Integration gem now includes quite a few functions from which to
+choose. To make this choice easier, I have done some benchmarking to
+see how fast and acuurate each of these functions are.  The results of
+these tests for some randomly chosen functions are given below. The
+speed test reports shows the user CPU time, system CPU time, the sum
+of the user and system CPU times, and the elapsed real time to perform
+100 iterations of the code. The unit of time is seconds.</p>
+
+<h2>For function f(x)= x<sup>2+3*x+7</sup> on interval (0,1)</h2>
+
+<h3>Speed Tests</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Benchmarking with 100 iterations
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>rectangle                  72.040000   0.010000  72.050000 ( 72.058014)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>trapezoid                 105.500000   0.000000 105.500000 (105.489225)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>simpson                     0.020000   0.000000   0.020000 (  0.017601)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>romberg                     0.000000   0.000000   0.000000 (  0.002219)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>adaptive_quadrature         0.010000   0.000000   0.010000 (  0.002757)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>gauss                       0.010000   0.000000   0.010000 (  0.006439)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>gauss_kronrod               0.000000   0.000000   0.000000 (  0.008615)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>simpson3by8                 0.080000   0.000000   0.080000 (  0.074791)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>boole                       0.100000   0.000000   0.100000 (  0.100300)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>open_trapezoid            181.470000   0.050000 181.520000 (181.572745)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>milne                       0.060000   0.000000   0.060000 (  0.058677)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>qng                         0.000000   0.000000   0.000000 (  0.003788)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>qag                         0.010000   0.000000   0.010000 (  0.010407)</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Accuracy Tests</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+---------------------+-------------------+-------------------+------------------------+-------------------+
+</span><span class='line'>|       Method        |      Result       |   Actual Result   |         Error          |     Accuracy      |
+</span><span class='line'>+---------------------+-------------------+-------------------+------------------------+-------------------+
+</span><span class='line'>| rectangle           | 8.833333324123249 | 8.833333333333334 | 9.210085138988688e-09  | 99.99999989573489 |
+</span><span class='line'>| trapezoid           | 8.83333334502252  | 8.833333333333334 | 1.1689186507624072e-08 | 99.99999986766959 |
+</span><span class='line'>| simpson             | 8.833333333333332 | 8.833333333333334 | 1.7763568394002505e-15 | 99.99999999999997 |
+</span><span class='line'>| romberg             | 9.0               | 8.833333333333334 | 0.16666666666666607    | 98.11320754716982 |
+</span><span class='line'>| adaptive_quadrature | 8.833333333333334 | 8.833333333333334 | 0.0                    | 100.0             |
+</span><span class='line'>| gauss               | 8.750000000006125 | 8.833333333333334 | 0.08333333332720905    | 99.05660377365425 |
+</span><span class='line'>| gauss_kronrod       | 8.75              | 8.833333333333334 | 0.08333333333333393    | 99.0566037735849  |
+</span><span class='line'>| simpson3by8         | 8.833333333333336 | 8.833333333333334 | 1.7763568394002505e-15 | 99.99999999999997 |
+</span><span class='line'>| boole               | 8.833333333333336 | 8.833333333333334 | 1.7763568394002505e-15 | 99.99999999999997 |
+</span><span class='line'>| open_trapezoid      | 8.833333325264693 | 8.833333333333334 | 8.068640866554233e-09  | 99.9999999086569  |
+</span><span class='line'>| milne               | 8.833333333333334 | 8.833333333333334 | 0.0                    | 100.0             |
+</span><span class='line'>| qng                 | 8.833333333333334 | 8.833333333333334 | 0.0                    | 100.0             |
+</span><span class='line'>| qag                 | 8.833333333333336 | 8.833333333333334 | 1.7763568394002505e-15 | 99.99999999999997 |
+</span><span class='line'>+---------------------+-------------------+-------------------+------------------------+-------------------+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>For function f(x) = x<sup>5+7*x<sup>2+2*cos(x)</sup></sup> on interval (0,1)</h2>
+
+<h3>Speed Tests</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Benchmarking with 100 iterations
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>rectangle                 534.790000   0.510000 535.300000 (538.238675)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>trapezoid                 835.950000   0.540000 836.490000 (839.233313)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>simpson                     0.650000   0.000000   0.650000 (  0.652694)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>romberg                     0.010000   0.000000   0.010000 (  0.002073)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>adaptive_quadrature         0.170000   0.000000   0.170000 (  0.167520)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>gauss                       0.000000   0.000000   0.000000 (  0.007621)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>gauss_kronrod               0.020000   0.000000   0.020000 (  0.010610)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>simpson3by8                 0.820000   0.000000   0.820000 (  0.831039)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>boole                       0.120000   0.000000   0.120000 (  0.119929)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>open_trapezoid            1019.100000   0.150000 1019.250000 (1020.034828)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>milne                       0.980000   0.000000   0.980000 (  0.970671)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>qng                         0.000000   0.000000   0.000000 (  0.008263)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>qag                         0.020000   0.000000   0.020000 (  0.020050)</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Accuracy Tests</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+---------------------+--------------------+--------------------+------------------------+-------------------+
+</span><span class='line'>|       Method        |       Result       |   Actual Result    |         Error          |     Accuracy      |
+</span><span class='line'>+---------------------+--------------------+--------------------+------------------------+-------------------+
+</span><span class='line'>| rectangle           | 4.182941950501391  | 4.1829419696157935 | 1.9114402505238104e-08 | 99.99999954303927 |
+</span><span class='line'>| trapezoid           | 4.182941993679488  | 4.1829419696157935 | 2.406369414842402e-08  | 99.99999942471844 |
+</span><span class='line'>| simpson             | 4.182941969798875  | 4.1829419696157935 | 1.8308110583120651e-10 | 99.99999999562314 |
+</span><span class='line'>| romberg             | 5.54030230586814   | 4.1829419696157935 | 1.3573603362523468     | 67.5501035847021  |
+</span><span class='line'>| adaptive_quadrature | 4.182941969702552  | 4.1829419696157935 | 8.675815621472793e-11  | 99.9999999979259  |
+</span><span class='line'>| gauss               | 3.5364151237832213 | 4.1829419696157935 | 0.6465268458325721     | 84.54372901826423 |
+</span><span class='line'>| gauss_kronrod       | 3.5364151237807455 | 4.1829419696157935 | 0.6465268458350479     | 84.54372901820506 |
+</span><span class='line'>| simpson3by8         | 4.182941969676288  | 4.1829419696157935 | 6.049472034419523e-11  | 99.99999999855378 |
+</span><span class='line'>| boole               | 4.182941969615793  | 4.1829419696157935 | 8.881784197001252e-16  | 99.99999999999997 |
+</span><span class='line'>| open_trapezoid      | 4.182941952971977  | 4.1829419696157935 | 1.6643816103112385e-08 | 99.99999960210263 |
+</span><span class='line'>| milne               | 4.18294196954598   | 4.1829419696157935 | 6.981348832368894e-11  | 99.99999999833099 |
+</span><span class='line'>| qng                 | 4.182941969615793  | 4.1829419696157935 | 8.881784197001252e-16  | 99.99999999999997 |
+</span><span class='line'>| qag                 | 4.1829419696157935 | 4.1829419696157935 | 0.0                    | 100.0             |
+</span><span class='line'>+---------------------+--------------------+--------------------+------------------------+-------------------+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you are keen to test any function of your choice you can pull from
+<a href="https://github.com/rajatkapoor/integration">my Integration gem fork</a>
+and change the files in the benchmark folder. For both the files,
+<code>accuracy.rb</code> and <code>speed.rb</code>, change the line <code>func = lambda{|x| f(x)}</code>
+with <code>f(x)</code> as your desired function. In case you want to perform
+accuracy benchmarks, make sure that you know the exact result of the
+integration operation before hand and assign this value to the
+variable <code>actual_result</code> Feel free to comment if you face any problem
+running the benchmarks with your desired functions.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/09/nyaplot-internal-event-handler/">The Nyaplot Internal Event Handler</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Naoki Nishida</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-09T17:01:00+09:00" pubdate data-updated="true">Jul 9<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="https://dl.dropboxusercontent.com/u/47978121/gsoc/multiple_panes.png" alt="Nyaplot multi-pane example" /></p>
+
+<h2>Introduction</h2>
+
+<p>Last week I implemented the multiple panes interactivity to the
+front-end of Nyaplot. You can see the demo on <a href="http://nbviewer.ipython.org/github/domitry/Nyaplot/blob/master/examples/notebook/Introduction.ipynb">this notebook</a>.</p>
+
+<p>Skip over single pane demo, and have a look at the paragraph &#8216;Multiple
+panes demo&#8217; at the bottom. In this example, the histogram and bar chart are
+created individually, and then thrown into one instance of
+Nyaplot::Frame. After running <code>frame.show</code>, both of the diagrams
+appear in one out-put box on the notebook. When you click the
+histogram, bar chart refrects that and change its height.</p>
+
+<p>In this article I will explain about the event handler of Nyaplot,
+which allows for interactivity among panes.</p>
+
+<h2>The Trick</h2>
+
+<p>The trick is actually hidden in Nyaplot::DataFrame. In this example,
+both of the two diagrams are generated from columns in one DataFrame.
+When Nyaplot receives a column object (instance of <code>Nyaplot::Series</code>,
+defined
+<a href="https://github.com/domitry/nyaplot/blob/93ee183b935a7deafa388f2a198792e86914d550/lib/nyaplot/data.rb#L130">here</a>), it
+internally find its source data frame and remembers its location.</p>
+
+<p>Consequently, Nyaplot can find that histogram and bar chart are
+sharing their data source, and allows them to interact with each other.</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/47978121/gsoc/table.png" alt="Nyaplot::DataFrame Example" /></p>
+
+<h2>Implementation</h2>
+
+<p>Before explaining the event handler, I want to outline Nyaplot&#8217;s
+diagram rendering procedure. In the back-end JavaScript library,
+diagrams, such as histograms, fetch column data from data frames and generate
+their SVG DOM nodes dynamically (<a href="https://github.com/domitry/Nyaplotjs/blob/0aa104aed467f39da89ba3ed72be5f159a0261b8/src/view/diagrams/histogram.js#L20">source code</a>).</p>
+
+<p>The key is <a href="https://github.com/domitry/Nyaplotjs/blob/0aa104aed467f39da89ba3ed72be5f159a0261b8/src/utils/dataframe.js">a data frame written in JavaScript</a>. After mouse events
+coming from a filter (such as the gray box on the plot area) are
+handled, the histogram <a href="https://github.com/domitry/Nyaplotjs/blob/0aa104aed467f39da89ba3ed72be5f159a0261b8/src/view/diagrams/histogram.js#L96">registers its filter function to the data frame and instructs all diagrams to update their SVG DOM objects</a>. The bar chart <a href="https://github.com/domitry/Nyaplotjs/blob/0aa104aed467f39da89ba3ed72be5f159a0261b8/src/view/diagrams/bar.js#L54">updates its SVG from data filtered by the new function</a>.</p>
+
+<p>As you can see, Nyaplot&#8217;s inner workings are fairly simple; and these
+workings are common to all diagrams supported by Nyaplot. So not only
+the histogram and bar chart, but other diagrams as well, can behave
+interactively (e.g., <a href="http://www.domitry.com/gsoc/multi_pane2.html">histogram, bar, and Venn example</a>).</p>
+
+<h2>Conclusion</h2>
+
+<p>Despite, or perhaps because of, the relative simplicity of the
+structure, the event handler functions well. The actual interactivity
+in Nyaplot is based on the data frame object, both in the
+Ruby front-end and the JavaScript back-end. As a result, handling
+events in DataFrame is both natural and efficient for Nyaplot.</p>
+
+<h2>Additional Information</h2>
+
+<p>Nyaplot and its back-end library Nyaplotjs are being developed on GitHub.</p>
+
+<ul>
+<li><a href="https://github.com/domitry/nyaplot">Nyaplot on GitHub</a></li>
+<li><a href="https://github.com/domitry/Nyaplotjs">Nyaplotjs on GitHub</a></li>
+</ul>
+
+
+<p>If you are interesed, feel free to try it and raise issues or send pull-requests.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/02/usage-integration-gem-improvements/">Usage: Integration Gem Improvements</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Rajat Kapoor</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-02T17:43:00+09:00" pubdate data-updated="true">Jul 2<span>nd</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Numerical Integration</h2>
+
+<p>Integration is the process of finding the summation of the value of a function at small intervals, when the width of the intervals is infinitesimally small.
+As there is no such thing as &#8220;infinitesimally small interval&#8221;, there are several other methods which help us to approximate the values of integrals.</p>
+
+<p>Numerical integration is one such technique which helps us to estimate the value of the definite integral of a function over an interval.
+Numerical integration is based on the principle of evaluating the values of a function at specific points in the interval and then taking the product of those values with a corresponding weight, which is a standard constant specific to the method being used.</p>
+
+<h2>Integration Gem</h2>
+
+<p>The Integration gem is now equipped with a host of additional algorithms for approximating the integral of a function ranging from the simple ones like Simpson&#8217;s method to the more complex ones like Gauss&ndash;Kronrod and Adaptive Quadrature method.</p>
+
+<h2>Example</h2>
+
+<p>Let us say you need to find out the integral of a function <code>5*x**2 -7*Math.cos(x)</code> over the interval <code>(0,1)</code>.
+We can solve this using the following snippet using the Integration gem:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Integration</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,{</span><span class="ss">:method</span><span class="o">=&gt;</span><span class="ss">:simpson</span><span class="p">})</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="mi">5</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span><span class="mi">7</span><span class="o">*</span><span class="no">Math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)}</span>
+</span><span class='line'><span class="c1"># =&gt; -4.223630227110514</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We see that the actual value of this integral is <code>-4.2236302269886088799000849584</code>, which is pretty close to the value estimated by the integration gem.
+Instead of <code>{:method=&gt;:simpson}</code> in the above code, you can use any one of these implemented methods:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rectangle</span><span class="p">,</span><span class="ss">:trapezoid</span><span class="p">,</span><span class="ss">:simpson</span><span class="p">,</span> <span class="ss">:adaptive_quadrature</span> <span class="p">,</span> <span class="ss">:gauss</span><span class="p">,</span> <span class="ss">:romberg</span><span class="p">,</span> <span class="ss">:monte_carlo</span><span class="p">,</span> <span class="ss">:gauss_kronrod</span><span class="p">,</span> <span class="ss">:simpson3by8</span><span class="p">,</span> <span class="ss">:boole</span><span class="p">,</span> <span class="ss">:open_trapezoid</span><span class="p">,</span> <span class="ss">:milne</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Each of these algorithms gives similar results &mdash; except if the function has rapid changes in the interval of integration, as is the nature of numerical integration.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/02/progress-of-d3-project/">The Progress of the GSoC D3/Visualization Project</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Naoki Nishida</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-02T17:09:00+09:00" pubdate data-updated="true">Jul 2<span>nd</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This week is the half-way point of this year&#8217;s Google Summer of
+Code. Let me report the progress during the term.</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/47978121/gsoc/nyaoplot_top.png" alt="Example Nyaplot chart of a spiral" /></p>
+
+<h2>Progress on the front-end library</h2>
+
+<p>I am developing <a href="https://github.com/domitry/Nyaplot">Nyaplot</a> as the front-end library
+for my work.</p>
+
+<p>One topic on Nyaplot is API design. That is a difficult problem since
+each plotting library has very different methods for creating
+plots. For example, matplotlib and Bokeh are both written in Python,
+but their demo code is written in very different styles. After
+discussing with my mentor, I decided to implement the function-based
+API.</p>
+
+<p>As an exmaple of that API, here is a minimal working example for
+generating bar charts with Nyaplot:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;nyaplot&#39;</span>
+</span><span class='line'><span class="n">plot</span> <span class="o">=</span> <span class="no">Nyaplot</span><span class="o">::</span><span class="no">Plot</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">plot</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="ss">:bar</span><span class="p">,</span> <span class="o">[</span><span class="s1">&#39;nya1&#39;</span><span class="p">,</span> <span class="s1">&#39;nya2&#39;</span><span class="p">,</span> <span class="s1">&#39;nya3&#39;</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">30</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="n">plot</span><span class="o">.</span><span class="n">show</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you want to change options (<em>e.g.</em>, color or title), put the return
+value of <code>Nyaplot::Plot.add</code> into a variable and call its methods.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">bar</span> <span class="o">=</span> <span class="n">plot</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="ss">:bar</span><span class="p">,</span> <span class="o">[</span><span class="s1">&#39;nya1&#39;</span><span class="p">,</span> <span class="s1">&#39;nya2&#39;</span><span class="p">,</span> <span class="s1">&#39;nya3&#39;</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">30</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="n">bar</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;the number of cats&quot;</span><span class="p">)</span> <span class="c1"># name the bar chart</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>IRuby integration</h2>
+
+<p>Interaction with <a href="https://github.com/minad/iruby">IRuby</a> is a priority
+for Nyaplot. IRuby is a web-based Ruby lab notebook-like environment,
+based on IPython, which is also useful for fast prototyping.</p>
+
+<p>The image at the top of this blog post is a hyperbolic spiral which I
+generated with Nyaplot in IRuby. <a href="http://nbviewer.ipython.org/github/domitry/Nyaplot/blob/master/examples/notebook/Introduction.ipynb">Have a look at the
+notebook</a>
+on nbviewer, an IRuby and IPython notebook hosting services.</p>
+
+<h2>Progress on the back-end library</h2>
+
+<p>Nyaplot uses <a href="https://github.com/domitry/Nyaplotjs">Nyaplotjs</a> as its
+back-end library. I spent a lot of time working to implement
+interactivity among multiple panes to Nyaplotjs. <a href="http://www.domitry.com/gsoc/multi_pane2.html">See an
+example here.</a></p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/47978121/gsoc/top.png" alt="Three-pane interactivity screenshot" /></p>
+
+<p>The input data source is a TSV file of 2,044 lines. Multiple-pane
+interactivity is especially important when visualizing such a large
+dataset.</p>
+
+<p>Have a look at the radio buttons beside the Venn diagram. The left
+three panels decide which set to put into each of three circles
+(VENN1, VENN2, VENN3). The right panel decides which data in each area
+(overlapping area, non-overlapping area, and all) to use in the other
+two panes.</p>
+
+<p>The gray box on the histogram decides the range of PNR values. If you
+select the range 0.3 to 0.7 with it, the right bar chart will reflect
+that and show how many of the selected data are in that range.</p>
+
+<p>Nyaplotjs provides this interactivity using an event handler connected
+to a dataframe object. That allows us to handle unidirectional update
+method (<em>e.g.</em>, histogram updates bar chart, but bar chart does not
+update histogram).</p>
+
+<h2>Conclusion</h2>
+
+<p>I finished the first half term of Google Summer of Code 2014, but I
+still have a lot of things to do. I would like to continue to add
+interactivity to both the front-end and back-end libraries.</p>
+
+<p>I am developing those two libraries in separate repositories on
+GitHub. If you are interested, feel free to raise issues or send
+pull-requests, even during the GSoC term.</p>
+
+<ul>
+<li><a href="https://github.com/domitry/Nyaplot">Nyaplot - GitHub</a></li>
+<li><a href="https://github.com/domitry/Nyaplotjs">Nyaplotjs - GitHub</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/24/updates-minimization-and-integration/">Updates: Minimization and Integration</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Rajat Kapoor</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-24T14:32:00+09:00" pubdate data-updated="true">Jun 24<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Minimization</h2>
+
+<p>The Minimization gem now supports the following unidimensional function minimizations
+provided by GSL. The supported methods include the pure Ruby implementations of:</p>
+
+<ol>
+<li>Newton&ndash;Raphson</li>
+<li>Golden Section</li>
+<li>Brent</li>
+<li>Quad Golden</li>
+</ol>
+
+
+<p>Of these, the Golden Section, Brent, and Quad Golden are also
+available via Minimization&#8217;s GSL interface (and are thus
+faster). Everything is organized in such a way that the faster C code
+(i.e., GSL) will be executed when GSL is available, but that otherwise
+the Ruby implementation will be used. I still have to beautify the
+code and add documentation.</p>
+
+<h2>Integration</h2>
+
+<p>The Integration gem has been transitioned from Hoe to Bundler. For
+Gauss&ndash;Kronrod Quadrature, I have hard-coded the values of nodes
+and weights (for 15, 21, 31, 41, and 61 points) &#8212; which were already
+hardcoded in the case of the Gauss quadrature.</p>
+
+<p>Additionally, I added basic methods like Simpson&#8217;s Three-Eighths
+Method, Milne&#8217;s Method, Boole&#8217;s Quadrature and Open Trapezoid.</p>
+
+<p>This week, I will be reviewing a <a href="https://github.com/clbustos/integration/pull/3">pull request</a> which aims to change the structure of the whole Integration gem.</p>
+
+<p>After that I plan to implement more adaptive methods and incorporate
+the non-adaptive methods under a single Newton&ndash;Cotes function.</p>
+
+<p>Lastly, I am brainstorming designs for symbolic integration using
+JScience and JRuby.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/19/progress-on-minimization-methods/">Progress on Minimization Methods</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Lahiru Lasandun</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-19T01:00:00+09:00" pubdate data-updated="true">Jun 19<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Current Progress on Minimization Gem</h2>
+
+<p>In the first half of the summer, I plan to introduce some new numerical minimization methods to SciRuby&#8217;s Minimization gem. As per my proposal, I began by implementing the Powell&#8217;s multidimensional minimization method. Powell&#8217;s method has a better convergence in most cases than the Nelder&ndash;Mead algorithm, and is also a multidimensional minimization method which doesn&#8217;t use any derivative of the function.</p>
+
+<p>I started by studying SciPy and Apache Commons library&#8217;s Powell&#8217;s optimizer. I decided to base my implementation on the method from the <a href="http://commons.apache.org/proper/commons-math/">Apache Commons Mathematics Library</a>. Powell&#8217;s method requires a line minimum searching algorithm, for which I used Brent minimizer (already available in SciRuby).</p>
+
+<p>Having finished with Powell&#8217;s method, I am now working on the Fletcher&#8211;Reeves minimization method &mdash; a gradient method which uses the first derivative of the integrating function.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/18/introduction-minimization-and-integration/">Introduction: Minimization and Integration (Lahiru)</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Lahiru Lasandun</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-18T16:45:00+09:00" pubdate data-updated="true">Jun 18<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p class="note"><strong>Editor&#8217;s Note:</strong> We have two students
+working on numerical minimization and integration this summer, Rajat and
+Lahiru. Rajat&#8217;s introductory post appeared two weeks ago.</p>
+
+
+<h2>Introduction </h2>
+
+<p>I&#8217;m Lahiru Lasandun and I&#8217;m an undergraduate of University of Moratuwa, Sri Lanka. I&#8217;ve been selected for
+Google Summer of Code 2014 for SciRuby&#8217;s Minimization and Integration projects.</p>
+
+<p>I was working with SciRuby about a month before GSOC started and did some tests on how to enhance the performance of
+these numerical computations. My first idea was to use multi-threading. With the instuctions and guidance of mentors, I
+tested more methods such as Erlang multi-processing, the AKKA package of multi-threading, and finally OpenCL. The final
+decision was to use OpenCL to enhance computation power of these mathematical computations with the support of multi-cores
+and GPUs.</p>
+
+<h2>Minimization Gem</h2>
+
+<p>After GSOC started, I began working on SciRuby&#8217;s Minimization gem. I proposed multidimensional minimization methods for the
+Minimization gem, which already had plenty of unidimensional minimization methods. I chose two non-gradient
+and two gradient minimization methods as well as simulated annealing.</p>
+
+<h2>Integration Gem</h2>
+
+<p>For Integration, I proposed to replicate some unidimensional integration methods from the GNU Scientific Library, GSL. Additionally, I proposed to add OpenCL support to enhance performance of integration methods.</p>
+
+<h2>Current Progress</h2>
+
+<p>Currently, I am working on Nelder&ndash;Mead multidimensional minimization
+method which is a non-gradient method, including working on the relevant
+test cases.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/04/introduction-to-the-minimization-and-integration-project/">Introduction to the Minimization and Integration Project (Rajat)</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Rajat Kapoor</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-04T14:23:00+09:00" pubdate data-updated="true">Jun 4<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p class="note"><strong>Editor&#8217;s Note:</strong> We have two students
+working on numerical minimization and integration this summer, Rajat and
+Lahiru. Lahiru will be writing a separate post about his work.</p>
+
+
+<h2>Introduction to the Minimization and Integration Project</h2>
+
+<p>Hi. My name is Rajat Kapoor and I have been selected to work with
+SciRuby for Google Summer of Code 2014.</p>
+
+<p><a href="https://github.com/SciRuby/minimization">Minimization</a> and
+<a href="https://github.com/SciRuby/integration">Integration</a> are two of the
+many available gems in the SciRuby suite. My project this year aims to
+improve these gems to replicate the functionality provided by GNU&#8217;s
+GSL. I will be trying to implement all the minimization and
+integration algorithms present in GSL in pure Ruby, with improvements
+as needed, so that these functions are easily accesible to all Ruby
+users, while the users which have GSL already installed will have an
+advantage in terms of speedy computations.</p>
+
+<h2>What Minimization and Integration actually mean</h2>
+
+<p>Minimization refers to the process of finding out the minimum of a
+mathematical function whose values might depend on multiple
+variables. Unidimensional minimization restricts these problems to
+functions of one single variable. Integration is the same as the very
+widely used concept in calculus which basically boils down to finding
+the summation of the value of a function at small intervals, when the
+width of the intervals in infinitesimally small. I can bet that you
+knowingly or unknowingly use both these things on a daily basis.</p>
+
+<h2>The plan</h2>
+
+<p>The project can be broken into two major parts: Minimization and
+Integration, as these are two seperate gems.</p>
+
+<p>The Minimization gem can be broken in two parts: unidimensional (or
+univariate) and multidimensional (multivariate). With respect to
+coding, these two can again be broken down into sub-parts: pure Ruby
+implementations and GSL support. The Integration gem will include
+the pure Ruby implementations as well as GSL support. Along with this,
+some support for symbolic integration will be added for JRuby
+users by way of the JScience library.</p>
+
+<h2>Progress</h2>
+
+<p>The pure Ruby implementations of the unidimensional minimization part
+are almost finished. I am also working on the GSL support for the same
+along with it. I plan to finish up any unidimensional minimization
+work by the end of this week and start the work with multidimensional
+minimization methods.</p>
+
+<p>Keep watching this blog for more updates regarding my project.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/3/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    
+
+
+<section>
+<div class="fb-like-box" data-href="http://www.facebook.com/SciRuby" data-width="" data-show-faces="false" data-stream="" data-header=""   ></div>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/">GSoC 2016: Adding Categorical Data Support</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/spicerub-kernelpool-and-kernels/">GSoC 2016: SpiceRub::KernelPool and Kernels</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/">GSoC 2016 : A Look at SpiceRub::Body</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-time/">GSoC 2016 : A Look at SpiceRub::Time</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/10/25/gsoc-2016-port-nmatrix-to-jruby/">GSoC 2016: NMatrix and JRuby</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/SciRuby">@SciRuby</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'SciRuby',
+            count: 6,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("sciruby", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/sciruby" class="twitter-follow-button" data-show-count="false">Follow @sciruby</a>
+  
+</section>
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - SciRuby -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sciruby';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

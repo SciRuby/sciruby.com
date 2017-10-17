@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>module NMatrix::YaleFunctions - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script src="../js/jquery.js"></script>
+<script src="../js/darkfish.js"></script>
+
+<link href="../css/fonts.css" rel="stylesheet">
+<link href="../css/rdoc.css" rel="stylesheet">
+
+
+
+<body id="top" role="document" class="module">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="../index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="../table_of_contents.html#pages">Pages</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    
+    
+    
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    
+    <li ><a href="#method-i-yale_a">#yale_a</a>
+    
+    <li ><a href="#method-i-yale_d">#yale_d</a>
+    
+    <li ><a href="#method-i-yale_ia">#yale_ia</a>
+    
+    <li ><a href="#method-i-yale_ija">#yale_ija</a>
+    
+    <li ><a href="#method-i-yale_ja">#yale_ja</a>
+    
+    <li ><a href="#method-i-yale_ja_at">#yale_ja_at</a>
+    
+    <li ><a href="#method-i-yale_ja_d_keys_at">#yale_ja_d_keys_at</a>
+    
+    <li ><a href="#method-i-yale_ja_d_keys_set_at">#yale_ja_d_keys_set_at</a>
+    
+    <li ><a href="#method-i-yale_ja_d_keys_sorted_set_at">#yale_ja_d_keys_sorted_set_at</a>
+    
+    <li ><a href="#method-i-yale_ja_set_at">#yale_ja_set_at</a>
+    
+    <li ><a href="#method-i-yale_ja_sorted_set_at">#yale_ja_sorted_set_at</a>
+    
+    <li ><a href="#method-i-yale_lu">#yale_lu</a>
+    
+    <li ><a href="#method-i-yale_nd_row">#yale_nd_row</a>
+    
+    <li ><a href="#method-i-yale_nd_row_as_array">#yale_nd_row_as_array</a>
+    
+    <li ><a href="#method-i-yale_nd_row_as_hash">#yale_nd_row_as_hash</a>
+    
+    <li ><a href="#method-i-yale_nd_row_as_set">#yale_nd_row_as_set</a>
+    
+    <li ><a href="#method-i-yale_nd_row_as_sorted_set">#yale_nd_row_as_sorted_set</a>
+    
+    <li ><a href="#method-i-yale_nd_row_size">#yale_nd_row_size</a>
+    
+    <li ><a href="#method-i-yale_row_as_array">#yale_row_as_array</a>
+    
+    <li ><a href="#method-i-yale_row_as_hash">#yale_row_as_hash</a>
+    
+    <li ><a href="#method-i-yale_row_as_set">#yale_row_as_set</a>
+    
+    <li ><a href="#method-i-yale_row_as_sorted_set">#yale_row_as_sorted_set</a>
+    
+    <li ><a href="#method-i-yale_row_keys_intersection">#yale_row_keys_intersection</a>
+    
+    <li ><a href="#method-i-yale_size">#yale_size</a>
+    
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="module-NMatrix::YaleFunctions">
+  <h1 id="module-NMatrix::YaleFunctions" class="module">
+    module NMatrix::YaleFunctions
+  </h1>
+
+  <section class="description">
+    
+<p>This module stores methods that are useful for debugging Yale matrices,
+i.e. the ones with <code>:yale</code> stype.</p>
+
+  </section>
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+    <section class="constants-list">
+      <header>
+        <h3>Constants</h3>
+      </header>
+      <dl>
+      
+        <dt id="YALE_GROWTH_CONSTANT">YALE_GROWTH_CONSTANT
+        
+        <dd><p>Defines the growth rate of the sparse NMatrix&#39;s size. Default is 1.5.</p>
+        
+      
+      </dl>
+    </section>
+    
+
+    
+
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-yale_a" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            yale_a &rarr; Array
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            yale_d(index) &rarr; ...
+          </span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Get the A array of a Yale matrix (which stores the diagonal and the LU
+portions of the matrix).</p>
+          
+          
+
+          
+          <div class="method-source-code" id="yale_a-source">
+            <pre>static VALUE nm_a(int argc, VALUE* argv, VALUE self) {
+  NM_CONSERVATIVE(nm_register_value(&amp;self));
+
+  VALUE idx;
+  rb_scan_args(argc, argv, &quot;01&quot;, &amp;idx);
+  NM_CONSERVATIVE(nm_register_value(&amp;idx));
+
+  YALE_STORAGE* s = reinterpret_cast&lt;YALE_STORAGE*&gt;(NM_SRC(self));
+  size_t size = nm_yale_storage_get_size(s);
+
+  if (idx == Qnil) {
+
+    VALUE* vals = NM_ALLOCA_N(VALUE, size);
+
+    nm_register_values(vals, size);
+
+    if (NM_DTYPE(self) == nm::RUBYOBJ) {
+      for (size_t i = 0; i &lt; size; ++i) {
+        vals[i] = reinterpret_cast&lt;VALUE*&gt;(s-&gt;a)[i];
+      }
+    } else {
+      for (size_t i = 0; i &lt; size; ++i) {
+        vals[i] = rubyobj_from_cval((char*)(s-&gt;a) + DTYPE_SIZES[s-&gt;dtype]*i, s-&gt;dtype).rval;
+      }
+    }
+    VALUE ary = rb_ary_new4(size, vals);
+
+    for (size_t i = size; i &lt; s-&gt;capacity; ++i)
+      rb_ary_push(ary, Qnil);
+
+    nm_unregister_values(vals, size);
+    NM_CONSERVATIVE(nm_unregister_value(&amp;idx));
+    NM_CONSERVATIVE(nm_unregister_value(&amp;self));
+    return ary;
+  } else {
+    size_t index = FIX2INT(idx);
+    NM_CONSERVATIVE(nm_unregister_value(&amp;idx));
+    NM_CONSERVATIVE(nm_unregister_value(&amp;self));
+    if (index &gt;= size) rb_raise(rb_eRangeError, &quot;out of range&quot;);
+    return rubyobj_from_cval((char*)(s-&gt;a) + DTYPE_SIZES[s-&gt;dtype] * index, s-&gt;dtype).rval;
+  }
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-yale_d" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            yale_d &rarr; Array
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            yale_d(index) &rarr; ...
+          </span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Get the diagonal (“D”) portion of the A array of a Yale matrix.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="yale_d-source">
+            <pre>static VALUE nm_d(int argc, VALUE* argv, VALUE self) {
+  NM_CONSERVATIVE(nm_register_value(&amp;self));
+  VALUE idx;
+  rb_scan_args(argc, argv, &quot;01&quot;, &amp;idx);
+  NM_CONSERVATIVE(nm_register_value(&amp;idx));
+
+  YALE_STORAGE* s = reinterpret_cast&lt;YALE_STORAGE*&gt;(NM_SRC(self));
+
+  if (idx == Qnil) {
+    VALUE* vals = NM_ALLOCA_N(VALUE, s-&gt;shape[0]);
+
+    nm_register_values(vals, s-&gt;shape[0]);
+
+    if (NM_DTYPE(self) == nm::RUBYOBJ) {
+      for (size_t i = 0; i &lt; s-&gt;shape[0]; ++i) {
+        vals[i] = reinterpret_cast&lt;VALUE*&gt;(s-&gt;a)[i];
+      }
+    } else {
+      for (size_t i = 0; i &lt; s-&gt;shape[0]; ++i) {
+        vals[i] = rubyobj_from_cval((char*)(s-&gt;a) + DTYPE_SIZES[s-&gt;dtype]*i, s-&gt;dtype).rval;
+      }
+    }
+    nm_unregister_values(vals, s-&gt;shape[0]);
+    NM_CONSERVATIVE(nm_unregister_value(&amp;idx));
+    NM_CONSERVATIVE(nm_unregister_value(&amp;self));
+
+    return rb_ary_new4(s-&gt;shape[0], vals);
+  } else {
+    size_t index = FIX2INT(idx);
+    NM_CONSERVATIVE(nm_unregister_value(&amp;idx));
+    NM_CONSERVATIVE(nm_unregister_value(&amp;self));
+    if (index &gt;= s-&gt;shape[0]) rb_raise(rb_eRangeError, &quot;out of range&quot;);
+    return rubyobj_from_cval((char*)(s-&gt;a) + DTYPE_SIZES[s-&gt;dtype] * index, s-&gt;dtype).rval;
+  }
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-yale_ia" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            yale_ia &rarr; Array
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Get the IA portion of the IJA array of a Yale matrix. This gives the start
+and end positions of rows in the JA and LU portions of the IJA and A
+arrays, respectively.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="yale_ia-source">
+            <pre>static VALUE nm_ia(VALUE self) {
+  NM_CONSERVATIVE(nm_register_value(&amp;self));
+
+  YALE_STORAGE* s = reinterpret_cast&lt;YALE_STORAGE*&gt;(NM_SRC(self));
+
+  VALUE* vals = NM_ALLOCA_N(VALUE, s-&gt;shape[0] + 1);
+
+  for (size_t i = 0; i &lt; s-&gt;shape[0] + 1; ++i) {
+    vals[i] = INT2FIX(s-&gt;ija[i]);
+  }
+
+  NM_CONSERVATIVE(nm_unregister_value(&amp;self));
+
+  return rb_ary_new4(s-&gt;shape[0]+1, vals);
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-yale_ija" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            yale_ija &rarr; Array
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            yale_ija(index) &rarr; ...
+          </span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Get the IJA array of a Yale matrix (or a component of the IJA array).</p>
+          
+          
+
+          
+          <div class="method-source-code" id="yale_ija-source">
+            <pre>static VALUE nm_ija(int argc, VALUE* argv, VALUE self) {
+  NM_CONSERVATIVE(nm_register_value(&amp;self));
+
+  VALUE idx;
+  rb_scan_args(argc, argv, &quot;01&quot;, &amp;idx);
+  NM_CONSERVATIVE(nm_register_value(&amp;idx));
+
+  YALE_STORAGE* s = reinterpret_cast&lt;YALE_STORAGE*&gt;(NM_SRC(self));
+  size_t size = nm_yale_storage_get_size(s);
+
+  if (idx == Qnil) {
+
+    VALUE* vals = NM_ALLOCA_N(VALUE, size);
+
+    nm_register_values(vals, size);
+
+    for (size_t i = 0; i &lt; size; ++i) {
+      vals[i] = INT2FIX(s-&gt;ija[i]);
+    }
+
+   VALUE ary = rb_ary_new4(size, vals);
+
+    for (size_t i = size; i &lt; s-&gt;capacity; ++i)
+      rb_ary_push(ary, Qnil);
+
+    nm_unregister_values(vals, size);
+    NM_CONSERVATIVE(nm_unregister_value(&amp;idx));
+    NM_CONSERVATIVE(nm_unregister_value(&amp;self));
+
+    return ary;
+
+  } else {
+    size_t index = FIX2INT(idx);
+    if (index &gt;= size) rb_raise(rb_eRangeError, &quot;out of range&quot;);
+    NM_CONSERVATIVE(nm_unregister_value(&amp;self));
+    NM_CONSERVATIVE(nm_unregister_value(&amp;idx));
+    return INT2FIX(s-&gt;ija[index]);
+  }
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-yale_ja" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            yale_ja &rarr; Array
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Get the JA portion of the IJA array of a Yale matrix. This gives the column
+indices for entries in corresponding positions in the LU portion of the A
+array.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="yale_ja-source">
+            <pre>static VALUE nm_ja(VALUE self) {
+
+  NM_CONSERVATIVE(nm_register_value(&amp;self));
+
+  YALE_STORAGE* s = reinterpret_cast&lt;YALE_STORAGE*&gt;(NM_SRC(self));
+
+  size_t size = nm_yale_storage_get_size(s);
+
+  VALUE* vals = NM_ALLOCA_N(VALUE, size - s-&gt;shape[0] - 1);
+
+  nm_register_values(vals, size - s-&gt;shape[0] - 1);
+
+  for (size_t i = 0; i &lt; size - s-&gt;shape[0] - 1; ++i) {
+    vals[i] = INT2FIX(s-&gt;ija[s-&gt;shape[0] + 1 + i]);
+  }
+
+  VALUE ary = rb_ary_new4(size - s-&gt;shape[0] - 1, vals);
+
+  for (size_t i = size; i &lt; s-&gt;capacity; ++i)
+    rb_ary_push(ary, Qnil);
+
+  nm_unregister_values(vals, size - s-&gt;shape[0] - 1);
+  NM_CONSERVATIVE(nm_unregister_value(&amp;self));
+
+  return ary;
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-yale_ja_at" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            yale_ja_at(i) &rarr; Array
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Returns the non-diagonal column indices which are stored in a given row.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="yale_ja_at-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/yale_functions.rb, line 45</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">yale_ja_at</span> <span class="ruby-identifier">i</span>
+  <span class="ruby-identifier">yale_nd_row</span>(<span class="ruby-identifier">i</span>, <span class="ruby-value">:keys</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+        <div class="aliases">
+          Also aliased as: <a href="YaleFunctions.html#method-i-yale_nd_row_as_array">yale_nd_row_as_array</a>
+        </div>
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-yale_ja_d_keys_at" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            yale_ja_d_keys_at(i) &rarr; Array
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Returns the diagonal and non-digonal column indices stored in a given row.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="yale_ja_d_keys_at-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/yale_functions.rb, line 82</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">yale_ja_d_keys_at</span> <span class="ruby-identifier">i</span>
+  <span class="ruby-identifier">ary</span> = <span class="ruby-identifier">yale_nd_row</span>(<span class="ruby-identifier">i</span>, <span class="ruby-value">:keys</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">ary</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">i</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>] <span class="ruby-operator">||</span> <span class="ruby-keyword">self</span>[<span class="ruby-identifier">i</span>,<span class="ruby-identifier">i</span>] <span class="ruby-operator">==</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">default_value</span>
+  <span class="ruby-identifier">ary</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">i</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+        <div class="aliases">
+          Also aliased as: <a href="YaleFunctions.html#method-i-yale_row_as_array">yale_row_as_array</a>
+        </div>
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-yale_ja_d_keys_set_at" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            yale_ja_d_keys_set_at(i) &rarr; Set
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Returns the diagonal and non-diagonal column indices stored in a given row.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="yale_ja_d_keys_set_at-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/yale_functions.rb, line 93</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">yale_ja_d_keys_set_at</span> <span class="ruby-identifier">i</span>
+  <span class="ruby-identifier">require</span> <span class="ruby-string">&#39;set&#39;</span>
+  <span class="ruby-identifier">yale_ja_d_keys_at</span>(<span class="ruby-identifier">i</span>).<span class="ruby-identifier">to_set</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+        <div class="aliases">
+          Also aliased as: <a href="YaleFunctions.html#method-i-yale_row_as_set">yale_row_as_set</a>
+        </div>
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-yale_ja_d_keys_sorted_set_at" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            yale_ja_d_keys_sorted_set_at(i) &rarr; SortedSet
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Returns the diagonal and non-diagonal column indices stored in a given row.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="yale_ja_d_keys_sorted_set_at-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/yale_functions.rb, line 103</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">yale_ja_d_keys_sorted_set_at</span> <span class="ruby-identifier">i</span>
+  <span class="ruby-identifier">require</span> <span class="ruby-string">&#39;set&#39;</span>
+  <span class="ruby-constant">SortedSet</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">yale_row_as_array</span>(<span class="ruby-identifier">i</span>))
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+        <div class="aliases">
+          Also aliased as: <a href="YaleFunctions.html#method-i-yale_row_as_sorted_set">yale_row_as_sorted_set</a>
+        </div>
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-yale_ja_set_at" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            yale_ja_set_at(i) &rarr; Set
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Returns the non-diagonal column indices which are stored in a given row, as
+a Set.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="yale_ja_set_at-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/yale_functions.rb, line 54</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">yale_ja_set_at</span> <span class="ruby-identifier">i</span>
+  <span class="ruby-identifier">require</span> <span class="ruby-string">&#39;set&#39;</span>
+  <span class="ruby-identifier">yale_nd_row</span>(<span class="ruby-identifier">i</span>, <span class="ruby-value">:keys</span>).<span class="ruby-identifier">to_set</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+        <div class="aliases">
+          Also aliased as: <a href="YaleFunctions.html#method-i-yale_nd_row_as_set">yale_nd_row_as_set</a>
+        </div>
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-yale_ja_sorted_set_at" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            yale_ja_sorted_set_at &rarr; SortedSet
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Returns the non-diagonal column indices which are stored in a given row, as
+a Set.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="yale_ja_sorted_set_at-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/yale_functions.rb, line 64</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">yale_ja_sorted_set_at</span> <span class="ruby-identifier">i</span>
+  <span class="ruby-identifier">require</span> <span class="ruby-string">&#39;set&#39;</span>
+  <span class="ruby-constant">SortedSet</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">yale_nd_row</span>(<span class="ruby-identifier">i</span>, <span class="ruby-value">:keys</span>))
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+        <div class="aliases">
+          Also aliased as: <a href="YaleFunctions.html#method-i-yale_nd_row_as_sorted_set">yale_nd_row_as_sorted_set</a>
+        </div>
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-yale_lu" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            yale_lu &rarr; Array
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Get the non-diagonal (“LU”) portion of the A array of a Yale matrix.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="yale_lu-source">
+            <pre>static VALUE nm_lu(VALUE self) {
+  NM_CONSERVATIVE(nm_register_value(&amp;self));
+
+  YALE_STORAGE* s = reinterpret_cast&lt;YALE_STORAGE*&gt;(NM_SRC(self));
+
+  size_t size = nm_yale_storage_get_size(s);
+
+  VALUE* vals = NM_ALLOCA_N(VALUE, size - s-&gt;shape[0] - 1);
+
+  nm_register_values(vals, size - s-&gt;shape[0] - 1);
+
+  if (NM_DTYPE(self) == nm::RUBYOBJ) {
+    for (size_t i = 0; i &lt; size - s-&gt;shape[0] - 1; ++i) {
+      vals[i] = reinterpret_cast&lt;VALUE*&gt;(s-&gt;a)[s-&gt;shape[0] + 1 + i];
+    }
+  } else {
+    for (size_t i = 0; i &lt; size - s-&gt;shape[0] - 1; ++i) {
+      vals[i] = rubyobj_from_cval((char*)(s-&gt;a) + DTYPE_SIZES[s-&gt;dtype]*(s-&gt;shape[0] + 1 + i), s-&gt;dtype).rval;
+    }
+  }
+
+  VALUE ary = rb_ary_new4(size - s-&gt;shape[0] - 1, vals);
+
+  for (size_t i = size; i &lt; s-&gt;capacity; ++i)
+    rb_ary_push(ary, Qnil);
+
+  nm_unregister_values(vals, size - s-&gt;shape[0] - 1);
+  NM_CONSERVATIVE(nm_unregister_value(&amp;self));
+
+  return ary;
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-yale_nd_row" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            yale_nd_row &rarr; ...
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>This function gets the non-diagonal contents of a Yale matrix row. The
+first argument should be the row index. The optional second argument may be
+:hash or :keys, but defaults to :hash. If :keys is given, it will only
+return the Hash keys (the column indices).</p>
+
+<p>This function is meant to accomplish its purpose as efficiently as
+possible. It does not check for appropriate range.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="yale_nd_row-source">
+            <pre>static VALUE nm_nd_row(int argc, VALUE* argv, VALUE self) {
+
+  NM_CONSERVATIVE(nm_register_value(&amp;self));
+  if (NM_SRC(self) != NM_STORAGE(self)) {
+    NM_CONSERVATIVE(nm_unregister_value(&amp;self));
+    rb_raise(rb_eNotImpError, &quot;must be called on a real matrix and not a slice&quot;);
+  }
+
+  VALUE i_, as;
+  rb_scan_args(argc, argv, &quot;11&quot;, &amp;i_, &amp;as);
+  NM_CONSERVATIVE(nm_register_value(&amp;as));
+  NM_CONSERVATIVE(nm_register_value(&amp;i_));
+
+  bool keys = false;
+  if (as != Qnil &amp;&amp; rb_to_id(as) != nm_rb_hash) keys = true;
+
+  size_t i = FIX2INT(i_);
+
+  YALE_STORAGE* s   = NM_STORAGE_YALE(self);
+  //nm::dtype_t dtype = NM_DTYPE(self);
+
+  if (i &gt;= s-&gt;shape[0]) {
+    NM_CONSERVATIVE(nm_unregister_value(&amp;self));
+    NM_CONSERVATIVE(nm_unregister_value(&amp;as));
+    NM_CONSERVATIVE(nm_unregister_value(&amp;i_));
+    rb_raise(rb_eRangeError, &quot;out of range (%lu &gt;= %lu)&quot;, i, s-&gt;shape[0]);
+  }
+
+  size_t pos = s-&gt;ija[i];
+  size_t nextpos = s-&gt;ija[i+1];
+  size_t diff = nextpos - pos;
+
+  VALUE ret;
+  if (keys) {
+    ret = rb_ary_new3(diff);
+
+    for (size_t idx = pos; idx &lt; nextpos; ++idx) {
+      rb_ary_store(ret, idx - pos, INT2FIX(s-&gt;ija[idx]));
+    }
+
+  } else {
+    ret = rb_hash_new();
+
+    for (size_t idx = pos; idx &lt; nextpos; ++idx) {
+      rb_hash_aset(ret, INT2FIX(s-&gt;ija[idx]), rubyobj_from_cval((char*)(s-&gt;a) + DTYPE_SIZES[s-&gt;dtype]*idx, s-&gt;dtype).rval);
+    }
+  }
+  NM_CONSERVATIVE(nm_unregister_value(&amp;as));
+  NM_CONSERVATIVE(nm_unregister_value(&amp;i_));
+  NM_CONSERVATIVE(nm_unregister_value(&amp;self));
+  return ret;
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-yale_nd_row_as_array" class="method-detail method-alias">
+        
+        <div class="method-heading">
+          <span class="method-name">yale_nd_row_as_array</span><span
+            class="method-args">(i)</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+        </div>
+
+        
+
+        
+        <div class="aliases">
+          Alias for: <a href="YaleFunctions.html#method-i-yale_ja_at">yale_ja_at</a>
+        </div>
+        
+      </div>
+
+    
+      <div id="method-i-yale_nd_row_as_hash" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            yale_nd_row_as_hash(i) &rarr; Hash
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Returns the non-diagonal column indices and entries stored in a given row.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="yale_nd_row_as_hash-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/yale_functions.rb, line 74</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">yale_nd_row_as_hash</span> <span class="ruby-identifier">i</span>
+  <span class="ruby-identifier">yale_nd_row</span>(<span class="ruby-identifier">i</span>, <span class="ruby-value">:hash</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-yale_nd_row_as_set" class="method-detail method-alias">
+        
+        <div class="method-heading">
+          <span class="method-name">yale_nd_row_as_set</span><span
+            class="method-args">(i)</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+        </div>
+
+        
+
+        
+        <div class="aliases">
+          Alias for: <a href="YaleFunctions.html#method-i-yale_ja_set_at">yale_ja_set_at</a>
+        </div>
+        
+      </div>
+
+    
+      <div id="method-i-yale_nd_row_as_sorted_set" class="method-detail method-alias">
+        
+        <div class="method-heading">
+          <span class="method-name">yale_nd_row_as_sorted_set</span><span
+            class="method-args">(i)</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+        </div>
+
+        
+
+        
+        <div class="aliases">
+          Alias for: <a href="YaleFunctions.html#method-i-yale_ja_sorted_set_at">yale_ja_sorted_set_at</a>
+        </div>
+        
+      </div>
+
+    
+      <div id="method-i-yale_nd_row_size" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            yale_nd_row_size(i) &rarr; Fixnum
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Returns the size of a given non-diagonal row.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="yale_nd_row_size-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/yale_functions.rb, line 37</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">yale_nd_row_size</span> <span class="ruby-identifier">i</span>
+  <span class="ruby-identifier">yale_ija</span>(<span class="ruby-identifier">i</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>) <span class="ruby-operator">-</span> <span class="ruby-identifier">yale_ija</span>(<span class="ruby-identifier">i</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-yale_row_as_array" class="method-detail method-alias">
+        
+        <div class="method-heading">
+          <span class="method-name">yale_row_as_array</span><span
+            class="method-args">(i)</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+        </div>
+
+        
+
+        
+        <div class="aliases">
+          Alias for: <a href="YaleFunctions.html#method-i-yale_ja_d_keys_at">yale_ja_d_keys_at</a>
+        </div>
+        
+      </div>
+
+    
+      <div id="method-i-yale_row_as_hash" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            yale_row_as_hash(i) &rarr; Hash
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Returns the diagonal and non-diagonal column indices and entries stored in
+a given row.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="yale_row_as_hash-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/yale_functions.rb, line 113</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">yale_row_as_hash</span> <span class="ruby-identifier">i</span>
+  <span class="ruby-identifier">h</span> = <span class="ruby-identifier">yale_nd_row</span>(<span class="ruby-identifier">i</span>, <span class="ruby-value">:hash</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">h</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">i</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">shape</span>[<span class="ruby-value">1</span>] <span class="ruby-operator">||</span> <span class="ruby-keyword">self</span>[<span class="ruby-identifier">i</span>,<span class="ruby-identifier">i</span>] <span class="ruby-operator">==</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">default_value</span>
+  <span class="ruby-identifier">h</span>[<span class="ruby-identifier">i</span>] = <span class="ruby-keyword">self</span>[<span class="ruby-identifier">i</span>,<span class="ruby-identifier">i</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-yale_row_as_set" class="method-detail method-alias">
+        
+        <div class="method-heading">
+          <span class="method-name">yale_row_as_set</span><span
+            class="method-args">(i)</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+        </div>
+
+        
+
+        
+        <div class="aliases">
+          Alias for: <a href="YaleFunctions.html#method-i-yale_ja_d_keys_set_at">yale_ja_d_keys_set_at</a>
+        </div>
+        
+      </div>
+
+    
+      <div id="method-i-yale_row_as_sorted_set" class="method-detail method-alias">
+        
+        <div class="method-heading">
+          <span class="method-name">yale_row_as_sorted_set</span><span
+            class="method-args">(i)</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+        </div>
+
+        
+
+        
+        <div class="aliases">
+          Alias for: <a href="YaleFunctions.html#method-i-yale_ja_d_keys_sorted_set_at">yale_ja_d_keys_sorted_set_at</a>
+        </div>
+        
+      </div>
+
+    
+      <div id="method-i-yale_row_keys_intersection" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            yale_row_keys_intersection(i, m2, i2) &rarr; Array
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>This function is experimental.</p>
+
+<p>It finds the intersection of row i of the current matrix with row i2 of
+matrix m2. Both matrices must be Yale. They may not be slices.</p>
+
+<p>Only checks the stored indices; does not care about matrix default value.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="yale_row_keys_intersection-source">
+            <pre>static VALUE nm_row_keys_intersection(VALUE m1, VALUE ii1, VALUE m2, VALUE ii2) {
+
+  NM_CONSERVATIVE(nm_register_value(&amp;m1));
+  NM_CONSERVATIVE(nm_register_value(&amp;m2));
+
+  if (NM_SRC(m1) != NM_STORAGE(m1) || NM_SRC(m2) != NM_STORAGE(m2)) {
+    NM_CONSERVATIVE(nm_unregister_value(&amp;m2));
+    NM_CONSERVATIVE(nm_unregister_value(&amp;m1));
+    rb_raise(rb_eNotImpError, &quot;must be called on a real matrix and not a slice&quot;);
+  }
+
+  size_t i1 = FIX2INT(ii1),
+         i2 = FIX2INT(ii2);
+
+  YALE_STORAGE *s   = NM_STORAGE_YALE(m1),
+               *t   = NM_STORAGE_YALE(m2);
+
+  size_t pos1 = s-&gt;ija[i1],
+         pos2 = t-&gt;ija[i2];
+
+  size_t nextpos1 = s-&gt;ija[i1+1],
+         nextpos2 = t-&gt;ija[i2+1];
+
+  size_t diff1 = nextpos1 - pos1,
+         diff2 = nextpos2 - pos2;
+
+  // Does the diagonal have a nonzero in it?
+  bool diag1 = i1 &lt; s-&gt;shape[0] &amp;&amp; !is_pos_default_value(s, i1),
+       diag2 = i2 &lt; t-&gt;shape[0] &amp;&amp; !is_pos_default_value(t, i2);
+
+  // Reserve max(diff1,diff2) space -- that&#39;s the max intersection possible.
+  VALUE ret = rb_ary_new2(std::max(diff1,diff2)+1);
+  nm_register_value(&amp;ret);
+
+  // Handle once the special case where both have the diagonal in exactly
+  // the same place.
+  if (diag1 &amp;&amp; diag2 &amp;&amp; i1 == i2) {
+    rb_ary_push(ret, INT2FIX(i1));
+    diag1 = false; diag2 = false; // no need to deal with diagonals anymore.
+  }
+
+  // Now find the intersection.
+  size_t idx1 = pos1, idx2 = pos2;
+  while (idx1 &lt; nextpos1 &amp;&amp; idx2 &lt; nextpos2) {
+    if (s-&gt;ija[idx1] == t-&gt;ija[idx2]) {
+      rb_ary_push(ret, INT2FIX(s-&gt;ija[idx1]));
+      ++idx1; ++idx2;
+    } else if (diag1 &amp;&amp; i1 == t-&gt;ija[idx2]) {
+      rb_ary_push(ret, INT2FIX(i1));
+      diag1 = false;
+      ++idx2;
+    } else if (diag2 &amp;&amp; i2 == s-&gt;ija[idx1]) {
+      rb_ary_push(ret, INT2FIX(i2));
+      diag2 = false;
+      ++idx1;
+    } else if (s-&gt;ija[idx1] &lt; t-&gt;ija[idx2]) {
+      ++idx1;
+    } else { // s-&gt;ija[idx1] &gt; t-&gt;ija[idx2]
+      ++idx2;
+    }
+  }
+
+  // Past the end of row i2&#39;s stored entries; need to try to find diagonal
+  if (diag2 &amp;&amp; idx1 &lt; nextpos1) {
+    idx1 = nm::yale_storage::binary_search_left_boundary(s, idx1, nextpos1, i2);
+    if (s-&gt;ija[idx1] == i2) rb_ary_push(ret, INT2FIX(i2));
+  }
+
+  // Find the diagonal, if possible, in the other one.
+  if (diag1 &amp;&amp; idx2 &lt; nextpos2) {
+    idx2 = nm::yale_storage::binary_search_left_boundary(t, idx2, nextpos2, i1);
+    if (t-&gt;ija[idx2] == i1) rb_ary_push(ret, INT2FIX(i1));
+  }
+
+  nm_unregister_value(&amp;ret);
+  NM_CONSERVATIVE(nm_unregister_value(&amp;m1));
+  NM_CONSERVATIVE(nm_unregister_value(&amp;m2));
+
+  return ret;
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-yale_size" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            yale_size &rarr; Integer
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Get the size of a Yale matrix (the number of elements actually stored).</p>
+
+<p>For capacity (the maximum number of elements that can be stored without a
+resize), use capacity instead.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="yale_size-source">
+            <pre>static VALUE nm_size(VALUE self) {
+  YALE_STORAGE* s = (YALE_STORAGE*)(NM_SRC(self));
+  VALUE to_return = INT2FIX(nm::yale_storage::IJA(s)[s-&gt;shape[0]]);
+  return to_return;
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="http://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+

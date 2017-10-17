@@ -1,0 +1,480 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Nyaplot: interactive plots generator with Ruby - SciRuby</title>
+  <meta name="author" content="SciRuby">
+
+  
+  <meta name="description" content="Introduction Three months of GSoC 2014 term was over this week and finally I
+released my product Nyaplot as a gem.
+This blog post was written to &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sciruby.com/blog/2014/08/23/nyaplot-interactive-plots-generateor-with-ruby/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="SciRuby" type="application/atom+xml">
+  <!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-12735432-6']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">SciRuby</a></h1>
+  
+    <h2>Tools for Scientific Computing in Ruby</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:sciruby.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul role=main-navigation xmlns="http://www.w3.org/1999/html">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog">Blog</a></li>
+  <li><a href="/docs">Installation</a></li>
+  <li><a href="http://gems.sciruby.com/">Gems</a></li>
+  <li><a href="https://github.com/sciruby/sciruby">SciRuby</a></li>
+  <li><a href="/nmatrix">NMatrix</a></li>
+  <li><a href="/publications/">Citing SciRuby</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Nyaplot: Interactive Plots Generator With Ruby</h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Naoki Nishida</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-23T10:07:00+09:00" pubdate data-updated="true">Aug 23<span>rd</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><iframe width="853" height="480" src="//www.youtube.com/embed/ZxjqsIluM88" frameborder="0" allowfullscreen></iframe>
+
+
+<h2>Introduction</h2>
+
+<p>Three months of GSoC 2014 term was over this week and finally I
+released my product <a href="http://rubygems.org/gems/nyaplot">Nyaplot as a gem</a>.
+This blog post was written to introduce Nyaplot version 0.1.1.</p>
+
+<h2>Features</h2>
+
+<p>There are various plotting libraries in the world as ggplot2 from R
+community and <a href="https://github.com/zuhao/plotrb">Plotrb</a> and
+<a href="https://github.com/clbustos/rubyvis">Rubyvis</a> from Ruby.  The
+features of Nyaplot compared with those libraries are
+<strong>interactivity</strong>, <strong>simplicity</strong>, and <strong>extensibility</strong>.</p>
+
+<p>Interactivity is the main theme of my D3 project in GSoC 2014. You can
+soon find the aforementioned interactivity by clicking plots with your
+mouse or trackpad. This feature is also available on browsers bundled
+with Android or iOS thanks to technologies like SVG and WebGL.</p>
+
+<p>However, the word &#8216;interactivity&#8217; is not limited to situations like
+the above. You can explore that for yourself by using Nyaplot in <a href="https://github.com/minad/iruby">IRuby notebook</a>. Various
+modules prepared
+by Nyaplot help you to create plots interactively in the notebook.
+You can also publish the result quickly by uploading the notebook to
+your Dropbox storage, a gist or pastebin, or somewhere else. <a href="http://nbviewer.ipython.org/gist/mgiraldo/a68b53175ce5892531bc">Here is an example</a>
+which Mauricio Giraldo created and published on gist.</p>
+
+<p>Simplicity is also an important element.  Many plotting libraries has
+MATLAB-like function-based API but Nyaplot does not.  Nyaplot is
+designed in a more Ruby-like object-oriented style, and its plots
+consist of various objects created from different classes. But Nyaplot
+has simple shortcut methods and users may avoid the more complex API.</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/47978121/gsoc/extensions_for_blog_post.png" alt="Extension libraries" /></p>
+
+<p>Nyaplot can be easily and dramatically extended with some JavaScript
+code. It bundles 3 extension libraries in its gem package: Nyaplot3D
+for 3D plots, Mapnya for map visualization, and Bionya for circular
+plots inspired by circos. Their structure is very simple and you can
+write the extension easily if you have a little experience in
+JavaScript and Ruby. For example, the Ruby part of Bionya has only
+about a hundred lines, even though the graphic&#8217;s style is far from
+that of standard plots.</p>
+
+<h2>Quick start</h2>
+
+<p>You can install Nyaplot by simply running <code>gem install nyaplot</code>.
+After that, find example code from
+<code>path_to_gems/nyaplot-0.1.1/examples/rb</code> and run some of them using
+<code>ruby</code> command.  These scripts will generate some plots with Nyaplot
+and export them as html files to current directory.</p>
+
+<p>In addition, I strongly recommend you to install <a href="https://github.com/minad/iruby">IRuby notebook</a> at
+the same time. IRuby is a
+web-based, interactive Ruby environment and is useful for quickly
+creating plots with Nyaplot. The introduction video embedded at the
+top of this post was also created on IRuby.</p>
+
+<p>IRuby depends on some software outside of Ruby-ecosystem, so its
+installation method is a bit complicated. Please read <a href="https://github.com/domitry/nyaplot#install-iruby-notebook">the description in the readme</a>
+to learn more.</p>
+
+<h2>Usage</h2>
+
+<p>I already wrote tutorials, so I&#8217;d like to limit the role of this
+paragraph to the introduction of the basic usage. You can skip
+reading this paragraph and find details in <a href="http://nbviewer.ipython.org/github/domitry/nyaplot/blob/master/examples/notebook/Index.ipynb">the nbviewer tutorial</a>
+and <a href="http://rubydoc.info/gems/nyaplot/0.1.1/frames">documentation</a>.</p>
+
+<p>The minimum code to create a scatter plot is as shown below:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">plot</span> <span class="o">=</span> <span class="no">Nyaplot</span><span class="o">::</span><span class="no">Plot</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">sc</span> <span class="o">=</span> <span class="n">plot</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="ss">:scatter</span><span class="p">,</span> <span class="o">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="o">]</span><span class="p">,</span> <span class="o">[-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="o">-</span><span class="mi">5</span><span class="o">]</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>Nyaplot::Plot</code> is the base class to create plots and
+<code>Nyaplot::Plot#add</code> is the method to add diagram to its instance.  The
+first argument is to specify the type of diagram, and the second and
+third are for data mapped into <em>x</em> and <em>y</em> axes.  <code>Plot#add</code> returns an
+instance of <code>Nyaplot::Diagram</code> and you can change attributes like
+color and stroke of each diagram component.</p>
+
+<p>For example you can change its color by running the code below.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">color</span> <span class="o">=</span> <span class="no">Nyaplot</span><span class="o">::</span><span class="no">Colors</span><span class="o">.</span><span class="n">qual</span>
+</span><span class='line'><span class="n">sc</span><span class="o">.</span><span class="n">color</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>Nyaplot::Colors</code> is the simple wrapper for
+<a href="http://colorbrewer2.org">Colorbrewer</a>, and one of its methods
+<code>Nyaplot::Colors.qual</code> randomly returns colorset suitable for
+qualitative data.</p>
+
+<p>If you execute this code in IRuby notebook, you can check if you favor
+the colorset through html-table based interface. <a href="http://nbviewer.ipython.org/github/domitry/nyaplot/blob/master/examples/notebook/Colors.ipynb">See the tutorial to learn more.</a></p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/47978121/gsoc/colors.png" alt="Nyaplot::Colors" /></p>
+
+<p>The plot generated from the code can be exported with two lines below.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">plot</span><span class="o">.</span><span class="n">show</span> <span class="c1"># show plot on IRuby notebook</span>
+</span><span class='line'><span class="n">plot</span><span class="o">.</span><span class="n">export_html</span> <span class="c1"># export plot to the current directory as a html file</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We cannot explain Nyaplot without <code>Nyaplot::DataFrame</code>. Example code
+above does not contain the word &#8216;DataFrame&#8217;, but the software
+internally create an instance of <code>Nyaplot:DataFrame</code> and creates plots
+based on it.</p>
+
+<p>To create the same scatter plot as above, run the code below.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">df</span> <span class="o">=</span> <span class="no">Nyaplot</span><span class="o">::</span><span class="no">DataFrame</span><span class="o">.</span><span class="n">new</span><span class="p">({</span><span class="n">a</span><span class="p">:</span> <span class="o">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="o">]</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="o">[-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="o">-</span><span class="mi">5</span><span class="o">]</span><span class="p">})</span>
+</span><span class='line'><span class="n">plot</span><span class="o">.</span><span class="n">add_with_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="ss">:scatter</span><span class="p">,</span> <span class="ss">:a</span><span class="p">,</span> <span class="ss">:b</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You may not feel any advantage of using <code>Plot#add_with_df</code> instead of <code>Plot#add</code>, but the former is useful when creating more complicated plots. <a href="http://nbviewer.ipython.org/github/domitry/Nyaplot/blob/master/examples/notebook/Interaction_with_DataFrame.ipynb">Have a look at the tutorial to learn more.</a></p>
+
+<h2>Conclusion</h2>
+
+<p>My GSoC term has concluded, but that do not mean the end of
+development.  There are still many things to do for improvement of
+this project.  For example Mapnya and Bionya are both experimental
+implementation, and the functionality of Nyaplot::DataFrame is
+relatively limited.  If you are interested in this project, please
+fork either or both of the two repositories below and send me
+pull-requests.</p>
+
+<ul>
+<li><a href="https://github.com/domitry/nyaplot">Nyaplot on GitHub</a></li>
+<li><a href="https://github.com/domitry/Nyaplotjs">Nyaplotjs on GitHub</a></li>
+</ul>
+
+
+<p>Any form of contribution is welcome.</p>
+
+<p>At last I&#8217;d like to express my gratitude to my mentor Pjotr Prins and
+other members of SciRuby community.  I would not have been able to
+finish my GSoC term without great help from them.  Feedback from
+people outside of the community also helped me a lot.  I had a great
+summer thanks to all people related to this project.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Naoki Nishida</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-23T10:07:00+09:00" pubdate data-updated="true">Aug 23<span>rd</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/d3/'>D3</a>, <a class='category' href='/blog/categories/gsoc/'>GSOC</a>, <a class='category' href='/blog/categories/gsoc2014/'>GSOC2014</a>, <a class='category' href='/blog/categories/nyaplot/'>Nyaplot</a>, <a class='category' href='/blog/categories/students/'>Students</a>, <a class='category' href='/blog/categories/visualization/'>Visualization</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://sciruby.com/blog/2014/08/23/nyaplot-interactive-plots-generateor-with-ruby/" data-via="sciruby" data-counturl="http://sciruby.com/blog/2014/08/23/nyaplot-interactive-plots-generateor-with-ruby/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/07/28/benchmarks-for-integration-gem/" title="Previous Post: Benchmarks for Integration Gem">&laquo; Benchmarks for Integration Gem</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/02/14/nmatrix-beta-released-belated-announcement/" title="Next Post: NMatrix's first beta release (belated announcement)">NMatrix's first beta release (belated announcement) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+
+
+<section>
+<div class="fb-like-box" data-href="http://www.facebook.com/SciRuby" data-width="" data-show-faces="false" data-stream="" data-header=""   ></div>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/">GSoC 2016: Adding Categorical Data Support</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/spicerub-kernelpool-and-kernels/">GSoC 2016: SpiceRub::KernelPool and Kernels</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/">GSoC 2016 : A Look at SpiceRub::Body</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-time/">GSoC 2016 : A Look at SpiceRub::Time</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/10/25/gsoc-2016-port-nmatrix-to-jruby/">GSoC 2016: NMatrix and JRuby</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/SciRuby">@SciRuby</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'SciRuby',
+            count: 6,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("sciruby", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/sciruby" class="twitter-follow-button" data-show-count="false">Follow @sciruby</a>
+  
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - SciRuby -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sciruby';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sciruby.com/blog/2014/08/23/nyaplot-interactive-plots-generateor-with-ruby/';
+        var disqus_url = 'http://sciruby.com/blog/2014/08/23/nyaplot-interactive-plots-generateor-with-ruby/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
