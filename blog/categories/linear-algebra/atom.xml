@@ -1,0 +1,905 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: linear algebra | SciRuby]]></title>
+  <link href="http://sciruby.com/blog/categories/linear-algebra/atom.xml" rel="self"/>
+  <link href="http://sciruby.com/"/>
+  <updated>2017-10-23T20:41:32+09:00</updated>
+  <id>http://sciruby.com/</id>
+  <author>
+    <name><![CDATA[SciRuby]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2016: NMatrix and JRuby]]></title>
+    <link href="http://sciruby.com/blog/2016/10/25/gsoc-2016-port-nmatrix-to-jruby/"/>
+    <updated>2016-10-25T02:13:00+09:00</updated>
+    <id>http://sciruby.com/blog/2016/10/25/gsoc-2016-port-nmatrix-to-jruby</id>
+    <content type="html"><![CDATA[<h2>Introduction</h2>
+
+<p>I worked on "Port NMatrix to JRuby" in the context of the Google
+Summer of Code (GSoC) 2016 and I am pleased to announce that NMatrix
+can now be used in JRuby.</p>
+
+<p>With JRuby NMatrix, a linear algebra library, wraps <a href="http://commons.apache.org/proper/commons-math/">Apache Commons Math</a> for its most
+basic functionalities. NMatrix supports dense matrices containing
+either doubles or Ruby objects as the data type. The performance of JRuby
+with Apache Commons Maths is quite satisfactory (see below for performance
+comparisons) even without making use of JRuby threading capabilities.</p>
+
+<p>I have also ported the <a href="https://github.com/agisga/mixed_models">mixed_models gem</a>, which
+uses NMatrix heavily at its core, to JRuby. This gem allowed us
+to test NMatrix-JRuby with real-life data.</p>
+
+<p>This blog post summarizes my work on the project with SciRuby, and
+reports the final status of the project.</p>
+
+<p>The original GSoC proposal, plan and application can be found <a href="https://github.com/prasunanand/resume/blob/master/gsoc2016_application.md">here</a>. Until merging
+is complete, commits are available <a href="https://github.com/prasunanand/nmatrix/commits/jruby_port">here</a>.</p>
+
+<h2>Performance</h2>
+
+<p>I have benchmarked some of the NMatrix functionalities. The following
+plots compare the performance between NMatrix-JRuby, NMatrix-MRI, and
+NMatrix-MRI using LAPACK/ATLAS libraries. (Note: MRI refers to the
+reference implementation of Ruby, for those who are new.)</p>
+
+<p>Notes:</p>
+
+<ol>
+<li>LAPACK and ATLAS aren't involved in most element-wise operations, such as addition and subtraction.</li>
+<li>NMatrix-MRI relies on LAPACK/ATLAS for calculating determinants and LU Decomposition (lud).</li>
+</ol>
+
+
+<p><img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/plots/add.png?raw=true" title="Fig. 3: Matrix Addition" alt="Alt Matrix Addition" />
+<img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/plots/subt.png?raw=true" title="Fig. 4: Matrix Subtraction" alt="Alt Matrix Subtraction" />
+<img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/plots/mult.png?raw=true" title="Fig. 5: Matrix Multiplication" alt="Alt Matrix Multiplication" />
+<img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/plots/gamma.png?raw=true" title="Fig. 6: Gamma Operator" alt="Alt Gamma operator" />
+<img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/plots/det.png?raw=true" title="Fig. 7: Determinant" alt="Alt Determinant" />
+<img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/plots/lud.png?raw=true" title="Fig. 8: LU Facorization" alt="Alt LU Facorization" /></p>
+
+<h3>Result</h3>
+
+<ol>
+<li><p>For two-dimensional matrices, NMatrix-JRuby is currently slower than NMatrix-MRI for matrix multiplication and matrix decomposition functionalities (calculating determinant and factoring a matrix). NMatrix-JRuby is faster than NMatrix-MRI for other functionalities of a two-dimensional matrix &mdash; like addition, subtraction, trigonometric operations, etc.</p></li>
+<li><p>NMatrix-JRuby is a clear winner when we are working with matrices of arbitrary dimensions.</p></li>
+</ol>
+
+
+<h2>Implementation</h2>
+
+<h3>Storing <em>n</em>-dimensional matrices as one-dimensional arrays</h3>
+
+<p>The major components of an <code>NMatrix</code> are shape, elements, dtype and
+stype. When initialized, the dense type stores the elements as a one-dimensional
+array; in the JRuby port, the <code>ArrayRealVector</code> class is used to store
+the elements.</p>
+
+<p><code>@s</code> stores elements, <code>@shape</code> stores the shape of the matrix, while
+<code>@dtype</code> and <code>@stype</code> store the data type and storage type
+respectively. Currently, I have nmatrix-jruby implemented only for
+<code>:float64</code> (double) and Ruby <code>:object</code> data types.</p>
+
+<p>NMatrix-MRI uses <code>struct</code> as a <code>type</code> to store <code>dim</code>, <code>shape</code>, <code>offset</code>, <code>count</code>, <code>src</code>
+of an NMatrix. <code>ALLOC</code> and <code>xfree</code> are used to wrap the NMatrix attributes to C structs
+and release the unrequired memory.</p>
+
+<p><img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/nmatrix.png?raw=true" title="Fig. 1: NMatrix" alt="NMatrix" /></p>
+
+<h3>Slicing and Rank</h3>
+
+<p>Implementing slicing was the toughest part of NMatrix-JRuby
+implementation. <code>NMatrix@s</code> stores the elements of a matrix as a
+one-dimensional array. The elements along any dimension are accessed with the
+help of the stride. <code>NMatrix#get_stride</code> calculates the stride with
+the help of the dimension and shape and returns an Array.</p>
+
+<p>```ruby
+def get_stride(nmatrix)
+  stride = Array.new()
+  (0...nmatrix.dim).each do |i|</p>
+
+<pre><code>stride[i] = 1;
+(i+1...dim).each do |j|
+  stride[i] *= nmatrix.shape[j]
+end
+</code></pre>
+
+<p>  end
+  stride
+end
+```</p>
+
+<p><code>NMatrix#[]</code> and <code>NMatrix#[]=</code> are thus able to read and write the
+elements of a matrix. NMatrix#MRI uses the <code>@s</code> object which stores
+the stride when the nmatrix is initialized.</p>
+
+<p><code>NMatrix#[]</code> calls the <code>#xslice</code> operator which calls <code>#get_slice</code>
+operator that use the stride to determine whether we are accessing a
+single element or multiple elements. If there are multiple elements,
+<code>#dense_storage_get</code> returns an NMatrix object with the elements along
+the dimension.</p>
+
+<p>NMatrix-MRI differs from NMatrix-JRuby implementation as it makes sure
+that memory is properly utilized as the memory needs to be properly
+garbage collected.</p>
+
+<p>```ruby
+def xslice(args)
+  result = nil</p>
+
+<p>  if self.dim &lt; args.length</p>
+
+<pre><code>raise(ArgumentError,"wrong number of arguments\
+   (#{args} for #{effective_dim(self)})")
+</code></pre>
+
+<p>  else</p>
+
+<pre><code>result = Array.new()
+slice = get_slice(@dim, args, @shape)
+stride = get_stride(self)
+if slice[:single]
+  if (@dtype == :object)
+    result = @s[dense_storage_get(slice,stride)]
+  else
+    s = @s.toArray().to_a
+    result = @s.getEntry(dense_storage_get(slice,stride))
+  end
+else
+  result = dense_storage_get(slice,stride)
+end
+</code></pre>
+
+<p>  end
+  return result
+end
+```</p>
+
+<p><code>NMatrix#[]=</code> calls the <code>#dense_storage_set</code> operator which calls
+ <code>#get_slice</code> operator that use the stride to find out whether we are
+ accessing a single element or multiple elements. If there are
+ multiple elements <code>#set_slice</code> recursively sets the elements of the
+ matrix then returns an NMatrix object with the elements along the
+ dimension.</p>
+
+<p>All the relevant code for slicing can be found <a href="https://github.com/prasunanand/nmatrix/blob/jruby_port/lib/nmatrix/jruby/slice.rb">here</a>.</p>
+
+<h3>Enumerators</h3>
+
+<p>NMatrix-MRI uses the C code for enumerating the elements of a
+matrix. Just as with slicing, the NMatrix-JRuby uses pure Ruby code in
+place of the C code. Currently, all the enumerators for dense matrices
+with real data-type have been implemented and are properly
+functional. Enumerators for objects have not yet been implemented.</p>
+
+<p>```ruby
+def each_with_indices
+  nmatrix = create_dummy_nmatrix
+  stride = get_stride(self)
+  offset = 0
+  #Create indices and initialize them to zero
+  coords = Array.new(dim){ 0 }</p>
+
+<p>  shape_copy =  Array.new(dim)
+  (0...size).each do |k|</p>
+
+<pre><code>dense_storage_coords(nmatrix, k, coords, stride, offset)
+slice_index = dense_storage_pos(coords,stride)
+ary = Array.new
+if (@dtype == :object)
+  ary &lt;&lt; self.s[slice_index]
+else
+  ary &lt;&lt; self.s.toArray.to_a[slice_index]
+end
+(0...dim).each do |p|
+  ary &lt;&lt; coords[p]
+end
+
+# yield the array which now consists of the value and the indices
+yield(ary)
+</code></pre>
+
+<p>  end if block_given?
+  nmatrix.s = @s</p>
+
+<p>  return nmatrix
+ end
+```</p>
+
+<h3>Two-Dimensional Matrices</h3>
+
+<p>Linear algebra is mostly about two-dimensional matrices. In NMatrix,
+when performing calculations in a two-dimensional matrix, a one-dimensional array
+is converted to a two-dimensional matrix. A two-dimensional matrix is
+stored in the JRuby implementation as a <code>BlockRealMatrix</code> or
+<code>Array2DRowRealMatrix</code>. Each has its own advantages.</p>
+
+<h4>Getting a 2D Matrix</h4>
+
+<p><img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/matrixGenerate.png?raw=true" title="Fig. 2: Getting a 2D-matrix" alt="Alt Getting a 2D-matrix" /></p>
+
+<p>```java
+public class MatrixGenerator
+{
+  public static double[][] getMatrixDouble(double[] array, int row, int col)
+  {</p>
+
+<pre><code>double[][] matrix = new double[row][col];
+for (int index=0, i=0; i &lt; row ; i++){
+    for (int j=0; j &lt; col; j++){
+        matrix[i][j]= array[index];
+        index++;
+    }
+}
+return matrix;
+</code></pre>
+
+<p>  }
+}
+```</p>
+
+<h4>Convert a 2D-matrix to 1D-array</h4>
+
+<p>```java
+public class ArrayGenerator
+{
+  public static double[] getArrayDouble(double[][] matrix, int row, int col)
+  {</p>
+
+<pre><code>double[] array = new double[row * col];
+for (int index=0, i=0; i &lt; row ; i++){
+    for (int j=0; j &lt; col; j++){
+        array[index] = matrix[i][j];
+        index++;
+    }
+}
+return array;
+</code></pre>
+
+<p>  }
+}
+```</p>
+
+<h4>Why use a Java method instead of Ruby method?</h4>
+
+<ol>
+<li><p><em>Memory Usage and Garbage Collection:</em> A scientific library is memory intensive and hence, every step counts. The JRuby interpreter doesn't need to dynamically guess the data type and uses less memory, typically around one-tenth of it. If the memory is properly utilized, when the GC kicks in, the GC has to clear less used memory space.</p></li>
+<li><p><em>Speed:</em> Using java method greatly improves the speed &mdash; by around 1000 times, when compared to using the Ruby method.</p></li>
+</ol>
+
+
+<h2><strong>Operators</strong></h2>
+
+<p>All the operators from NMatrix-MRI have been implemented except
+modulus. The binary operators were easily implemented through Commons
+Math API and Java Math API.</p>
+
+<p>```ruby
+def +(other)
+  result = create_dummy_nmatrix
+  if (other.is_a?(NMatrix))</p>
+
+<pre><code>#check dimension
+raise(ShapeError, "Cannot add matrices with different dimension")\
+if (@dim != other.dim)
+#check shape
+(0...dim).each do |i|
+  raise(ShapeError, "Cannot add matrices with different shapes") \
+  if (@shape[i] != other.shape[i])
+end
+result.s = @s.copy.add(other.s)
+</code></pre>
+
+<p>  else</p>
+
+<pre><code>result.s = @s.copy.mapAddToSelf(other)
+</code></pre>
+
+<p>  end
+  result
+end
+```</p>
+
+<p>Unary Operators (Trigonometric, Exponentiation and Log operators) have been implemented using <code>#mapToSelf</code> method that takes a <a href="https://commons.apache.org/proper/commons-math/javadocs/api-3.6.1/org/apache/commons/math3/analysis/UnivariateFunction.html"><code>Univariate function</code></a> as an argument. <code>#mapToSelf</code> maps every element of ArrayRealVector object to the <code>Univariate function</code>, that is passed to it and returns <code>self</code> object.</p>
+
+<p><code>ruby
+def sin
+  result = create_dummy_nmatrix
+  result.s = @s.copy.mapToSelf(Sin.new())
+  result
+end
+</code></p>
+
+<p>NMatrix#method(arg) has been implemented using bivariate functions
+provided by Commons Math API and Java Math API.</p>
+
+<p><code>ruby
+def gamma
+  result = create_dummy_nmatrix
+  result.s = ArrayRealVector.new MathHelper.gamma(@s.toArray)
+  result
+end
+</code></p>
+
+<p>```java
+import org.apache.commons.math3.special.Gamma;</p>
+
+<p>public class MathHelper{
+  ...
+  public static double[] gamma(double[] arr){</p>
+
+<pre><code>double[] result = new double[arr.length];
+for(int i = 0; i&lt; arr.length; i++){
+  result[i] = Gamma.gamma(arr[i]);
+}
+return result;
+</code></pre>
+
+<p>  }
+  ...
+}
+```</p>
+
+<h3>Decomposition</h3>
+
+<p>NMatrix-MRI relies on LAPACK and ATLAS for matrix decomposition and
+solving functionalities. Apache Commons Math provides a different set
+of API for decomposing a matrix and solving an equation. For example,
+<code>#potrf</code> and other LAPACK specific functions have not been implemented
+as they are not required at all.</p>
+
+<p>Calculating determinant in NMatrix is tricky where a matrix is reduced
+either to a lower or upper matrix and the diagonal elements of the
+matrix are multiplied to get the result. Also, the correct sign of the
+result (whether positive or negative) is taken into account while
+calculating the determinant. However, NMatrix-JRuby uses Commons Math
+API to calculate the determinant.</p>
+
+<p>```ruby
+def det_exact
+  if (@dim != 2 || @shape[0] != @shape[1])</p>
+
+<pre><code>raise(ShapeError, "matrices must be square to have a determinant defined")
+return nil
+</code></pre>
+
+<p>  end
+  to_return = LUDecomposition.new(self.twoDMat).getDeterminant()
+end
+```</p>
+
+<p>Given below is code that shows how Cholesky decomposition has been
+implemented by using Commons Math API.</p>
+
+<h4>Cholesky Decomposition</h4>
+
+<p>```ruby
+  def factorize_cholesky</p>
+
+<pre><code>cholesky = CholeskyDecomposition.new(self.twoDMat)
+l = create_dummy_nmatrix
+twoDMat = cholesky.getL
+l.s = ArrayRealVector.new(ArrayGenerator.getArrayDouble\
+    (twoDMat.getData, @shape[0], @shape[1]))
+
+u = create_dummy_nmatrix
+twoDMat = cholesky.getLT
+u.s = ArrayRealVector.new(ArrayGenerator.getArrayDouble\
+  (twoDMat.getData, @shape[0], @shape[1]))
+return [u,l]
+</code></pre>
+
+<p>  end
+```
+Similarly, LU Decomposition and QR factorization have been implemented.</p>
+
+<h4>LU Decomposition</h4>
+
+<p><a href="https://github.com/prasunanand/nmatrix/blob/jruby_port/lib/nmatrix/jruby/math.rb#L365">Code</a></p>
+
+<h4>QR Factorization</h4>
+
+<p><a href="https://github.com/prasunanand/nmatrix/blob/jruby_port/lib/nmatrix/jruby/math.rb#L392">Code</a></p>
+
+<h4><code>NMatrix#solve</code></h4>
+
+<p>The solve method currently uses LU and Cholesky decomposition.</p>
+
+<p>```ruby
+  def solve(b, opts = {})</p>
+
+<pre><code>raise(ShapeError, "Must be called on square matrix")\
+   unless self.dim == 2 &amp;&amp; self.shape[0] == self.shape[1]
+raise(ShapeError, "number of rows of b must equal number\
+   of cols of self") if self.shape[1] != b.shape[0]
+raise(ArgumentError, "only works with dense matrices") if self.stype != :dense
+raise(ArgumentError, "only works for non-integer, non-object dtypes")\
+   if integer_dtype? or object_dtype? or b.integer_dtype? or b.object_dtype?
+
+opts = { form: :general }.merge(opts)
+x    = b.clone
+n    = self.shape[0]
+nrhs = b.shape[1]
+
+nmatrix = create_dummy_nmatrix
+case opts[:form]
+when :general, :upper_tri, :upper_triangular, :lower_tri, :lower_triangular
+  #LU solver
+  solver = LUDecomposition.new(self.twoDMat).getSolver
+  nmatrix.s = solver.solve(b.s)
+  return nmatrix
+when :pos_def, :positive_definite
+  solver = Choleskyecomposition.new(self.twoDMat).getSolver
+  nmatrix.s = solver.solve(b.s)
+  return nmatrix
+else
+  raise(ArgumentError, "#{opts[:form]} is not a valid form option")
+end
+</code></pre>
+
+<p>  end
+```</p>
+
+<h4><code>NMatrix#matrix_solve</code></h4>
+
+<p>Suppose we need to solve a system of linear equations:</p>
+
+<pre><code>                    AX = B
+</code></pre>
+
+<p>where A is an m×n matrix, B and X are n×p matrices, we need to solve this equation by iterating through B.</p>
+
+<p>NMatrix-MRI implements this functionality using <code>NMatrix::BLAS::cblas_trsm</code> method. However, for NMatrix-JRuby,  <code>NMatrix#matrix_solve</code> is the analogous method used.</p>
+
+<p>```ruby
+  def matrix_solve rhs</p>
+
+<pre><code>if rhs.shape[1] &gt; 1
+  nmatrix = NMatrix.new :copy
+  nmatrix.shape = rhs.shape
+  res = []
+  #Solve a matrix and store the vectors in a matrix
+  (0...rhs.shape[1]).each do |i|
+    res &lt;&lt; self.solve(rhs.col(i)).s.toArray.to_a
+  end
+  #res is in col major format
+  result = ArrayGenerator.getArrayColMajorDouble \
+     res.to_java :double, rhs.shape[0], rhs.shape[1]
+  nmatrix.s = ArrayRealVector.new result
+
+  return nmatrix
+else
+  return self.solve rhs
+end
+</code></pre>
+
+<p>  end
+```</p>
+
+<p>Currently, Hessenberg transformation for NMatrix-JRuby has not been implemented.</p>
+
+<h3>Other dtypes</h3>
+
+<p>I have tried implementing float dtypes using <code>FloatMatrix</code> class
+provide by jblas.  jblas was used instead of Commons Math as the
+latter uses <code>Field Elements</code> for Floats and it had some issues
+with <code>Reflection</code> and <code>Type Erasure</code>.
+However, using jblas resulted in errors due to precision.</p>
+
+<h2>Code Organisation and Deployment</h2>
+
+<p>To minimise conflict with the MRI codebase all the JRuby front end
+code has been placed in the <code>/lib/nmatrix/jruby</code>
+directory. <code>lib/nmatrix/nmatrix.rb</code> decides whether to load
+<code>nmatrix.so</code> or <code>nmatrix_jruby.rb</code> after detecting the Ruby platform.</p>
+
+<p>The added advantage is that the Ruby interpreter must not decide which
+function to call at run-time. The impact on performance can be seen
+when programs which intensively use NMatrix for linear algebraic
+computations (<em>e.g.</em>, mixed_models) are run.</p>
+
+<h2>Spec Report</h2>
+
+<p>After the port; this is the final report that summarizes the number of tests that successfully pass:</p>
+
+<h3>NMatrix</h3>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Spec file</th>
+<th align="center">Total Tests</th>
+<th align="center">Success</th>
+<th align="center">Failure</th>
+<th align="center">Pending</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>00_nmatrix_spec</td>
+<td align="center">188</td>
+<td align="center">139</td>
+<td align="center">43</td>
+<td align="center">6</td>
+</tr>
+<tr>
+<td></td>
+<td>01_enum_spec</td>
+<td align="center">17</td>
+<td align="center">8</td>
+<td align="center">09</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>02_slice_spec</td>
+<td align="center">144</td>
+<td align="center">116</td>
+<td align="center">28</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>03_nmatrix_monkeys_spec</td>
+<td align="center">12</td>
+<td align="center">11</td>
+<td align="center">01</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>elementwise_spec</td>
+<td align="center">38</td>
+<td align="center">21</td>
+<td align="center">17</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>homogeneous_spec.rb</td>
+<td align="center">07</td>
+<td align="center">06</td>
+<td align="center">01</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>math_spec</td>
+<td align="center">737</td>
+<td align="center">541</td>
+<td align="center">196</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>shortcuts_spec</td>
+<td align="center">81</td>
+<td align="center">57</td>
+<td align="center">24</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>stat_spec</td>
+<td align="center">72</td>
+<td align="center">40</td>
+<td align="center">32</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>slice_set_spec</td>
+<td align="center">6</td>
+<td align="center">2</td>
+<td align="center">04</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+
+
+<br>
+
+
+<h4>Why do some tests fail?</h4>
+
+<ol>
+<li>Complex dtype has not been implemented.</li>
+<li>Sparse matrices (list and yale) have not been implemented.</li>
+<li>Decomposition methods that are specific to LAPACK and ATLAS have not been implemented.</li>
+<li>Integer dtype is not properly assigned to <code>floor</code>, <code>ceil</code>, and <code>round</code> methods.</li>
+</ol>
+
+
+<h3>Mixed_Models</h3>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Spec file</th>
+<th align="center">Total Test</th>
+<th align="center">Success</th>
+<th align="center">Failure</th>
+<th align="center">Pending</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>Deviance_spec</td>
+<td align="center">04</td>
+<td align="center">04</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>LMM_spec</td>
+<td align="center">195</td>
+<td align="center">195</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>LMM_categorical_data_spec.rb</td>
+<td align="center">48</td>
+<td align="center">45</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>LMMFormula_spec.rb</td>
+<td align="center">05</td>
+<td align="center">05</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>LMM_interaction_effects_spec.rb</td>
+<td align="center">82</td>
+<td align="center">82</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>LMM_nested_effects_spec.rb</td>
+<td align="center">40</td>
+<td align="center">40</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>matrix_methods_spec.rb</td>
+<td align="center">52</td>
+<td align="center">52</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>ModelSpecification_spec.rb</td>
+<td align="center">07</td>
+<td align="center">07</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>NelderMeadWithConstraints_spec.rb</td>
+<td align="center">08</td>
+<td align="center">08</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+
+
+<h2>Future Work</h2>
+
+<p>NMatrix on JRuby offers comparable speeds to MRI. For specific
+computations it will be possible to leverage the threading support of
+JRuby and speed up things using multiple cores.</p>
+
+<p>Adding new functionality to NMatrix-JRuby will be easy from
+here. Personally, I am interested to add OpenCL support to leverage
+the GPU computational capacity available on most machines today.</p>
+
+<h2>Conclusion</h2>
+
+<p>The main goal of this project was to to gain from the performance JRuby offers,
+and bring a unified interface for linear algebra between MRI and JRuby.</p>
+
+<p>By the end of GSoC, I have been able to successfully create a linear
+algebra library, NMatrix for JRuby users, which they can easily run on
+their machines &mdash; unless they want to use complex numbers, at
+least for now.</p>
+
+<p>I have mixed_models gem simultaneously ported to JRuby. Even here,
+NMatrix-JRuby is very close to NMatrix-MRI, considering the performance .</p>
+
+<h2>Acknowledgements</h2>
+
+<p>I would like to express my sincere gratitude to my mentor Pjotr Prins
+for the continuous support through the summers, and for his patience,
+motivation, enthusiasm, and immense knowledge. I could not have
+imagined having a better advisor and mentor, for this project.</p>
+
+<p>I am very grateful to Google and the Ruby Science Foundation for this
+golden opportunity.</p>
+
+<p>I am very thankful to Charles Nutter, John Woods, Sameer Deshmukh,
+Kenta Murata and Alexej Gossmann, who mentored me through the
+project. It has been a great learning experience.</p>
+
+<p>I thank my fellow GSoC participants Rajith, Lokesh and Gaurav who
+helped me with certain aspects of my project.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2015: New NMatrix gems for advanced linear algebra features]]></title>
+    <link href="http://sciruby.com/blog/2015/08/19/gsoc-2015-nmatrix/"/>
+    <updated>2015-08-19T09:57:00+09:00</updated>
+    <id>http://sciruby.com/blog/2015/08/19/gsoc-2015-nmatrix</id>
+    <content type="html"><![CDATA[<p>My Google Summer of Code project was working on the <a href="https://github.com/SciRuby/nmatrix">NMatrix project</a>, moving
+functionality that depends on external libraries from the core <code>nmatrix</code>
+gem to optional plugin gems. NMatrix is a Ruby library for linear algebra,
+used by many other projects.
+In addition to the code that was part of
+NMatrix proper, NMatrix previously required the <a href="http://math-atlas.sourceforge.net/">ATLAS library</a>, which
+implemented fast versions of common matrix operations like multiplication
+and inversion, as well as more advanced operations like eigenvalue
+decomposition and Cholesky decomposition.</p>
+
+<p>There were two separate but related motivations for my project. The
+first was to simplify the NMatrix installation
+process. ATLAS can be difficult to install, so the installation
+process for NMatrix was complicated, especially on
+OS X, and may have discouraged people from using NMatrix.
+The second motivation was that by separating out the ATLAS code from the
+main NMatrix code, it would be easier to add new linear algebra backends
+which provide similar features. Indeed, I implemented a second backend this
+summer.</p>
+
+<p>The end result of my summer's work:</p>
+
+<ul>
+<li>The core <code>nmatrix</code> gem does not depend on any external linear matrix
+libraries. It provides non-optimized implementations of common matrix
+operations.</li>
+<li>All code that requires ATLAS has been moved into the new <code>nmatrix-atlas</code>
+gem, so that
+those who are only interested in the core functionality are not required to
+install ATLAS. <code>nmatrix-atlas</code> provides optimized implementations of common matrix
+operations, as well as advanced functions not available in <code>nmatrix</code>.
+I wrote a blog post describing the setup for <a href="http://wlevine.github.io/2015/06/15/releasing-multiple-gems-with-c-extensions-from-the-same-repository.html">releasing multiple gems from the same repository</a>, which this required.</li>
+<li>A new gem <code>nmatrix-lapacke</code>, which provides the same features as
+<code>nmatrix-atlas</code>, but instead of depending specifically on the ATLAS
+library, requires any generic <a href="https://en.wikipedia.org/wiki/LAPACK">LAPACK</a> and
+<a href="https://en.wikipedia.org/wiki/Basic_Linear_Algebra_Subprograms">BLAS</a>
+implementation. This should be easier to use for many users as they may
+already have LAPACK installed (it comes pre-installed with OS X and is
+commonly used in Linux systems), but not ATLAS.</li>
+<li>The installation procedure is simplified, especially for those installing
+just the <code>nmatrix</code> gem. Compare the <a href="https://github.com/SciRuby/nmatrix/wiki/Installation">new installation instructions</a>
+to the <a href="https://github.com/SciRuby/nmatrix/wiki/Installation/2ac41c62d35c79468d3d8169be0ccba238c3c921">old ones</a>.</li>
+</ul>
+
+
+<p>The one deviation from my original proposal was that I originally intended to remove
+all the ATLAS code and release only the <code>nmatrix-lapacke</code> plugin, so that we
+would only have one interface to the advanced linear algebra functions, but I
+decided to keep the ATLAS code, since the <code>nmatrix-lapacke</code> code is new and
+has not had a chance to be thoroughly tested.</p>
+
+<h3>Usage</h3>
+
+<p>```ruby
+require 'nmatrix'</p>
+
+<h1>create a 3-by-3 matrix</h1>
+
+<p>a = NMatrix.new([3,3], [1,2,3, 4,5,6, 7,8,9], dtype: :float64)</p>
+
+<h1>invert it using non-optimized NMatrix-internal implementation</h1>
+
+<p>a.invert!
+```</p>
+
+<p>```ruby
+require 'nmatrix'
+require 'nmatrix/atlas' #or require 'nmatrix/lapacke'</p>
+
+<h1>create a 3-by-3 matrix</h1>
+
+<p>a = NMatrix.new([3,3], [1,2,3, 4,5,6, 7,8,9], dtype: :float64)</p>
+
+<h1>invert it using optimized implementation provided by ATLAS</h1>
+
+<p>a.invert!
+```</p>
+
+<p>For advanced functions not provided by the core <code>nmatrix</code> gem, for example
+<a href="http://sciruby.com/nmatrix/docs/NMatrix.html#method-i-gesvd"><code>gesvd</code></a>, <code>nmatrix-atlas</code> and <code>nmatrix-lapacke</code>
+provide a common interface:</p>
+
+<p><code>ruby
+require 'nmatrix'
+require 'nmatrix/atlas'
+a = NMatrix.new([4,5],[1,0,0,0,2, 0,0,3,0,0, 0,0,0,0,0, 0,4,0,0,0],
+dtype: dtype)
+u, s, vt = a.gesvd
+</code></p>
+
+<p>```ruby</p>
+
+<h1>Identical to the above, except for the require</h1>
+
+<p>require 'nmatrix'
+require 'nmatrix/lapacke'
+a = NMatrix.new([4,5],[1,0,0,0,2, 0,0,3,0,0, 0,0,0,0,0, 0,4,0,0,0],
+dtype: dtype)
+u, s, vt = a.gesvd
+```</p>
+
+<p>If the developer wants to use an advanced feature, but does not care
+whether the user is using <code>nmatrix-atlas</code>
+or <code>nmatrix-lapacke</code>, they can <code>require nmatrix/lapack_plugin</code>, which will
+require whichever of the two is available, instead of being forced to
+choose between the two.</p>
+
+<p>As a fun test of the new gems, I did a very simple benchmark, just
+testing how long it took to invert a
+1500-by-1500 matrix in place using <code>NMatix#invert!</code>:</p>
+
+<ul>
+<li><code>nmatrix</code> (no external libraries): 3.67s</li>
+<li><code>nmatrix-atlas</code>: 0.96s</li>
+<li><code>nmatrix-lapacke</code> with ATLAS: 0.99s</li>
+<li><code>nmatrix-lapacke</code> with OpenBLAS (multithreading enabled): 0.39s</li>
+<li><code>nmatrix-lapacke</code> with reference implementations of LAPACK and BLAS: 3.72s</li>
+</ul>
+
+
+<p>This is not supposed to be a thorough or realistic benchmark (performance will
+depend on your system, on how you built the libraries, and on the exact
+functions that you use), but there
+are still a few interesting conclusions we can draw from it:</p>
+
+<ul>
+<li>Performance is much better using the two highly optimized libraries
+(ATLAS and OpenBLAS) than using either the NMatrix
+internal implementation or the reference implementation.</li>
+<li>When using ATLAS, performance is similar whether using <code>nmatrix-atlas</code>
+and <code>nmatrix-lapacke</code> (this means we could consider deprecating
+the <code>nmatix-atlas</code> gem).</li>
+</ul>
+
+
+<p>Overall, my summer has been productive. I implemented everything that I
+proposed and feedback from testers so far has been positive.
+I plan to stay involved with NMatrix, especially to follow up on any issues
+related to my changes.
+Although I won't be a student next summer, I would certainly consider
+participating in Google Summer of Code in the future as a mentor.
+I'd like to
+thank my mentor John Woods and the rest of the SciRuby community for support
+and feedback throughout the summer.</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,529 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>GSoC 2016: Adding Categorical Data Support - SciRuby</title>
+  <meta name="author" content="SciRuby">
+
+  
+  <meta name="description" content="Support for categorical data is important for any data analysis
+tool. This summer I implemented categorical data capabilities for: Convenient and &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sciruby.com/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="SciRuby" type="application/atom+xml">
+  <!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-12735432-6']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">SciRuby</a></h1>
+  
+    <h2>Tools for Scientific Computing in Ruby</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:sciruby.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul role=main-navigation xmlns="http://www.w3.org/1999/html">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog">Blog</a></li>
+  <li><a href="/docs">Installation</a></li>
+  <li><a href="http://gems.sciruby.com/">Gems</a></li>
+  <li><a href="https://github.com/sciruby/sciruby">SciRuby</a></li>
+  <li><a href="/nmatrix">NMatrix</a></li>
+  <li><a href="/publications/">Citing SciRuby</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">GSoC 2016: Adding Categorical Data Support</h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Lokesh Sharma</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-11-25T02:54:00+09:00" pubdate data-updated="true">Nov 25<span>th</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Support for categorical data is important for any data analysis
+tool. This summer I implemented categorical data capabilities for:</p>
+
+<ul>
+<li>Convenient and efficient data wrangling for categorical data in <a href="https://github.com/v0dro/daru">Daru</a></li>
+<li>Visualization of categorical data</li>
+<li>Multiple linear regression and generalized linear models (GLM) with categorical variables in <a href="https://github.com/SciRuby/statsample">Statsample</a> and <a href="https://github.com/SciRuby/statsample-glm">Statsample-GLM</a></li>
+</ul>
+
+
+<p>Lets talk about each of them in detail.</p>
+
+<h4>Analyzing catgorical data with Daru</h4>
+
+<p>Categorical data is now readily recognized by
+<a href="https://github.com/v0dro/daru">Daru</a> and Daru has all the necessary
+procedures for dealing with it.</p>
+
+<p>To analyze categorical variable, simply turn the numerical vector to categorical and you are ready to go.</p>
+
+<p>We will use, for demonstration purposes, animal shelter data taken
+from the <a href="https://www.kaggle.com/c/shelter-animal-outcomes">Kaggle Competition</a>. It is
+stored in <code>shelter_data</code>.</p>
+
+<p><img src="http://i65.tinypic.com/xeliqs.png" alt="" /></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Tell Daru which variables are categorical</span>
+</span><span class='line'><span class="n">shelter_data</span><span class="o">.</span><span class="n">to_category</span> <span class="s1">&#39;OutcomeType&#39;</span><span class="p">,</span> <span class="s1">&#39;AnimalType&#39;</span><span class="p">,</span> <span class="s1">&#39;SexuponOutcome&#39;</span><span class="p">,</span> <span class="s1">&#39;Breed&#39;</span><span class="p">,</span> <span class="s1">&#39;Color&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Or quantize a numerical variable to categorical</span>
+</span><span class='line'><span class="n">shelter_data</span><span class="o">[</span><span class="s1">&#39;AgeuponOutcome&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="n">shelter_data</span><span class="o">[</span><span class="s1">&#39;AgeuponOutcome(Weeks)&#39;</span><span class="o">].</span><span class="n">cut</span> <span class="o">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="mi">260</span><span class="p">,</span> <span class="mi">1500</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">labels</span><span class="p">:</span> <span class="o">[</span><span class="ss">:less_than_week</span><span class="p">,</span> <span class="ss">:less_than_month</span><span class="p">,</span> <span class="ss">:less_than_year</span><span class="p">,</span> <span class="ss">:one_to_five_years</span><span class="p">,</span> <span class="ss">:more_than__five_years</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Do your operations on categorical data</span>
+</span><span class='line'><span class="n">shelter_data</span><span class="o">[</span><span class="s1">&#39;AgeuponOutcome&#39;</span><span class="o">].</span><span class="n">frequencies</span><span class="o">.</span><span class="n">sort</span> <span class="n">ascending</span><span class="p">:</span> <span class="kp">false</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="http://i67.tinypic.com/w1u3vs.png" alt="" /></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">small</span><span class="o">[</span><span class="s1">&#39;Breed&#39;</span><span class="o">].</span><span class="n">categories</span><span class="o">.</span><span class="n">size</span>
+</span><span class='line'><span class="c1">#=&gt; 1380</span>
+</span><span class='line'><span class="c1"># Merge infrequent categories to make data analysis easy</span>
+</span><span class='line'><span class="n">other_cats</span> <span class="o">=</span> <span class="n">shelter_data</span><span class="o">[</span><span class="s1">&#39;Breed&#39;</span><span class="o">].</span><span class="n">categories</span><span class="o">.</span><span class="n">select</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">shelter_data</span><span class="o">[</span><span class="s1">&#39;Breed&#39;</span><span class="o">].</span><span class="n">count</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="p">}</span>
+</span><span class='line'><span class="n">other_cats_hash</span> <span class="o">=</span> <span class="n">other_cats</span><span class="o">.</span><span class="n">zip</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;other&#39;</span><span class="o">]*</span><span class="n">other_cats</span><span class="o">.</span><span class="n">size</span><span class="p">)</span><span class="o">.</span><span class="n">to_h</span>
+</span><span class='line'><span class="n">shelter_data</span><span class="o">[</span><span class="s1">&#39;Breed&#39;</span><span class="o">].</span><span class="n">rename_categories</span> <span class="n">other_cats_hash</span>
+</span><span class='line'><span class="n">shelter_data</span><span class="o">[</span><span class="s1">&#39;Breed&#39;</span><span class="o">].</span><span class="n">frequencies</span>
+</span><span class='line'><span class="c1"># View the data</span>
+</span><span class='line'><span class="n">small</span><span class="o">[</span><span class="s1">&#39;Breed&#39;</span><span class="o">].</span><span class="n">frequencies</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">ascending</span><span class="p">:</span> <span class="kp">false</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="http://i64.tinypic.com/25rcu8m.png" alt="" /></p>
+
+<p>Please refer to <a href="http://lokeshh.github.io/blog/2016/06/21/categorical-data/">this blog post</a> to know more.</p>
+
+<h4>Visualizing categorical data</h4>
+
+<p>With the help of <a href="https://github.com/SciRuby/nyaplot">Nyaplot</a>, <a href="https://github.com/SciRuby/gnuplotrb">GnuplotRB</a> and <a href="https://github.com/topfunky/gruff">Gruff</a>, Daru now provides ability to visualize categorical data as it does with numerical data.</p>
+
+<p>To plot a vector with Nyaplot one needs to call the function <code>#plot</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># dv is a caetgorical vector</span>
+</span><span class='line'><span class="n">dv</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">Vector</span><span class="o">.</span><span class="n">new</span> <span class="o">[</span><span class="s1">&#39;III&#39;</span><span class="o">]*</span><span class="mi">10</span> <span class="o">+</span> <span class="o">[</span><span class="s1">&#39;II&#39;</span><span class="o">]*</span><span class="mi">5</span> <span class="o">+</span> <span class="o">[</span><span class="s1">&#39;I&#39;</span><span class="o">]*</span><span class="mi">5</span><span class="p">,</span> <span class="n">type</span><span class="p">:</span> <span class="ss">:category</span><span class="p">,</span> <span class="n">categories</span><span class="p">:</span> <span class="o">[</span><span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="s1">&#39;II&#39;</span><span class="p">,</span> <span class="s1">&#39;III&#39;</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dv</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">type</span><span class="p">:</span> <span class="ss">:bar</span><span class="p">,</span> <span class="nb">method</span><span class="p">:</span> <span class="ss">:fraction</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="nb">p</span><span class="p">,</span> <span class="n">d</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">p</span><span class="o">.</span><span class="n">x_label</span> <span class="s1">&#39;Categories&#39;</span>
+</span><span class='line'>  <span class="nb">p</span><span class="o">.</span><span class="n">y_label</span> <span class="s1">&#39;Fraction&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="http://i64.tinypic.com/2s6onsw.png" alt="" /></p>
+
+<p>Given a dataframe, one can plot the scatter plot such that the points
+color, shape and size can be varied acording to a categorical
+variable.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># df is a dataframe with categorical variable :c</span>
+</span><span class='line'><span class="n">df</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">DataFrame</span><span class="o">.</span><span class="n">new</span><span class="p">({</span>
+</span><span class='line'>  <span class="n">a</span><span class="p">:</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">0</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">b</span><span class="p">:</span> <span class="o">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">c</span><span class="p">:</span> <span class="o">[</span><span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="s1">&#39;II&#39;</span><span class="p">,</span> <span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="s1">&#39;III&#39;</span><span class="p">,</span> <span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="s1">&#39;III&#39;</span><span class="p">,</span> <span class="s1">&#39;II&#39;</span><span class="o">]</span>
+</span><span class='line'>  <span class="p">})</span>
+</span><span class='line'><span class="n">df</span><span class="o">.</span><span class="n">to_category</span> <span class="ss">:c</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">type</span><span class="p">:</span> <span class="ss">:scatter</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="ss">:a</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="ss">:b</span><span class="p">,</span> <span class="n">categorized</span><span class="p">:</span> <span class="p">{</span><span class="n">by</span><span class="p">:</span> <span class="ss">:c</span><span class="p">,</span> <span class="nb">method</span><span class="p">:</span> <span class="ss">:color</span><span class="p">})</span> <span class="k">do</span> <span class="o">|</span><span class="nb">p</span><span class="p">,</span> <span class="n">d</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">p</span><span class="o">.</span><span class="n">xrange</span> <span class="o">[-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="o">]</span>
+</span><span class='line'>  <span class="nb">p</span><span class="o">.</span><span class="n">yrange</span> <span class="o">[-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="http://i64.tinypic.com/2mcfx28.png" alt="" /></p>
+
+<p>In a similar manner Gnuplot and Gruff also support plotting of categorical variables.</p>
+
+<p>An additional work I did was to add Gruff with Daru. Now one can plot
+vectors and dataframes also using Gruff.</p>
+
+<p>See more notebooks on visualizing categorical data with Daru
+<a href="http://nbviewer.jupyter.org/github/SciRuby/sciruby-notebooks/tree/master/Data%20Analysis/Plotting/">here</a>.</p>
+
+<h4>Regression with categorical data</h4>
+
+<p>Now categorical data is supported in multiple linear regression and
+generalized linear models (GLM) in
+<a href="https://github.com/SciRuby/statsample">Statsample</a> and
+<a href="https://github.com/SciRuby/statsample-glm">Statsample-GLM</a>.</p>
+
+<p>A new formula language (like that used in R or
+<a href="https://github.com/pydata/patsy">Patsy</a>) has been introduced to ease
+the task of specifying regressions.</p>
+
+<p>Now there&#8217;s no need to manually create a dataframe for regression.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;statsample-glm&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">formula</span> <span class="o">=</span> <span class="s1">&#39;OutcomeType_Adoption~AnimalType+Breed+AgeuponOutcome(Weeks)+Color+SexuponOutcome&#39;</span>
+</span><span class='line'><span class="n">glm_adoption</span> <span class="o">=</span> <span class="no">Statsample</span><span class="o">::</span><span class="no">GLM</span><span class="o">::</span><span class="no">Regression</span><span class="o">.</span><span class="n">new</span> <span class="n">formula</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="ss">:logistic</span>
+</span><span class='line'><span class="n">glm_adoption</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">coefficients</span> <span class="ss">:hash</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#=&gt; {:AnimalType_Cat=&gt;0.8376443692275163, :&quot;Breed_Pit Bull Mix&quot;=&gt;0.28200753488859803, :&quot;Breed_German Shepherd Mix&quot;=&gt;1.0518504638731023, :&quot;Breed_Chihuahua Shorthair Mix&quot;=&gt;1.1960242033878856, :&quot;Breed_Labrador Retriever Mix&quot;=&gt;0.445803000000512, :&quot;Breed_Domestic Longhair Mix&quot;=&gt;1.898703165797653, :&quot;Breed_Siamese Mix&quot;=&gt;1.5248210169271197, :&quot;Breed_Domestic Medium Hair Mix&quot;=&gt;-0.19504965010288533, :Breed_other=&gt;0.7895601504638325, :&quot;Color_Blue/White&quot;=&gt;0.3748263925801828, :Color_Tan=&gt;0.11356334165122918, :&quot;Color_Black/Tan&quot;=&gt;-2.6507089126322114, :&quot;Color_Blue Tabby&quot;=&gt;0.5234717706465536, :&quot;Color_Brown Tabby&quot;=&gt;0.9046099720184905, :Color_White=&gt;0.07739310267363662, :Color_Black=&gt;0.859906249787038, :Color_Brown=&gt;-0.003740755055106689, :&quot;Color_Orange Tabby/White&quot;=&gt;0.2336674067343927, :&quot;Color_Black/White&quot;=&gt;0.22564205490196415, :&quot;Color_Brown Brindle/White&quot;=&gt;-0.6744314269278774, :&quot;Color_Orange Tabby&quot;=&gt;2.063785952843677, :&quot;Color_Chocolate/White&quot;=&gt;0.6417921901449108, :Color_Blue=&gt;-2.1969040091451704, :Color_Calico=&gt;-0.08386525532631824, :&quot;Color_Brown/Black&quot;=&gt;0.35936722899161305, :Color_Tricolor=&gt;-0.11440457799048752, :&quot;Color_White/Black&quot;=&gt;-2.3593561796090383, :Color_Tortie=&gt;-0.4325130799770577, :&quot;Color_Tan/White&quot;=&gt;0.09637439333330515, :&quot;Color_Brown Tabby/White&quot;=&gt;0.12304448360566177, :&quot;Color_White/Brown&quot;=&gt;0.5867441296328475, :Color_other=&gt;0.08821407092892847, :&quot;SexuponOutcome_Spayed Female&quot;=&gt;0.32626712478395975, :&quot;SexuponOutcome_Intact Male&quot;=&gt;-3.971505056680895, :&quot;SexuponOutcome_Intact Female&quot;=&gt;-3.619095491410668, :SexuponOutcome_Unknown=&gt;-102.73807712615843, :&quot;AgeuponOutcome(Weeks)&quot;=&gt;-0.006959545305620043}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Additionally, through the work of <a href="https://github.com/agisga">Alexej Grossmann</a>,
+one can also predict on new data using the model.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">predict</span> <span class="o">=</span> <span class="n">glm_adoption</span><span class="o">.</span><span class="n">predict</span> <span class="nb">test</span>
+</span><span class='line'><span class="n">predict</span><span class="o">.</span><span class="n">map!</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span> <span class="o">?</span> <span class="mi">0</span> <span class="p">:</span> <span class="mi">1</span> <span class="p">}</span>
+</span><span class='line'><span class="n">predict</span><span class="o">.</span><span class="n">head</span> <span class="mi">5</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="http://i67.tinypic.com/r1af7p.png" alt="" /></p>
+
+<p>This, I believe, makes Statsample-GLM very convenient to use.</p>
+
+<p>See <a href="http://nbviewer.jupyter.org/github/SciRuby/sciruby-notebooks/blob/master/Data%20Analysis/Categorical%20Data/examples/%5BExample%5D%20Formula%20language%20in%20Statsample-GLM.ipynb">this</a> for a complete example.</p>
+
+<h4>Other</h4>
+
+<p>In addition to the aforementioned, there are some other considerable changes:</p>
+
+<ul>
+<li>Improving overall structure of indexing in Daru and adding more capabilities. See <a href="http://nbviewer.jupyter.org/github/SciRuby/sciruby-notebooks/blob/master/Data%20Analysis/Categorical%20Data/Indexing%20in%20Vector.ipynb">this</a> and <a href="http://nbviewer.jupyter.org/github/SciRuby/sciruby-notebooks/blob/master/Data%20Analysis/Categorical%20Data/Indexing%20in%20DataFrame.ipynb">this</a>.</li>
+<li><code>CategoricalIndex</code> to handle the case when index column is a categorical data. <a href="http://lokeshh.github.io/blog/2016/06/14/categorical-index/">More about it here.</a></li>
+<li>Improving missing value API in Daru. <a href="http://lokeshh.github.io/blog/2016/08/18/improve-missing-values-api-in-daru/">Read more about it here.</a></li>
+<li>Configuring guard to enable automatic testing. <a href="https://github.com/v0dro/daru/blob/master/CONTRIBUTING.md#testing">More info here.</a></li>
+</ul>
+
+
+<h4>Documentation</h4>
+
+<p><a href="http://lokeshh.github.io/blog/2016/06/21/categorical-data/">You can read about all my work in detail here.</a>. <a href="https://summerofcode.withgoogle.com/archive/2016/projects/5356167010189312/">Additionally, my project page can be found here.</a></p>
+
+<p>I hope with these additions one will be able to see data more clearly with Daru.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Lokesh Sharma</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-11-25T02:54:00+09:00" pubdate data-updated="true">Nov 25<span>th</span>, 2016</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/categorical-data/'>Categorical Data</a>, <a class='category' href='/blog/categories/daru/'>Daru</a>, <a class='category' href='/blog/categories/gsoc/'>GSOC</a>, <a class='category' href='/blog/categories/gsoc-2016/'>GSOC 2016</a>, <a class='category' href='/blog/categories/gnuplotrb/'>Gnuplotrb</a>, <a class='category' href='/blog/categories/gruff/'>Gruff</a>, <a class='category' href='/blog/categories/nyaplot/'>Nyaplot</a>, <a class='category' href='/blog/categories/statsample/'>Statsample</a>, <a class='category' href='/blog/categories/statsample-glm/'>Statsample-GLM</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://sciruby.com/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/" data-via="sciruby" data-counturl="http://sciruby.com/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/11/25/spicerub-kernelpool-and-kernels/" title="Previous Post: GSoC 2016: SpiceRub::KernelPool and Kernels">&laquo; GSoC 2016: SpiceRub::KernelPool and Kernels</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats/" title="Next Post: GSoC 2017 : Support to Import & Export of more formats">GSoC 2017 : Support to Import & Export of more formats &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+
+
+<section>
+<div class="fb-like-box" data-href="http://www.facebook.com/SciRuby" data-width="" data-show-faces="false" data-stream="" data-header=""   ></div>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/">GSoC 2017 : Data visualization using daru-view</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats/">GSoC 2017 : Support to Import & Export of more formats</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/">GSoC 2016: Adding Categorical Data Support</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/spicerub-kernelpool-and-kernels/">GSoC 2016: SpiceRub::KernelPool and Kernels</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/">GSoC 2016 : A Look at SpiceRub::Body</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/SciRuby">@SciRuby</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'SciRuby',
+            count: 6,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("sciruby", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/sciruby" class="twitter-follow-button" data-show-count="false">Follow @sciruby</a>
+  
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - SciRuby -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sciruby';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sciruby.com/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/';
+        var disqus_url = 'http://sciruby.com/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

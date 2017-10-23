@@ -1,0 +1,675 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Ruby Wrappers for SymEngine, a C++ symbolic manipulation library - SciRuby</title>
+  <meta name="author" content="SciRuby">
+
+  
+  <meta name="description" content="I am sure you have heard about Wolfram Alpha. Some of you would have used its Mathematics section at some point of time to cross check your solution &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sciruby.com/blog/2015/08/17/ruby-wrappers-for-symengine/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="SciRuby" type="application/atom+xml">
+  <!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-12735432-6']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">SciRuby</a></h1>
+  
+    <h2>Tools for Scientific Computing in Ruby</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:sciruby.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul role=main-navigation xmlns="http://www.w3.org/1999/html">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog">Blog</a></li>
+  <li><a href="/docs">Installation</a></li>
+  <li><a href="http://gems.sciruby.com/">Gems</a></li>
+  <li><a href="https://github.com/sciruby/sciruby">SciRuby</a></li>
+  <li><a href="/nmatrix">NMatrix</a></li>
+  <li><a href="/publications/">Citing SciRuby</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Ruby Wrappers for SymEngine, a C++ Symbolic Manipulation Library</h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Abinash Meher</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-17T14:30:00+09:00" pubdate data-updated="true">Aug 17<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I am sure you have heard about <a href="http://www.wolframalpha.com/">Wolfram Alpha</a>. Some of you would have used its <a href="http://www.wolframalpha.com/examples/Math.html">Mathematics section</a> at some point of time to cross check your solution to a maths problem. If you haven&#8217;t, please do. A computer algebra system (CAS) does the same thing. Algebraic computation or symbolic computation are all used interchangeably. A CAS solves problems the same way a human does, but way more quickly and precisely. There is very less chance for an error, that we humans often make.</p>
+
+<h2>Introduction</h2>
+
+<p>My project was to write the Ruby extensions for the library <a href="https://github.com/sympy/symengine">SymEngine</a> and come up with a Ruby-ish interface, after which we can use the features of SymEngine from Ruby.</p>
+
+<p><a href="https://github.com/sympy/symengine">SymEngine</a> is a library for symbolic computation in C++. You may ask, why SymEngine? There are other CASs that I know of. This question was indeed asked. At the beginning, the idea was to use ruby wrappers for <a href="http://www.sagemath.org/">sage</a> (a mathematics software system) which uses <a href="http://pynac.org/">Pynac</a>, an interface to <a href="http://www.ginac.de/">GiNaC</a> (another CAS). As it turns out from the benchmarks, SymEngine is much faster than Pynac. What about directly wrapping GiNaC? SymEngine is also a bit faster than GiNaC.</p>
+
+<p>The motivation for <a href="https://github.com/sympy/symengine">SymEngine</a> itself is to develop it once in C++ and then use it from other languages rather than doing the same thing all over again for each language that it is required in. In particular, a long term goal is to make Sage as well as SymPy use it by default, thus unifying the Python CAS communities. The goal of implementing the Ruby wrappers is to provide a CAS for the Ruby community.</p>
+
+<h3>How will this be useful?</h3>
+
+<p>There are times when we might need a symbolic computation library. Here is an incomplete list of some of the situations:</p>
+
+<ul>
+<li>We need to do some algebra to get systems of equations in suitable form for numerical computation.</li>
+<li>We need to make substitutions for some variables and don’t want to risk a math error by hand. There might be times when we want to partially simplify an expression by substituting only a few of its variables.</li>
+<li>We have a situation where we need to find the optimum number of something to maximise our profits, and the mathematical model devised is just too complicated to solve by hand.</li>
+<li>We need to perform non-trivial derivatives or integrals.</li>
+<li>We are trying to understand the domain of a new function.</li>
+<li>Most root finding algorithms search for a single root, whereas often there are more than one.</li>
+<li>We need to solve a linear system or manipulate a symbolic matrix exactly.</li>
+<li>We need to manipulate exact expressions and solutions, as opposed to approximate ones using a numerical method.</li>
+</ul>
+
+
+<p>With that said, a symbolic manipulation library is indispensable for scientists and students. Ruby has gained a great deal of popularity over the years, and a symbolic manipulation library gem  like this project in Ruby might prove to be the foundation for a computer algebra system in Ruby. With many efforts like these, Ruby might become the first choice for academicians given how easy it is to code your logic in Ruby.</p>
+
+<h2>How to install the gem?</h2>
+
+<p>To install, please follow the <a href="https://github.com/sympy/symengine/blob/master/symengine/ruby/README.md">compile instructions given in the README</a>. After you are done, I would suggest to test the extensions. To run the test suite execute <code>rspec spec</code> on the command line, from the <code>symengine/ruby</code> dir.</p>
+
+<p>The gem is still in alpha release. Please help us out by reporting any issues in <a href="https://github.com/sympy/symengine/issues">the repo issue tracker</a>.</p>
+
+<h2>What can I do with the gem?</h2>
+
+<p>Currently, the following features are available in the gem:
+- Construct expressions out of variables (mathematical).
+- Simplify the expressions.
+- Carry out arithmetic operations like <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>**</code> with the variables and expressions.
+- Extract arguments or variables from an expression.
+- Differentiate an expression with respect to another.
+- Substitute variables with other expressions.</p>
+
+<p>Features that will soon be ported to the SymEngine gem
+- Functions, including trigonometric, hyperbolic and some special functions.
+- Matrices, and their operations.
+- Basic number-theoretic functions.</p>
+
+<p>I have developed a <a href="https://github.com/sympy/symengine/tree/master/symengine/ruby/notebooks">few IRuby notebooks</a> that demonstrate the use of the new SymEngine module in ruby.</p>
+
+<p>Below is an example taken from the notebooks.</p>
+
+<hr />
+
+<h2>Using the SymEngine Gem</h2>
+
+<p>SymEngine is a module in the extensions, and the classes are a part of it. So first you fire up the interpreter or an IRuby notebook and load the file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;symengine&#39;</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="kp">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Go ahead and try a function:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">SymEngine</span><span class="o">.</span><span class="n">ascii_art</span>
+</span><span class='line'><span class="o">=&gt;</span>   <span class="n">_____</span>           <span class="n">_____</span>         <span class="n">_</span>
+</span><span class='line'>    <span class="o">|</span>   <span class="n">__</span><span class="o">|</span><span class="n">_</span> <span class="n">_</span> <span class="n">_____</span><span class="o">|</span>   <span class="n">__</span><span class="o">|</span><span class="n">___</span> <span class="n">___</span><span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="n">___</span> <span class="n">___</span>
+</span><span class='line'>    <span class="o">|</span><span class="n">__</span>   <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>     <span class="o">|</span>   <span class="n">__</span><span class="o">|</span>   <span class="o">|</span> <span class="o">.</span> <span class="o">|</span> <span class="o">|</span>   <span class="o">|</span> <span class="o">-</span><span class="n">_</span><span class="o">|</span>
+</span><span class='line'>    <span class="o">|</span><span class="n">_____</span><span class="o">|</span><span class="n">_</span>  <span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="n">_____</span><span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="n">_</span>  <span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="n">___</span><span class="o">|</span>
+</span><span class='line'>          <span class="o">|</span><span class="n">___</span><span class="o">|</span>               <span class="o">|</span><span class="n">___</span><span class="o">|</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>or create a variable:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">basic</span> <span class="o">=</span> <span class="no">SymEngine</span><span class="o">::</span><span class="no">Basic</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="c1">#&lt;SymEngine::Basic:0x00000001e95290&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This shows that we have successfully loaded the module.</p>
+
+<h3>SymEngine::Symbol</h3>
+
+<p>Just like there are variables like x, y, and z in a mathematical expression or equation, we have <code>SymEngine::Symbol</code> in SymEngine to represent them. To use a variable, first we need to make a <code>SymEngine::Symbol</code> object with the string we are going to represent the variable with.:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="n">x</span> <span class="o">=</span> <span class="no">SymEngine</span><span class="o">::</span><span class="no">Symbol</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="nb">puts</span> <span class="n">y</span> <span class="o">=</span> <span class="no">SymEngine</span><span class="o">::</span><span class="no">Symbol</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="nb">puts</span> <span class="n">z</span> <span class="o">=</span> <span class="no">SymEngine</span><span class="o">::</span><span class="no">Symbol</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">x</span>
+</span><span class='line'><span class="n">y</span>
+</span><span class='line'><span class="n">z</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then we can construct expressions out of them:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">e</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="n">y</span><span class="o">/</span><span class="n">z</span><span class="p">)</span>
+</span><span class='line'><span class="n">e</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="s2">&quot;x**y*(x - y)/z&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In SymEngine, every object is an instance of Basic or its subclasses. So, even an instance of <code>SymEngine::Symbol</code> is a Basic object.:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">x</span><span class="o">.</span><span class="n">class</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="no">SymEngine</span><span class="o">::</span><span class="no">Symbol</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">x</span><span class="o">.</span><span class="n">is_a?</span> <span class="no">SymEngine</span><span class="o">::</span><span class="no">Basic</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="kp">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now that we have an expression, we would like to see it&#8217;s expanded form using <code>#expand</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">f</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span>
+</span><span class='line'><span class="n">f</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="s2">&quot;x**(1 + y)/z - x**y*y/z&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Or check if two expressions are same:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">f</span> <span class="o">==</span> <span class="o">-</span> <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="n">y</span><span class="o">*</span><span class="n">y</span><span class="o">/</span><span class="n">z</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="n">y</span><span class="o">*</span><span class="n">x</span><span class="o">/</span><span class="n">z</span><span class="p">)</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="kp">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But <code>e</code> and <code>f</code> are not equal since they are only mathematically equal, not structurally:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">e</span> <span class="o">==</span> <span class="n">f</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="kp">false</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let us suppose you want to know <strong>what variables/symbols your expression has</strong>. You can do that with the <code>#free_symbols</code> method, which returns a set of the symbols that are in the expression.:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">f</span><span class="o">.</span><span class="n">free_symbols</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="c1">#&lt;Set: {#&lt;SymEngine::Basic:0x00000001f0ca70&gt;, #&lt;SymEngine::Basic:0x00000001f0ca48&gt;, #&lt;SymEngine::Basic:0x00000001f0ca20&gt;}&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let us use <code>#map</code> method to see the elements of the <code>Set</code>.:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">f</span><span class="o">.</span><span class="n">free_symbols</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="o">.</span><span class="n">to_s</span> <span class="p">}</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>#args</code> returns the terms of the expression,:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">f</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="o">.</span><span class="n">to_s</span> <span class="p">}</span>
+</span><span class='line'><span class="o">[</span><span class="s2">&quot;-x**y*y/z&quot;</span><span class="p">,</span> <span class="s2">&quot;x**(1 + y)/z&quot;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>or if it is a single term it breaks down the elements:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">f</span><span class="o">.</span><span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">args</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">k</span><span class="o">|</span> <span class="n">k</span><span class="o">.</span><span class="n">to_s</span> <span class="p">}</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;-1&quot;</span><span class="p">,</span> <span class="s2">&quot;x**y&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;z**(-1)&quot;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>SymEngine::Integer</h3>
+
+<p>You can make objects of class <code>SymEngine::Integer</code>. It&#8217;s like regular <code>Integer</code> in ruby kernel, except it can do all the operations a <code>Basic</code> object can &mdash; such as arithmetic operations, etc.:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="no">SymEngine</span><span class="o">::</span><span class="nb">Integer</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+</span><span class='line'><span class="n">b</span> <span class="o">=</span> <span class="no">SymEngine</span><span class="o">::</span><span class="nb">Integer</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span>
+</span><span class='line'><span class="n">a</span><span class="o">**</span><span class="n">b</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">=&gt;</span> <span class="mi">1168422057627266461843148138873451659428421700563161428957815831003136</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Additionally, it can support numbers of arbitrarily large length.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="p">(</span><span class="n">a</span><span class="o">**</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="s2">&quot;12**x&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>SymEngine::Rational</h3>
+
+<p>You can also make objects of class <code>SymEngine::Rational</code> which is the SymEngine counterpart for <code>Rationals</code> in Ruby.:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">c</span> <span class="o">=</span> <span class="no">Rational</span><span class="p">(</span><span class="s1">&#39;2/3&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="n">d</span> <span class="o">=</span> <span class="no">SymEngine</span><span class="o">::</span><span class="no">Rational</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">=&gt;</span> <span class="mi">2</span><span class="o">/</span><span class="mi">3</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Like any other <code>Basic</code> object arithmetic operations can be done on this rational type too.:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="p">(</span><span class="n">a</span><span class="o">-</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="s2">&quot;34/3&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<hr />
+
+<p>You <strong>need not create</strong> an instance of <code>SymEngine::Integer</code> or <code>SymEngine::Rational</code>, every time you want to use them in an expression that uses many <code>Integer</code>s. Let us say you already have <code>Integer</code>/<code>Rational</code> object. Even then you can use them without having to create a new <code>SymEngine</code> object.:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">k</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">c</span> <span class="o">+</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span> <span class="c1"># c is a Rational object, not SymEngine::Rational</span>
+</span><span class='line'><span class="n">k</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="s2">&quot;(2/3 + x*y)*(2 + 1/(x*y) - x*y)&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As you can see, ruby kernel <code>Integer</code>s and <code>Rational</code>s interoperate seamlessly with the <code>SymEngine</code> objects.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">k</span><span class="o">.</span><span class="n">expand</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="s2">&quot;7/3 + (2/3)*1/(x*y) + (4/3)*x*y - x**2*y**2&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<hr />
+
+<h2>What I learned</h2>
+
+<p>In the rest of the post, I would like to summarise my work and what I learned as a participant of <a href="https://www.google-melange.com/gsoc/homepage/google/gsoc2015">Google Summer of Code 2015</a>.</p>
+
+<h2>Pre-midterm Evaluations</h2>
+
+<p>I am a newbie when it comes to Ruby, and it took me a while to setup the gem and configure files for the building of extensions.</p>
+
+<h3>The struggle between shared, static and dynamic libraries</h3>
+
+<p>I faced a lot of problem in the early stages, when I was trying to build the extensions. <a href="https://github.com/certik">Ondrej</a>, my mentor, and <a href="https://github.com/isuruf">Isuru</a>, a fellow GSoC student, helped me a lot. There were many C flags that were being reported as missing. Some flags <code>cmake</code> added by default but <code>extconf.rb</code> didn&#8217;t, the same one that was required to be added to build it as a shared library. I am still confused about the details, some of which are <a href="http://abinashmeher999.github.io/2015/05/29/Building-the-wrappers/">explored in greater detail in my personal blog</a>. Finally, the library had to be built as a dynamic one. The problem of missing C flags was resolved later by hooking the process to <code>cmake</code> rather than <code>mkmf</code>.</p>
+
+<h3>Load Errors and problems in linking</h3>
+
+<p>Many <a href="http://abinashmeher999.github.io/2015/06/12/The-Load-Error/"><code>LoadError</code>s</a> popped up, but were eventually solved. <a href="https://github.com/dilcom/">Ivan</a> helped a lot in debugging the errors. In the end, it turned out to be a simple file missing in the gemspec, that was not being installed.</p>
+
+<h3>Reconfiguring building</h3>
+
+<p>One of our aims during developing this was to get rid of unessential dependencies. The ones we already had the tools for. Like later the file <code>extconf.rb</code>, that is used to generate Makefile for the extension was removed, because that could also be done by <code>cmake</code>. Flags were added to <code>cmake</code> for building the Ruby extensions, like the flag <code>-DWITH_RUBY=yes</code>. The <code>Makefile</code> then generates the library <code>symengine.so</code> in the directory <code>lib/symengine</code>.Along with <code>extconf.rb</code>, the file <code>extconf.h</code> was also gone. Along these lines, the dependency on <code>rake</code> was also removed, and with that the <code>Rakefile</code>. Any task automation will most probably be done in python. So, the <code>Rake::ExtensionTask</code> was done by <code>cmake</code> and the <code>Rake::GemPackageTask</code> was replaced by the manual method of <code>gem build symengine.gemspec</code> and <code>gem install symengine-0.0.0.gem</code></p>
+
+<h3>Travis setup</h3>
+
+<p>Not many projects have travis-ci setup for multiple languages. Not even the tutorials had clearly mentioned about setting up for multiple languages. But I did know about one of them, which is Shogun, the machine-learning toolbox. I referred to their <code>.travis.yml</code> and setup it up. If something like this wouldn&#8217;t have worked the plan was to manually install the required version of ruby and then execute the shell commands.</p>
+
+<h3>Making a basic object</h3>
+
+<p>Finally, I was able to successfully build the extensions, link the extensions with the SymEngine library, load the ruby-extension library in the interpreter and successfully instantiate an object of type <code>Basic</code>.</p>
+
+<h3>Inheritance and Symbols</h3>
+
+<p>At this time, the way inheritance works(like the sequence of formation and destruction of objects of a class that had a superclass) with the Ruby C API, was confusing for all of us. I designed an <a href="http://abinashmeher999.github.io/2015/06/26/the-symbol-class/#inheritance-in-ruby-c-api">experiment</a>
+to check what was actually happening. That cleared things out, and made the it easier to wrap things from now on. I also wrapped the <code>Symbol</code> class during the course.</p>
+
+<h2>Post-midterm Evaluations</h2>
+
+<h3>Redesign of the C interface</h3>
+
+<p>We had to design an ugly function to wrap vector in C. That led us to redesign the C interface. This approach had no reinterpret casting that was being done earlier. Each data structure had a type that was determined at compile time. For C, it was an opaque structure, while for C++ the opaque structure declared in the shared header file was implemented in the source file that had C++ data types. This <a href="http://abinashmeher999.github.io/2015/07/03/improving-the-c-interface/">blog post</a> explains it further.</p>
+
+<h3>Integer and Rational</h3>
+
+<p>While trying to port the SymEngine classes, <code>Integer</code> and <code>Rational</code>, I had to port many methods in <code>Basic</code> before that. I also replicated the <code>rake</code> tasks in NMatrix, for detection of memory leaks, in form of bash scripts.</p>
+
+<h3>Common enumeration</h3>
+
+<p>Since all objects in the Ruby C API are of the type <code>CBasic</code>, we needed a function that would give us the typename during the runtime for the corresponding objects to be wrapped in ruby, as an object of the correct <code>Class</code> in ruby. Since, this was achieved with <code>enum</code> in C++, the same thing could be done in C too, with all the classes written manually again. But there was no guarantee for this to be consistent, if ever the features required to be wrapped for a new language, and also manually adding the class in all the enum list everytime a new class is added was prone to errors. So, to make this DRY, we automated this by sharing the list of enums. More details for the implementation can be found <a href="http://abinashmeher999.github.io/2015/07/17/common-enumeration-in-c-and-c++/">here</a>.</p>
+
+<h3>Class coercion and interoperability</h3>
+
+<p>To support interoperability with the builtin ruby types, I had to overload the methods in builtin classes earlier(this was not continued). Overriding all the existing binary operations for a ruby class to support SymEngine types, violated the open/closed principle. There was indeed another way, which is <em>&#8216;Class Coercion&#8217;</em>. It was suggested by <a href="https://github.com/isuruf/">Isuru</a>. After that, SymEngine types could seamlessly interoperate between the ruby types.</p>
+
+<h3>Arithmetic operations</h3>
+
+<p>After this, all the arithmetic operations had been successfully ported. Each <code>Basic</code> object can now perform arithmetic operations with other <code>Basic</code> object(sometimes even ruby objects like <code>Integer</code>). The test file in python, that had all the corresponding test cases was ported to its RSpec counterpart.</p>
+
+<h3>Substitutions</h3>
+
+<p>Recently I completed porting the substitutions module to the extensions(<code>#subs</code>). This feature has added a lot of convenience as now you can substitute a <code>SymEngine::Symbol</code> with some other value in an expression and then <code>#expand</code> to get the result.</p>
+
+<h3>Trigonometric functions</h3>
+
+<p>Currently, I am working on porting the trigonometric functions in SymEngine to the extensions. This would first require to wrap the <code>Function</code> class and then the <code>TrigFunction</code> class in SymEngine.</p>
+
+<h3>Integration of other Ruby gems</h3>
+
+<p>I also have plans to integrate the ruby bindings for <code>gmp</code>, <code>mpfr</code> and <code>mpc</code> libraries, that are already available as gems, with ruby bindings for our library. I have created an issue <a href="https://github.com/sympy/symengine/issues/490">here</a>. Feel free to drop any suggestions.</p>
+
+<hr />
+
+<p>There is much scope for improvement in both the projects. For SymEngine, to support more features like polynomials and series-expansion in the near future, and improving the user interface and the exception handling for the extensions. In short, making the extensions more ruby-ish.</p>
+
+<p>I am grateful to my mentor, <a href="https://github.com/certik">Mr. Ondřej Čertík</a>, the <a href="http://sciruby.com/">Ruby Science Foundation</a> and the <a href="http://www.sympy.org/en/index.html">SymPy Organisation</a> for the opportunity that they gave me and guiding me through the project, and my team-mates for helping me with the issues. I hope more people will contribute to the project and together we will give a nice symbolic manipulation gem to the Ruby community.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Abinash Meher</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-17T14:30:00+09:00" pubdate data-updated="true">Aug 17<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/gsoc/'>GSOC</a>, <a class='category' href='/blog/categories/gsoc2015/'>GSOC2015</a>, <a class='category' href='/blog/categories/students/'>Students</a>, <a class='category' href='/blog/categories/symengine/'>SymEngine</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://sciruby.com/blog/2015/08/17/ruby-wrappers-for-symengine/" data-via="sciruby" data-counturl="http://sciruby.com/blog/2015/08/17/ruby-wrappers-for-symengine/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/16/summary-of-work-on-daru-this-summer-for-gsoc-2015/" title="Previous Post: Summary of work on daru this summer for GSOC 2015">&laquo; Summary of work on daru this summer for GSOC 2015</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/18/gnuplotrb-project/" title="Next Post: GnuplotRB and GSoC 2015">GnuplotRB and GSoC 2015 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+
+
+<section>
+<div class="fb-like-box" data-href="http://www.facebook.com/SciRuby" data-width="" data-show-faces="false" data-stream="" data-header=""   ></div>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/">GSoC 2017 : Data visualization using daru-view</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats/">GSoC 2017 : Support to Import & Export of more formats</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/">GSoC 2016: Adding Categorical Data Support</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/spicerub-kernelpool-and-kernels/">GSoC 2016: SpiceRub::KernelPool and Kernels</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/">GSoC 2016 : A Look at SpiceRub::Body</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/SciRuby">@SciRuby</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'SciRuby',
+            count: 6,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("sciruby", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/sciruby" class="twitter-follow-button" data-show-count="false">Follow @sciruby</a>
+  
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - SciRuby -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sciruby';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sciruby.com/blog/2015/08/17/ruby-wrappers-for-symengine/';
+        var disqus_url = 'http://sciruby.com/blog/2015/08/17/ruby-wrappers-for-symengine/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

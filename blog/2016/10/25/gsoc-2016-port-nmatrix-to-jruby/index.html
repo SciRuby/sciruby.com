@@ -1,0 +1,1216 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>GSoC 2016: NMatrix and JRuby - SciRuby</title>
+  <meta name="author" content="SciRuby">
+
+  
+  <meta name="description" content="Introduction I worked on &#8220;Port NMatrix to JRuby&#8221; in the context of the Google
+Summer of Code (GSoC) 2016 and I am pleased to announce &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sciruby.com/blog/2016/10/25/gsoc-2016-port-nmatrix-to-jruby/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="SciRuby" type="application/atom+xml">
+  <!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-12735432-6']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">SciRuby</a></h1>
+  
+    <h2>Tools for Scientific Computing in Ruby</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:sciruby.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul role=main-navigation xmlns="http://www.w3.org/1999/html">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog">Blog</a></li>
+  <li><a href="/docs">Installation</a></li>
+  <li><a href="http://gems.sciruby.com/">Gems</a></li>
+  <li><a href="https://github.com/sciruby/sciruby">SciRuby</a></li>
+  <li><a href="/nmatrix">NMatrix</a></li>
+  <li><a href="/publications/">Citing SciRuby</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">GSoC 2016: NMatrix and JRuby</h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Prasun Anand</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-10-25T02:13:00+09:00" pubdate data-updated="true">Oct 25<span>th</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Introduction</h2>
+
+<p>I worked on &#8220;Port NMatrix to JRuby&#8221; in the context of the Google
+Summer of Code (GSoC) 2016 and I am pleased to announce that NMatrix
+can now be used in JRuby.</p>
+
+<p>With JRuby NMatrix, a linear algebra library, wraps <a href="http://commons.apache.org/proper/commons-math/">Apache Commons Math</a> for its most
+basic functionalities. NMatrix supports dense matrices containing
+either doubles or Ruby objects as the data type. The performance of JRuby
+with Apache Commons Maths is quite satisfactory (see below for performance
+comparisons) even without making use of JRuby threading capabilities.</p>
+
+<p>I have also ported the <a href="https://github.com/agisga/mixed_models">mixed_models gem</a>, which
+uses NMatrix heavily at its core, to JRuby. This gem allowed us
+to test NMatrix-JRuby with real-life data.</p>
+
+<p>This blog post summarizes my work on the project with SciRuby, and
+reports the final status of the project.</p>
+
+<p>The original GSoC proposal, plan and application can be found <a href="https://github.com/prasunanand/resume/blob/master/gsoc2016_application.md">here</a>. Until merging
+is complete, commits are available <a href="https://github.com/prasunanand/nmatrix/commits/jruby_port">here</a>.</p>
+
+<h2>Performance</h2>
+
+<p>I have benchmarked some of the NMatrix functionalities. The following
+plots compare the performance between NMatrix-JRuby, NMatrix-MRI, and
+NMatrix-MRI using LAPACK/ATLAS libraries. (Note: MRI refers to the
+reference implementation of Ruby, for those who are new.)</p>
+
+<p>Notes:</p>
+
+<ol>
+<li>LAPACK and ATLAS aren&#8217;t involved in most element-wise operations, such as addition and subtraction.</li>
+<li>NMatrix-MRI relies on LAPACK/ATLAS for calculating determinants and LU Decomposition (lud).</li>
+</ol>
+
+
+<p><img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/plots/add.png?raw=true" title="Fig. 3: Matrix Addition" alt="Alt Matrix Addition" />
+<img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/plots/subt.png?raw=true" title="Fig. 4: Matrix Subtraction" alt="Alt Matrix Subtraction" />
+<img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/plots/mult.png?raw=true" title="Fig. 5: Matrix Multiplication" alt="Alt Matrix Multiplication" />
+<img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/plots/gamma.png?raw=true" title="Fig. 6: Gamma Operator" alt="Alt Gamma operator" />
+<img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/plots/det.png?raw=true" title="Fig. 7: Determinant" alt="Alt Determinant" />
+<img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/plots/lud.png?raw=true" title="Fig. 8: LU Facorization" alt="Alt LU Facorization" /></p>
+
+<h3>Result</h3>
+
+<ol>
+<li><p>For two-dimensional matrices, NMatrix-JRuby is currently slower than NMatrix-MRI for matrix multiplication and matrix decomposition functionalities (calculating determinant and factoring a matrix). NMatrix-JRuby is faster than NMatrix-MRI for other functionalities of a two-dimensional matrix &mdash; like addition, subtraction, trigonometric operations, etc.</p></li>
+<li><p>NMatrix-JRuby is a clear winner when we are working with matrices of arbitrary dimensions.</p></li>
+</ol>
+
+
+<h2>Implementation</h2>
+
+<h3>Storing <em>n</em>-dimensional matrices as one-dimensional arrays</h3>
+
+<p>The major components of an <code>NMatrix</code> are shape, elements, dtype and
+stype. When initialized, the dense type stores the elements as a one-dimensional
+array; in the JRuby port, the <code>ArrayRealVector</code> class is used to store
+the elements.</p>
+
+<p><code>@s</code> stores elements, <code>@shape</code> stores the shape of the matrix, while
+<code>@dtype</code> and <code>@stype</code> store the data type and storage type
+respectively. Currently, I have nmatrix-jruby implemented only for
+<code>:float64</code> (double) and Ruby <code>:object</code> data types.</p>
+
+<p>NMatrix-MRI uses <code>struct</code> as a <code>type</code> to store <code>dim</code>, <code>shape</code>, <code>offset</code>, <code>count</code>, <code>src</code>
+of an NMatrix. <code>ALLOC</code> and <code>xfree</code> are used to wrap the NMatrix attributes to C structs
+and release the unrequired memory.</p>
+
+<p><img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/nmatrix.png?raw=true" title="Fig. 1: NMatrix" alt="NMatrix" /></p>
+
+<h3>Slicing and Rank</h3>
+
+<p>Implementing slicing was the toughest part of NMatrix-JRuby
+implementation. <code>NMatrix@s</code> stores the elements of a matrix as a
+one-dimensional array. The elements along any dimension are accessed with the
+help of the stride. <code>NMatrix#get_stride</code> calculates the stride with
+the help of the dimension and shape and returns an Array.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">get_stride</span><span class="p">(</span><span class="n">nmatrix</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">stride</span> <span class="o">=</span> <span class="nb">Array</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
+</span><span class='line'>  <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">nmatrix</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">stride</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">j</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">stride</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">*=</span> <span class="n">nmatrix</span><span class="o">.</span><span class="n">shape</span><span class="o">[</span><span class="n">j</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">stride</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>NMatrix#[]</code> and <code>NMatrix#[]=</code> are thus able to read and write the
+elements of a matrix. NMatrix#MRI uses the <code>@s</code> object which stores
+the stride when the nmatrix is initialized.</p>
+
+<p><code>NMatrix#[]</code> calls the <code>#xslice</code> operator which calls <code>#get_slice</code>
+operator that use the stride to determine whether we are accessing a
+single element or multiple elements. If there are multiple elements,
+<code>#dense_storage_get</code> returns an NMatrix object with the elements along
+the dimension.</p>
+
+<p>NMatrix-MRI differs from NMatrix-JRuby implementation as it makes sure
+that memory is properly utilized as the memory needs to be properly
+garbage collected.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">xslice</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">result</span> <span class="o">=</span> <span class="kp">nil</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="nb">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">&lt;</span> <span class="n">args</span><span class="o">.</span><span class="n">length</span>
+</span><span class='line'>    <span class="k">raise</span><span class="p">(</span><span class="no">ArgumentError</span><span class="p">,</span><span class="s2">&quot;wrong number of arguments\</span>
+</span><span class='line'><span class="s2">       (</span><span class="si">#{</span><span class="n">args</span><span class="si">}</span><span class="s2"> for </span><span class="si">#{</span><span class="n">effective_dim</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">result</span> <span class="o">=</span> <span class="nb">Array</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">slice</span> <span class="o">=</span> <span class="n">get_slice</span><span class="p">(</span><span class="vi">@dim</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="vi">@shape</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">stride</span> <span class="o">=</span> <span class="n">get_stride</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">slice</span><span class="o">[</span><span class="ss">:single</span><span class="o">]</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="vi">@dtype</span> <span class="o">==</span> <span class="ss">:object</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">result</span> <span class="o">=</span> <span class="vi">@s</span><span class="o">[</span><span class="n">dense_storage_get</span><span class="p">(</span><span class="n">slice</span><span class="p">,</span><span class="n">stride</span><span class="p">)</span><span class="o">]</span>
+</span><span class='line'>      <span class="k">else</span>
+</span><span class='line'>        <span class="n">s</span> <span class="o">=</span> <span class="vi">@s</span><span class="o">.</span><span class="n">toArray</span><span class="p">()</span><span class="o">.</span><span class="n">to_a</span>
+</span><span class='line'>        <span class="n">result</span> <span class="o">=</span> <span class="vi">@s</span><span class="o">.</span><span class="n">getEntry</span><span class="p">(</span><span class="n">dense_storage_get</span><span class="p">(</span><span class="n">slice</span><span class="p">,</span><span class="n">stride</span><span class="p">))</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">result</span> <span class="o">=</span> <span class="n">dense_storage_get</span><span class="p">(</span><span class="n">slice</span><span class="p">,</span><span class="n">stride</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">result</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>NMatrix#[]=</code> calls the <code>#dense_storage_set</code> operator which calls
+ <code>#get_slice</code> operator that use the stride to find out whether we are
+ accessing a single element or multiple elements. If there are
+ multiple elements <code>#set_slice</code> recursively sets the elements of the
+ matrix then returns an NMatrix object with the elements along the
+ dimension.</p>
+
+<p>All the relevant code for slicing can be found <a href="https://github.com/prasunanand/nmatrix/blob/jruby_port/lib/nmatrix/jruby/slice.rb">here</a>.</p>
+
+<h3>Enumerators</h3>
+
+<p>NMatrix-MRI uses the C code for enumerating the elements of a
+matrix. Just as with slicing, the NMatrix-JRuby uses pure Ruby code in
+place of the C code. Currently, all the enumerators for dense matrices
+with real data-type have been implemented and are properly
+functional. Enumerators for objects have not yet been implemented.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">each_with_indices</span>
+</span><span class='line'>  <span class="n">nmatrix</span> <span class="o">=</span> <span class="n">create_dummy_nmatrix</span>
+</span><span class='line'>  <span class="n">stride</span> <span class="o">=</span> <span class="n">get_stride</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="c1">#Create indices and initialize them to zero</span>
+</span><span class='line'>  <span class="n">coords</span> <span class="o">=</span> <span class="nb">Array</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">dim</span><span class="p">){</span> <span class="mi">0</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">shape_copy</span> <span class="o">=</span>  <span class="nb">Array</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">size</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">k</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">dense_storage_coords</span><span class="p">(</span><span class="n">nmatrix</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">coords</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">offset</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">slice_index</span> <span class="o">=</span> <span class="n">dense_storage_pos</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span><span class="n">stride</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">ary</span> <span class="o">=</span> <span class="nb">Array</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="vi">@dtype</span> <span class="o">==</span> <span class="ss">:object</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">ary</span> <span class="o">&lt;&lt;</span> <span class="nb">self</span><span class="o">.</span><span class="n">s</span><span class="o">[</span><span class="n">slice_index</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">ary</span> <span class="o">&lt;&lt;</span> <span class="nb">self</span><span class="o">.</span><span class="n">s</span><span class="o">.</span><span class="n">toArray</span><span class="o">.</span><span class="n">to_a</span><span class="o">[</span><span class="n">slice_index</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">p</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">ary</span> <span class="o">&lt;&lt;</span> <span class="n">coords</span><span class="o">[</span><span class="nb">p</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1"># yield the array which now consists of the value and the indices</span>
+</span><span class='line'>    <span class="k">yield</span><span class="p">(</span><span class="n">ary</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span> <span class="k">if</span> <span class="nb">block_given?</span>
+</span><span class='line'>  <span class="n">nmatrix</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="vi">@s</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="n">nmatrix</span>
+</span><span class='line'> <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Two-Dimensional Matrices</h3>
+
+<p>Linear algebra is mostly about two-dimensional matrices. In NMatrix,
+when performing calculations in a two-dimensional matrix, a one-dimensional array
+is converted to a two-dimensional matrix. A two-dimensional matrix is
+stored in the JRuby implementation as a <code>BlockRealMatrix</code> or
+<code>Array2DRowRealMatrix</code>. Each has its own advantages.</p>
+
+<h4>Getting a 2D Matrix</h4>
+
+<p><img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/matrixGenerate.png?raw=true" title="Fig. 2: Getting a 2D-matrix" alt="Alt Getting a 2D-matrix" /></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MatrixGenerator</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">double</span><span class="o">[][]</span> <span class="nf">getMatrixDouble</span><span class="o">(</span><span class="kt">double</span><span class="o">[]</span> <span class="n">array</span><span class="o">,</span> <span class="kt">int</span> <span class="n">row</span><span class="o">,</span> <span class="kt">int</span> <span class="n">col</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">{</span>
+</span><span class='line'>    <span class="kt">double</span><span class="o">[][]</span> <span class="n">matrix</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">double</span><span class="o">[</span><span class="n">row</span><span class="o">][</span><span class="n">col</span><span class="o">];</span>
+</span><span class='line'>    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="o">,</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">row</span> <span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+</span><span class='line'>        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">col</span><span class="o">;</span> <span class="n">j</span><span class="o">++){</span>
+</span><span class='line'>            <span class="n">matrix</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]=</span> <span class="n">array</span><span class="o">[</span><span class="n">index</span><span class="o">];</span>
+</span><span class='line'>            <span class="n">index</span><span class="o">++;</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">matrix</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Convert a 2D-matrix to 1D-array</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ArrayGenerator</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">double</span><span class="o">[]</span> <span class="nf">getArrayDouble</span><span class="o">(</span><span class="kt">double</span><span class="o">[][]</span> <span class="n">matrix</span><span class="o">,</span> <span class="kt">int</span> <span class="n">row</span><span class="o">,</span> <span class="kt">int</span> <span class="n">col</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">{</span>
+</span><span class='line'>    <span class="kt">double</span><span class="o">[]</span> <span class="n">array</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">double</span><span class="o">[</span><span class="n">row</span> <span class="o">*</span> <span class="n">col</span><span class="o">];</span>
+</span><span class='line'>    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="o">,</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">row</span> <span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+</span><span class='line'>        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">col</span><span class="o">;</span> <span class="n">j</span><span class="o">++){</span>
+</span><span class='line'>            <span class="n">array</span><span class="o">[</span><span class="n">index</span><span class="o">]</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">];</span>
+</span><span class='line'>            <span class="n">index</span><span class="o">++;</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">array</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Why use a Java method instead of Ruby method?</h4>
+
+<ol>
+<li><p><em>Memory Usage and Garbage Collection:</em> A scientific library is memory intensive and hence, every step counts. The JRuby interpreter doesn&#8217;t need to dynamically guess the data type and uses less memory, typically around one-tenth of it. If the memory is properly utilized, when the GC kicks in, the GC has to clear less used memory space.</p></li>
+<li><p><em>Speed:</em> Using java method greatly improves the speed &mdash; by around 1000 times, when compared to using the Ruby method.</p></li>
+</ol>
+
+
+<h2><strong>Operators</strong></h2>
+
+<p>All the operators from NMatrix-MRI have been implemented except
+modulus. The binary operators were easily implemented through Commons
+Math API and Java Math API.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">+</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">result</span> <span class="o">=</span> <span class="n">create_dummy_nmatrix</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">is_a?</span><span class="p">(</span><span class="no">NMatrix</span><span class="p">))</span>
+</span><span class='line'>    <span class="c1">#check dimension</span>
+</span><span class='line'>    <span class="k">raise</span><span class="p">(</span><span class="no">ShapeError</span><span class="p">,</span> <span class="s2">&quot;Cannot add matrices with different dimension&quot;</span><span class="p">)\</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="vi">@dim</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span>
+</span><span class='line'>    <span class="c1">#check shape</span>
+</span><span class='line'>    <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>      <span class="k">raise</span><span class="p">(</span><span class="no">ShapeError</span><span class="p">,</span> <span class="s2">&quot;Cannot add matrices with different shapes&quot;</span><span class="p">)</span> <span class="p">\</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="vi">@shape</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">shape</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">result</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="vi">@s</span><span class="o">.</span><span class="n">copy</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">result</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="vi">@s</span><span class="o">.</span><span class="n">copy</span><span class="o">.</span><span class="n">mapAddToSelf</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">result</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Unary Operators (Trigonometric, Exponentiation and Log operators) have been implemented using <code>#mapToSelf</code> method that takes a <a href="https://commons.apache.org/proper/commons-math/javadocs/api-3.6.1/org/apache/commons/math3/analysis/UnivariateFunction.html"><code>Univariate function</code></a> as an argument. <code>#mapToSelf</code> maps every element of ArrayRealVector object to the <code>Univariate function</code>, that is passed to it and returns <code>self</code> object.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">sin</span>
+</span><span class='line'>  <span class="n">result</span> <span class="o">=</span> <span class="n">create_dummy_nmatrix</span>
+</span><span class='line'>  <span class="n">result</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="vi">@s</span><span class="o">.</span><span class="n">copy</span><span class="o">.</span><span class="n">mapToSelf</span><span class="p">(</span><span class="no">Sin</span><span class="o">.</span><span class="n">new</span><span class="p">())</span>
+</span><span class='line'>  <span class="n">result</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>NMatrix#method(arg) has been implemented using bivariate functions
+provided by Commons Math API and Java Math API.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">gamma</span>
+</span><span class='line'>  <span class="n">result</span> <span class="o">=</span> <span class="n">create_dummy_nmatrix</span>
+</span><span class='line'>  <span class="n">result</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="no">ArrayRealVector</span><span class="o">.</span><span class="n">new</span> <span class="no">MathHelper</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="vi">@s</span><span class="o">.</span><span class="n">toArray</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">result</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">org.apache.commons.math3.special.Gamma</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MathHelper</span><span class="o">{</span>
+</span><span class='line'>  <span class="o">...</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">double</span><span class="o">[]</span> <span class="nf">gamma</span><span class="o">(</span><span class="kt">double</span><span class="o">[]</span> <span class="n">arr</span><span class="o">){</span>
+</span><span class='line'>    <span class="kt">double</span><span class="o">[]</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">double</span><span class="o">[</span><span class="n">arr</span><span class="o">.</span><span class="na">length</span><span class="o">];</span>
+</span><span class='line'>    <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">arr</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+</span><span class='line'>      <span class="n">result</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">Gamma</span><span class="o">.</span><span class="na">gamma</span><span class="o">(</span><span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  <span class="o">...</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Decomposition</h3>
+
+<p>NMatrix-MRI relies on LAPACK and ATLAS for matrix decomposition and
+solving functionalities. Apache Commons Math provides a different set
+of API for decomposing a matrix and solving an equation. For example,
+<code>#potrf</code> and other LAPACK specific functions have not been implemented
+as they are not required at all.</p>
+
+<p>Calculating determinant in NMatrix is tricky where a matrix is reduced
+either to a lower or upper matrix and the diagonal elements of the
+matrix are multiplied to get the result. Also, the correct sign of the
+result (whether positive or negative) is taken into account while
+calculating the determinant. However, NMatrix-JRuby uses Commons Math
+API to calculate the determinant.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">det_exact</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="vi">@dim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="o">||</span> <span class="vi">@shape</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">!=</span> <span class="vi">@shape</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">raise</span><span class="p">(</span><span class="no">ShapeError</span><span class="p">,</span> <span class="s2">&quot;matrices must be square to have a determinant defined&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">return</span> <span class="kp">nil</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">to_return</span> <span class="o">=</span> <span class="no">LUDecomposition</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">twoDMat</span><span class="p">)</span><span class="o">.</span><span class="n">getDeterminant</span><span class="p">()</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Given below is code that shows how Cholesky decomposition has been
+implemented by using Commons Math API.</p>
+
+<h4>Cholesky Decomposition</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">factorize_cholesky</span>
+</span><span class='line'>    <span class="n">cholesky</span> <span class="o">=</span> <span class="no">CholeskyDecomposition</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">twoDMat</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">l</span> <span class="o">=</span> <span class="n">create_dummy_nmatrix</span>
+</span><span class='line'>    <span class="n">twoDMat</span> <span class="o">=</span> <span class="n">cholesky</span><span class="o">.</span><span class="n">getL</span>
+</span><span class='line'>    <span class="n">l</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="no">ArrayRealVector</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">ArrayGenerator</span><span class="o">.</span><span class="n">getArrayDouble</span><span class="p">\</span>
+</span><span class='line'>        <span class="p">(</span><span class="n">twoDMat</span><span class="o">.</span><span class="n">getData</span><span class="p">,</span> <span class="vi">@shape</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span> <span class="vi">@shape</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">u</span> <span class="o">=</span> <span class="n">create_dummy_nmatrix</span>
+</span><span class='line'>    <span class="n">twoDMat</span> <span class="o">=</span> <span class="n">cholesky</span><span class="o">.</span><span class="n">getLT</span>
+</span><span class='line'>    <span class="n">u</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="no">ArrayRealVector</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">ArrayGenerator</span><span class="o">.</span><span class="n">getArrayDouble</span><span class="p">\</span>
+</span><span class='line'>      <span class="p">(</span><span class="n">twoDMat</span><span class="o">.</span><span class="n">getData</span><span class="p">,</span> <span class="vi">@shape</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span> <span class="vi">@shape</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">))</span>
+</span><span class='line'>    <span class="k">return</span> <span class="o">[</span><span class="n">u</span><span class="p">,</span><span class="n">l</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Similarly, LU Decomposition and QR factorization have been implemented.</p>
+
+<h4>LU Decomposition</h4>
+
+<p><a href="https://github.com/prasunanand/nmatrix/blob/jruby_port/lib/nmatrix/jruby/math.rb#L365">Code</a></p>
+
+<h4>QR Factorization</h4>
+
+<p><a href="https://github.com/prasunanand/nmatrix/blob/jruby_port/lib/nmatrix/jruby/math.rb#L392">Code</a></p>
+
+<h4><code>NMatrix#solve</code></h4>
+
+<p>The solve method currently uses LU and Cholesky decomposition.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">opts</span> <span class="o">=</span> <span class="p">{})</span>
+</span><span class='line'>    <span class="k">raise</span><span class="p">(</span><span class="no">ShapeError</span><span class="p">,</span> <span class="s2">&quot;Must be called on square matrix&quot;</span><span class="p">)\</span>
+</span><span class='line'>       <span class="k">unless</span> <span class="nb">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span> <span class="o">&amp;&amp;</span> <span class="nb">self</span><span class="o">.</span><span class="n">shape</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">==</span> <span class="nb">self</span><span class="o">.</span><span class="n">shape</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">raise</span><span class="p">(</span><span class="no">ShapeError</span><span class="p">,</span> <span class="s2">&quot;number of rows of b must equal number\</span>
+</span><span class='line'><span class="s2">       of cols of self&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">self</span><span class="o">.</span><span class="n">shape</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">!=</span> <span class="n">b</span><span class="o">.</span><span class="n">shape</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">raise</span><span class="p">(</span><span class="no">ArgumentError</span><span class="p">,</span> <span class="s2">&quot;only works with dense matrices&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">self</span><span class="o">.</span><span class="n">stype</span> <span class="o">!=</span> <span class="ss">:dense</span>
+</span><span class='line'>    <span class="k">raise</span><span class="p">(</span><span class="no">ArgumentError</span><span class="p">,</span> <span class="s2">&quot;only works for non-integer, non-object dtypes&quot;</span><span class="p">)\</span>
+</span><span class='line'>       <span class="k">if</span> <span class="n">integer_dtype?</span> <span class="ow">or</span> <span class="n">object_dtype?</span> <span class="ow">or</span> <span class="n">b</span><span class="o">.</span><span class="n">integer_dtype?</span> <span class="ow">or</span> <span class="n">b</span><span class="o">.</span><span class="n">object_dtype?</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">opts</span> <span class="o">=</span> <span class="p">{</span> <span class="n">form</span><span class="p">:</span> <span class="ss">:general</span> <span class="p">}</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">opts</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">x</span>    <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">clone</span>
+</span><span class='line'>    <span class="n">n</span>    <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">shape</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
+</span><span class='line'>    <span class="n">nrhs</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">shape</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">nmatrix</span> <span class="o">=</span> <span class="n">create_dummy_nmatrix</span>
+</span><span class='line'>    <span class="k">case</span> <span class="n">opts</span><span class="o">[</span><span class="ss">:form</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">when</span> <span class="ss">:general</span><span class="p">,</span> <span class="ss">:upper_tri</span><span class="p">,</span> <span class="ss">:upper_triangular</span><span class="p">,</span> <span class="ss">:lower_tri</span><span class="p">,</span> <span class="ss">:lower_triangular</span>
+</span><span class='line'>      <span class="c1">#LU solver</span>
+</span><span class='line'>      <span class="n">solver</span> <span class="o">=</span> <span class="no">LUDecomposition</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">twoDMat</span><span class="p">)</span><span class="o">.</span><span class="n">getSolver</span>
+</span><span class='line'>      <span class="n">nmatrix</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">nmatrix</span>
+</span><span class='line'>    <span class="k">when</span> <span class="ss">:pos_def</span><span class="p">,</span> <span class="ss">:positive_definite</span>
+</span><span class='line'>      <span class="n">solver</span> <span class="o">=</span> <span class="no">Choleskyecomposition</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">twoDMat</span><span class="p">)</span><span class="o">.</span><span class="n">getSolver</span>
+</span><span class='line'>      <span class="n">nmatrix</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">nmatrix</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="k">raise</span><span class="p">(</span><span class="no">ArgumentError</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">opts</span><span class="o">[</span><span class="ss">:form</span><span class="o">]</span><span class="si">}</span><span class="s2"> is not a valid form option&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4><code>NMatrix#matrix_solve</code></h4>
+
+<p>Suppose we need to solve a system of linear equations:</p>
+
+<pre><code>                    AX = B
+</code></pre>
+
+<p>where A is an m×n matrix, B and X are n×p matrices, we need to solve this equation by iterating through B.</p>
+
+<p>NMatrix-MRI implements this functionality using <code>NMatrix::BLAS::cblas_trsm</code> method. However, for NMatrix-JRuby,  <code>NMatrix#matrix_solve</code> is the analogous method used.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">matrix_solve</span> <span class="n">rhs</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">rhs</span><span class="o">.</span><span class="n">shape</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">&gt;</span> <span class="mi">1</span>
+</span><span class='line'>      <span class="n">nmatrix</span> <span class="o">=</span> <span class="no">NMatrix</span><span class="o">.</span><span class="n">new</span> <span class="ss">:copy</span>
+</span><span class='line'>      <span class="n">nmatrix</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="n">rhs</span><span class="o">.</span><span class="n">shape</span>
+</span><span class='line'>      <span class="n">res</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>      <span class="c1">#Solve a matrix and store the vectors in a matrix</span>
+</span><span class='line'>      <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">rhs</span><span class="o">.</span><span class="n">shape</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>        <span class="n">res</span> <span class="o">&lt;&lt;</span> <span class="nb">self</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">rhs</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="o">.</span><span class="n">s</span><span class="o">.</span><span class="n">toArray</span><span class="o">.</span><span class="n">to_a</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>      <span class="c1">#res is in col major format</span>
+</span><span class='line'>      <span class="n">result</span> <span class="o">=</span> <span class="no">ArrayGenerator</span><span class="o">.</span><span class="n">getArrayColMajorDouble</span> <span class="p">\</span>
+</span><span class='line'>         <span class="n">res</span><span class="o">.</span><span class="n">to_java</span> <span class="ss">:double</span><span class="p">,</span> <span class="n">rhs</span><span class="o">.</span><span class="n">shape</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span> <span class="n">rhs</span><span class="o">.</span><span class="n">shape</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span>
+</span><span class='line'>      <span class="n">nmatrix</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="no">ArrayRealVector</span><span class="o">.</span><span class="n">new</span> <span class="n">result</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">return</span> <span class="n">nmatrix</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="k">return</span> <span class="nb">self</span><span class="o">.</span><span class="n">solve</span> <span class="n">rhs</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Currently, Hessenberg transformation for NMatrix-JRuby has not been implemented.</p>
+
+<h3>Other dtypes</h3>
+
+<p>I have tried implementing float dtypes using <code>FloatMatrix</code> class
+provide by jblas.  jblas was used instead of Commons Math as the
+latter uses <code>Field Elements</code> for Floats and it had some issues
+with <code>Reflection</code> and <code>Type Erasure</code>.
+However, using jblas resulted in errors due to precision.</p>
+
+<h2>Code Organisation and Deployment</h2>
+
+<p>To minimise conflict with the MRI codebase all the JRuby front end
+code has been placed in the <code>/lib/nmatrix/jruby</code>
+directory. <code>lib/nmatrix/nmatrix.rb</code> decides whether to load
+<code>nmatrix.so</code> or <code>nmatrix_jruby.rb</code> after detecting the Ruby platform.</p>
+
+<p>The added advantage is that the Ruby interpreter must not decide which
+function to call at run-time. The impact on performance can be seen
+when programs which intensively use NMatrix for linear algebraic
+computations (<em>e.g.</em>, mixed_models) are run.</p>
+
+<h2>Spec Report</h2>
+
+<p>After the port; this is the final report that summarizes the number of tests that successfully pass:</p>
+
+<h3>NMatrix</h3>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Spec file</th>
+<th align="center">Total Tests</th>
+<th align="center">Success</th>
+<th align="center">Failure</th>
+<th align="center">Pending</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>00_nmatrix_spec</td>
+<td align="center">188</td>
+<td align="center">139</td>
+<td align="center">43</td>
+<td align="center">6</td>
+</tr>
+<tr>
+<td></td>
+<td>01_enum_spec</td>
+<td align="center">17</td>
+<td align="center">8</td>
+<td align="center">09</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>02_slice_spec</td>
+<td align="center">144</td>
+<td align="center">116</td>
+<td align="center">28</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>03_nmatrix_monkeys_spec</td>
+<td align="center">12</td>
+<td align="center">11</td>
+<td align="center">01</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>elementwise_spec</td>
+<td align="center">38</td>
+<td align="center">21</td>
+<td align="center">17</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>homogeneous_spec.rb</td>
+<td align="center">07</td>
+<td align="center">06</td>
+<td align="center">01</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>math_spec</td>
+<td align="center">737</td>
+<td align="center">541</td>
+<td align="center">196</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>shortcuts_spec</td>
+<td align="center">81</td>
+<td align="center">57</td>
+<td align="center">24</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>stat_spec</td>
+<td align="center">72</td>
+<td align="center">40</td>
+<td align="center">32</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>slice_set_spec</td>
+<td align="center">6</td>
+<td align="center">2</td>
+<td align="center">04</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+
+
+<br>
+
+
+<h4>Why do some tests fail?</h4>
+
+<ol>
+<li>Complex dtype has not been implemented.</li>
+<li>Sparse matrices (list and yale) have not been implemented.</li>
+<li>Decomposition methods that are specific to LAPACK and ATLAS have not been implemented.</li>
+<li>Integer dtype is not properly assigned to <code>floor</code>, <code>ceil</code>, and <code>round</code> methods.</li>
+</ol>
+
+
+<h3>Mixed_Models</h3>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Spec file</th>
+<th align="center">Total Test</th>
+<th align="center">Success</th>
+<th align="center">Failure</th>
+<th align="center">Pending</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>Deviance_spec</td>
+<td align="center">04</td>
+<td align="center">04</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>LMM_spec</td>
+<td align="center">195</td>
+<td align="center">195</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>LMM_categorical_data_spec.rb</td>
+<td align="center">48</td>
+<td align="center">45</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>LMMFormula_spec.rb</td>
+<td align="center">05</td>
+<td align="center">05</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>LMM_interaction_effects_spec.rb</td>
+<td align="center">82</td>
+<td align="center">82</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>LMM_nested_effects_spec.rb</td>
+<td align="center">40</td>
+<td align="center">40</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>matrix_methods_spec.rb</td>
+<td align="center">52</td>
+<td align="center">52</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>ModelSpecification_spec.rb</td>
+<td align="center">07</td>
+<td align="center">07</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>NelderMeadWithConstraints_spec.rb</td>
+<td align="center">08</td>
+<td align="center">08</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+
+
+<h2>Future Work</h2>
+
+<p>NMatrix on JRuby offers comparable speeds to MRI. For specific
+computations it will be possible to leverage the threading support of
+JRuby and speed up things using multiple cores.</p>
+
+<p>Adding new functionality to NMatrix-JRuby will be easy from
+here. Personally, I am interested to add OpenCL support to leverage
+the GPU computational capacity available on most machines today.</p>
+
+<h2>Conclusion</h2>
+
+<p>The main goal of this project was to to gain from the performance JRuby offers,
+and bring a unified interface for linear algebra between MRI and JRuby.</p>
+
+<p>By the end of GSoC, I have been able to successfully create a linear
+algebra library, NMatrix for JRuby users, which they can easily run on
+their machines &mdash; unless they want to use complex numbers, at
+least for now.</p>
+
+<p>I have mixed_models gem simultaneously ported to JRuby. Even here,
+NMatrix-JRuby is very close to NMatrix-MRI, considering the performance .</p>
+
+<h2>Acknowledgements</h2>
+
+<p>I would like to express my sincere gratitude to my mentor Pjotr Prins
+for the continuous support through the summers, and for his patience,
+motivation, enthusiasm, and immense knowledge. I could not have
+imagined having a better advisor and mentor, for this project.</p>
+
+<p>I am very grateful to Google and the Ruby Science Foundation for this
+golden opportunity.</p>
+
+<p>I am very thankful to Charles Nutter, John Woods, Sameer Deshmukh,
+Kenta Murata and Alexej Gossmann, who mentored me through the
+project. It has been a great learning experience.</p>
+
+<p>I thank my fellow GSoC participants Rajith, Lokesh and Gaurav who
+helped me with certain aspects of my project.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Prasun Anand</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-10-25T02:13:00+09:00" pubdate data-updated="true">Oct 25<span>th</span>, 2016</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/gsoc/'>GSOC</a>, <a class='category' href='/blog/categories/gsoc2016/'>GSOC2016</a>, <a class='category' href='/blog/categories/jruby/'>JRuby</a>, <a class='category' href='/blog/categories/nmatrix/'>NMatrix</a>, <a class='category' href='/blog/categories/linear-algebra/'>linear algebra</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://sciruby.com/blog/2016/10/25/gsoc-2016-port-nmatrix-to-jruby/" data-via="sciruby" data-counturl="http://sciruby.com/blog/2016/10/25/gsoc-2016-port-nmatrix-to-jruby/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/08/23/spice_rub_report/" title="Previous Post: GSOC 2016 : Final Report (SpiceRub)">&laquo; GSOC 2016 : Final Report (SpiceRub)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-time/" title="Next Post: GSoC 2016 : A Look at SpiceRub::Time">GSoC 2016 : A Look at SpiceRub::Time &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+
+
+<section>
+<div class="fb-like-box" data-href="http://www.facebook.com/SciRuby" data-width="" data-show-faces="false" data-stream="" data-header=""   ></div>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/">GSoC 2017 : Data visualization using daru-view</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats/">GSoC 2017 : Support to Import & Export of more formats</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/">GSoC 2016: Adding Categorical Data Support</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/spicerub-kernelpool-and-kernels/">GSoC 2016: SpiceRub::KernelPool and Kernels</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/">GSoC 2016 : A Look at SpiceRub::Body</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/SciRuby">@SciRuby</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'SciRuby',
+            count: 6,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("sciruby", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/sciruby" class="twitter-follow-button" data-show-count="false">Follow @sciruby</a>
+  
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - SciRuby -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sciruby';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sciruby.com/blog/2016/10/25/gsoc-2016-port-nmatrix-to-jruby/';
+        var disqus_url = 'http://sciruby.com/blog/2016/10/25/gsoc-2016-port-nmatrix-to-jruby/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

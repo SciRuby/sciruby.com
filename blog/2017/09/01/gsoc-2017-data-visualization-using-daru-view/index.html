@@ -1,0 +1,867 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>GSoC 2017 : Data visualization using daru-view - SciRuby</title>
+  <meta name="author" content="SciRuby">
+
+  
+  <meta name="description" content="Hello, Rubyist! Are looking for good ruby gem for interactive data
+visualization? Then you must try daru-view, a plugin gem for daru. What makes daru &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sciruby.com/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="SciRuby" type="application/atom+xml">
+  <!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-12735432-6']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">SciRuby</a></h1>
+  
+    <h2>Tools for Scientific Computing in Ruby</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:sciruby.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul role=main-navigation xmlns="http://www.w3.org/1999/html">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog">Blog</a></li>
+  <li><a href="/docs">Installation</a></li>
+  <li><a href="http://gems.sciruby.com/">Gems</a></li>
+  <li><a href="https://github.com/sciruby/sciruby">SciRuby</a></li>
+  <li><a href="/nmatrix">NMatrix</a></li>
+  <li><a href="/publications/">Citing SciRuby</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">GSoC 2017 : Data Visualization Using Daru-view</h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Shekhar Prasad Rajak</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-09-01T22:46:00+09:00" pubdate data-updated="true">Sep 1<span>st</span>, 2017</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Hello, Rubyist! Are looking for good ruby gem for interactive data
+visualization? Then you must try <a href="https://github.com/Shekharrajak/daru-view"><code>daru-view</code></a>, a plugin gem for <a href="https://github.com/SciRuby/daru"><code>daru</code></a>.</p>
+
+<h2>What makes daru-view different ?</h2>
+
+<ul>
+<li><p><code>daru-view</code> is designed for interactive plotting of charts and tables.It
+provide different plotting tools like Nyaplot, HighCharts, GoogleCharts,
+DataTable. So you don&#8217;t have to write any JavaScript code from these sites
+and no need to shift to other language to get charts.</p></li>
+<li><p>It can work with <strong>any ruby web application framework like Rails/Sinatra/Nanoc/Hanami</strong>. If you want to try few examples then please look into the
+<a href="https://github.com/Shekharrajak/daru-view/tree/master/spec"><code>daru-view/spec/dummy_*</code></a> examples of Rails, Sinatra, Nanoc web applications.</p></li>
+<li><p>Now Ruby developers are using IRuby notebook for interactive programming.
+<code>daru-view</code> support IRuby notebook as well. So if you just want to see chart
+for some DataFrame or Array of data, you can use <code>daru-view</code>.</p></li>
+<li><p><code>daru-view</code> can generate chart images to download and save.</p></li>
+<li><p><code>daru-view</code> adapters <code>googlecharts</code>, <code>highcharts</code> are able to geneate 3D charts as well.</p></li>
+<li><p><code>Table</code> have some main features like pagination, search and many more to be added.It is
+designed to load large data set smoothly.</p></li>
+</ul>
+
+
+<h2>Introduction</h2>
+
+<p>Daru is doing pretty good work as the data analysis &amp; manipulation in IRuby notebook as well as backend part of web application. Ruby web application frameworks like Ruby on Rails, Sinatra, Nanoc are popular frameworks. So if Ruby developers get the gem like daru which can do data analysis
+and visualization work in applications, then there is no need of shifting to another language or usage of other gem.</p>
+
+<p>My project for <abbr title="Google Summer of Code 2017"> GSoC 2017</abbr> was to &#8220;make Daru more ready for integration with modern Web framework&#8221; in terms of visualization.</p>
+
+<p>To improve in terms of viewing data,
+<a href="https://github.com/Shekharrajak/daru-view">daru-view</a>, a plugin gem for
+<a href="https://github.com/SciRuby/daru">daru</a> is created. <a href="https://github.com/Shekharrajak/daru-view">daru-view</a> is for easy and interactive plotting in web application &amp; IRuby notebook. It can work in frameworks like Rails, Sinatra, Nanoc and hopefully in others too.</p>
+
+<p>To see a quick overview of daru-view&#8217;s features, have a look at these examples:</p>
+
+<ul>
+<li><p><a href="http://nbviewer.jupyter.org/github/shekharrajak/daru-view/tree/master/spec/dummy_iruby/">IRuby Notebook Examples</a></p></li>
+<li><p><a href="https://github.com/Shekharrajak/daru_examples_io_view_rails">daru io and daru-view usage in Rails app</a></p></li>
+<li><p><a href="https://github.com/Shekharrajak/daru-view/blob/master/README.md">README of daru-view</a></p></li>
+</ul>
+
+
+<h2>Examples</h2>
+
+<p>This is how we can create a Plot class object:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">::</span><span class="no">Plot</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><p><code>data</code> can be <code>Daru::DataFrame</code>, data array or the format that the adapter support.</p></li>
+<li><p><code>options</code> is a hash that contains various options to customize the chart.
+If you have chosen a plotting library then you must use the options according
+to the options the library providing. Here is the library <code>daru-view</code> uses.
+Please check the examples options, they are passing in javascript code:</p>
+
+<ul>
+<li><p>GoogleCharts: <a href="https://developers.google.com/chart/interactive/docs/gallery">https://developers.google.com/chart/interactive/docs/gallery</a></p></li>
+<li><p>HighCharts: <a href="https://www.highcharts.com/demo">https://www.highcharts.com/demo</a></p></li>
+<li><p>Nyaplot: <a href="https://github.com/SciRuby/nyaplot">https://github.com/SciRuby/nyaplot</a> (it works same as <code>daru</code>)</p></li>
+</ul>
+</li>
+</ul>
+
+
+<p>Note: User must have some knowledge about the plotting tool(that you want to
+use) to use it in <code>daru-view</code>. So that you can pass the correct options.</p>
+
+<h3>GoogleCharts:</h3>
+
+<p>Set the plotting library to <code>:googlecharts</code> to use this adapter. This will
+load the required js files in your webpage or IRuby notebook.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;daru/view&#39;</span>
+</span><span class='line'><span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">.</span><span class="n">plotting_library</span> <span class="o">=</span> <span class="ss">:googlecharts</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let&#8217;s create a DataFrame :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">idx</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">Index</span><span class="o">.</span><span class="n">new</span> <span class="o">[</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="s1">&#39;Sales&#39;</span><span class="o">]</span>
+</span><span class='line'><span class="n">data_rows</span> <span class="o">=</span> <span class="o">[</span>
+</span><span class='line'>          <span class="o">[</span><span class="s1">&#39;2004&#39;</span><span class="p">,</span>  <span class="mi">1000</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>          <span class="o">[</span><span class="s1">&#39;2005&#39;</span><span class="p">,</span>  <span class="mi">1170</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>          <span class="o">[</span><span class="s1">&#39;2006&#39;</span><span class="p">,</span>  <span class="mi">660</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>          <span class="o">[</span><span class="s1">&#39;2007&#39;</span><span class="p">,</span>  <span class="mi">1030</span><span class="o">]</span>
+</span><span class='line'><span class="o">]</span>
+</span><span class='line'><span class="n">df_sale_exp</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">DataFrame</span><span class="o">.</span><span class="n">rows</span><span class="p">(</span><span class="n">data_rows</span><span class="p">)</span>
+</span><span class='line'><span class="n">df_sale_exp</span><span class="o">.</span><span class="n">vectors</span> <span class="o">=</span> <span class="n">idx</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># perform data manipulations, if you want.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now time to plot it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">line_basic_chart</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">::</span><span class="no">Plot</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">df_sale_exp</span><span class="p">)</span>
+</span><span class='line'><span class="n">line_basic_chart</span><span class="o">.</span><span class="n">chart</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will return the chart object we created using GoogleCharts.
+In IRuby notebook, you will see this:</p>
+
+<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlecharts_line1.png?raw=true" title="Basic line chart using GoogleCharts" alt="Basic line chart using GoogleCharts"></p>
+
+<p>You can find the IRuby notebook example in <a href="http://nbviewer.jupyter.org/github/shekharrajak/daru-view/blob/master/spec/dummy_iruby/Google%20Chart%20%7C%20%20Line%20Chart.ipynb">this link</a>.</p>
+
+<p>These are various charts type we can use e.g. line, area, bar, bubble,
+candlestick, combo, histogram, org, pie, stepped area chart, timeline, treemap,
+gauge, column, scatter, etc. We can find the customization options in the
+<a href="https://developers.google.com/chart/interactive/docs/gallery">google charts site</a>.</p>
+
+<p>Let me try another chart type Geo :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">country_population</span> <span class="o">=</span> <span class="o">[</span>
+</span><span class='line'>          <span class="o">[</span><span class="s1">&#39;Germany&#39;</span><span class="p">,</span> <span class="mi">200</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>          <span class="o">[</span><span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="mi">300</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>          <span class="o">[</span><span class="s1">&#39;Brazil&#39;</span><span class="p">,</span> <span class="mi">400</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>          <span class="o">[</span><span class="s1">&#39;Canada&#39;</span><span class="p">,</span> <span class="mi">500</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>          <span class="o">[</span><span class="s1">&#39;France&#39;</span><span class="p">,</span> <span class="mi">600</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>          <span class="o">[</span><span class="s1">&#39;RU&#39;</span><span class="p">,</span> <span class="mi">700</span><span class="o">]</span>
+</span><span class='line'><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">df_cp</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">DataFrame</span><span class="o">.</span><span class="n">rows</span><span class="p">(</span><span class="n">country_population</span><span class="p">)</span>
+</span><span class='line'><span class="n">df_cp</span><span class="o">.</span><span class="n">vectors</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">Index</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;Country&#39;</span><span class="p">,</span> <span class="s1">&#39;Population&#39;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">geochart</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">::</span><span class="no">Plot</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
+</span><span class='line'>    <span class="n">df_cp</span><span class="p">,</span> <span class="n">type</span><span class="p">:</span> <span class="ss">:geo</span><span class="p">,</span> <span class="n">adapter</span><span class="p">:</span> <span class="ss">:googlecharts</span>
+</span><span class='line'><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note: If you have already loaded the dependent JS files for the library then you can use <code>adapter: :googlecharts</code> in your Plot initialization.</p>
+
+<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_geo1.png?raw=true" title="Basic Geo chart using GoogleCharts" alt="Basic Geo chart using GoogleCharts"></p>
+
+<h3>HighCharts:</h3>
+
+<p>Set the plotting library to <code>:highcharts</code> to use this adapter. This will
+load the required js files in your webpage or IRuby notebook.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;daru/view&#39;</span>
+</span><span class='line'><span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">.</span><span class="n">plotting_library</span> <span class="o">=</span> <span class="ss">:highcharts</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let&#8217;s pass the <code>data</code> as HighCharts support (we can pass a DataFrame as well):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">data</span> <span class="o">=</span> <span class="o">[</span>
+</span><span class='line'>    <span class="o">[</span><span class="s1">&#39;Firefox&#39;</span><span class="p">,</span>   <span class="mi">45</span><span class="o">.</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>    <span class="o">[</span><span class="s1">&#39;IE&#39;</span><span class="p">,</span>       <span class="mi">26</span><span class="o">.</span><span class="mi">8</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>       <span class="ss">:name</span><span class="o">=&gt;</span> <span class="s1">&#39;Chrome&#39;</span><span class="p">,</span>
+</span><span class='line'>       <span class="ss">:y</span><span class="o">=&gt;</span> <span class="mi">12</span><span class="o">.</span><span class="mi">8</span><span class="p">,</span>
+</span><span class='line'>       <span class="ss">:sliced</span><span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span>
+</span><span class='line'>       <span class="ss">:selected</span><span class="o">=&gt;</span> <span class="kp">true</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="o">[</span><span class="s1">&#39;Safari&#39;</span><span class="p">,</span>    <span class="mi">8</span><span class="o">.</span><span class="mi">5</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>    <span class="o">[</span><span class="s1">&#39;Opera&#39;</span><span class="p">,</span>     <span class="mi">6</span><span class="o">.</span><span class="mi">2</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>    <span class="o">[</span><span class="s1">&#39;Others&#39;</span><span class="p">,</span>   <span class="mi">0</span><span class="o">.</span><span class="mi">7</span><span class="o">]</span>
+</span><span class='line'><span class="o">]</span>
+</span><span class='line'><span class="n">plt_pie</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">::</span><span class="no">Plot</span><span class="o">.</span><span class="n">new</span> <span class="n">data</span><span class="p">,</span> <span class="n">type</span><span class="p">:</span> <span class="ss">:pie</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will return the <code>Plot</code> object we created.
+In IRuby notebook, you will see this:</p>
+
+<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/highcharts_pie.png?raw=true" title="Basic pie chart using HighCharts" alt="Basic pie chart using HighCharts"></p>
+
+<p>You can find the IRuby notebook example in <a href="http://nbviewer.jupyter.org/github/shekharrajak/daru-view/blob/master/spec/dummy_iruby/HighCharts-%20Pie%20charts.ipynb">this link</a>.</p>
+
+<p>There are various charts type we can use e.g. line, area, bar, bubble,
+dynamic chart, pie, column, scatter, etc. We can find the customization options in the
+<a href="https://www.highcharts.com/demo">HighCharts site</a>.</p>
+
+<h3>Nyaplot</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;daru/view&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#  set adapter</span>
+</span><span class='line'><span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">.</span><span class="n">plotting_library</span> <span class="o">=</span> <span class="ss">:nyaplot</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># define dataframe</span>
+</span><span class='line'><span class="n">df</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">DataFrame</span><span class="o">.</span><span class="n">new</span><span class="p">({</span>
+</span><span class='line'>  <span class="n">a</span><span class="p">:</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">0</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">b</span><span class="p">:</span> <span class="o">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">c</span><span class="p">:</span> <span class="o">[</span><span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="s1">&#39;II&#39;</span><span class="p">,</span> <span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="s1">&#39;III&#39;</span><span class="p">,</span> <span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="s1">&#39;III&#39;</span><span class="p">,</span> <span class="s1">&#39;II&#39;</span><span class="o">]</span>
+</span><span class='line'>  <span class="p">})</span>
+</span><span class='line'><span class="n">df</span><span class="o">.</span><span class="n">to_category</span> <span class="ss">:c</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># creating scatter chart</span>
+</span><span class='line'><span class="n">scatter_chart</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">::</span><span class="no">Plot</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">type</span><span class="p">:</span> <span class="ss">:scatter</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="ss">:a</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="ss">:b</span><span class="p">,</span> <span class="n">categorized</span><span class="p">:</span> <span class="p">{</span><span class="n">by</span><span class="p">:</span> <span class="ss">:c</span><span class="p">,</span> <span class="nb">method</span><span class="p">:</span> <span class="ss">:color</span><span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In IRuby notebook:</p>
+
+<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/nyaplot_scatter.png?raw=true" title="Basic scatter chart using Nyaplot" alt="Basic scatter chart using Nyaplot"></p>
+
+<h3>GoogleChart data table</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;daru/view&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#  set adapter</span>
+</span><span class='line'><span class="c1"># You don&#39;t need this line if you have already using google chart for plotting.</span>
+</span><span class='line'><span class="c1"># It is just for loading the dependent js files.</span>
+</span><span class='line'><span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">.</span><span class="n">table_library</span> <span class="o">=</span> <span class="ss">:googlechart</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Lets use array as `data` (we can pass Daru::DataFrame as well)</span>
+</span><span class='line'><span class="n">data</span> <span class="o">=</span> <span class="o">[</span>
+</span><span class='line'>  <span class="o">[</span><span class="s1">&#39;Galaxy&#39;</span><span class="p">,</span> <span class="s1">&#39;Distance&#39;</span><span class="p">,</span> <span class="s1">&#39;Brightness&#39;</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>          <span class="o">[</span><span class="s1">&#39;Canis Major Dwarf&#39;</span><span class="p">,</span> <span class="mi">8000</span><span class="p">,</span> <span class="mi">230</span><span class="o">.</span><span class="mi">3</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>          <span class="o">[</span><span class="s1">&#39;Sagittarius Dwarf&#39;</span><span class="p">,</span> <span class="mi">24000</span><span class="p">,</span> <span class="mi">4000</span><span class="o">.</span><span class="mi">5</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>          <span class="o">[</span><span class="s1">&#39;Ursa Major II Dwarf&#39;</span><span class="p">,</span> <span class="mi">30000</span><span class="p">,</span> <span class="mi">1412</span><span class="o">.</span><span class="mi">3</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>          <span class="o">[</span><span class="s1">&#39;Lg. Magellanic Cloud&#39;</span><span class="p">,</span> <span class="mi">50000</span><span class="p">,</span> <span class="mi">120</span><span class="o">.</span><span class="mi">9</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>          <span class="o">[</span><span class="s1">&#39;Bootes I&#39;</span><span class="p">,</span> <span class="mi">60000</span><span class="p">,</span> <span class="mi">1223</span><span class="o">.</span><span class="mi">1</span><span class="o">]</span>
+</span><span class='line'>  <span class="o">]</span>
+</span><span class='line'><span class="n">galaxy_table</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">::</span><span class="no">Table</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span class='line'><span class="n">galaxy_table</span><span class="o">.</span><span class="n">table</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will return the table object we created using GoogleCharts tool.
+In IRuby notebook, you will see this:</p>
+
+<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_table1.png?raw=true" title="Basic table using GoogleCharts" alt="Basic table using GoogleCharts"></p>
+
+<p>We can create table using Vectors as well.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">dv</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">Vector</span><span class="o">.</span><span class="n">new</span> <span class="o">[</span><span class="mi">43934</span><span class="p">,</span> <span class="mi">52503</span><span class="p">,</span> <span class="mi">57177</span><span class="p">,</span> <span class="mi">69658</span><span class="p">,</span> <span class="mi">97031</span><span class="p">,</span> <span class="mi">119931</span><span class="p">,</span> <span class="mi">137133</span><span class="p">,</span> <span class="mi">154175</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># adding pagination and some customization [optional]</span>
+</span><span class='line'><span class="n">opts_pagination</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">width</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span> <span class="p">,</span>
+</span><span class='line'>  <span class="n">pageSize</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">table_vec</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">::</span><span class="no">Table</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">dv</span><span class="p">,</span> <span class="n">opts_pagination</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In Ruby Notebook:</p>
+
+<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_vec_table1.png?raw=true" title="Basic vector table using GoogleCharts" alt="Basic vector table using GoogleCharts"></p>
+
+<h3>DataTable</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;daru/view&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#  set adapter.</span>
+</span><span class='line'><span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">.</span><span class="n">table_library</span> <span class="o">=</span> <span class="ss">:datatables</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Lets use Daru::DataFrame as `data` (we can pass Array as well)</span>
+</span><span class='line'><span class="n">df</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">DataFrame</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>    <span class="n">b</span><span class="p">:</span> <span class="o">[</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">15</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">a</span><span class="p">:</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">c</span><span class="p">:</span> <span class="o">[</span><span class="mi">11</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="mi">33</span><span class="p">,</span><span class="mi">44</span><span class="p">,</span><span class="mi">55</span><span class="o">]</span>
+</span><span class='line'>  <span class="p">},</span>
+</span><span class='line'>    <span class="n">order</span><span class="p">:</span> <span class="o">[</span><span class="ss">:a</span><span class="p">,</span> <span class="ss">:b</span><span class="p">,</span> <span class="ss">:c</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">index</span><span class="p">:</span> <span class="o">[</span><span class="ss">:one</span><span class="p">,</span> <span class="ss">:two</span><span class="p">,</span> <span class="ss">:three</span><span class="p">,</span> <span class="ss">:four</span><span class="p">,</span> <span class="ss">:five</span><span class="o">]</span>
+</span><span class='line'><span class="p">)</span>
+</span><span class='line'><span class="n">df_datatable</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">::</span><span class="no">Table</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pageLength</span><span class="p">:</span> <span class="mi">3</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Currently there is some problem to diplay it in IRuby notebook, but in web application
+you can see something like this using <code>df_datatable.div</code> :</p>
+
+<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/datatables_basic1.png?raw=true" title="Basic table using Datatables" alt="Basic table using Datatables"></p>
+
+<h2>How to use it in Ruby web application</h2>
+
+<p>As we know, we can get the HTML, JS code for the chart from the
+<code>Daru::View::Plot</code> or <code>Daru:View::Table</code> object using <code>#div</code> method. So just
+need to add that HTML, JS code in webpage in proper place.</p>
+
+<p>There is few things to be noted:</p>
+
+<ol>
+<li><p>In layout of the webpage, you have to load all the dependent JS files.
+So that HTML, JS code that is genearted work smoothly in that webpage. You
+can load the dependent js file for nyaplot library using <code>Daru::View.dependent_script(:nyaplot)</code>, similarly for other library.</p></li>
+<li><p>If you are using multiple library in one webpage then load multiple
+dependent JS files, in that webpage layout (generally in head tag).</p></li>
+</ol>
+
+
+<p>We can set default adapter using <code>Daru::View.plotting_library = :googlecharts</code>
+and also we can change it for particular object while initializing object,
+i.e. <code>Daru::View::Plot.new(data, {adapter: :googlecharts})</code>. Just we have
+to make sure that dependent JS files are loaded for it.</p>
+
+<p>To make it easy, we have defined <code>daru_chart</code> (that works same as Daru::View::Plot.new) , <code>daru_table</code> (works same as Daru::View::Table.new) for Rails application.</p>
+
+<p>So you can easily use it in controller or view of the application. For reference you can check the <a href="https://github.com/Shekharrajak/daru_examples_io_view_rails">demo Rails app</a>.</p>
+
+<h2>Design of daru-view</h2>
+
+<p><a href="https://github.com/Shekharrajak/daru-view">daru-view</a>, currently using
+<a href="https://github.com/SciRuby/nyaplot">Nyaplot</a>, <a href="https://www.highcharts.com/">HighCharts</a>, <a href="https://developers.google.com/chart/interactive/docs/gallery">GoogleCharts</a> for plotting the charts. It is also
+generating tables using <a href="https://datatables.net/">DataTables</a> and <a href="https://developers.google.com/chart/interactive/docs/gallery">GoogleCharts</a> with pagination, search and various features.</p>
+
+<h3>Design Pattern in daru-view</h3>
+
+<p>daru-view mainly uses the <a href="https://en.wikipedia.org/wiki/Adapter_pattern">adapter design pattern</a> and <a href="https://en.wikipedia.org/wiki/Composite_pattern">composite design pattern</a>.</p>
+
+<ul>
+<li><p><strong>Why Adapter design pattern:</strong></p>
+
+<ul>
+<li><p>Adapter pattern’s motivation is that we can reuse existing gems if we can modify the interface.</p></li>
+<li><p>daru-view joins functionalities of independent or incompatible interfaces of different gems.</p></li>
+<li><p><code>daru-view</code> have <a href="https://github.com/Shekharrajak/daru-view/blob/master/lib/daru/view/plot.rb"><code>Plot</code></a> and <a href="https://github.com/Shekharrajak/daru-view/blob/master/lib/daru/view/table.rb"><code>Table</code></a> class, which are using a <a href="https://github.com/Shekharrajak/daru-view/tree/master/lib/daru/view/adapters">adapter</a> when adapter(library to be used for plotting) is set for <code>Plot</code>, <code>Table</code> instance.</p></li>
+</ul>
+</li>
+<li><p><strong>Why Composite design pattern:</strong></p>
+
+<ul>
+<li><p>To define common objects and use it for defining composite objects.</p></li>
+<li><p>In <code>daru-view</code> we try to write common functions in a module and include it whenever needed.</p></li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Implementation</h2>
+
+<p>daru-view ensure that it&#8217;s functions are usable in both IRuby notebook as well
+as ruby web application frameworks.</p>
+
+<p>The main thing we need to display something in web application or IRuby
+notebook is <code>HTML</code> code of it. daru-view generates the <code>HTML</code> code of the
+chart, table and the same can be used to display in web application &amp; IRuby
+notebook.</p>
+
+<p>These are the libraries which is used in daru-view currently:</p>
+
+<h3>Nyaplot</h3>
+
+<p><a href="https://github.com/SciRuby/nyaplot">Nyaplot</a> is good library for
+visualization in IRuby notebook only. When we use Nyaplot as the adapter in
+daru-view, it is usable in both IRuby notebook and web applications. Daru
+DataFrame or Vector is used as the data source of the chart. It works
+similar to the initial <code>daru</code> plotting system.</p>
+
+<p>If user want to use the Nyaplot methods then it can be done on Nyaplot object.We
+can get nyplot object using <code>daru_plot_obj.chart</code>.</p>
+
+<p>i.e.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">daru_view_obj</span> <span class="o">=</span> <span class="no">Daru</span><span class="o">::</span><span class="no">View</span><span class="o">::</span><span class="no">Plot</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
+</span><span class='line'>                  <span class="n">daru_dataframe</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="n">adapter</span><span class="p">:</span> <span class="ss">:nyaplot</span><span class="p">})</span>
+</span><span class='line'><span class="n">nyaplot_obj</span> <span class="o">=</span> <span class="n">daru_view_obj</span><span class="o">.</span><span class="n">chart</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now user can operate all the methods for Nyaplot object. Same thing is for
+all other adapter in daru-view.</p>
+
+<h3>HighCharts</h3>
+
+<p>To add the <a href="https://www.highcharts.com/">HighCharts</a> features for plotting various chart types, daru-view uses the <a href="https://github.com/michelson/lazy_high_charts">lazy_high_charts</a> gem with additional features.</p>
+
+<p>In this adapter data source can be Array of data, Daru::DataFrame, Daru::Vector or HTML table code of the data.</p>
+
+<p>There are various of options in HighCharts. One can see the options that can
+be used in <a href="https://www.highcharts.com/demo">HighCharts demo link</a>, which can
+be directly used in daru-view Plot.</p>
+
+<p><strong>HighCharts adaptor can work offline as well in daru-view. Developers can update the saved the JS files (in daru-view) using rake task automatically.</strong></p>
+
+<p>If you is familiar with <code>lazy_high_chart</code> gem and want to use it for
+config the chart then user can access the <code>lazy_high_chart</code> object using
+<code>Daru::View::Plot#chart</code> and can do necessary operations.</p>
+
+<h3>GoogleCharts</h3>
+
+<p>To add the <a href="https://developers.google.com/chart/interactive/docs/gallery">GoogleCharts</a> features for plotting various chart types, daru-view uses the <a href="https://github.com/winston/google_visualr/">google_visualr</a> gem with additional features(in this module more new features are updated).</p>
+
+<p>We want GoogleChart adapter to be very strong since Google chart tools always gets updated and it has amazing plotting features. Similar to the HighCharts module, here also we can use all the options described in Google Charts website.</p>
+
+<p>User can access the <code>google_visualr</code> object using <code>Daru::View::Plot#chart</code>, if
+they want to operate <code>google_visualr</code> methods.</p>
+
+<h4>GoogleCharts as data table</h4>
+
+<p>One of the good thing about google chart tool is, it can be used for generating table
+for web application and IRuby Notebook with pagination and other features.</p>
+
+<p><strong><code>Daru::View::Plot</code> can take data Array, Daru::DataFrame, Daru::Vector,
+Daru::View::Table as data source.</strong></p>
+
+<p><strong><code>Daru::View::Table</code> can take data Array, daru DataFrame, Daru Vector as data
+ source.</strong></p>
+
+<h3>DataTables</h3>
+
+<p><a href="https://datatables.net/">DataTables</a> has interaction controls to any HTML table. It can handle large set of data and have many cool features.</p>
+
+<p>To use it, daru-view uses <a href="https://github.com/Shekharrajak/data_tables">https://github.com/Shekharrajak/data_tables</a> gem. [Note: the gem name will be changed in near future]</p>
+
+<p>It basically uses the HTML table code and add features that user want. So internally HTML table code of Daru::DataFrame and Daru::Vector is passed as data source parameter.</p>
+
+<h2>Future Work</h2>
+
+<p>daru-view will be more powerful and simple in near future. Developers can add
+more libraries in daru-view easily, if required. To add library follow the setups given in
+<a href="https://github.com/Shekharrajak/daru-view/blob/master/CONTRIBUTING.md">CONTRIBUTING.md</a></p>
+
+<h2>Conclusion</h2>
+
+<p>The aim of the daru-view is to plot charts in IRuby notebook and ruby web
+application easily, so that developers need not have to use any other gem or
+language for visualization.</p>
+
+<p>It can work smoothly in Rails/Sinatra/Nanoc web frameworks and I hope it can work in other ruby frameworks as well, because daru-view is generating the html code and javascript code for the chart, which is basic need of the webpage.</p>
+
+<p><strong>Why not use the plotting libraries directly?</strong></p>
+
+<p>If you are using daru gem for analyzing the data and want to visualize it, then it will be good if you have data-visualization within daru and can plot it directly using DataFrame/Vector objects of daru.</p>
+
+<p>daru-view will be helpful in plotting charts and tables directly from the Daru::DataFrame and Daru::Vector . daru-view using nyaplot, highcharts , google charts right now to plot the chart. So user can set the plotting library and get the chart accordingly.</p>
+
+<p>Most of the plotting libraries doesn&#8217;t provide the features of plotting charts in iruby notebook. They are defined only for web applications (mostly for Rails). But daru-view can plot charts in any ruby web application as well as iruby notebook.</p>
+
+<h2>Acknowledgements</h2>
+
+<p>I would like to thank to my mentors <a href="https://github.com/v0dro">Sameer Deshmukh</a>
+,<a href="https://github.com/lokeshh">Lokesh Sharma</a> and <a href="https://github.com/zverok">Victor Shepelev</a> for their response and support and I am very grateful to the <a href="http://sciruby.com/">Ruby Science Foundation</a> for this golden opportunity.</p>
+
+<p>I thank my fellow GSoC participants <a href="https://github.com/athityakumar">Athitya Kumar</a> and <a href="https://github.com/prasunanand">Prasun Anand</a> for their support and discussions on various topics.</p>
+
+<p>Thanks to Google for conducting <a href="https://summerofcode.withgoogle.com">Google Summer of Code</a>.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Shekhar Prasad Rajak</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-09-01T22:46:00+09:00" pubdate data-updated="true">Sep 1<span>st</span>, 2017</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/charts/'>Charts</a>, <a class='category' href='/blog/categories/data-analysis/'>Data Analysis</a>, <a class='category' href='/blog/categories/data-visualization/'>Data Visualization</a>, <a class='category' href='/blog/categories/gsoc/'>GSoC</a>, <a class='category' href='/blog/categories/gsoc-2017/'>GSoC 2017</a>, <a class='category' href='/blog/categories/plotting/'>Plotting</a>, <a class='category' href='/blog/categories/students/'>Students</a>, <a class='category' href='/blog/categories/daru/'>daru</a>, <a class='category' href='/blog/categories/daru-view/'>daru-view</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://sciruby.com/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/" data-via="sciruby" data-counturl="http://sciruby.com/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats/" title="Previous Post: GSoC 2017 : Support to Import & Export of more formats">&laquo; GSoC 2017 : Support to Import & Export of more formats</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+
+
+<section>
+<div class="fb-like-box" data-href="http://www.facebook.com/SciRuby" data-width="" data-show-faces="false" data-stream="" data-header=""   ></div>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/">GSoC 2017 : Data visualization using daru-view</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats/">GSoC 2017 : Support to Import & Export of more formats</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/">GSoC 2016: Adding Categorical Data Support</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/spicerub-kernelpool-and-kernels/">GSoC 2016: SpiceRub::KernelPool and Kernels</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/">GSoC 2016 : A Look at SpiceRub::Body</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/SciRuby">@SciRuby</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'SciRuby',
+            count: 6,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("sciruby", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/sciruby" class="twitter-follow-button" data-show-count="false">Follow @sciruby</a>
+  
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - SciRuby -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sciruby';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sciruby.com/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/';
+        var disqus_url = 'http://sciruby.com/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

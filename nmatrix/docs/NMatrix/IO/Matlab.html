@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>module NMatrix::IO::Matlab - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+</script>
+
+<script src="../../js/jquery.js"></script>
+<script src="../../js/darkfish.js"></script>
+
+<link href="../../css/fonts.css" rel="stylesheet">
+<link href="../../css/rdoc.css" rel="stylesheet">
+
+
+
+<body id="top" role="document" class="module">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="../../index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="../../table_of_contents.html#pages">Pages</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    
+    
+    <div id="extends-section" class="nav-section">
+  <h3>Extended With Modules</h3>
+
+  <ul class="link-list">
+    
+  
+    <li><a class="extend" href="../../AutoloadPatch.html">AutoloadPatch</a>
+  
+  
+  </ul>
+</div>
+
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    
+    <li ><a href="#method-c-complex_merge">::complex_merge</a>
+    
+    <li ><a href="#method-c-load">::load</a>
+    
+    <li ><a href="#method-c-load_mat">::load_mat</a>
+    
+    <li ><a href="#method-c-repack">::repack</a>
+    
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="module-NMatrix::IO::Matlab">
+  <h1 id="module-NMatrix::IO::Matlab" class="module">
+    module NMatrix::IO::Matlab
+  </h1>
+
+  <section class="description">
+    
+<p>Reader (and eventually writer) of <a href="Matlab.html">Matlab</a> .mat
+files.</p>
+
+<p>The .mat file format is documented in the following link:</p>
+<ul><li>
+<p><a
+href="http://www.mathworks.com/help/pdf_doc/matlab/matfile_format.pdf">www.mathworks.com/help/pdf_doc/matlab/matfile_format.pdf</a></p>
+</li></ul>
+
+  </section>
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Class Methods</h3>
+       </header>
+
+    
+      <div id="method-c-complex_merge" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">complex_merge</span><span
+            class="method-args">(p1, p2, p3)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Take two byte-strings (real and imaginary) and treat them as if they
+contain a sequence of data of type dtype. Merge them together and return a
+new string.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="complex_merge-source">
+            <pre>static VALUE nm_rbstring_merge(VALUE self, VALUE rb_real, VALUE rb_imaginary, VALUE rb_dtype) {
+
+  // Sanity check.
+  if (RSTRING_LEN(rb_real) != RSTRING_LEN(rb_imaginary)) {
+    rb_raise(rb_eArgError, &quot;real and imaginary components do not have same length&quot;);
+  }
+
+  nm::dtype_t dtype = nm_dtype_from_rbsymbol(rb_dtype);
+  size_t len        = DTYPE_SIZES[dtype];
+
+  char *real        = RSTRING_PTR(rb_real),
+       *imag        = RSTRING_PTR(rb_imaginary);
+
+  char* merge       = NM_ALLOCA_N(char, RSTRING_LEN(rb_real)*2);
+
+  size_t merge_pos  = 0;
+
+  // Merge the two sequences
+  for (size_t i = 0; i &lt; (size_t)RSTRING_LEN(rb_real); i += len) {
+
+    // Copy real number
+    memcpy(merge + merge_pos, real + i, len);
+    merge_pos += len;
+
+    // Copy imaginary number
+    memcpy(merge + merge_pos, imag + i, len);
+    merge_pos += len;
+  }
+
+  return rb_str_new(merge, merge_pos);
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-load" class="method-detail method-alias">
+        
+        <div class="method-heading">
+          <span class="method-name">load</span><span
+            class="method-args">(file_path)</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+        </div>
+
+        
+
+        
+        <div class="aliases">
+          Alias for: <a href="Matlab.html#method-c-load_mat">load_mat</a>
+        </div>
+        
+      </div>
+
+    
+      <div id="method-c-load_mat" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            load(mat_file_path) &rarr; NMatrix
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            load_mat(mat_file_path) &rarr; NMatrix
+          </span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Load a .mat file and return a <a href="../../NMatrix.html">NMatrix</a>
+corresponding to it.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="load_mat-source">
+            <pre><span class="ruby-comment"># File lib/nmatrix/nmatrix.rb, line 72</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">load_mat</span>(<span class="ruby-identifier">file_path</span>)
+  <span class="ruby-constant">NMatrix</span><span class="ruby-operator">::</span><span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">Matlab</span><span class="ruby-operator">::</span><span class="ruby-constant">Mat5Reader</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">file_path</span>, <span class="ruby-string">&quot;rb+&quot;</span>)).<span class="ruby-identifier">to_ruby</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+        <div class="aliases">
+          Also aliased as: <a href="Matlab.html#method-c-load">load</a>
+        </div>
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-repack" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">repack</span><span
+            class="method-args">(p1, p2, p3)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Take a string of bytes which represent MATLAB data type values and repack
+them into a string of bytes representing values of an <a
+href="../../NMatrix.html">NMatrix</a> dtype (or itype).</p>
+
+<p>Returns what appears to be a Ruby <a href="../../String.html">String</a>.</p>
+
+<p>Arguments:</p>
+<ul><li><dl class="rdoc-list note-list"><dt>str        
+<dd>
+<p>the data</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt>from       
+<dd>
+<p>symbol representing MATLAB data type (e.g., :miINT8)</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt>type       
+<dd>
+<p>either :itype or some dtype symbol (:byte, :uint32, etc)</p>
+</dd></dl>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="repack-source">
+            <pre>static VALUE nm_rbstring_matlab_repack(VALUE self, VALUE str, VALUE from, VALUE type) {
+  nm::io::matlab_dtype_t from_type = matlab_dtype_from_rbsymbol(from);
+  uint8_t to_type;
+
+  if (SYMBOL_P(type)) {
+    if (rb_to_id(type) == rb_intern(&quot;itype&quot;)) {
+      if (sizeof(size_t) == sizeof(int64_t)) {
+        to_type = static_cast&lt;int8_t&gt;(nm::INT64);
+      } else if (sizeof(size_t) == sizeof(int32_t)) {
+        to_type = static_cast&lt;int8_t&gt;(nm::INT32);
+      } else if (sizeof(size_t) == sizeof(int16_t)) {
+        to_type = static_cast&lt;int8_t&gt;(nm::INT16);
+      } else {
+        rb_raise(rb_eStandardError, &quot;unhandled size_t definition&quot;);
+      }
+    } else {
+      to_type = static_cast&lt;uint8_t&gt;(nm_dtype_from_rbsymbol(type));
+    }
+  } else {
+    rb_raise(rb_eArgError, &quot;expected symbol for third argument&quot;);
+  }
+
+  // For next few lines, see explanation above NM_MATLAB_DTYPE_TEMPLATE_TABLE definition in io.h.
+  if (to_type &gt;= static_cast&lt;uint8_t&gt;(nm::COMPLEX64)) {
+    rb_raise(rb_eArgError, &quot;can only repack into a simple dtype, no complex/VALUE&quot;);
+  }
+
+  // Do the actual repacking -- really simple!
+  NM_MATLAB_DTYPE_TEMPLATE_TABLE(ttable, nm::io::matlab_cstring_to_dtype_string, char*, size_t&amp; result_len, const char* str, size_t bytes);
+
+  size_t repacked_data_length;
+  char* repacked_data = ttable[to_type][from_type](repacked_data_length, RSTRING_PTR(str), RSTRING_LEN(str));
+
+  // Encode as 8-bit ASCII with a length -- don&#39;t want to hiccup on \0
+  VALUE result = rb_str_new(repacked_data, repacked_data_length);
+  NM_FREE(repacked_data); // Don&#39;t forget to free what we allocated!
+
+  return result;
+}</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="http://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+

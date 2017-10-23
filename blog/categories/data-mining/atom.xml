@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Data mining | SciRuby]]></title>
+  <link href="http://sciruby.com/blog/categories/data-mining/atom.xml" rel="self"/>
+  <link href="http://sciruby.com/"/>
+  <updated>2017-10-23T20:41:32+09:00</updated>
+  <id>http://sciruby.com/</id>
+  <author>
+    <name><![CDATA[SciRuby]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby and the Semantic Web, RDF, and SPARQL: PubliSci]]></title>
+    <link href="http://sciruby.com/blog/2013/10/12/ruby-and-the-semantic-web-rdf-sparql-publisci/"/>
+    <updated>2013-10-12T16:36:00+09:00</updated>
+    <id>http://sciruby.com/blog/2013/10/12/ruby-and-the-semantic-web-rdf-sparql-publisci</id>
+    <content type="html"><![CDATA[<p class="note"><strong>Editor's Note:</strong> This is the second of four blog posts detailing our Google Summer of
+Code 2013 students' work. I edited it to include a very incomplete list of public RDF repositories. &mdash;John Woods</p>
+
+
+<h2>Introduction</h2>
+
+<p>Across all fields and disciplines, contemporary scientists are faced with a massive and growing volume of data. It often
+won't fit in a lab notebook, and there is a pressing need to share it more quickly and widely than publication in a
+journal article would allow for. Database software is one great solution for storage of such data, but relational
+databases become brittle in the face of changes or new information, do not play nicely with other databases or data
+derived from such databases, and may not be fully machine (or human) readable without pre-existing knowledge.</p>
+
+<p>Meanwhile, the Internet is an extremely useful place to discover and share useful information, but it is essentially
+built around linked documents, rather than pure data, and so our primary mechanism for sharing data is as HTML or text.</p>
+
+<p>RDF and related technologies propose to provide the means to move beyond a web of documents to a web of data. Along
+the way, these technologies may address many of the problems with conventional relational databases (e.g., SQL). At its
+core, RDF defines an extremely flexible method for representing data on the web &mdash; which is nonetheless
+unambiguously defined, without any external context, and can be linked to other data as web documents link to each
+other. Because RDF data can be understood as either a set of subject&ndash;predicate&ndash;object statements or a
+directed graph with labeled edges, a number of supporting standards and tools that have grown up around it to provide
+powerful storage and access methods that are often easier to implement and use than those associated with relational
+databases and the document-based web.</p>
+
+<h2>Enter PubliSci</h2>
+
+<p>This summer I created a Ruby gem, <a href="http://github.com/sciruby/publisci">PubliSci</a>, to facilitate data publication and interaction using
+the <a href="https://en.wikipedia.org/wiki/Semantic_web">Semantic Web</a>. The format offers a unified way to share and combine
+information from multiple sources, support for machine learning tools,
+a <a href="https://en.wikipedia.org/wiki/SPARQL">flexible query language</a> that makes application integration easy, and the
+backing of the World Wide Web Consortium (W3C) and other standards-setting bodies.</p>
+
+<p>The PubliSci gem comprises a set of parsers for converting various input formats using
+the <a href="http://semanticweb.com/w3c-publishes-last-call-working-drafts-for-rdf-data-cube-dcat_b35950">RDF Data Cube vocabulary</a>, and
+a Ruby interface for defining new ones. Since the relationship between external datasets and semantic web formats is
+sometimes up to interpretation, a domain-specific language is included to allow end users to resolve ambiguities and
+provide additional metadata.</p>
+
+<p>Along with the conversion tool, a standalone server is available as an extension to the gem that simplifies setting up and interacting
+with RDF data stores. The server allows import, export, querying, and management of external <a href="https://en.wikipedia.org/wiki/Triplestore">triplestores</a> such as
+<a href="http://4store.org/">4store</a>, and supports both cross-domain access and content negotiation so the gem can be accessed
+using Javascript or other applications.</p>
+
+<p class="note"><strong>Triplestores</strong> are databases for the storage and retrieval of <strong>triples</strong>,
+which are typically subject&ndash;object&ndash;predicate relationships (e.g., <i>Bob knows Fred</i>).</p>
+
+
+<p>If you'd like to contribute, the <a href="https://github.com/sciruby/publisci">source code is available on Github</a>, and <a href="http://gsocsemantic.wordpress.com/2013/08/05/bio-publisci/">a broad
+outline of the to do list can be had as well</a>.</p>
+
+<h2>Usage</h2>
+
+<p>Once you've done <code>gem install publisci</code>, you can require the gem in the normal way (<code>require 'publisci'</code>). To invoke the
+domain-specific language, you'll also want to include the <code>DSL</code> module:</p>
+
+<pre><code>require 'publisci'
+include PubliSci::DSL
+</code></pre>
+
+<p>Input data can be specified like so:</p>
+
+<pre><code># Specify input data
+data do
+  # Use local or remote paths to point to the data file you want to load:
+  source 'https://github.com/wstrinz/publisci/raw/master/spec/csv/bacon.csv'
+
+  # Specify datacube properties.
+  dimension 'producer', 'pricerange'
+  measure 'chunkiness'
+
+  # Set parser-specific options.
+  option 'label_column', 'producer'
+end
+</code></pre>
+
+<p>You can provide meta-data on your dataset as well.</p>
+
+<pre><code>metadata do
+  dataset 'bacon'
+  title 'Bacon dataset'
+  creator 'Will Strinz'
+  description 'some data about bacon'
+  date '1-10-2010'
+end
+</code></pre>
+
+<p>Sending the data to a repository is simple.</p>
+
+<pre><code># Send output to an RDF::Repository
+#  can also use 'generate_n3' to output a turtle string
+repo = to_repository
+</code></pre>
+
+<p>SPARQL queries can be run on the dataset using the <code>QueryHelper</code> module.</p>
+
+<pre><code># run SPARQL queries on the dataset
+PubliSci::QueryHelper.execute('select * where {?s ?p ?o} limit 5', repo)
+</code></pre>
+
+<p>Finally, data can be exported in other formats, such as ARFF:</p>
+
+<pre><code># export in other formats
+PubliSci::Writers::ARFF.new.from_store(repo)
+</code></pre>
+
+<h2>Some places to look for RDF repositories</h2>
+
+<ul>
+<li>Social sciences and economics: <a href="http://wiki.planet-data.eu/web/Datasets">PlanetData wiki: Datasets</a>, <a href="http://270a.info/">270a Linked Dataspaces</a></li>
+<li>Chemistry: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3118380/">Resource description framework technologies in chemistry</a></li>
+<li>Molecular biology: <a href="http://www.ebi.ac.uk/rdf/">EMBL-EBI: Current RDF Resources</a>, <a href="http://bio2rdf.org/">Bio2RDF</a>,
+<a href="http://www.geneontology.org/GO.format.rdfxml.shtml">Gene Ontology</a></li>
+<li>Ecology: <a href="http://www.bbc.co.uk/nature/feedsanddata">BBC Wildlife Finder</a></li>
+<li>General: <a href="http://dataincubator.org/">Data Incubator: Growing the Web of Data</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GSOC 2013: Data mining in JRuby with Ruby Band]]></title>
+    <link href="http://sciruby.com/blog/2013/09/24/gsoc-2013-data-mining-in-jruby-with-ruby-band/"/>
+    <updated>2013-09-24T10:44:00+09:00</updated>
+    <id>http://sciruby.com/blog/2013/09/24/gsoc-2013-data-mining-in-jruby-with-ruby-band</id>
+    <content type="html"><![CDATA[<p class="note"><strong>Editor's Note:</strong> This is the first of four blog posts detailing
+our Google Summer of Code 2013 students' work, edited by John Woods.</p>
+
+
+<p>In the context of the Google Summer of Code 2013, I have developed a Ruby gem called <a href="https://github.com/arrigonialberto86/ruby-band">Ruby Band</a>
+that makes some selected Java software for data mining and machine learning applications available to the JRuby/Ruby
+users. This project complements existing software already developed for SciRuby by adding support for the Weka Toolkit
+and general functions included in the Apache Commons Math library.</p>
+
+<p>As Weka does, Ruby Band features a comprehensive collection of data preprocessing and modeling techniques, and supports
+several standard data mining tasks, more specifically: data pre-processing (filtering), clustering, classification,
+regression, and feature selection.</p>
+
+<p>All of Ruby Band's techniques have been built on the assumption that the data is
+available as a single flat file or relation, where each datum is described by a fixed number of attributes. The
+loaded datasets are stored in Weka Instances objects, which are used as 'core' data types for the interactions with
+other software (Apache Commons Math) or platforms.</p>
+
+<p>Originally, Ruby Band was called Ruby Mining. I renamed it Ruby Band, as I imagine
+different software sources (Weka, Apache, etc.) working as a whole, like in a real band. Ruby Band has been designed
+with a modular structure, so that it can be easily extended and integrated with other Java software. The Core module is
+allows data types from different sources to be defined and integrated using converter methods;
+functionalities from each piece of additional software are independently imported. This structure increases the
+extensibility of the product, as in the future other developers may add functionalities according to their needs.</p>
+
+<p>Though Ruby Band provides full support for the greatest part of the Weka APIs, some topics still need to be addressed
+properly. As I coded, I utilized the Weka Java APIs documentation as my roadmap; if you want to contribute,
+<a href="http://weka.wikispaces.com/Use+WEKA+in+your+Java+code">go see what is still missing</a>. The best and easiest way
+to introduce a new functionality into the Ruby Band framework is to write up a pertinent Cucumber test, as a number of
+Weka recipes have been posted online by the creators.</p>
+
+<p>The beta version of Ruby Band has already been released for general use on Rubygems (<code>gem install ruby-band</code>).</p>
+
+<p>This is a quick example of how to train a classifier on a dataset parsed from an ARFF file:</p>
+
+<pre><code>require 'ruby-band'
+
+# parse a dataset
+dataset = Core::Parser.parse_ARFF(my_file.arff)
+
+# initialize and train a classifier
+classifier = Weka::Classifier::Lazy::KStar::Base.new do
+  set_options '-M d'
+  set_data dataset
+  set_class_index 4
+end
+
+# cross-validate the trained classifier
+puts classifier.cross_validate(3)
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

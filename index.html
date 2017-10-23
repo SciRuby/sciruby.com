@@ -1,0 +1,315 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>SciRuby</title>
+  <meta name="author" content="SciRuby">
+
+  
+  <meta name="description" content="The SciRuby Manifesto
+Ruby has for some time lacked libraries implementing the basic tools needed for scientific computing and data visualization. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sciruby.com/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="SciRuby" type="application/atom+xml">
+  <!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-12735432-6']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">SciRuby</a></h1>
+  
+    <h2>Tools for Scientific Computing in Ruby</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:sciruby.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul role=main-navigation xmlns="http://www.w3.org/1999/html">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog">Blog</a></li>
+  <li><a href="/docs">Installation</a></li>
+  <li><a href="http://gems.sciruby.com/">Gems</a></li>
+  <li><a href="https://github.com/sciruby/sciruby">SciRuby</a></li>
+  <li><a href="/nmatrix">NMatrix</a></li>
+  <li><a href="/publications/">Citing SciRuby</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <h2>The SciRuby Manifesto</h2>
+<p><a href="http://www.ruby-lang.org/">Ruby</a> has for some time lacked libraries implementing the basic tools needed for scientific computing and data visualization.</p>
+
+<p>We believe that the time for a Ruby science and visualization package has come. Sometimes when a solution of sugar and water becomes super-saturated, from it precipitates a pure, delicious, and diabetes-causing crystal of sweetness, induced by no more than the tap of a finger. So it is, we believe, with the need for numeric and visualization libraries in Ruby.</p>
+
+<img src="images/logo.png" alt="SciRuby logo" />
+
+<p>We are not the first with this idea, but we are bringing it to life.</p>
+
+<h2>Project Status</h2>
+<p>A few months ago, we shipped our first beta release of <a href="nmatrix/">NMatrix</a>, the SciRuby linear algebra library. NMatrix includes both dense and sparse matrix storage, and we are working on including full ATLAS and LAPACK support.</p>
+
+<p>Our key goals in the short term are improved visualization software and continued development of our linear algebra software (NMatrix and MDArray). We have several experimental plotting libraries &mdash; such as Rubyvis, Plotrb, and Nyaplot &mdash; and are interested in improving existing APIs, such as for Gnuplot.</p>
+
+<h3 id="googlegroup">Subscribe to the SciRuby Google Group</h3>
+<form action="http://groups.google.com/group/sciruby-dev/boxsubscribe">
+<p>To subscribe to our <a href="http://groups.google.com/group/sciruby-dev">Google Group</a>, please enter your email below.
+  <div style="padding-left: 3em;">
+    <input type="text" name="email"><input type="submit" name="sub" value="Subscribe">
+  </div>
+</p>
+</form>
+
+<h3 id="irc">SciRuby on IRC</h3>
+
+<p>Our IRC channel is most active during the months of Google Summer of Code, but generally there are always a few people around. You can find us on Freenode.net in <tt>#sciruby</tt>.</p>
+
+<h2 id="installation">Getting SciRuby</h3>
+
+<p class="warning"><strong>Word to the wise:</strong> These gems have been tested, but are not battle-hardened. If you&#8217;re thinking of using NMatrix (or other SciRuby components) to write mission critical code, such as for a self-driving car or controlling an ARKYD 100 satellite, you should expect to encounter a few bugs &#8212; and be prepared for them.</p>
+
+<p><a href="/docs">Instructions for installing various SciRuby components are available in our docs.</a></p>
+
+<p><a href="/nmatrix/">You can find our NMatrix documentation here.</a></p>
+
+<h2 id="developers">Developers</h2>
+
+<p>You can find the <a href="https://github.com/SciRuby/sciruby/wiki/Roster">full roster</a> on our <a href="https://github.com/SciRuby/sciruby/wiki/">project wiki</a>.</p>
+
+<h3 id="get-involved">Want to get involved?</h3>
+
+<p><strong>Say you have a few hours and are itching to get your hands dirty.</strong> The best place to look right now is <a href="https://github.com/sciruby/nmatrix/issues?sort=created&direction=desc&state=open">the NMatrix issue tracker</a> on Github. Pick something that interests you and fork us!</p>
+
+<p>You might also check out the <a href="https://github.com/sciruby/sciruby/issues?sort=created&direction=desc&state=open">SciRuby issue tracker</a> if matrices don&#8217;t interest you much.</p>
+
+<h2 id="license">License</h2>
+
+<p>SciRuby and NMatrix are <a href="https://github.com/SciRuby/sciruby/wiki/License">available under the BSD three-clause license</a>.</p>
+
+<h2 id="acknowledgements">Acknowledgements</h2>
+
+<ul>
+    <li>
+        Google Summer of Code <a href="https://www.google-melange.com/gsoc/org2/google/gsoc2013/sciruby">2013</a>, <a href="https://www.google-melange.com/gsoc/org2/google/gsoc2014/sciruby">2014</a> and <a href="https://www.google-melange.com/gsoc/org2/google/gsoc2015/sciruby">2015</a>, <a href="https://developers.google.com/open-source/">Google&#8217;s Open Source Programs Office</a>, and all of our wonderful students and mentors.<br/>
+    </li>
+    <li><a href="http://brighterplanet.com/">Brighter Planet</a> for their sponsorship of our first ever <a href="/blog/2012/05/08/sciruby-summer-of-code/">SciRuby Summer of Code</a> in 2012.
+        <a href="http://brighterplanet.com"><img src="http://static.brighterplanet.com/assets/logos/flush-left/inline/green/rasterized/brighter_planet-140.png" alt="Brighter Planet logo" /></a>
+    </li>
+    <li>
+        <a href="http://www.jetbrains.com">JetBrains</a> has kindly provided our project with an open source license for <a href="https://www.jetbrains.com/ruby/">RubyMine</a>.
+    </li>
+    <li>
+        <a href="http://www.ruby.or.jp">The Ruby Association</a> generously awarded us with a <a href="http://www.ruby.or.jp/en/news/20120717.html">rather large grant</a> to fund a couple of SciRuby fellows in 2012. Thanks, Ruby Association!
+    </li>
+    <li>
+        <a href="http://www.ruby.or.jp/en/news/20141106.html">The Ruby Association Grant 2014</a> awarded to <a href="https://github.com/domitry">@domitry</a> for The Mikon Project.
+    </li>
+    <li>
+        <a href="http://www.ruby.or.jp/en/news/20151116.html">The Ruby Association Grant 2015</a> awarded to <a href="https://github.com/v0dro">@v0dro</a> for further development of NMatrix plugins. 
+    </li>
+    <li>
+        <a href="http://www.symora.com">Symora Networks</a> gave a major portion of the funding toward our eventual application for 501(c)(3) (U.S. educational charity) status.<br/>
+        <a href="http://www.symora.com"><img src="/images/symora.png" alt="Symora Networks logo" /></a>
+    </li>
+    <li>
+        Masahiro Tanaka, the creator of NArray, without which NMatrix would not be possible.
+    </li>
+    <li>
+        The several individual donors to our project.
+    </li>
+</ul>
+
+
+  
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+
+
+<section>
+<div class="fb-like-box" data-href="http://www.facebook.com/SciRuby" data-width="" data-show-faces="false" data-stream="" data-header=""   ></div>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/">GSoC 2017 : Data visualization using daru-view</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats/">GSoC 2017 : Support to Import & Export of more formats</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/">GSoC 2016: Adding Categorical Data Support</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/spicerub-kernelpool-and-kernels/">GSoC 2016: SpiceRub::KernelPool and Kernels</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/">GSoC 2016 : A Look at SpiceRub::Body</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/SciRuby">@SciRuby</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'SciRuby',
+            count: 6,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("sciruby", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/sciruby" class="twitter-follow-button" data-show-count="false">Follow @sciruby</a>
+  
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - SciRuby -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sciruby';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

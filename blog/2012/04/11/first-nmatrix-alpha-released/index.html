@@ -1,0 +1,435 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>First NMatrix Alpha Released - SciRuby</title>
+  <meta name="author" content="SciRuby">
+
+  
+  <meta name="description" content="Warning: Code in this blog post is very old and likely will not work with the current version of NMatrix. Please check the NMatrix wiki for the most &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sciruby.com/blog/2012/04/11/first-nmatrix-alpha-released/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="SciRuby" type="application/atom+xml">
+  <!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-12735432-6']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">SciRuby</a></h1>
+  
+    <h2>Tools for Scientific Computing in Ruby</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:sciruby.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul role=main-navigation xmlns="http://www.w3.org/1999/html">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog">Blog</a></li>
+  <li><a href="/docs">Installation</a></li>
+  <li><a href="http://gems.sciruby.com/">Gems</a></li>
+  <li><a href="https://github.com/sciruby/sciruby">SciRuby</a></li>
+  <li><a href="/nmatrix">NMatrix</a></li>
+  <li><a href="/publications/">Citing SciRuby</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">First NMatrix Alpha Released</h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">John Woods</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-11T13:36:00+09:00" pubdate data-updated="true">Apr 11<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p class="warning"><strong>Warning:</strong> Code in this blog post is very old and likely will not work with the current version of NMatrix. Please check the <a href="https://github.com/SciRuby/nmatrix/wiki/">NMatrix wiki</a> for the most recent information.</p>
+
+
+<p>Two months ago, I <a href="2012/02/11/numeric-matrix-considerations">mentioned the existence of a prototype Ruby linear algebra library</a>, written in C.</p>
+
+<p>I am pleased to announce that yesterday we released our first alpha of said library, <a href="/nmatrix/">NMatrix</a> v0.0.1.<!--more--></p>
+
+<h2>Creating Matrices</h2>
+
+<p>There are lots of different ways to create matrices. The first and easiest is to supply dimensions and initial data:</p>
+
+<pre><code>>> n = NMatrix.new(4, 0) # a square 4x4 dense zero matrix
+=> #&lt;NMatrix:0x9a57e14shape:[4,4] dtype:int32 stype:dense&gt;
+>> n.pretty_print
+0  0  0  0
+0  0  0  0
+0  0  0  0
+0  0  0  0
+=> nil
+</code></pre>
+
+
+<h2>Data Types</h2>
+
+<p>You may notice that this first matrix defaulted to <tt>dtype=:int32</tt>. NMatrix will try to guess the <i>dtype</i> based on the
+first initial value you provide (e.g., <tt>NMatrix.new(4, [0.0, 1])</tt> will be :float32), but you can choose to provide
+a <i>dtype</i> in addition to or in lieu of initial values:</p>
+
+<pre><code>>> n = NMatrix.new(4, [0,1], :rational128)
+=> #&lt;NMatrix:0x9959e04shape:[4,4] dtype:rational128 stype:dense&gt;
+>> n.pretty_print
+0/1  1/1  0/1  1/1
+0/1  1/1  0/1  1/1
+0/1  1/1  0/1  1/1
+0/1  1/1  0/1  1/1
+>> m = NMatrix.new(4, :int64)  # no initialization of values
+=> #&lt;NMatrix:0x99fad68shape:[4,4] dtype:int64 stype:dense&gt;
+>> m.pretty_print
+-1217641248  161386160  161386100  161385680
+161385640  161385520  161385420  161384180
+161384120  161381060  161381020  161412140
+161411940  161411880  161411840  160879240
+=> nil
+</code></pre>
+
+
+<h2>Storage Formats</h2>
+
+<p>The storage type (<i>stype</i>) can also be specified, prior to the dimension argument. However, with sparse storage formats, initial values don&#8217;t make sense, and these matrices will contain zeros by default.</p>
+
+<pre><code># empty list-of-lists-of-lists 4x3x4 matrix
+n = NMatrix.new(:list, [4,3,4], :int64)
+
+# Ruby objects in a 'Yale' sparse matrix
+m = NMatrix.new(:yale, [5,4], :object)
+
+# A byte matrix containing a gradient
+o = NMatrix.new(:dense, 5, [0,1,2,3,4], :byte)
+</code></pre>
+
+
+<p>The matrix <tt>m</tt> created above is a Yale-format sparse matrix, or more specifically, &#8220;new Yale,&#8221; which differs from &#8220;old Yale&#8221; in that the diagonal is stored separately from the non-diagonal elements. Thus, diagonals can be accessed and set in constant time.</p>
+
+<p>Currently, all storage is row-based.</p>
+
+<h3>Conversion</h3>
+
+<p>You can also convert between any of these three stypes using <tt>cast</tt>, e.g.,</p>
+
+<pre><code>n = NMatrix.new(:list, 4, :int64)
+n[0,0] = 5
+n[0,3] = -2
+dense = n.cast(:dense, :int64)
+</code></pre>
+
+
+<h2>Vectors</h2>
+
+<p>Currently, only dense vectors are implemented as a child class of <tt>NMatrix</tt>, and creation is similar:</p>
+
+<pre><code>>> nv = NVector.new(5, :int64)
+=> #&lt;NVector:0x9a62328shape:[5,1] dtype:int64 stype:dense orientation:column&gt;
+</code></pre>
+
+
+<h2>Math Operations</h2>
+
+<p>Most element-wise mathematical operations are supported for Yale and dense types. These use the basic operators (e.g., +, -, /, *, ==).</p>
+
+<p>For non-element-wise matrix multiplication, use the <tt>dot</tt> instance method of NMatrix. Whole-matrix comparison (returning a single boolean value) is the <tt>equal?</tt> or <tt>eql?</tt> method.</p>
+
+<h2>Road Map</h2>
+
+<p>Much more remains to be written than has been completed. Here are some of our key priorities:</p>
+
+<ul>
+<li>determinants</li>
+<li>matrix-vector multiplication for Yale</li>
+<li>adaptation of SciRuby Matlab file reader to support NMatrix</li>
+<li>in-place transposition</li>
+</ul>
+
+
+<p>If you want to get involved, I suggest visiting the <a href="https://github.com/sciruby/nmatrix/issues">NMatrix issue tracker</a>. It will contain not only bugs, but also features that need to be implemented.</p>
+
+<h2>Conclusion</h2>
+
+<p>We&#8217;re all pretty excited about NMatrix. But we couldn&#8217;t have gotten this far without Masahiro Tanaka&#8217;s <a href="http://narray.rubyforge.org/">NArray</a>, which has served as a model for our library.</p>
+
+<p>And we can&#8217;t do it without your help. A numerical library in Ruby is no small endeavour, and probably requires at least one full-time programmer (which we do not have). Please consider contributing, even if it&#8217;s just by letting us know what you think.</p>
+
+<p>Happy coding!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">John Woods</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-11T13:36:00+09:00" pubdate data-updated="true">Apr 11<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/algorithms/'>Algorithms</a>, <a class='category' href='/blog/categories/matrices/'>Matrices</a>, <a class='category' href='/blog/categories/nmatrix/'>NMatrix</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://sciruby.com/blog/2012/04/11/first-nmatrix-alpha-released/" data-via="sciruby" data-counturl="http://sciruby.com/blog/2012/04/11/first-nmatrix-alpha-released/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/02/11/numeric-matrix-considerations/" title="Previous Post: Numeric Matrix Considerations">&laquo; Numeric Matrix Considerations</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/05/08/sciruby-summer-of-code/" title="Next Post: Announcing SciRuby Summer Coding Fellowship">Announcing SciRuby Summer Coding Fellowship &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+
+
+<section>
+<div class="fb-like-box" data-href="http://www.facebook.com/SciRuby" data-width="" data-show-faces="false" data-stream="" data-header=""   ></div>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/">GSoC 2017 : Data visualization using daru-view</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats/">GSoC 2017 : Support to Import & Export of more formats</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/">GSoC 2016: Adding Categorical Data Support</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/spicerub-kernelpool-and-kernels/">GSoC 2016: SpiceRub::KernelPool and Kernels</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/">GSoC 2016 : A Look at SpiceRub::Body</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/SciRuby">@SciRuby</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'SciRuby',
+            count: 6,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("sciruby", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/sciruby" class="twitter-follow-button" data-show-count="false">Follow @sciruby</a>
+  
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - SciRuby -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sciruby';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sciruby.com/blog/2012/04/11/first-nmatrix-alpha-released/';
+        var disqus_url = 'http://sciruby.com/blog/2012/04/11/first-nmatrix-alpha-released/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,449 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>GnuplotRB and GSoC 2015 - SciRuby</title>
+  <meta name="author" content="SciRuby">
+
+  
+  <meta name="description" content="Introduction This summer I&#8217;ve been participating in Google Summer of Code with GnuplotRB project (plotting tool for Ruby users based on Gnuplot &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sciruby.com/blog/2015/08/18/gnuplotrb-project/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="SciRuby" type="application/atom+xml">
+  <!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-12735432-6']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">SciRuby</a></h1>
+  
+    <h2>Tools for Scientific Computing in Ruby</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:sciruby.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul role=main-navigation xmlns="http://www.w3.org/1999/html">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog">Blog</a></li>
+  <li><a href="/docs">Installation</a></li>
+  <li><a href="http://gems.sciruby.com/">Gems</a></li>
+  <li><a href="https://github.com/sciruby/sciruby">SciRuby</a></li>
+  <li><a href="/nmatrix">NMatrix</a></li>
+  <li><a href="/publications/">Citing SciRuby</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">GnuplotRB and GSoC 2015</h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Ivan Evgrafov</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-18T23:26:00+09:00" pubdate data-updated="true">Aug 18<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Introduction</h2>
+
+<p>This summer I&#8217;ve been participating in Google Summer of Code
+ with <a href="https://github.com/dilcom/gnuplotrb">GnuplotRB project</a> (plotting tool for Ruby users based on <a href="http://www.gnuplot.info/">Gnuplot</a>)
+ for <a href="http://sciruby.com/">SciRuby</a>. GSoC is almost over and I&#8217;m releasing v0.3.1 of GnuplotRB as a <a href="https://rubygems.org/gems/gnuplotrb/">gem</a>.
+ In this blog post I want to introduce the gem and highlight some of its capabilities.</p>
+
+<h2>Features</h2>
+
+<p>There are several existing plotting tools for Ruby such as Nyaplot, Plotrb, Rubyvis
+ and Gnuplot gem. However they are not designed for large datasets and have fewer
+ plotting styles and options than Gnuplot. Gnuplot gem was developed long ago and nowadays consists
+ mostly of hacks and does not support modern Gnuplot features such as multiplot.</p>
+
+<p>Therefore my goal was to develop new gem for Gnuplot which would allow full use of its
+ features in Ruby. I was inspired to build an easy-to-use interface for the most commonly
+ used features of Gnuplot and allow users to customize their plots with
+ Gnuplot options as easily as possible in Rubyesque way.</p>
+
+<!--more-->
+
+
+<h3>2D and 3D plots</h3>
+
+<p>The main feature of every plotting tool is its ability to plot graphs. GnuplotRB allows you
+ to plot both mathematical formula  and (huge) sets of data. GnuplotRB supports plotting
+ 2D graphs (<code>GnuplotRB::Plot</code> class)  in Cartesian/parametric/polar coordinates and 3D
+ graphs (<code>GnuplotRB::Splot</code> class) &mdash; in Cartesian/cylindrical/spherical coordinates.</p>
+
+<p>There are vast of plotting styles supported by GnuplotRB:</p>
+
+<ul>
+<li><code>points</code></li>
+<li><code>lines</code></li>
+<li><code>histograms</code></li>
+<li><code>boxerrorbars</code></li>
+<li><code>circles</code></li>
+<li><code>boxes</code></li>
+<li><code>filledcurves</code></li>
+<li><code>vectors</code></li>
+<li><code>heatmap</code></li>
+<li>etc (full list in <a href="http://www.gnuplot.info/docs_5.0/gnuplot.pdf">gnuplot doc</a> p. 47)</li>
+</ul>
+
+
+<p>Plot examples:</p>
+
+<p><img src="http://sciruby.com/images/gnuplotrb-gsoc2015/plots.jpg" alt="Plot example" style="width: 100%;"/></p>
+
+<p>For code examples please see
+ <a href="https://github.com/dilcom/gnuplotrb/blob/master/README.rdoc">the repository README</a>,
+ <a href="https://github.com/dilcom/gnuplotrb/blob/master/notebooks/README.rdoc">notebooks</a>
+ and <a href="https://github.com/dilcom/gnuplotrb/tree/master/examples">the examples folder</a>.</p>
+
+<h3>Multiplot</h3>
+
+<p><code>GnuplotRB::Multiplot</code> allows users to place several plots on a single layout and output
+ them at once (e.g., to a PNG file).
+ <a href="http://nbviewer.ipython.org/github/dilcom/gnuplotrb/blob/master/notebooks/multiplot_layout.ipynb">Multiplot notebook</a>.</p>
+
+<p>Here is a multiplot example
+ (taken from <a href="http://nbviewer.ipython.org/github/SciRuby/sciruby-notebooks/blob/master/Data%20Analysis/Analyzing%20baby%20names/Use%20Case%20-%20Daru%20for%20analyzing%20baby%20names%20data.ipynb">Sameer&#8217;s notebook</a>):</p>
+
+<p><img src="http://sciruby.com/images/gnuplotrb-gsoc2015/multiplot.jpg" alt="Multiplot example" style="width: 80%; align: middle;"/></p>
+
+<h3>Animated plots</h3>
+
+<p>GnuplotRB may output any plot to gif file but <code>GnuplotRB::Animation</code> allows
+ to make this gif animated. It takes several <code>Plot</code> or <code>Splot</code> objects just as
+ multiplot does and outputs them one-by-one as frames of gif animation.
+ <a href="http://nbviewer.ipython.org/github/dilcom/gnuplotrb/blob/master/notebooks/animated_plots.ipynb">Animation notebook</a>.</p>
+
+<p><img src="http://sciruby.com/images/gnuplotrb-gsoc2015/trajectory.gif" alt="Trajectory example" style="width: 80%; align: middle;"/></p>
+
+<h3>Fit</h3>
+
+<p>Although the main GnuplotRB&#8217;s purpose is to provide you with swift, robust and
+ easy-to-use plotting tool, it also offers a <code>Fit</code> module that contains several
+ methods for fitting given data with a function. See examples in <a href="http://nbviewer.ipython.org/github/dilcom/gnuplotrb/blob/master/notebooks/fitting_data.ipynb">Fit notebook</a>.</p>
+
+<h3>Integration with other SciRuby tools</h3>
+
+<h4>Embedding plots into iRuby notebooks</h4>
+
+<p>GnuplotRB plots may be embedded into iRuby notebooks as JPEG/PNG/SVG
+ images, as ASCII art or GIF animations (<code>Animation</code> class). This functionality
+ explained in a special <a href="http://nbviewer.ipython.org/github/dilcom/gnuplotrb/blob/master/notebooks/basic_usage.ipynb">iRuby notebook</a>.</p>
+
+<h4>Using data from Daru containers</h4>
+
+<p>To link GnuplotRB with other SciRuby tools I implemented plot
+ creation from data given in Daru containers (<code>Daru::Dataframe</code> and <code>Daru::Vector</code>).
+ One can use <code>daru</code> gem in order to work with statistical SciRuby gems
+ and plotting with GnuplotRB. Notebooks with examples: <a href="http://nbviewer.ipython.org/github/dilcom/gnuplotrb/blob/master/notebooks/plotting_from_daru.ipynb">1</a>, <a href="http://nbviewer.ipython.org/github/dilcom/gnuplotrb/blob/master/notebooks/time_series_from_daru.ipynb">2</a>.</p>
+
+<h3>Possible datasources for plots</h3>
+
+<p>You can pass to Plot (or Splot or Dataset) constructor data in the following forms:</p>
+
+<ul>
+<li>String containing mathematical formula (e.g., <code>'sin(x)'</code>)</li>
+<li>String containing name of file with data (e.g., <code>'points.data'</code>)</li>
+<li>Some Ruby object responding to <code>#to_gnuplot_points</code>
+
+<ul>
+<li><code>Array</code></li>
+<li><code>Daru::Dataframe</code></li>
+<li><code>Daru::Vector</code></li>
+</ul>
+</li>
+</ul>
+
+
+<p>See examples in <a href="https://github.com/dilcom/gnuplotrb/blob/master/notebooks/README.rdoc#possible-datasources">notebooks</a>.</p>
+
+<h2>Links</h2>
+
+<ul>
+<li><a href="https://github.com/dilcom/gnuplotrb/">Project repository</a></li>
+<li><a href="https://rubygems.org/gems/gnuplotrb/">Gem page on Rubygems</a></li>
+<li><a href="http://www.rubydoc.info/gems/gnuplotrb/0.3.1">Gem documentation on Rubydoc</a></li>
+<li><a href="http://dilcom.github.io/gnuplotrb/">Blog of the project</a></li>
+<li><a href="https://github.com/dilcom/gnuplotrb/tree/master/examples">Examples</a></li>
+<li><a href="https://github.com/dilcom/gnuplotrb/blob/master/notebooks/README.rdoc">iRuby notebooks</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ivan Evgrafov</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-18T23:26:00+09:00" pubdate data-updated="true">Aug 18<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/gsoc/'>GSOC</a>, <a class='category' href='/blog/categories/gsoc2015/'>GSOC2015</a>, <a class='category' href='/blog/categories/gnuplotrb/'>GnuplotRB</a>, <a class='category' href='/blog/categories/students/'>Students</a>, <a class='category' href='/blog/categories/visualization/'>Visualization</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://sciruby.com/blog/2015/08/18/gnuplotrb-project/" data-via="sciruby" data-counturl="http://sciruby.com/blog/2015/08/18/gnuplotrb-project/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/17/ruby-wrappers-for-symengine/" title="Previous Post: Ruby Wrappers for SymEngine, a C++ symbolic manipulation library">&laquo; Ruby Wrappers for SymEngine, a C++ symbolic manipulation library</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/19/gsoc-2015-nmatrix/" title="Next Post: GSoC 2015: New NMatrix gems for advanced linear algebra features">GSoC 2015: New NMatrix gems for advanced linear algebra features &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+
+
+<section>
+<div class="fb-like-box" data-href="http://www.facebook.com/SciRuby" data-width="" data-show-faces="false" data-stream="" data-header=""   ></div>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/">GSoC 2017 : Data visualization using daru-view</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats/">GSoC 2017 : Support to Import & Export of more formats</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/">GSoC 2016: Adding Categorical Data Support</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/spicerub-kernelpool-and-kernels/">GSoC 2016: SpiceRub::KernelPool and Kernels</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/">GSoC 2016 : A Look at SpiceRub::Body</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/SciRuby">@SciRuby</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'SciRuby',
+            count: 6,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("sciruby", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/sciruby" class="twitter-follow-button" data-show-count="false">Follow @sciruby</a>
+  
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - SciRuby -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sciruby';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sciruby.com/blog/2015/08/18/gnuplotrb-project/';
+        var disqus_url = 'http://sciruby.com/blog/2015/08/18/gnuplotrb-project/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

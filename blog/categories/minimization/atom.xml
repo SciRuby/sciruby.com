@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Minimization | SciRuby]]></title>
+  <link href="http://sciruby.com/blog/categories/minimization/atom.xml" rel="self"/>
+  <link href="http://sciruby.com/"/>
+  <updated>2017-10-23T20:41:32+09:00</updated>
+  <id>http://sciruby.com/</id>
+  <author>
+    <name><![CDATA[SciRuby]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Updates: Minimization and Integration]]></title>
+    <link href="http://sciruby.com/blog/2014/06/24/updates-minimization-and-integration/"/>
+    <updated>2014-06-24T14:32:00+09:00</updated>
+    <id>http://sciruby.com/blog/2014/06/24/updates-minimization-and-integration</id>
+    <content type="html"><![CDATA[<h2>Minimization</h2>
+
+<p>The Minimization gem now supports the following unidimensional function minimizations
+provided by GSL. The supported methods include the pure Ruby implementations of:</p>
+
+<ol>
+<li>Newton&ndash;Raphson</li>
+<li>Golden Section</li>
+<li>Brent</li>
+<li>Quad Golden</li>
+</ol>
+
+
+<p>Of these, the Golden Section, Brent, and Quad Golden are also
+available via Minimization's GSL interface (and are thus
+faster). Everything is organized in such a way that the faster C code
+(i.e., GSL) will be executed when GSL is available, but that otherwise
+the Ruby implementation will be used. I still have to beautify the
+code and add documentation.</p>
+
+<h2>Integration</h2>
+
+<p>The Integration gem has been transitioned from Hoe to Bundler. For
+Gauss&ndash;Kronrod Quadrature, I have hard-coded the values of nodes
+and weights (for 15, 21, 31, 41, and 61 points) --- which were already
+hardcoded in the case of the Gauss quadrature.</p>
+
+<p>Additionally, I added basic methods like Simpson's Three-Eighths
+Method, Milne's Method, Boole's Quadrature and Open Trapezoid.</p>
+
+<p>This week, I will be reviewing a <a href="https://github.com/clbustos/integration/pull/3">pull request</a> which aims to change the structure of the whole Integration gem.</p>
+
+<p>After that I plan to implement more adaptive methods and incorporate
+the non-adaptive methods under a single Newton&ndash;Cotes function.</p>
+
+<p>Lastly, I am brainstorming designs for symbolic integration using
+JScience and JRuby.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Progress on Minimization methods]]></title>
+    <link href="http://sciruby.com/blog/2014/06/19/progress-on-minimization-methods/"/>
+    <updated>2014-06-19T01:00:00+09:00</updated>
+    <id>http://sciruby.com/blog/2014/06/19/progress-on-minimization-methods</id>
+    <content type="html"><![CDATA[<h2>Current Progress on Minimization Gem</h2>
+
+<p>In the first half of the summer, I plan to introduce some new numerical minimization methods to SciRuby's Minimization gem. As per my proposal, I began by implementing the Powell's multidimensional minimization method. Powell's method has a better convergence in most cases than the Nelder&ndash;Mead algorithm, and is also a multidimensional minimization method which doesn't use any derivative of the function.</p>
+
+<p>I started by studying SciPy and Apache Commons library's Powell's optimizer. I decided to base my implementation on the method from the <a href="http://commons.apache.org/proper/commons-math/">Apache Commons Mathematics Library</a>. Powell's method requires a line minimum searching algorithm, for which I used Brent minimizer (already available in SciRuby).</p>
+
+<p>Having finished with Powell's method, I am now working on the Fletcher--Reeves minimization method &mdash; a gradient method which uses the first derivative of the integrating function.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Introduction: Minimization and Integration (Lahiru)]]></title>
+    <link href="http://sciruby.com/blog/2014/06/18/introduction-minimization-and-integration/"/>
+    <updated>2014-06-18T16:45:00+09:00</updated>
+    <id>http://sciruby.com/blog/2014/06/18/introduction-minimization-and-integration</id>
+    <content type="html"><![CDATA[<p class="note"><strong>Editor's Note:</strong> We have two students
+working on numerical minimization and integration this summer, Rajat and
+Lahiru. Rajat's introductory post appeared two weeks ago.</p>
+
+
+<h2>Introduction </h2>
+
+<p>I'm Lahiru Lasandun and I'm an undergraduate of University of Moratuwa, Sri Lanka. I've been selected for
+Google Summer of Code 2014 for SciRuby's Minimization and Integration projects.</p>
+
+<p>I was working with SciRuby about a month before GSOC started and did some tests on how to enhance the performance of
+these numerical computations. My first idea was to use multi-threading. With the instuctions and guidance of mentors, I
+tested more methods such as Erlang multi-processing, the AKKA package of multi-threading, and finally OpenCL. The final
+decision was to use OpenCL to enhance computation power of these mathematical computations with the support of multi-cores
+and GPUs.</p>
+
+<h2>Minimization Gem</h2>
+
+<p>After GSOC started, I began working on SciRuby's Minimization gem. I proposed multidimensional minimization methods for the
+Minimization gem, which already had plenty of unidimensional minimization methods. I chose two non-gradient
+and two gradient minimization methods as well as simulated annealing.</p>
+
+<h2>Integration Gem</h2>
+
+<p>For Integration, I proposed to replicate some unidimensional integration methods from the GNU Scientific Library, GSL. Additionally, I proposed to add OpenCL support to enhance performance of integration methods.</p>
+
+<h2>Current Progress</h2>
+
+<p>Currently, I am working on Nelder&ndash;Mead multidimensional minimization
+method which is a non-gradient method, including working on the relevant
+test cases.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Introduction to the Minimization and Integration project (Rajat)]]></title>
+    <link href="http://sciruby.com/blog/2014/06/04/introduction-to-the-minimization-and-integration-project/"/>
+    <updated>2014-06-04T14:23:00+09:00</updated>
+    <id>http://sciruby.com/blog/2014/06/04/introduction-to-the-minimization-and-integration-project</id>
+    <content type="html"><![CDATA[<p class="note"><strong>Editor's Note:</strong> We have two students
+working on numerical minimization and integration this summer, Rajat and
+Lahiru. Lahiru will be writing a separate post about his work.</p>
+
+
+<h2>Introduction to the Minimization and Integration Project</h2>
+
+<p>Hi. My name is Rajat Kapoor and I have been selected to work with
+SciRuby for Google Summer of Code 2014.</p>
+
+<p><a href="https://github.com/SciRuby/minimization">Minimization</a> and
+<a href="https://github.com/SciRuby/integration">Integration</a> are two of the
+many available gems in the SciRuby suite. My project this year aims to
+improve these gems to replicate the functionality provided by GNU's
+GSL. I will be trying to implement all the minimization and
+integration algorithms present in GSL in pure Ruby, with improvements
+as needed, so that these functions are easily accesible to all Ruby
+users, while the users which have GSL already installed will have an
+advantage in terms of speedy computations.</p>
+
+<h2>What Minimization and Integration actually mean</h2>
+
+<p>Minimization refers to the process of finding out the minimum of a
+mathematical function whose values might depend on multiple
+variables. Unidimensional minimization restricts these problems to
+functions of one single variable. Integration is the same as the very
+widely used concept in calculus which basically boils down to finding
+the summation of the value of a function at small intervals, when the
+width of the intervals in infinitesimally small. I can bet that you
+knowingly or unknowingly use both these things on a daily basis.</p>
+
+<h2>The plan</h2>
+
+<p>The project can be broken into two major parts: Minimization and
+Integration, as these are two seperate gems.</p>
+
+<p>The Minimization gem can be broken in two parts: unidimensional (or
+univariate) and multidimensional (multivariate). With respect to
+coding, these two can again be broken down into sub-parts: pure Ruby
+implementations and GSL support. The Integration gem will include
+the pure Ruby implementations as well as GSL support. Along with this,
+some support for symbolic integration will be added for JRuby
+users by way of the JScience library.</p>
+
+<h2>Progress</h2>
+
+<p>The pure Ruby implementations of the unidimensional minimization part
+are almost finished. I am also working on the GSL support for the same
+along with it. I plan to finish up any unidimensional minimization
+work by the end of this week and start the work with multidimensional
+minimization methods.</p>
+
+<p>Keep watching this blog for more updates regarding my project.</p>
+]]></content>
+  </entry>
+  
+</feed>

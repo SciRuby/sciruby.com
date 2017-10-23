@@ -1,0 +1,419 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>The progress of the GSoC D3/Visualization Project - SciRuby</title>
+  <meta name="author" content="SciRuby">
+
+  
+  <meta name="description" content="This week is the half-way point of this year&#8217;s Google Summer of
+Code. Let me report the progress during the term. Progress on the front-end &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sciruby.com/blog/2014/07/02/progress-of-d3-project/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="SciRuby" type="application/atom+xml">
+  <!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-12735432-6']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">SciRuby</a></h1>
+  
+    <h2>Tools for Scientific Computing in Ruby</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:sciruby.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul role=main-navigation xmlns="http://www.w3.org/1999/html">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog">Blog</a></li>
+  <li><a href="/docs">Installation</a></li>
+  <li><a href="http://gems.sciruby.com/">Gems</a></li>
+  <li><a href="https://github.com/sciruby/sciruby">SciRuby</a></li>
+  <li><a href="/nmatrix">NMatrix</a></li>
+  <li><a href="/publications/">Citing SciRuby</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">The Progress of the GSoC D3/Visualization Project</h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Naoki Nishida</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-02T17:09:00+09:00" pubdate data-updated="true">Jul 2<span>nd</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>This week is the half-way point of this year&#8217;s Google Summer of
+Code. Let me report the progress during the term.</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/47978121/gsoc/nyaoplot_top.png" alt="Example Nyaplot chart of a spiral" /></p>
+
+<h2>Progress on the front-end library</h2>
+
+<p>I am developing <a href="https://github.com/domitry/Nyaplot">Nyaplot</a> as the front-end library
+for my work.</p>
+
+<p>One topic on Nyaplot is API design. That is a difficult problem since
+each plotting library has very different methods for creating
+plots. For example, matplotlib and Bokeh are both written in Python,
+but their demo code is written in very different styles. After
+discussing with my mentor, I decided to implement the function-based
+API.</p>
+
+<p>As an exmaple of that API, here is a minimal working example for
+generating bar charts with Nyaplot:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;nyaplot&#39;</span>
+</span><span class='line'><span class="n">plot</span> <span class="o">=</span> <span class="no">Nyaplot</span><span class="o">::</span><span class="no">Plot</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">plot</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="ss">:bar</span><span class="p">,</span> <span class="o">[</span><span class="s1">&#39;nya1&#39;</span><span class="p">,</span> <span class="s1">&#39;nya2&#39;</span><span class="p">,</span> <span class="s1">&#39;nya3&#39;</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">30</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="n">plot</span><span class="o">.</span><span class="n">show</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you want to change options (<em>e.g.</em>, color or title), put the return
+value of <code>Nyaplot::Plot.add</code> into a variable and call its methods.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">bar</span> <span class="o">=</span> <span class="n">plot</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="ss">:bar</span><span class="p">,</span> <span class="o">[</span><span class="s1">&#39;nya1&#39;</span><span class="p">,</span> <span class="s1">&#39;nya2&#39;</span><span class="p">,</span> <span class="s1">&#39;nya3&#39;</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">30</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="n">bar</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;the number of cats&quot;</span><span class="p">)</span> <span class="c1"># name the bar chart</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>IRuby integration</h2>
+
+<p>Interaction with <a href="https://github.com/minad/iruby">IRuby</a> is a priority
+for Nyaplot. IRuby is a web-based Ruby lab notebook-like environment,
+based on IPython, which is also useful for fast prototyping.</p>
+
+<p>The image at the top of this blog post is a hyperbolic spiral which I
+generated with Nyaplot in IRuby. <a href="http://nbviewer.ipython.org/github/domitry/Nyaplot/blob/master/examples/notebook/Introduction.ipynb">Have a look at the
+notebook</a>
+on nbviewer, an IRuby and IPython notebook hosting services.</p>
+
+<h2>Progress on the back-end library</h2>
+
+<p>Nyaplot uses <a href="https://github.com/domitry/Nyaplotjs">Nyaplotjs</a> as its
+back-end library. I spent a lot of time working to implement
+interactivity among multiple panes to Nyaplotjs. <a href="http://www.domitry.com/gsoc/multi_pane2.html">See an
+example here.</a></p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/47978121/gsoc/top.png" alt="Three-pane interactivity screenshot" /></p>
+
+<p>The input data source is a TSV file of 2,044 lines. Multiple-pane
+interactivity is especially important when visualizing such a large
+dataset.</p>
+
+<p>Have a look at the radio buttons beside the Venn diagram. The left
+three panels decide which set to put into each of three circles
+(VENN1, VENN2, VENN3). The right panel decides which data in each area
+(overlapping area, non-overlapping area, and all) to use in the other
+two panes.</p>
+
+<p>The gray box on the histogram decides the range of PNR values. If you
+select the range 0.3 to 0.7 with it, the right bar chart will reflect
+that and show how many of the selected data are in that range.</p>
+
+<p>Nyaplotjs provides this interactivity using an event handler connected
+to a dataframe object. That allows us to handle unidirectional update
+method (<em>e.g.</em>, histogram updates bar chart, but bar chart does not
+update histogram).</p>
+
+<h2>Conclusion</h2>
+
+<p>I finished the first half term of Google Summer of Code 2014, but I
+still have a lot of things to do. I would like to continue to add
+interactivity to both the front-end and back-end libraries.</p>
+
+<p>I am developing those two libraries in separate repositories on
+GitHub. If you are interested, feel free to raise issues or send
+pull-requests, even during the GSoC term.</p>
+
+<ul>
+<li><a href="https://github.com/domitry/Nyaplot">Nyaplot - GitHub</a></li>
+<li><a href="https://github.com/domitry/Nyaplotjs">Nyaplotjs - GitHub</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Naoki Nishida</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-02T17:09:00+09:00" pubdate data-updated="true">Jul 2<span>nd</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/d3/'>D3</a>, <a class='category' href='/blog/categories/gsoc/'>GSOC</a>, <a class='category' href='/blog/categories/gsoc2014/'>GSOC2014</a>, <a class='category' href='/blog/categories/nyaplot/'>Nyaplot</a>, <a class='category' href='/blog/categories/students/'>Students</a>, <a class='category' href='/blog/categories/visualization/'>Visualization</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://sciruby.com/blog/2014/07/02/progress-of-d3-project/" data-via="sciruby" data-counturl="http://sciruby.com/blog/2014/07/02/progress-of-d3-project/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/06/24/updates-minimization-and-integration/" title="Previous Post: Updates: Minimization and Integration">&laquo; Updates: Minimization and Integration</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/07/02/usage-integration-gem-improvements/" title="Next Post: Usage: Integration Gem Improvements">Usage: Integration Gem Improvements &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+
+
+<section>
+<div class="fb-like-box" data-href="http://www.facebook.com/SciRuby" data-width="" data-show-faces="false" data-stream="" data-header=""   ></div>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/">GSoC 2017 : Data visualization using daru-view</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats/">GSoC 2017 : Support to Import & Export of more formats</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/">GSoC 2016: Adding Categorical Data Support</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/spicerub-kernelpool-and-kernels/">GSoC 2016: SpiceRub::KernelPool and Kernels</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/">GSoC 2016 : A Look at SpiceRub::Body</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/SciRuby">@SciRuby</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'SciRuby',
+            count: 6,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("sciruby", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/sciruby" class="twitter-follow-button" data-show-count="false">Follow @sciruby</a>
+  
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - SciRuby -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sciruby';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sciruby.com/blog/2014/07/02/progress-of-d3-project/';
+        var disqus_url = 'http://sciruby.com/blog/2014/07/02/progress-of-d3-project/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

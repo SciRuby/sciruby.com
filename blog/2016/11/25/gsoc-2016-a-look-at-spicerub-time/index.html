@@ -1,0 +1,583 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>GSoC 2016 : A Look at SpiceRub::Time - SciRuby</title>
+  <meta name="author" content="SciRuby">
+
+  
+  <meta name="description" content="Many popular programming languages these days ship with powerful Time
+classes/interfaces to make the inevitable task of dealing with
+time-related &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sciruby.com/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-time/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="SciRuby" type="application/atom+xml">
+  <!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-12735432-6']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">SciRuby</a></h1>
+  
+    <h2>Tools for Scientific Computing in Ruby</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:sciruby.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul role=main-navigation xmlns="http://www.w3.org/1999/html">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog">Blog</a></li>
+  <li><a href="/docs">Installation</a></li>
+  <li><a href="http://gems.sciruby.com/">Gems</a></li>
+  <li><a href="https://github.com/sciruby/sciruby">SciRuby</a></li>
+  <li><a href="/nmatrix">NMatrix</a></li>
+  <li><a href="/publications/">Citing SciRuby</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">GSoC 2016 : A Look at SpiceRub::Time</h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Gaurav Tamba</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-11-25T02:22:00+09:00" pubdate data-updated="true">Nov 25<span>th</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Many popular programming languages these days ship with powerful Time
+classes/interfaces to make the inevitable task of dealing with
+time-related computations a more DRY experience. Humans like their
+time representations to be stringy concatenations of various numbers
+and alphabets that enable a large variety of date and time formats to
+mean the same thing and still make instant sense to the human eye. It
+was the creation of time zones that made our convenient 24-hour clocks
+stay the way they are without experiencing day and night at the same
+&#8220;time&#8221; across the globe. So now <code>00:00 A.M. UTC</code> is <code>5:30 A.M. IST</code>
+for me, and the world remains sane.</p>
+
+<p>But what happens when you accept the fact that you&#8217;re just a speck of
+micro-dust adjusting time relatively for an only slightly bigger speck
+of dust floating in the universe? Twenty-four hours in a day and thus we reset
+after 2300, but consider: how would a resident of Venus know
+when tea-time is on Venus if he had an Earth wristwatch that reset
+after twenty-four hours? Barely a tenth of Venus&#8217; day is complete in that time!
+(If you know anybody intent on relocating to Mars, do not gift them a
+clock or watch.)</p>
+
+<p>So a decimal floating point representation must be the answer for
+uniformity. Time zones can be dealt with; we&#8217;ll just pick a convenient
+point in time and count the seconds from there onwards so that the
+location on Earth doesn&#8217;t matter henceforth. It&#8217;ll drive humans insane
+with the arithmetic but machines will work just fine with this. This
+sort of a time system is called epoch time.</p>
+
+<p>And so the internal time of most UNIX machines is the number of
+seconds after midnight on <code>Thursday, 1 January 1970 UTC</code>. (And this
+very convention is going to open a can of worms by
+<a href="https://en.wikipedia.org/wiki/Year_2038_problem">2038</a> if there is even a small set of critical machines
+that haven&#8217;t moved on from 32-bit architectures.)</p>
+
+<p>But we&#8217;re still not okay universally. Try going on an infinite journey
+to space and you&#8217;ll find that counting seconds leads to some
+inconsistencies with your local time when you try to synchronize with
+Earth. How can the number of seconds after January 1970 be different
+in any case? Well, your MacBook Pro has not been adjusted for
+&#8230; relativity! Gravity bends light and thus the perception of
+time. There&#8217;s a lot more mass, and thus a lot more gravitatonal fields
+in neighborhoods away from Earth. The exact details of how this works
+is beyond the scope of this blog post.</p>
+
+<p>If the past few paragraphs were incessant and seemingly irrelevant,
+they were there to drive home the point that Earth time simply will
+not do when we step out of the ghetto to see what&#8217;s happening. But
+astronomy&#8217;s been around for way longer, and astrophysicists came
+forth with a time system adjusted for the relativity effects of the
+solar system, called Barycentric Dynamical Time, or <em>TDB</em>. Like our
+machines, it counts the seconds after a certain known reference time
+point, except that it adjusts for relativity and can become a standard
+for astronomical time.</p>
+
+<p>There are many similar time scales like this, but SPICE has chosen to
+use TDB as the standard for most of their design. Within the SPICE
+API, TDB is the same as <em>Ephemeris Time</em> which is the main system used
+to specify time points of astronomical bodies. Even though spacecrafts
+have their clocks coordinated with UTC on Earth, you would require
+that time in Ephemeris Time to be able to calculate their positions and
+velocities using SPICE. <code>SpiceRub::Time</code> is built for this very purpose,
+to revolve around a main attribute <code>@et</code> for Ephemeris Time and
+provide many methods to convert to and from.</p>
+
+<p>If you&#8217;d like to proceed with the examples, you&#8217;ll need a Leap Second
+Kernel file to use <code>SpiceRub::Time</code>. This is a generic kernel, so you
+can easily use <code>naif0011.tls</code> in <code>spec/data/kernels</code> of the repository
+folder.</p>
+
+<p>So Ephemeris Time is the number of seconds elapsed after <code>Noon, January 1, 2000, TDB</code>. This point in time is also known as the <code>J2000</code>
+epoch. We find that out in an instant by using the <code>Time.parse</code>
+function which is a wrapper function for SPICE&#8217;s <code>str2et_c</code> that
+converts many formats of strings to <code>Ephemeris Time</code>. You can have a
+look at the various string formats supported in its documentation
+<a href="https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/str2et_c.html">here</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'> <span class="no">SpiceRub</span><span class="o">::</span><span class="no">Time</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;12:00 Jan 1 2000 TDB&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="c1">#&lt;SpiceRub::Time:0x0000000325b1f8 @et=0.0&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So as a base case, using the reference epoch gives us 0 seconds as we would expect. Now would also be a good time to find out the discrepancy in <code>UTC</code> as well.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">SpiceRub</span><span class="o">::</span><span class="no">Time</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;12:00 Jan 1 2000 UTC&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="c1">#&lt;SpiceRub::Time:0x000000031c28e0 @et=64.18392728473108&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So right away we know that UTC was 64-ish seconds off from TDB / ET at the time of the reference J2000 epoch. What would the difference be around right now?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">now</span> <span class="o">=</span> <span class="no">SpiceRub</span><span class="o">::</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="c1">#&lt;SpiceRub::Time:0x000000030bf8f8 @et=525173312.1827749&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="n">now</span> <span class="o">-</span> <span class="n">now</span><span class="o">.</span><span class="n">to_utc</span><span class="p">)</span><span class="o">.</span><span class="n">to_f</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="mi">68</span><span class="o">.</span><span class="mi">18277490139008</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Well, here&#8217;s a surprise, it&#8217;s 68.18 now. Before I explain why that is,
+here is a brief overview of what the above code does:</p>
+
+<p><code>Time.now</code> is a convenient way to specify your current UTC
+timezone. It uses Ruby&#8217;s core <code>Time.now</code> method so this method is only
+good if you&#8217;re working in UTC or Earth like Timezones. For a similar
+purpose, the function <code>Time.from_time</code> let&#8217;s you create a SpiceRub
+Time object from a Ruby Time object.</p>
+
+<p>The <code>+/-</code> operators return a new Time object where the right operand
+is added/subtracted to the left operand&#8217;s <code>@et</code> when it is a float or
+integer. If a Time object is supplied , then it does the same with the
+right operand&#8217;s ephemeris time instead. (Note that there really isn&#8217;t
+a significant meaning to having a Time object whose @et is the
+difference/sum of two other epochs, however you can increase a certain
+epoch or decrease it by a constant offset of seconds)</p>
+
+<p>In our case we used <code>#to_utc</code> to convert from ephemeris time to UTC,
+and then the minus operator gave us a Time object that wasn&#8217;t really
+an epoch, but a difference of two epochs, so using <code>#to_f</code> got us
+exactly that.</p>
+
+<p>It appears that UTC has changed by 4 seconds since 2000 with respect
+to ephemeris time. This is actually the adjustment of &#8220;leap seconds&#8221;
+that gets added to UTC to prevent it from falling too far behind other
+time systems. (Humans really like to hack everything, don&#8217;t they?)</p>
+
+<p>To verify this yourself, if you open up the kernel <code>naif0011.tls</code> in your
+text editor and search for <code>DELTET/DELTA_AT</code>, you&#8217;ll find a list like
+representation of the following sort :-</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">DELTET</span><span class="o">/</span><span class="no">DELTA_AT</span>        <span class="o">=</span> <span class="p">(</span> <span class="mi">10</span><span class="p">,</span>   <span class="err">@</span><span class="mi">1972</span><span class="o">-</span><span class="no">JAN</span><span class="o">-</span><span class="mi">1</span>
+</span><span class='line'>                           <span class="o">.</span><span class="n">.</span><span class="p">,</span>   <span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>                           <span class="mi">32</span><span class="p">,</span>   <span class="err">@</span><span class="mi">1999</span><span class="o">-</span><span class="no">JAN</span><span class="o">-</span><span class="mi">1</span>
+</span><span class='line'>                           <span class="mi">33</span><span class="p">,</span>   <span class="err">@</span><span class="mi">2006</span><span class="o">-</span><span class="no">JAN</span><span class="o">-</span><span class="mi">1</span>
+</span><span class='line'>                           <span class="mi">34</span><span class="p">,</span>   <span class="err">@</span><span class="mi">2009</span><span class="o">-</span><span class="no">JAN</span><span class="o">-</span><span class="mi">1</span>
+</span><span class='line'>                           <span class="mi">35</span><span class="p">,</span>   <span class="err">@</span><span class="mi">2012</span><span class="o">-</span><span class="no">JUL</span><span class="o">-</span><span class="mi">1</span>
+</span><span class='line'>                           <span class="mi">36</span><span class="p">,</span>   <span class="err">@</span><span class="mi">2015</span><span class="o">-</span><span class="no">JUL</span><span class="o">-</span><span class="mi">1</span> <span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here you can see that just before the year 2000, there were 32 leap
+seconds added to UTC, and in 2015 when the last leap second was added,
+there were 36. It&#8217;s an ongoing and indefinite process and so there
+really is no way to account for leap second errors far in the future
+for leap seconds that are yet to be added. As of now, the next
+scheduled addition is in December, 2016.</p>
+
+<p>Coming back to our Time object, let&#8217;s look at its basic
+construction. One tricky task in the API was the option to specify
+different epochs of reference in different time scales, like
+International Atomic Time. As of now, <code>Time.new</code> requires that you
+have kept your word of using the J2000 epoch and allows you to use a
+named parameter <code>seconds:</code> for specifying the time scale. The use of
+<code>scale</code> as a key was avoided as it sometimes is also used to refer to the
+reference epoch used.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">epochs</span> <span class="o">=</span> <span class="o">[</span><span class="ss">:utc</span><span class="p">,</span> <span class="ss">:tdb</span><span class="p">,</span> <span class="ss">:tai</span><span class="o">].</span><span class="n">map</span>
+</span><span class='line'>  <span class="p">{</span> <span class="o">|</span><span class="n">scale</span><span class="o">|</span> <span class="no">SpiceRub</span><span class="o">::</span><span class="no">Time</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">seconds</span><span class="p">:</span> <span class="n">scale</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">=&gt;</span> <span class="o">[</span><span class="c1">#&lt;SpiceRub::Time:0x00000002756fc8 @et=64.18392728466942&gt;,</span>
+</span><span class='line'>    <span class="c1">#&lt;SpiceRub::Time:0x00000002756eb0 @et=0&gt;,</span>
+</span><span class='line'>    <span class="c1">#&lt;SpiceRub::Time:0x00000002756cf8 @et=32.18392727400827&gt;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>:tai</code> here refers to International Atomic Time. For a list of more
+parameters and their keyword abbreviations, have a look at
+<a href="https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/unitim_c.html">this</a> SPICE documentation for the function that the
+conversion is wrapped on top of.</p>
+
+<p>But there is also a way to reference other epochs without doing the
+manual conversions yourself, you can call the class method <code>Time.at</code>
+to perform the same function as the constructor, with the option of a
+different reference epoch. The resultant Time object will however have
+its internal time referring to J2000.</p>
+
+<p>A more readable way would involve step by step calculations, but that
+would consume runtime resources everytime <code>Time.at</code> is called, so I&#8217;ve
+basically pre-calculated the ephemeris times of the reference epochs
+and subtracted them from the epoch.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">case</span> <span class="n">reference</span><span class="o">.</span><span class="n">downcase</span>
+</span><span class='line'>  <span class="k">when</span> <span class="ss">:j2100</span>
+</span><span class='line'>    <span class="kp">new</span><span class="p">(</span><span class="n">offset</span> <span class="o">+</span> <span class="mi">3155760000</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">seconds</span><span class="p">:</span> <span class="n">seconds</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">when</span> <span class="ss">:j2000</span><span class="p">,</span> <span class="ss">:et</span>
+</span><span class='line'>    <span class="kp">new</span><span class="p">(</span><span class="n">offset</span><span class="p">,</span> <span class="n">seconds</span><span class="p">:</span> <span class="n">seconds</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">when</span> <span class="ss">:j1950</span>
+</span><span class='line'>    <span class="kp">new</span><span class="p">(</span><span class="n">offset</span> <span class="o">-</span> <span class="mi">1577880000</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">seconds</span><span class="p">:</span> <span class="n">seconds</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">when</span> <span class="ss">:j1900</span>
+</span><span class='line'>    <span class="kp">new</span><span class="p">(</span><span class="n">offset</span> <span class="o">-</span> <span class="mi">3155760000</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">seconds</span><span class="p">:</span> <span class="n">seconds</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">when</span> <span class="ss">:gps</span>
+</span><span class='line'>    <span class="kp">new</span><span class="p">(</span><span class="n">offset</span> <span class="o">-</span> <span class="mi">630763148</span><span class="o">.</span><span class="mi">8159368</span><span class="p">,</span> <span class="n">seconds</span><span class="p">:</span> <span class="n">seconds</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">when</span> <span class="ss">:unix</span>
+</span><span class='line'>    <span class="kp">new</span><span class="p">(</span><span class="n">offset</span> <span class="o">-</span> <span class="mi">946727958</span><span class="o">.</span><span class="mi">8160644</span><span class="p">,</span> <span class="n">seconds</span><span class="p">:</span> <span class="n">seconds</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To quickly verify the last one with the <code>#to_s</code> method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">SpiceRub</span><span class="o">::</span><span class="no">Time</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">-</span><span class="mi">946727958</span><span class="o">.</span><span class="mi">8160644</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="s2">&quot;Thu Jan 01 00:00:00 UTC 1970&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It&#8217;s exactly the UNIX epoch! Let&#8217;s try out 1 day (86400 seconds) after
+this epoch:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">SpiceRub</span><span class="o">::</span><span class="no">Time</span><span class="o">.</span><span class="n">at</span><span class="p">(</span><span class="mi">86400</span><span class="p">,</span> <span class="ss">:unix</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="s2">&quot;Thu Jan 01 23:59:59 UTC 1970&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Just a second short of heading into the next day, because we&#8217;ve added
+86400 TDB seconds and converted the time into a UTC string.</p>
+
+<p>There are some more functions provided to work in tandem with the
+<code>Body</code> class that I&#8217;ll explain more about in the next blog post, but
+this more or less covers the core of <code>SpiceRub:Time</code>. Till then,
+thanks for reading.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Gaurav Tamba</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-11-25T02:22:00+09:00" pubdate data-updated="true">Nov 25<span>th</span>, 2016</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/gsoc-/'>GSOC,</a>, <a class='category' href='/blog/categories/gsoc2016-/'>GSOC2016,</a>, <a class='category' href='/blog/categories/spice-/'>SPICE,</a>, <a class='category' href='/blog/categories/spicerub-/'>SpiceRub,</a>, <a class='category' href='/blog/categories/students/'>Students</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://sciruby.com/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-time/" data-via="sciruby" data-counturl="http://sciruby.com/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-time/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/10/25/gsoc-2016-port-nmatrix-to-jruby/" title="Previous Post: GSoC 2016: NMatrix and JRuby">&laquo; GSoC 2016: NMatrix and JRuby</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/" title="Next Post: GSoC 2016 : A Look at SpiceRub::Body">GSoC 2016 : A Look at SpiceRub::Body &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+
+
+<section>
+<div class="fb-like-box" data-href="http://www.facebook.com/SciRuby" data-width="" data-show-faces="false" data-stream="" data-header=""   ></div>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/">GSoC 2017 : Data visualization using daru-view</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats/">GSoC 2017 : Support to Import & Export of more formats</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/">GSoC 2016: Adding Categorical Data Support</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/spicerub-kernelpool-and-kernels/">GSoC 2016: SpiceRub::KernelPool and Kernels</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/">GSoC 2016 : A Look at SpiceRub::Body</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/SciRuby">@SciRuby</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'SciRuby',
+            count: 6,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("sciruby", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/sciruby" class="twitter-follow-button" data-show-count="false">Follow @sciruby</a>
+  
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - SciRuby -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sciruby';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sciruby.com/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-time/';
+        var disqus_url = 'http://sciruby.com/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-time/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

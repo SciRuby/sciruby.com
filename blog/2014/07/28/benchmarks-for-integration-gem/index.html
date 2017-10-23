@@ -1,0 +1,538 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Benchmarks for Integration Gem - SciRuby</title>
+  <meta name="author" content="SciRuby">
+
+  
+  <meta name="description" content="The Integration gem now includes quite a few functions from which to
+choose. To make this choice easier, I have done some benchmarking to
+see how &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sciruby.com/blog/2014/07/28/benchmarks-for-integration-gem/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="SciRuby" type="application/atom+xml">
+  <!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-12735432-6']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">SciRuby</a></h1>
+  
+    <h2>Tools for Scientific Computing in Ruby</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:sciruby.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul role=main-navigation xmlns="http://www.w3.org/1999/html">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog">Blog</a></li>
+  <li><a href="/docs">Installation</a></li>
+  <li><a href="http://gems.sciruby.com/">Gems</a></li>
+  <li><a href="https://github.com/sciruby/sciruby">SciRuby</a></li>
+  <li><a href="/nmatrix">NMatrix</a></li>
+  <li><a href="/publications/">Citing SciRuby</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Benchmarks for Integration Gem</h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Rajat Kapoor</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-28T02:44:00+09:00" pubdate data-updated="true">Jul 28<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>The Integration gem now includes quite a few functions from which to
+choose. To make this choice easier, I have done some benchmarking to
+see how fast and acuurate each of these functions are.  The results of
+these tests for some randomly chosen functions are given below. The
+speed test reports shows the user CPU time, system CPU time, the sum
+of the user and system CPU times, and the elapsed real time to perform
+100 iterations of the code. The unit of time is seconds.</p>
+
+<h2>For function f(x)= x<sup>2+3*x+7</sup> on interval (0,1)</h2>
+
+<h3>Speed Tests</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Benchmarking with 100 iterations
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>rectangle                  72.040000   0.010000  72.050000 ( 72.058014)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>trapezoid                 105.500000   0.000000 105.500000 (105.489225)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>simpson                     0.020000   0.000000   0.020000 (  0.017601)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>romberg                     0.000000   0.000000   0.000000 (  0.002219)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>adaptive_quadrature         0.010000   0.000000   0.010000 (  0.002757)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>gauss                       0.010000   0.000000   0.010000 (  0.006439)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>gauss_kronrod               0.000000   0.000000   0.000000 (  0.008615)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>simpson3by8                 0.080000   0.000000   0.080000 (  0.074791)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>boole                       0.100000   0.000000   0.100000 (  0.100300)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>open_trapezoid            181.470000   0.050000 181.520000 (181.572745)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>milne                       0.060000   0.000000   0.060000 (  0.058677)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>qng                         0.000000   0.000000   0.000000 (  0.003788)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>qag                         0.010000   0.000000   0.010000 (  0.010407)</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Accuracy Tests</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+---------------------+-------------------+-------------------+------------------------+-------------------+
+</span><span class='line'>|       Method        |      Result       |   Actual Result   |         Error          |     Accuracy      |
+</span><span class='line'>+---------------------+-------------------+-------------------+------------------------+-------------------+
+</span><span class='line'>| rectangle           | 8.833333324123249 | 8.833333333333334 | 9.210085138988688e-09  | 99.99999989573489 |
+</span><span class='line'>| trapezoid           | 8.83333334502252  | 8.833333333333334 | 1.1689186507624072e-08 | 99.99999986766959 |
+</span><span class='line'>| simpson             | 8.833333333333332 | 8.833333333333334 | 1.7763568394002505e-15 | 99.99999999999997 |
+</span><span class='line'>| romberg             | 9.0               | 8.833333333333334 | 0.16666666666666607    | 98.11320754716982 |
+</span><span class='line'>| adaptive_quadrature | 8.833333333333334 | 8.833333333333334 | 0.0                    | 100.0             |
+</span><span class='line'>| gauss               | 8.750000000006125 | 8.833333333333334 | 0.08333333332720905    | 99.05660377365425 |
+</span><span class='line'>| gauss_kronrod       | 8.75              | 8.833333333333334 | 0.08333333333333393    | 99.0566037735849  |
+</span><span class='line'>| simpson3by8         | 8.833333333333336 | 8.833333333333334 | 1.7763568394002505e-15 | 99.99999999999997 |
+</span><span class='line'>| boole               | 8.833333333333336 | 8.833333333333334 | 1.7763568394002505e-15 | 99.99999999999997 |
+</span><span class='line'>| open_trapezoid      | 8.833333325264693 | 8.833333333333334 | 8.068640866554233e-09  | 99.9999999086569  |
+</span><span class='line'>| milne               | 8.833333333333334 | 8.833333333333334 | 0.0                    | 100.0             |
+</span><span class='line'>| qng                 | 8.833333333333334 | 8.833333333333334 | 0.0                    | 100.0             |
+</span><span class='line'>| qag                 | 8.833333333333336 | 8.833333333333334 | 1.7763568394002505e-15 | 99.99999999999997 |
+</span><span class='line'>+---------------------+-------------------+-------------------+------------------------+-------------------+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>For function f(x) = x<sup>5+7*x<sup>2+2*cos(x)</sup></sup> on interval (0,1)</h2>
+
+<h3>Speed Tests</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Benchmarking with 100 iterations
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>rectangle                 534.790000   0.510000 535.300000 (538.238675)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>trapezoid                 835.950000   0.540000 836.490000 (839.233313)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>simpson                     0.650000   0.000000   0.650000 (  0.652694)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>romberg                     0.010000   0.000000   0.010000 (  0.002073)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>adaptive_quadrature         0.170000   0.000000   0.170000 (  0.167520)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>gauss                       0.000000   0.000000   0.000000 (  0.007621)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>gauss_kronrod               0.020000   0.000000   0.020000 (  0.010610)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>simpson3by8                 0.820000   0.000000   0.820000 (  0.831039)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>boole                       0.120000   0.000000   0.120000 (  0.119929)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>open_trapezoid            1019.100000   0.150000 1019.250000 (1020.034828)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>milne                       0.980000   0.000000   0.980000 (  0.970671)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>qng                         0.000000   0.000000   0.000000 (  0.008263)
+</span><span class='line'>                                user     system      total        real
+</span><span class='line'>qag                         0.020000   0.000000   0.020000 (  0.020050)</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Accuracy Tests</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+---------------------+--------------------+--------------------+------------------------+-------------------+
+</span><span class='line'>|       Method        |       Result       |   Actual Result    |         Error          |     Accuracy      |
+</span><span class='line'>+---------------------+--------------------+--------------------+------------------------+-------------------+
+</span><span class='line'>| rectangle           | 4.182941950501391  | 4.1829419696157935 | 1.9114402505238104e-08 | 99.99999954303927 |
+</span><span class='line'>| trapezoid           | 4.182941993679488  | 4.1829419696157935 | 2.406369414842402e-08  | 99.99999942471844 |
+</span><span class='line'>| simpson             | 4.182941969798875  | 4.1829419696157935 | 1.8308110583120651e-10 | 99.99999999562314 |
+</span><span class='line'>| romberg             | 5.54030230586814   | 4.1829419696157935 | 1.3573603362523468     | 67.5501035847021  |
+</span><span class='line'>| adaptive_quadrature | 4.182941969702552  | 4.1829419696157935 | 8.675815621472793e-11  | 99.9999999979259  |
+</span><span class='line'>| gauss               | 3.5364151237832213 | 4.1829419696157935 | 0.6465268458325721     | 84.54372901826423 |
+</span><span class='line'>| gauss_kronrod       | 3.5364151237807455 | 4.1829419696157935 | 0.6465268458350479     | 84.54372901820506 |
+</span><span class='line'>| simpson3by8         | 4.182941969676288  | 4.1829419696157935 | 6.049472034419523e-11  | 99.99999999855378 |
+</span><span class='line'>| boole               | 4.182941969615793  | 4.1829419696157935 | 8.881784197001252e-16  | 99.99999999999997 |
+</span><span class='line'>| open_trapezoid      | 4.182941952971977  | 4.1829419696157935 | 1.6643816103112385e-08 | 99.99999960210263 |
+</span><span class='line'>| milne               | 4.18294196954598   | 4.1829419696157935 | 6.981348832368894e-11  | 99.99999999833099 |
+</span><span class='line'>| qng                 | 4.182941969615793  | 4.1829419696157935 | 8.881784197001252e-16  | 99.99999999999997 |
+</span><span class='line'>| qag                 | 4.1829419696157935 | 4.1829419696157935 | 0.0                    | 100.0             |
+</span><span class='line'>+---------------------+--------------------+--------------------+------------------------+-------------------+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you are keen to test any function of your choice you can pull from
+<a href="https://github.com/rajatkapoor/integration">my Integration gem fork</a>
+and change the files in the benchmark folder. For both the files,
+<code>accuracy.rb</code> and <code>speed.rb</code>, change the line <code>func = lambda{|x| f(x)}</code>
+with <code>f(x)</code> as your desired function. In case you want to perform
+accuracy benchmarks, make sure that you know the exact result of the
+integration operation before hand and assign this value to the
+variable <code>actual_result</code> Feel free to comment if you face any problem
+running the benchmarks with your desired functions.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Rajat Kapoor</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-28T02:44:00+09:00" pubdate data-updated="true">Jul 28<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/gsoc/'>GSOC</a>, <a class='category' href='/blog/categories/gsoc2014/'>GSOC2014</a>, <a class='category' href='/blog/categories/integration/'>Integration</a>, <a class='category' href='/blog/categories/students/'>Students</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://sciruby.com/blog/2014/07/28/benchmarks-for-integration-gem/" data-via="sciruby" data-counturl="http://sciruby.com/blog/2014/07/28/benchmarks-for-integration-gem/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/07/09/nyaplot-internal-event-handler/" title="Previous Post: The Nyaplot internal event handler">&laquo; The Nyaplot internal event handler</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/08/23/nyaplot-interactive-plots-generateor-with-ruby/" title="Next Post: Nyaplot: interactive plots generator with Ruby">Nyaplot: interactive plots generator with Ruby &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+
+
+<section>
+<div class="fb-like-box" data-href="http://www.facebook.com/SciRuby" data-width="" data-show-faces="false" data-stream="" data-header=""   ></div>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/">GSoC 2017 : Data visualization using daru-view</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats/">GSoC 2017 : Support to Import & Export of more formats</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/">GSoC 2016: Adding Categorical Data Support</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/spicerub-kernelpool-and-kernels/">GSoC 2016: SpiceRub::KernelPool and Kernels</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/">GSoC 2016 : A Look at SpiceRub::Body</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/SciRuby">@SciRuby</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'SciRuby',
+            count: 6,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("sciruby", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/sciruby" class="twitter-follow-button" data-show-count="false">Follow @sciruby</a>
+  
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - SciRuby -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sciruby';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sciruby.com/blog/2014/07/28/benchmarks-for-integration-gem/';
+        var disqus_url = 'http://sciruby.com/blog/2014/07/28/benchmarks-for-integration-gem/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

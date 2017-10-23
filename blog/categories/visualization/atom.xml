@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Visualization | SciRuby]]></title>
+  <link href="http://sciruby.com/blog/categories/visualization/atom.xml" rel="self"/>
+  <link href="http://sciruby.com/"/>
+  <updated>2017-10-23T20:41:32+09:00</updated>
+  <id>http://sciruby.com/</id>
+  <author>
+    <name><![CDATA[SciRuby]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[GnuplotRB and GSoC 2015]]></title>
+    <link href="http://sciruby.com/blog/2015/08/18/gnuplotrb-project/"/>
+    <updated>2015-08-18T23:26:00+09:00</updated>
+    <id>http://sciruby.com/blog/2015/08/18/gnuplotrb-project</id>
+    <content type="html"><![CDATA[<h2>Introduction</h2>
+
+<p>This summer I've been participating in Google Summer of Code
+ with <a href="https://github.com/dilcom/gnuplotrb">GnuplotRB project</a> (plotting tool for Ruby users based on <a href="http://www.gnuplot.info/">Gnuplot</a>)
+ for <a href="http://sciruby.com/">SciRuby</a>. GSoC is almost over and I'm releasing v0.3.1 of GnuplotRB as a <a href="https://rubygems.org/gems/gnuplotrb/">gem</a>.
+ In this blog post I want to introduce the gem and highlight some of its capabilities.</p>
+
+<h2>Features</h2>
+
+<p>There are several existing plotting tools for Ruby such as Nyaplot, Plotrb, Rubyvis
+ and Gnuplot gem. However they are not designed for large datasets and have fewer
+ plotting styles and options than Gnuplot. Gnuplot gem was developed long ago and nowadays consists
+ mostly of hacks and does not support modern Gnuplot features such as multiplot.</p>
+
+<p>Therefore my goal was to develop new gem for Gnuplot which would allow full use of its
+ features in Ruby. I was inspired to build an easy-to-use interface for the most commonly
+ used features of Gnuplot and allow users to customize their plots with
+ Gnuplot options as easily as possible in Rubyesque way.</p>
+
+<!--more-->
+
+
+<h3>2D and 3D plots</h3>
+
+<p>The main feature of every plotting tool is its ability to plot graphs. GnuplotRB allows you
+ to plot both mathematical formula  and (huge) sets of data. GnuplotRB supports plotting
+ 2D graphs (<code>GnuplotRB::Plot</code> class)  in Cartesian/parametric/polar coordinates and 3D
+ graphs (<code>GnuplotRB::Splot</code> class) &mdash; in Cartesian/cylindrical/spherical coordinates.</p>
+
+<p>There are vast of plotting styles supported by GnuplotRB:</p>
+
+<ul>
+<li><code>points</code></li>
+<li><code>lines</code></li>
+<li><code>histograms</code></li>
+<li><code>boxerrorbars</code></li>
+<li><code>circles</code></li>
+<li><code>boxes</code></li>
+<li><code>filledcurves</code></li>
+<li><code>vectors</code></li>
+<li><code>heatmap</code></li>
+<li>etc (full list in <a href="http://www.gnuplot.info/docs_5.0/gnuplot.pdf">gnuplot doc</a> p. 47)</li>
+</ul>
+
+
+<p>Plot examples:</p>
+
+<p><img src="{{ site.url }}/images/gnuplotrb-gsoc2015/plots.jpg" alt="Plot example" style="width: 100%;"/></p>
+
+<p>For code examples please see
+ <a href="https://github.com/dilcom/gnuplotrb/blob/master/README.rdoc">the repository README</a>,
+ <a href="https://github.com/dilcom/gnuplotrb/blob/master/notebooks/README.rdoc">notebooks</a>
+ and <a href="https://github.com/dilcom/gnuplotrb/tree/master/examples">the examples folder</a>.</p>
+
+<h3>Multiplot</h3>
+
+<p><code>GnuplotRB::Multiplot</code> allows users to place several plots on a single layout and output
+ them at once (e.g., to a PNG file).
+ <a href="http://nbviewer.ipython.org/github/dilcom/gnuplotrb/blob/master/notebooks/multiplot_layout.ipynb">Multiplot notebook</a>.</p>
+
+<p>Here is a multiplot example
+ (taken from <a href="http://nbviewer.ipython.org/github/SciRuby/sciruby-notebooks/blob/master/Data%20Analysis/Analyzing%20baby%20names/Use%20Case%20-%20Daru%20for%20analyzing%20baby%20names%20data.ipynb">Sameer's notebook</a>):</p>
+
+<p><img src="{{ site.url }}/images/gnuplotrb-gsoc2015/multiplot.jpg" alt="Multiplot example" style="width: 80%; align: middle;"/></p>
+
+<h3>Animated plots</h3>
+
+<p>GnuplotRB may output any plot to gif file but <code>GnuplotRB::Animation</code> allows
+ to make this gif animated. It takes several <code>Plot</code> or <code>Splot</code> objects just as
+ multiplot does and outputs them one-by-one as frames of gif animation.
+ <a href="http://nbviewer.ipython.org/github/dilcom/gnuplotrb/blob/master/notebooks/animated_plots.ipynb">Animation notebook</a>.</p>
+
+<p><img src="{{ site.url }}/images/gnuplotrb-gsoc2015/trajectory.gif" alt="Trajectory example" style="width: 80%; align: middle;"/></p>
+
+<h3>Fit</h3>
+
+<p>Although the main GnuplotRB's purpose is to provide you with swift, robust and
+ easy-to-use plotting tool, it also offers a <code>Fit</code> module that contains several
+ methods for fitting given data with a function. See examples in <a href="http://nbviewer.ipython.org/github/dilcom/gnuplotrb/blob/master/notebooks/fitting_data.ipynb">Fit notebook</a>.</p>
+
+<h3>Integration with other SciRuby tools</h3>
+
+<h4>Embedding plots into iRuby notebooks</h4>
+
+<p>GnuplotRB plots may be embedded into iRuby notebooks as JPEG/PNG/SVG
+ images, as ASCII art or GIF animations (<code>Animation</code> class). This functionality
+ explained in a special <a href="http://nbviewer.ipython.org/github/dilcom/gnuplotrb/blob/master/notebooks/basic_usage.ipynb">iRuby notebook</a>.</p>
+
+<h4>Using data from Daru containers</h4>
+
+<p>To link GnuplotRB with other SciRuby tools I implemented plot
+ creation from data given in Daru containers (<code>Daru::Dataframe</code> and <code>Daru::Vector</code>).
+ One can use <code>daru</code> gem in order to work with statistical SciRuby gems
+ and plotting with GnuplotRB. Notebooks with examples: <a href="http://nbviewer.ipython.org/github/dilcom/gnuplotrb/blob/master/notebooks/plotting_from_daru.ipynb">1</a>, <a href="http://nbviewer.ipython.org/github/dilcom/gnuplotrb/blob/master/notebooks/time_series_from_daru.ipynb">2</a>.</p>
+
+<h3>Possible datasources for plots</h3>
+
+<p>You can pass to Plot (or Splot or Dataset) constructor data in the following forms:</p>
+
+<ul>
+<li>String containing mathematical formula (e.g., <code>'sin(x)'</code>)</li>
+<li>String containing name of file with data (e.g., <code>'points.data'</code>)</li>
+<li>Some Ruby object responding to <code>#to_gnuplot_points</code>
+
+<ul>
+<li><code>Array</code></li>
+<li><code>Daru::Dataframe</code></li>
+<li><code>Daru::Vector</code></li>
+</ul>
+</li>
+</ul>
+
+
+<p>See examples in <a href="https://github.com/dilcom/gnuplotrb/blob/master/notebooks/README.rdoc#possible-datasources">notebooks</a>.</p>
+
+<h2>Links</h2>
+
+<ul>
+<li><a href="https://github.com/dilcom/gnuplotrb/">Project repository</a></li>
+<li><a href="https://rubygems.org/gems/gnuplotrb/">Gem page on Rubygems</a></li>
+<li><a href="http://www.rubydoc.info/gems/gnuplotrb/0.3.1">Gem documentation on Rubydoc</a></li>
+<li><a href="http://dilcom.github.io/gnuplotrb/">Blog of the project</a></li>
+<li><a href="https://github.com/dilcom/gnuplotrb/tree/master/examples">Examples</a></li>
+<li><a href="https://github.com/dilcom/gnuplotrb/blob/master/notebooks/README.rdoc">iRuby notebooks</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Summary of work on daru this summer for GSOC 2015]]></title>
+    <link href="http://sciruby.com/blog/2015/08/16/summary-of-work-on-daru-this-summer-for-gsoc-2015/"/>
+    <updated>2015-08-16T23:53:00+09:00</updated>
+    <id>http://sciruby.com/blog/2015/08/16/summary-of-work-on-daru-this-summer-for-gsoc-2015</id>
+    <content type="html"><![CDATA[<p>Over this summer as a part of <a href="www.google-melange.com">Google Summer of Code 2015</a>, <a href="www.github.com/v0dro/daru/">daru</a> received a lot of upgrades and new features which have it made a pretty robust tool for data analysis in pure Ruby. Of course, a lot of work still remains for bringing daru at par with the other data analysis solutions on offer today, but I feel the work done this summer has put daru on that path.</p>
+
+<p>The new features led to the inclusion of daru in many of SciRuby's gems, which use daru's data storage, access and indexing features for storing and carrying around data. <a href="https://github.com/SciRuby/statsample">Statsample</a>, <a href="https://github.com/SciRuby/statsample-glm">statsample-glm</a>, <a href="https://github.com/SciRuby/statsample-timeseries">statsample-timeseries</a>, <a href="https://github.com/SciRuby/statsample-bivariate-extension">statsample-bivariate-extensions</a> are all now compatible with daru and use <code>Daru::Vector</code> and <code>Daru::DataFrame</code> as their primary data structures. I also overhauled Daru's <a href="http://nbviewer.ipython.org/github/SciRuby/sciruby-notebooks/blob/master/Visualization/Visualizing%20data%20with%20daru%20DataFrame.ipynb">plotting functionality</a>, that interfaced with <a href="https://github.com/domitry/nyaplot">nyaplot</a> for creating interactive plots directly from the data.</p>
+
+<p>Also, new gems developed by other GSOC students, notably <a href="https://github.com/dilcom/gnuplotrb">Ivan's GnuplotRB gem</a> and <a href="https://github.com/agisga/mixed_models">Alexej's mixed_models gem</a> both now accept data from daru data structures. Do see their repo pages for seeing interesting ways of using daru.</p>
+
+<p>The work on daru is also proving to be quite useful for other people, which led to a talk/presentation at <a href="http://www.deccanrubyconf.org/">DeccanRubyConf 2015</a>, which is one of the three major Ruby conferences in India. You can see the slides and notebooks presented at the talk <a href="https://github.com/v0dro/talks/tree/master/DeccanRubyConf15">here</a>. Given the current interest in data analysis and the need for a viable solution in Ruby, I plan to take daru much further. Keep watching the repo for interesting updates :)</p>
+
+<p>In the rest of this post I'll elaborate on all the work done this summer.</p>
+
+<h2>Pre-mid term submissions</h2>
+
+<p>Daru as a gem before GSOC was not exactly user friendly. There were many cases, particularly the iterators, that required some thinking before anybody used them. This is against the design philosophy of daru, or even Ruby general, where surprising programmers with ubiqtuos constructs is usually frowned down upon by the community. So the first thing that I did mainly concerned overhauling the daru's many iterators for both <code>Vector</code> and <code>DataFrame</code>.</p>
+
+<p>For example, the <code>#map</code> iterator from <code>Enumerable</code> returns an <code>Array</code> no matter object you call it on. This was not the case before, where <code>#map</code> would a <code>Daru::Vector</code> or <code>Daru::DataFrame</code>. This behaviour was changed, and now <code>#map</code> returns an <code>Array</code>. If you want a <code>Vector</code> or a <code>DataFrame</code> of the modified values, you should call <code>#recode</code> on <code>Vector</code> or <code>DataFrame</code>.</p>
+
+<p>Each of these iterators also accepts an optional argument, <code>:row</code> or <code>:vector</code>, which will define the axis over which iteration is supposed to be carried out. So now there are the <code>#each</code>, <code>#map</code>, <code>#map!</code>, <code>#recode</code>, <code>#recode!</code>, <code>#collect</code>, <code>#collect_matrix</code>, <code>#all?</code>, <code>#any?</code>, <code>#keep_vector_if</code> and <code>#keep_row_if</code>. To iterate over elements along with their respective indexes (or labels), you can likewise use <code>#each_row_with_index</code>, <code>#each_vector_with_index</code>, <code>#map_rows_with_index</code>, <code>#map_vector_with_index</code>, <code>#collect_rows_with_index</code>, <code>#collect_vector_with_index</code> or <code>#each_index</code>. I urge you to go over the docs of each of these methods to utilize the full power of daru.</p>
+
+<p>Apart from the improvements to iterators there was also quite a bit of refactoring involved for many methods (courtesy <a href="https://github.com/agisga">Alexej</a>). The refactoring of certain core methods has made daru much faster than previous versions.</p>
+
+<p>The next (major) thing to do was making daru compatible with Statsample. This was very essential since statsample is very important tool for statistics in Ruby and it was using its own <code>Vector</code> and <code>Dataset</code> classes, which weren't very robust as computation tools and very difficult to use when it came to cleaning or munging data. So I replaced statsample's Vector and Dataset clases with <code>Daru::Vector</code> and <code>Daru::DataFrame</code>. It involved a significant amount of work on both statsample and daru &mdash; Statsample because many constructs had to be changed to make them compatible with daru, and daru because there was a lot of essential functionality in these classes that had to be ported to daru.</p>
+
+<p>Porting code from statsample to daru improved daru significantly. There were a whole of statistics methods in statsample that were imported into daru and you can now use all them from daru. Statsample also works well with <a href="https://github.com/clbustos/rubyvis">rubyvis</a>, a great tool for visualization. <a href="https://github.com/SciRuby/statsample#visualizations">You can now do that with daru as well</a>.</p>
+
+<p>Many new methods for reading and writing data to and from files were also added to daru. You can now read and write data to and from CSV, Excel, plain text files or even SQL databases.</p>
+
+<p>In effect, daru is now completely compatible with Statsample (and all the other Statsample extensions). You can use daru data structures for storing data and pass them to statsample for performing computations. The biggest advantage of this approach is that the analysed data can be passed around to other scientific Ruby libraries (some of which listed above) that use daru as well. Since daru offers in-built functions to better 'see' your data, better visualization is possible.</p>
+
+<p>See these <a href="https://github.com/v0dro/daru#blog-posts">blogs</a> and <a href="https://github.com/v0dro/daru#notebooks">notebooks</a> for a complete overview of daru's new features.</p>
+
+<p>Also see the <a href="https://github.com/SciRuby/statsample#notebooks">notebooks in the statsample README</a> for using daru with statsample.</p>
+
+<h2>Post-mid term submissions</h2>
+
+<p>Most of time post the mid term submissions was spent in implementing the time series functions for daru.</p>
+
+<p>I implemented a new index, the DateTimeIndex, which can used for indexing data on time stamps. It enables users to query data based on time stamps. Time stamps can either be specified with precise Ruby DateTime objects or can be specified as strings, which will lead to retrival of all the data falling under that time. For example specifying '2012' returns all data that falls in the year 2012. See detailed usage of <code>DateTimeIndex</code> and <code>DateTime</code> in conjunction with other daru constructs <a href="https://github.com/v0dro/daru/blob/master/README.md">in the daru README</a>.</p>
+
+<p>An essential utility in implementing <code>DateTimeIndex</code> was <code>DateOffset</code>, which is a new set of classes that offsets dates based on certain rules or business logic. It can advance or lag a Ruby <code>DateTime</code> to the nearest day, or any day of the week, or the end or beginning of the month, etc. <code>DateOffset</code> is an essential part of <code>DateTimeIndex</code> and can also be used as a stand-alone utility for advancing/lagging <code>DateTime</code> objects. <a href="http://v0dro.github.io/blog/2015/07/27/date-offsets-in-daru/">This blog post</a> elaborates more on the nuances of <code>DateOffset</code> and its usage.</p>
+
+<p>The last thing done during the post mid term was complete compatibility with <a href="https://github.com/AnkurGel">Ankur Goel</a>'s <a href="https://github.com/SciRuby/statsample-timeseries">statsample-timeseries</a>, which was created by  during GSOC 2013. Statsample-timeseries is a comprehensive suite offering various functions for statistical analysis of time sries data. It now works with daru containers and can be used for statistical analysis of data indexed on <code>Daru::DateTimeIndex</code>. See some use cases <a href="https://github.com/SciRuby/statsample-timeseries/blob/master/README.rdoc">in the README</a>.</p>
+
+<p>I'd like to conclude by thanking all the people directly and indirectly involved in making this project a success - My mentor <a href="https://github.com/agarie">Carlos</a> for his help and support throughout the summer, <a href="https://github.com/dilcom">Ivan</a>, <a href="https://github.com/agisga">Alexej</a> and <a href="https://github.com/wlevine">Will</a> for their support and feedback in various stages of developing daru. Also a big thank you to all the <a href="https://github.com/orgs/SciRuby/teams">SciRuby maintainers</a> for making this happen!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Nyaplot: interactive plots generator with Ruby]]></title>
+    <link href="http://sciruby.com/blog/2014/08/23/nyaplot-interactive-plots-generateor-with-ruby/"/>
+    <updated>2014-08-23T10:07:00+09:00</updated>
+    <id>http://sciruby.com/blog/2014/08/23/nyaplot-interactive-plots-generateor-with-ruby</id>
+    <content type="html"><![CDATA[<iframe width="853" height="480" src="http://sciruby.com//www.youtube.com/embed/ZxjqsIluM88" frameborder="0" allowfullscreen></iframe>
+
+
+<h2>Introduction</h2>
+
+<p>Three months of GSoC 2014 term was over this week and finally I
+released my product <a href="http://rubygems.org/gems/nyaplot">Nyaplot as a gem</a>.
+This blog post was written to introduce Nyaplot version 0.1.1.</p>
+
+<h2>Features</h2>
+
+<p>There are various plotting libraries in the world as ggplot2 from R
+community and <a href="https://github.com/zuhao/plotrb">Plotrb</a> and
+<a href="https://github.com/clbustos/rubyvis">Rubyvis</a> from Ruby.  The
+features of Nyaplot compared with those libraries are
+<strong>interactivity</strong>, <strong>simplicity</strong>, and <strong>extensibility</strong>.</p>
+
+<p>Interactivity is the main theme of my D3 project in GSoC 2014. You can
+soon find the aforementioned interactivity by clicking plots with your
+mouse or trackpad. This feature is also available on browsers bundled
+with Android or iOS thanks to technologies like SVG and WebGL.</p>
+
+<p>However, the word 'interactivity' is not limited to situations like
+the above. You can explore that for yourself by using Nyaplot in <a href="https://github.com/minad/iruby">IRuby notebook</a>. Various
+modules prepared
+by Nyaplot help you to create plots interactively in the notebook.
+You can also publish the result quickly by uploading the notebook to
+your Dropbox storage, a gist or pastebin, or somewhere else. <a href="http://nbviewer.ipython.org/gist/mgiraldo/a68b53175ce5892531bc">Here is an example</a>
+which Mauricio Giraldo created and published on gist.</p>
+
+<p>Simplicity is also an important element.  Many plotting libraries has
+MATLAB-like function-based API but Nyaplot does not.  Nyaplot is
+designed in a more Ruby-like object-oriented style, and its plots
+consist of various objects created from different classes. But Nyaplot
+has simple shortcut methods and users may avoid the more complex API.</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/47978121/gsoc/extensions_for_blog_post.png" alt="Extension libraries" /></p>
+
+<p>Nyaplot can be easily and dramatically extended with some JavaScript
+code. It bundles 3 extension libraries in its gem package: Nyaplot3D
+for 3D plots, Mapnya for map visualization, and Bionya for circular
+plots inspired by circos. Their structure is very simple and you can
+write the extension easily if you have a little experience in
+JavaScript and Ruby. For example, the Ruby part of Bionya has only
+about a hundred lines, even though the graphic's style is far from
+that of standard plots.</p>
+
+<h2>Quick start</h2>
+
+<p>You can install Nyaplot by simply running <code>gem install nyaplot</code>.
+After that, find example code from
+<code>path_to_gems/nyaplot-0.1.1/examples/rb</code> and run some of them using
+<code>ruby</code> command.  These scripts will generate some plots with Nyaplot
+and export them as html files to current directory.</p>
+
+<p>In addition, I strongly recommend you to install <a href="https://github.com/minad/iruby">IRuby notebook</a> at
+the same time. IRuby is a
+web-based, interactive Ruby environment and is useful for quickly
+creating plots with Nyaplot. The introduction video embedded at the
+top of this post was also created on IRuby.</p>
+
+<p>IRuby depends on some software outside of Ruby-ecosystem, so its
+installation method is a bit complicated. Please read <a href="https://github.com/domitry/nyaplot#install-iruby-notebook">the description in the readme</a>
+to learn more.</p>
+
+<h2>Usage</h2>
+
+<p>I already wrote tutorials, so I'd like to limit the role of this
+paragraph to the introduction of the basic usage. You can skip
+reading this paragraph and find details in <a href="http://nbviewer.ipython.org/github/domitry/nyaplot/blob/master/examples/notebook/Index.ipynb">the nbviewer tutorial</a>
+and <a href="http://rubydoc.info/gems/nyaplot/0.1.1/frames">documentation</a>.</p>
+
+<p>The minimum code to create a scatter plot is as shown below:</p>
+
+<p><code>ruby
+plot = Nyaplot::Plot.new
+sc = plot.add(:scatter, [0,1,2,3,4], [-1,2,-3,4,-5])
+</code></p>
+
+<p><code>Nyaplot::Plot</code> is the base class to create plots and
+<code>Nyaplot::Plot#add</code> is the method to add diagram to its instance.  The
+first argument is to specify the type of diagram, and the second and
+third are for data mapped into <em>x</em> and <em>y</em> axes.  <code>Plot#add</code> returns an
+instance of <code>Nyaplot::Diagram</code> and you can change attributes like
+color and stroke of each diagram component.</p>
+
+<p>For example you can change its color by running the code below.
+<code>ruby
+color = Nyaplot::Colors.qual
+sc.color(color)
+</code></p>
+
+<p><code>Nyaplot::Colors</code> is the simple wrapper for
+<a href="http://colorbrewer2.org">Colorbrewer</a>, and one of its methods
+<code>Nyaplot::Colors.qual</code> randomly returns colorset suitable for
+qualitative data.</p>
+
+<p>If you execute this code in IRuby notebook, you can check if you favor
+the colorset through html-table based interface. <a href="http://nbviewer.ipython.org/github/domitry/nyaplot/blob/master/examples/notebook/Colors.ipynb">See the tutorial to learn more.</a></p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/47978121/gsoc/colors.png" alt="Nyaplot::Colors" /></p>
+
+<p>The plot generated from the code can be exported with two lines below.</p>
+
+<p><code>ruby
+plot.show # show plot on IRuby notebook
+plot.export_html # export plot to the current directory as a html file
+</code></p>
+
+<p>We cannot explain Nyaplot without <code>Nyaplot::DataFrame</code>. Example code
+above does not contain the word 'DataFrame', but the software
+internally create an instance of <code>Nyaplot:DataFrame</code> and creates plots
+based on it.</p>
+
+<p>To create the same scatter plot as above, run the code below.</p>
+
+<p><code>ruby
+df = Nyaplot::DataFrame.new({a: [0,1,2,3,4], b: [-1,2,-3,4,-5]})
+plot.add_with_df(df, :scatter, :a, :b)
+</code></p>
+
+<p>You may not feel any advantage of using <code>Plot#add_with_df</code> instead of <code>Plot#add</code>, but the former is useful when creating more complicated plots. <a href="http://nbviewer.ipython.org/github/domitry/Nyaplot/blob/master/examples/notebook/Interaction_with_DataFrame.ipynb">Have a look at the tutorial to learn more.</a></p>
+
+<h2>Conclusion</h2>
+
+<p>My GSoC term has concluded, but that do not mean the end of
+development.  There are still many things to do for improvement of
+this project.  For example Mapnya and Bionya are both experimental
+implementation, and the functionality of Nyaplot::DataFrame is
+relatively limited.  If you are interested in this project, please
+fork either or both of the two repositories below and send me
+pull-requests.</p>
+
+<ul>
+<li><a href="https://github.com/domitry/nyaplot">Nyaplot on GitHub</a></li>
+<li><a href="https://github.com/domitry/Nyaplotjs">Nyaplotjs on GitHub</a></li>
+</ul>
+
+
+<p>Any form of contribution is welcome.</p>
+
+<p>At last I'd like to express my gratitude to my mentor Pjotr Prins and
+other members of SciRuby community.  I would not have been able to
+finish my GSoC term without great help from them.  Feedback from
+people outside of the community also helped me a lot.  I had a great
+summer thanks to all people related to this project.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The Nyaplot internal event handler]]></title>
+    <link href="http://sciruby.com/blog/2014/07/09/nyaplot-internal-event-handler/"/>
+    <updated>2014-07-09T17:01:00+09:00</updated>
+    <id>http://sciruby.com/blog/2014/07/09/nyaplot-internal-event-handler</id>
+    <content type="html"><![CDATA[<p><img src="https://dl.dropboxusercontent.com/u/47978121/gsoc/multiple_panes.png" alt="Nyaplot multi-pane example" /></p>
+
+<h2>Introduction</h2>
+
+<p>Last week I implemented the multiple panes interactivity to the
+front-end of Nyaplot. You can see the demo on <a href="http://nbviewer.ipython.org/github/domitry/Nyaplot/blob/master/examples/notebook/Introduction.ipynb">this notebook</a>.</p>
+
+<p>Skip over single pane demo, and have a look at the paragraph 'Multiple
+panes demo' at the bottom. In this example, the histogram and bar chart are
+created individually, and then thrown into one instance of
+Nyaplot::Frame. After running <code>frame.show</code>, both of the diagrams
+appear in one out-put box on the notebook. When you click the
+histogram, bar chart refrects that and change its height.</p>
+
+<p>In this article I will explain about the event handler of Nyaplot,
+which allows for interactivity among panes.</p>
+
+<h2>The Trick</h2>
+
+<p>The trick is actually hidden in Nyaplot::DataFrame. In this example,
+both of the two diagrams are generated from columns in one DataFrame.
+When Nyaplot receives a column object (instance of <code>Nyaplot::Series</code>,
+defined
+<a href="https://github.com/domitry/nyaplot/blob/93ee183b935a7deafa388f2a198792e86914d550/lib/nyaplot/data.rb#L130">here</a>), it
+internally find its source data frame and remembers its location.</p>
+
+<p>Consequently, Nyaplot can find that histogram and bar chart are
+sharing their data source, and allows them to interact with each other.</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/47978121/gsoc/table.png" alt="Nyaplot::DataFrame Example" /></p>
+
+<h2>Implementation</h2>
+
+<p>Before explaining the event handler, I want to outline Nyaplot's
+diagram rendering procedure. In the back-end JavaScript library,
+diagrams, such as histograms, fetch column data from data frames and generate
+their SVG DOM nodes dynamically (<a href="https://github.com/domitry/Nyaplotjs/blob/0aa104aed467f39da89ba3ed72be5f159a0261b8/src/view/diagrams/histogram.js#L20">source code</a>).</p>
+
+<p>The key is <a href="https://github.com/domitry/Nyaplotjs/blob/0aa104aed467f39da89ba3ed72be5f159a0261b8/src/utils/dataframe.js">a data frame written in JavaScript</a>. After mouse events
+coming from a filter (such as the gray box on the plot area) are
+handled, the histogram <a href="https://github.com/domitry/Nyaplotjs/blob/0aa104aed467f39da89ba3ed72be5f159a0261b8/src/view/diagrams/histogram.js#L96">registers its filter function to the data frame and instructs all diagrams to update their SVG DOM objects</a>. The bar chart <a href="https://github.com/domitry/Nyaplotjs/blob/0aa104aed467f39da89ba3ed72be5f159a0261b8/src/view/diagrams/bar.js#L54">updates its SVG from data filtered by the new function</a>.</p>
+
+<p>As you can see, Nyaplot's inner workings are fairly simple; and these
+workings are common to all diagrams supported by Nyaplot. So not only
+the histogram and bar chart, but other diagrams as well, can behave
+interactively (e.g., <a href="http://www.domitry.com/gsoc/multi_pane2.html">histogram, bar, and Venn example</a>).</p>
+
+<h2>Conclusion</h2>
+
+<p>Despite, or perhaps because of, the relative simplicity of the
+structure, the event handler functions well. The actual interactivity
+in Nyaplot is based on the data frame object, both in the
+Ruby front-end and the JavaScript back-end. As a result, handling
+events in DataFrame is both natural and efficient for Nyaplot.</p>
+
+<h2>Additional Information</h2>
+
+<p>Nyaplot and its back-end library Nyaplotjs are being developed on GitHub.</p>
+
+<ul>
+<li><a href="https://github.com/domitry/nyaplot">Nyaplot on GitHub</a></li>
+<li><a href="https://github.com/domitry/Nyaplotjs">Nyaplotjs on GitHub</a></li>
+</ul>
+
+
+<p>If you are interesed, feel free to try it and raise issues or send pull-requests.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The progress of the GSoC D3/Visualization Project]]></title>
+    <link href="http://sciruby.com/blog/2014/07/02/progress-of-d3-project/"/>
+    <updated>2014-07-02T17:09:00+09:00</updated>
+    <id>http://sciruby.com/blog/2014/07/02/progress-of-d3-project</id>
+    <content type="html"><![CDATA[<p>This week is the half-way point of this year's Google Summer of
+Code. Let me report the progress during the term.</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/47978121/gsoc/nyaoplot_top.png" alt="Example Nyaplot chart of a spiral" /></p>
+
+<h2>Progress on the front-end library</h2>
+
+<p>I am developing <a href="https://github.com/domitry/Nyaplot">Nyaplot</a> as the front-end library
+for my work.</p>
+
+<p>One topic on Nyaplot is API design. That is a difficult problem since
+each plotting library has very different methods for creating
+plots. For example, matplotlib and Bokeh are both written in Python,
+but their demo code is written in very different styles. After
+discussing with my mentor, I decided to implement the function-based
+API.</p>
+
+<p>As an exmaple of that API, here is a minimal working example for
+generating bar charts with Nyaplot:</p>
+
+<p><code>ruby
+require 'nyaplot'
+plot = Nyaplot::Plot.new
+plot.add(:bar, ['nya1', 'nya2', 'nya3'],[10,20,30])
+plot.show
+</code></p>
+
+<p>If you want to change options (<em>e.g.</em>, color or title), put the return
+value of <code>Nyaplot::Plot.add</code> into a variable and call its methods.</p>
+
+<p><code>ruby
+bar = plot.add(:bar, ['nya1', 'nya2', 'nya3'],[10,20,30])
+bar.title("the number of cats") # name the bar chart
+</code></p>
+
+<h2>IRuby integration</h2>
+
+<p>Interaction with <a href="https://github.com/minad/iruby">IRuby</a> is a priority
+for Nyaplot. IRuby is a web-based Ruby lab notebook-like environment,
+based on IPython, which is also useful for fast prototyping.</p>
+
+<p>The image at the top of this blog post is a hyperbolic spiral which I
+generated with Nyaplot in IRuby. <a href="http://nbviewer.ipython.org/github/domitry/Nyaplot/blob/master/examples/notebook/Introduction.ipynb">Have a look at the
+notebook</a>
+on nbviewer, an IRuby and IPython notebook hosting services.</p>
+
+<h2>Progress on the back-end library</h2>
+
+<p>Nyaplot uses <a href="https://github.com/domitry/Nyaplotjs">Nyaplotjs</a> as its
+back-end library. I spent a lot of time working to implement
+interactivity among multiple panes to Nyaplotjs. <a href="http://www.domitry.com/gsoc/multi_pane2.html">See an
+example here.</a></p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/47978121/gsoc/top.png" alt="Three-pane interactivity screenshot" /></p>
+
+<p>The input data source is a TSV file of 2,044 lines. Multiple-pane
+interactivity is especially important when visualizing such a large
+dataset.</p>
+
+<p>Have a look at the radio buttons beside the Venn diagram. The left
+three panels decide which set to put into each of three circles
+(VENN1, VENN2, VENN3). The right panel decides which data in each area
+(overlapping area, non-overlapping area, and all) to use in the other
+two panes.</p>
+
+<p>The gray box on the histogram decides the range of PNR values. If you
+select the range 0.3 to 0.7 with it, the right bar chart will reflect
+that and show how many of the selected data are in that range.</p>
+
+<p>Nyaplotjs provides this interactivity using an event handler connected
+to a dataframe object. That allows us to handle unidirectional update
+method (<em>e.g.</em>, histogram updates bar chart, but bar chart does not
+update histogram).</p>
+
+<h2>Conclusion</h2>
+
+<p>I finished the first half term of Google Summer of Code 2014, but I
+still have a lot of things to do. I would like to continue to add
+interactivity to both the front-end and back-end libraries.</p>
+
+<p>I am developing those two libraries in separate repositories on
+GitHub. If you are interested, feel free to raise issues or send
+pull-requests, even during the GSoC term.</p>
+
+<ul>
+<li><a href="https://github.com/domitry/Nyaplot">Nyaplot - GitHub</a></li>
+<li><a href="https://github.com/domitry/Nyaplotjs">Nyaplotjs - GitHub</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

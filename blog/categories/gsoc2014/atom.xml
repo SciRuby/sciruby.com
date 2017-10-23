@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: GSOC2014 | SciRuby]]></title>
+  <link href="http://sciruby.com/blog/categories/gsoc2014/atom.xml" rel="self"/>
+  <link href="http://sciruby.com/"/>
+  <updated>2017-10-23T20:41:32+09:00</updated>
+  <id>http://sciruby.com/</id>
+  <author>
+    <name><![CDATA[SciRuby]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Nyaplot: interactive plots generator with Ruby]]></title>
+    <link href="http://sciruby.com/blog/2014/08/23/nyaplot-interactive-plots-generateor-with-ruby/"/>
+    <updated>2014-08-23T10:07:00+09:00</updated>
+    <id>http://sciruby.com/blog/2014/08/23/nyaplot-interactive-plots-generateor-with-ruby</id>
+    <content type="html"><![CDATA[<iframe width="853" height="480" src="http://sciruby.com//www.youtube.com/embed/ZxjqsIluM88" frameborder="0" allowfullscreen></iframe>
+
+
+<h2>Introduction</h2>
+
+<p>Three months of GSoC 2014 term was over this week and finally I
+released my product <a href="http://rubygems.org/gems/nyaplot">Nyaplot as a gem</a>.
+This blog post was written to introduce Nyaplot version 0.1.1.</p>
+
+<h2>Features</h2>
+
+<p>There are various plotting libraries in the world as ggplot2 from R
+community and <a href="https://github.com/zuhao/plotrb">Plotrb</a> and
+<a href="https://github.com/clbustos/rubyvis">Rubyvis</a> from Ruby.  The
+features of Nyaplot compared with those libraries are
+<strong>interactivity</strong>, <strong>simplicity</strong>, and <strong>extensibility</strong>.</p>
+
+<p>Interactivity is the main theme of my D3 project in GSoC 2014. You can
+soon find the aforementioned interactivity by clicking plots with your
+mouse or trackpad. This feature is also available on browsers bundled
+with Android or iOS thanks to technologies like SVG and WebGL.</p>
+
+<p>However, the word 'interactivity' is not limited to situations like
+the above. You can explore that for yourself by using Nyaplot in <a href="https://github.com/minad/iruby">IRuby notebook</a>. Various
+modules prepared
+by Nyaplot help you to create plots interactively in the notebook.
+You can also publish the result quickly by uploading the notebook to
+your Dropbox storage, a gist or pastebin, or somewhere else. <a href="http://nbviewer.ipython.org/gist/mgiraldo/a68b53175ce5892531bc">Here is an example</a>
+which Mauricio Giraldo created and published on gist.</p>
+
+<p>Simplicity is also an important element.  Many plotting libraries has
+MATLAB-like function-based API but Nyaplot does not.  Nyaplot is
+designed in a more Ruby-like object-oriented style, and its plots
+consist of various objects created from different classes. But Nyaplot
+has simple shortcut methods and users may avoid the more complex API.</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/47978121/gsoc/extensions_for_blog_post.png" alt="Extension libraries" /></p>
+
+<p>Nyaplot can be easily and dramatically extended with some JavaScript
+code. It bundles 3 extension libraries in its gem package: Nyaplot3D
+for 3D plots, Mapnya for map visualization, and Bionya for circular
+plots inspired by circos. Their structure is very simple and you can
+write the extension easily if you have a little experience in
+JavaScript and Ruby. For example, the Ruby part of Bionya has only
+about a hundred lines, even though the graphic's style is far from
+that of standard plots.</p>
+
+<h2>Quick start</h2>
+
+<p>You can install Nyaplot by simply running <code>gem install nyaplot</code>.
+After that, find example code from
+<code>path_to_gems/nyaplot-0.1.1/examples/rb</code> and run some of them using
+<code>ruby</code> command.  These scripts will generate some plots with Nyaplot
+and export them as html files to current directory.</p>
+
+<p>In addition, I strongly recommend you to install <a href="https://github.com/minad/iruby">IRuby notebook</a> at
+the same time. IRuby is a
+web-based, interactive Ruby environment and is useful for quickly
+creating plots with Nyaplot. The introduction video embedded at the
+top of this post was also created on IRuby.</p>
+
+<p>IRuby depends on some software outside of Ruby-ecosystem, so its
+installation method is a bit complicated. Please read <a href="https://github.com/domitry/nyaplot#install-iruby-notebook">the description in the readme</a>
+to learn more.</p>
+
+<h2>Usage</h2>
+
+<p>I already wrote tutorials, so I'd like to limit the role of this
+paragraph to the introduction of the basic usage. You can skip
+reading this paragraph and find details in <a href="http://nbviewer.ipython.org/github/domitry/nyaplot/blob/master/examples/notebook/Index.ipynb">the nbviewer tutorial</a>
+and <a href="http://rubydoc.info/gems/nyaplot/0.1.1/frames">documentation</a>.</p>
+
+<p>The minimum code to create a scatter plot is as shown below:</p>
+
+<p><code>ruby
+plot = Nyaplot::Plot.new
+sc = plot.add(:scatter, [0,1,2,3,4], [-1,2,-3,4,-5])
+</code></p>
+
+<p><code>Nyaplot::Plot</code> is the base class to create plots and
+<code>Nyaplot::Plot#add</code> is the method to add diagram to its instance.  The
+first argument is to specify the type of diagram, and the second and
+third are for data mapped into <em>x</em> and <em>y</em> axes.  <code>Plot#add</code> returns an
+instance of <code>Nyaplot::Diagram</code> and you can change attributes like
+color and stroke of each diagram component.</p>
+
+<p>For example you can change its color by running the code below.
+<code>ruby
+color = Nyaplot::Colors.qual
+sc.color(color)
+</code></p>
+
+<p><code>Nyaplot::Colors</code> is the simple wrapper for
+<a href="http://colorbrewer2.org">Colorbrewer</a>, and one of its methods
+<code>Nyaplot::Colors.qual</code> randomly returns colorset suitable for
+qualitative data.</p>
+
+<p>If you execute this code in IRuby notebook, you can check if you favor
+the colorset through html-table based interface. <a href="http://nbviewer.ipython.org/github/domitry/nyaplot/blob/master/examples/notebook/Colors.ipynb">See the tutorial to learn more.</a></p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/47978121/gsoc/colors.png" alt="Nyaplot::Colors" /></p>
+
+<p>The plot generated from the code can be exported with two lines below.</p>
+
+<p><code>ruby
+plot.show # show plot on IRuby notebook
+plot.export_html # export plot to the current directory as a html file
+</code></p>
+
+<p>We cannot explain Nyaplot without <code>Nyaplot::DataFrame</code>. Example code
+above does not contain the word 'DataFrame', but the software
+internally create an instance of <code>Nyaplot:DataFrame</code> and creates plots
+based on it.</p>
+
+<p>To create the same scatter plot as above, run the code below.</p>
+
+<p><code>ruby
+df = Nyaplot::DataFrame.new({a: [0,1,2,3,4], b: [-1,2,-3,4,-5]})
+plot.add_with_df(df, :scatter, :a, :b)
+</code></p>
+
+<p>You may not feel any advantage of using <code>Plot#add_with_df</code> instead of <code>Plot#add</code>, but the former is useful when creating more complicated plots. <a href="http://nbviewer.ipython.org/github/domitry/Nyaplot/blob/master/examples/notebook/Interaction_with_DataFrame.ipynb">Have a look at the tutorial to learn more.</a></p>
+
+<h2>Conclusion</h2>
+
+<p>My GSoC term has concluded, but that do not mean the end of
+development.  There are still many things to do for improvement of
+this project.  For example Mapnya and Bionya are both experimental
+implementation, and the functionality of Nyaplot::DataFrame is
+relatively limited.  If you are interested in this project, please
+fork either or both of the two repositories below and send me
+pull-requests.</p>
+
+<ul>
+<li><a href="https://github.com/domitry/nyaplot">Nyaplot on GitHub</a></li>
+<li><a href="https://github.com/domitry/Nyaplotjs">Nyaplotjs on GitHub</a></li>
+</ul>
+
+
+<p>Any form of contribution is welcome.</p>
+
+<p>At last I'd like to express my gratitude to my mentor Pjotr Prins and
+other members of SciRuby community.  I would not have been able to
+finish my GSoC term without great help from them.  Feedback from
+people outside of the community also helped me a lot.  I had a great
+summer thanks to all people related to this project.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Benchmarks for Integration Gem]]></title>
+    <link href="http://sciruby.com/blog/2014/07/28/benchmarks-for-integration-gem/"/>
+    <updated>2014-07-28T02:44:00+09:00</updated>
+    <id>http://sciruby.com/blog/2014/07/28/benchmarks-for-integration-gem</id>
+    <content type="html"><![CDATA[<p>The Integration gem now includes quite a few functions from which to
+choose. To make this choice easier, I have done some benchmarking to
+see how fast and acuurate each of these functions are.  The results of
+these tests for some randomly chosen functions are given below. The
+speed test reports shows the user CPU time, system CPU time, the sum
+of the user and system CPU times, and the elapsed real time to perform
+100 iterations of the code. The unit of time is seconds.</p>
+
+<h2>For function f(x)= x<sup>2+3*x+7</sup> on interval (0,1)</h2>
+
+<h3>Speed Tests</h3>
+
+<p>```
+Benchmarking with 100 iterations</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>rectangle                  72.040000   0.010000  72.050000 ( 72.058014)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>trapezoid                 105.500000   0.000000 105.500000 (105.489225)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>simpson                     0.020000   0.000000   0.020000 (  0.017601)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>romberg                     0.000000   0.000000   0.000000 (  0.002219)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>adaptive_quadrature         0.010000   0.000000   0.010000 (  0.002757)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>gauss                       0.010000   0.000000   0.010000 (  0.006439)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>gauss_kronrod               0.000000   0.000000   0.000000 (  0.008615)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>simpson3by8                 0.080000   0.000000   0.080000 (  0.074791)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>boole                       0.100000   0.000000   0.100000 (  0.100300)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>open_trapezoid            181.470000   0.050000 181.520000 (181.572745)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>milne                       0.060000   0.000000   0.060000 (  0.058677)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>qng                         0.000000   0.000000   0.000000 (  0.003788)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>qag                         0.010000   0.000000   0.010000 (  0.010407)
+```</p>
+
+<h3>Accuracy Tests</h3>
+
+<p><code>
++---------------------+-------------------+-------------------+------------------------+-------------------+
+|       Method        |      Result       |   Actual Result   |         Error          |     Accuracy      |
++---------------------+-------------------+-------------------+------------------------+-------------------+
+| rectangle           | 8.833333324123249 | 8.833333333333334 | 9.210085138988688e-09  | 99.99999989573489 |
+| trapezoid           | 8.83333334502252  | 8.833333333333334 | 1.1689186507624072e-08 | 99.99999986766959 |
+| simpson             | 8.833333333333332 | 8.833333333333334 | 1.7763568394002505e-15 | 99.99999999999997 |
+| romberg             | 9.0               | 8.833333333333334 | 0.16666666666666607    | 98.11320754716982 |
+| adaptive_quadrature | 8.833333333333334 | 8.833333333333334 | 0.0                    | 100.0             |
+| gauss               | 8.750000000006125 | 8.833333333333334 | 0.08333333332720905    | 99.05660377365425 |
+| gauss_kronrod       | 8.75              | 8.833333333333334 | 0.08333333333333393    | 99.0566037735849  |
+| simpson3by8         | 8.833333333333336 | 8.833333333333334 | 1.7763568394002505e-15 | 99.99999999999997 |
+| boole               | 8.833333333333336 | 8.833333333333334 | 1.7763568394002505e-15 | 99.99999999999997 |
+| open_trapezoid      | 8.833333325264693 | 8.833333333333334 | 8.068640866554233e-09  | 99.9999999086569  |
+| milne               | 8.833333333333334 | 8.833333333333334 | 0.0                    | 100.0             |
+| qng                 | 8.833333333333334 | 8.833333333333334 | 0.0                    | 100.0             |
+| qag                 | 8.833333333333336 | 8.833333333333334 | 1.7763568394002505e-15 | 99.99999999999997 |
++---------------------+-------------------+-------------------+------------------------+-------------------+
+</code></p>
+
+<h2>For function f(x) = x<sup>5+7*x<sup>2+2*cos(x)</sup></sup> on interval (0,1)</h2>
+
+<h3>Speed Tests</h3>
+
+<p>```
+Benchmarking with 100 iterations</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>rectangle                 534.790000   0.510000 535.300000 (538.238675)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>trapezoid                 835.950000   0.540000 836.490000 (839.233313)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>simpson                     0.650000   0.000000   0.650000 (  0.652694)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>romberg                     0.010000   0.000000   0.010000 (  0.002073)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>adaptive_quadrature         0.170000   0.000000   0.170000 (  0.167520)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>gauss                       0.000000   0.000000   0.000000 (  0.007621)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>gauss_kronrod               0.020000   0.000000   0.020000 (  0.010610)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>simpson3by8                 0.820000   0.000000   0.820000 (  0.831039)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>boole                       0.120000   0.000000   0.120000 (  0.119929)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>open_trapezoid            1019.100000   0.150000 1019.250000 (1020.034828)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>milne                       0.980000   0.000000   0.980000 (  0.970671)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>qng                         0.000000   0.000000   0.000000 (  0.008263)</p>
+
+<pre><code>                            user     system      total        real
+</code></pre>
+
+<p>qag                         0.020000   0.000000   0.020000 (  0.020050)
+```</p>
+
+<h3>Accuracy Tests</h3>
+
+<p><code>
++---------------------+--------------------+--------------------+------------------------+-------------------+
+|       Method        |       Result       |   Actual Result    |         Error          |     Accuracy      |
++---------------------+--------------------+--------------------+------------------------+-------------------+
+| rectangle           | 4.182941950501391  | 4.1829419696157935 | 1.9114402505238104e-08 | 99.99999954303927 |
+| trapezoid           | 4.182941993679488  | 4.1829419696157935 | 2.406369414842402e-08  | 99.99999942471844 |
+| simpson             | 4.182941969798875  | 4.1829419696157935 | 1.8308110583120651e-10 | 99.99999999562314 |
+| romberg             | 5.54030230586814   | 4.1829419696157935 | 1.3573603362523468     | 67.5501035847021  |
+| adaptive_quadrature | 4.182941969702552  | 4.1829419696157935 | 8.675815621472793e-11  | 99.9999999979259  |
+| gauss               | 3.5364151237832213 | 4.1829419696157935 | 0.6465268458325721     | 84.54372901826423 |
+| gauss_kronrod       | 3.5364151237807455 | 4.1829419696157935 | 0.6465268458350479     | 84.54372901820506 |
+| simpson3by8         | 4.182941969676288  | 4.1829419696157935 | 6.049472034419523e-11  | 99.99999999855378 |
+| boole               | 4.182941969615793  | 4.1829419696157935 | 8.881784197001252e-16  | 99.99999999999997 |
+| open_trapezoid      | 4.182941952971977  | 4.1829419696157935 | 1.6643816103112385e-08 | 99.99999960210263 |
+| milne               | 4.18294196954598   | 4.1829419696157935 | 6.981348832368894e-11  | 99.99999999833099 |
+| qng                 | 4.182941969615793  | 4.1829419696157935 | 8.881784197001252e-16  | 99.99999999999997 |
+| qag                 | 4.1829419696157935 | 4.1829419696157935 | 0.0                    | 100.0             |
++---------------------+--------------------+--------------------+------------------------+-------------------+
+</code></p>
+
+<p>If you are keen to test any function of your choice you can pull from
+<a href="https://github.com/rajatkapoor/integration">my Integration gem fork</a>
+and change the files in the benchmark folder. For both the files,
+<code>accuracy.rb</code> and <code>speed.rb</code>, change the line <code>func = lambda{|x| f(x)}</code>
+with <code>f(x)</code> as your desired function. In case you want to perform
+accuracy benchmarks, make sure that you know the exact result of the
+integration operation before hand and assign this value to the
+variable <code>actual_result</code> Feel free to comment if you face any problem
+running the benchmarks with your desired functions.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The Nyaplot internal event handler]]></title>
+    <link href="http://sciruby.com/blog/2014/07/09/nyaplot-internal-event-handler/"/>
+    <updated>2014-07-09T17:01:00+09:00</updated>
+    <id>http://sciruby.com/blog/2014/07/09/nyaplot-internal-event-handler</id>
+    <content type="html"><![CDATA[<p><img src="https://dl.dropboxusercontent.com/u/47978121/gsoc/multiple_panes.png" alt="Nyaplot multi-pane example" /></p>
+
+<h2>Introduction</h2>
+
+<p>Last week I implemented the multiple panes interactivity to the
+front-end of Nyaplot. You can see the demo on <a href="http://nbviewer.ipython.org/github/domitry/Nyaplot/blob/master/examples/notebook/Introduction.ipynb">this notebook</a>.</p>
+
+<p>Skip over single pane demo, and have a look at the paragraph 'Multiple
+panes demo' at the bottom. In this example, the histogram and bar chart are
+created individually, and then thrown into one instance of
+Nyaplot::Frame. After running <code>frame.show</code>, both of the diagrams
+appear in one out-put box on the notebook. When you click the
+histogram, bar chart refrects that and change its height.</p>
+
+<p>In this article I will explain about the event handler of Nyaplot,
+which allows for interactivity among panes.</p>
+
+<h2>The Trick</h2>
+
+<p>The trick is actually hidden in Nyaplot::DataFrame. In this example,
+both of the two diagrams are generated from columns in one DataFrame.
+When Nyaplot receives a column object (instance of <code>Nyaplot::Series</code>,
+defined
+<a href="https://github.com/domitry/nyaplot/blob/93ee183b935a7deafa388f2a198792e86914d550/lib/nyaplot/data.rb#L130">here</a>), it
+internally find its source data frame and remembers its location.</p>
+
+<p>Consequently, Nyaplot can find that histogram and bar chart are
+sharing their data source, and allows them to interact with each other.</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/47978121/gsoc/table.png" alt="Nyaplot::DataFrame Example" /></p>
+
+<h2>Implementation</h2>
+
+<p>Before explaining the event handler, I want to outline Nyaplot's
+diagram rendering procedure. In the back-end JavaScript library,
+diagrams, such as histograms, fetch column data from data frames and generate
+their SVG DOM nodes dynamically (<a href="https://github.com/domitry/Nyaplotjs/blob/0aa104aed467f39da89ba3ed72be5f159a0261b8/src/view/diagrams/histogram.js#L20">source code</a>).</p>
+
+<p>The key is <a href="https://github.com/domitry/Nyaplotjs/blob/0aa104aed467f39da89ba3ed72be5f159a0261b8/src/utils/dataframe.js">a data frame written in JavaScript</a>. After mouse events
+coming from a filter (such as the gray box on the plot area) are
+handled, the histogram <a href="https://github.com/domitry/Nyaplotjs/blob/0aa104aed467f39da89ba3ed72be5f159a0261b8/src/view/diagrams/histogram.js#L96">registers its filter function to the data frame and instructs all diagrams to update their SVG DOM objects</a>. The bar chart <a href="https://github.com/domitry/Nyaplotjs/blob/0aa104aed467f39da89ba3ed72be5f159a0261b8/src/view/diagrams/bar.js#L54">updates its SVG from data filtered by the new function</a>.</p>
+
+<p>As you can see, Nyaplot's inner workings are fairly simple; and these
+workings are common to all diagrams supported by Nyaplot. So not only
+the histogram and bar chart, but other diagrams as well, can behave
+interactively (e.g., <a href="http://www.domitry.com/gsoc/multi_pane2.html">histogram, bar, and Venn example</a>).</p>
+
+<h2>Conclusion</h2>
+
+<p>Despite, or perhaps because of, the relative simplicity of the
+structure, the event handler functions well. The actual interactivity
+in Nyaplot is based on the data frame object, both in the
+Ruby front-end and the JavaScript back-end. As a result, handling
+events in DataFrame is both natural and efficient for Nyaplot.</p>
+
+<h2>Additional Information</h2>
+
+<p>Nyaplot and its back-end library Nyaplotjs are being developed on GitHub.</p>
+
+<ul>
+<li><a href="https://github.com/domitry/nyaplot">Nyaplot on GitHub</a></li>
+<li><a href="https://github.com/domitry/Nyaplotjs">Nyaplotjs on GitHub</a></li>
+</ul>
+
+
+<p>If you are interesed, feel free to try it and raise issues or send pull-requests.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Usage: Integration Gem Improvements]]></title>
+    <link href="http://sciruby.com/blog/2014/07/02/usage-integration-gem-improvements/"/>
+    <updated>2014-07-02T17:43:00+09:00</updated>
+    <id>http://sciruby.com/blog/2014/07/02/usage-integration-gem-improvements</id>
+    <content type="html"><![CDATA[<h2>Numerical Integration</h2>
+
+<p>Integration is the process of finding the summation of the value of a function at small intervals, when the width of the intervals is infinitesimally small.
+As there is no such thing as "infinitesimally small interval", there are several other methods which help us to approximate the values of integrals.</p>
+
+<p>Numerical integration is one such technique which helps us to estimate the value of the definite integral of a function over an interval.
+Numerical integration is based on the principle of evaluating the values of a function at specific points in the interval and then taking the product of those values with a corresponding weight, which is a standard constant specific to the method being used.</p>
+
+<h2>Integration Gem</h2>
+
+<p>The Integration gem is now equipped with a host of additional algorithms for approximating the integral of a function ranging from the simple ones like Simpson's method to the more complex ones like Gauss&ndash;Kronrod and Adaptive Quadrature method.</p>
+
+<h2>Example</h2>
+
+<p>Let us say you need to find out the integral of a function <code>5*x**2 -7*Math.cos(x)</code> over the interval <code>(0,1)</code>.
+We can solve this using the following snippet using the Integration gem:</p>
+
+<p>```ruby
+Integration.integrate(0,1,{:method=>:simpson}) {|x| 5<em>x**2 -7</em>Math.cos(x)}</p>
+
+<h1>=> -4.223630227110514</h1>
+
+<p>```</p>
+
+<p>We see that the actual value of this integral is <code>-4.2236302269886088799000849584</code>, which is pretty close to the value estimated by the integration gem.
+Instead of <code>{:method=&gt;:simpson}</code> in the above code, you can use any one of these implemented methods:</p>
+
+<p><code>ruby
+rectangle,:trapezoid,:simpson, :adaptive_quadrature , :gauss, :romberg, :monte_carlo, :gauss_kronrod, :simpson3by8, :boole, :open_trapezoid, :milne
+</code></p>
+
+<p>Each of these algorithms gives similar results &mdash; except if the function has rapid changes in the interval of integration, as is the nature of numerical integration.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The progress of the GSoC D3/Visualization Project]]></title>
+    <link href="http://sciruby.com/blog/2014/07/02/progress-of-d3-project/"/>
+    <updated>2014-07-02T17:09:00+09:00</updated>
+    <id>http://sciruby.com/blog/2014/07/02/progress-of-d3-project</id>
+    <content type="html"><![CDATA[<p>This week is the half-way point of this year's Google Summer of
+Code. Let me report the progress during the term.</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/47978121/gsoc/nyaoplot_top.png" alt="Example Nyaplot chart of a spiral" /></p>
+
+<h2>Progress on the front-end library</h2>
+
+<p>I am developing <a href="https://github.com/domitry/Nyaplot">Nyaplot</a> as the front-end library
+for my work.</p>
+
+<p>One topic on Nyaplot is API design. That is a difficult problem since
+each plotting library has very different methods for creating
+plots. For example, matplotlib and Bokeh are both written in Python,
+but their demo code is written in very different styles. After
+discussing with my mentor, I decided to implement the function-based
+API.</p>
+
+<p>As an exmaple of that API, here is a minimal working example for
+generating bar charts with Nyaplot:</p>
+
+<p><code>ruby
+require 'nyaplot'
+plot = Nyaplot::Plot.new
+plot.add(:bar, ['nya1', 'nya2', 'nya3'],[10,20,30])
+plot.show
+</code></p>
+
+<p>If you want to change options (<em>e.g.</em>, color or title), put the return
+value of <code>Nyaplot::Plot.add</code> into a variable and call its methods.</p>
+
+<p><code>ruby
+bar = plot.add(:bar, ['nya1', 'nya2', 'nya3'],[10,20,30])
+bar.title("the number of cats") # name the bar chart
+</code></p>
+
+<h2>IRuby integration</h2>
+
+<p>Interaction with <a href="https://github.com/minad/iruby">IRuby</a> is a priority
+for Nyaplot. IRuby is a web-based Ruby lab notebook-like environment,
+based on IPython, which is also useful for fast prototyping.</p>
+
+<p>The image at the top of this blog post is a hyperbolic spiral which I
+generated with Nyaplot in IRuby. <a href="http://nbviewer.ipython.org/github/domitry/Nyaplot/blob/master/examples/notebook/Introduction.ipynb">Have a look at the
+notebook</a>
+on nbviewer, an IRuby and IPython notebook hosting services.</p>
+
+<h2>Progress on the back-end library</h2>
+
+<p>Nyaplot uses <a href="https://github.com/domitry/Nyaplotjs">Nyaplotjs</a> as its
+back-end library. I spent a lot of time working to implement
+interactivity among multiple panes to Nyaplotjs. <a href="http://www.domitry.com/gsoc/multi_pane2.html">See an
+example here.</a></p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/47978121/gsoc/top.png" alt="Three-pane interactivity screenshot" /></p>
+
+<p>The input data source is a TSV file of 2,044 lines. Multiple-pane
+interactivity is especially important when visualizing such a large
+dataset.</p>
+
+<p>Have a look at the radio buttons beside the Venn diagram. The left
+three panels decide which set to put into each of three circles
+(VENN1, VENN2, VENN3). The right panel decides which data in each area
+(overlapping area, non-overlapping area, and all) to use in the other
+two panes.</p>
+
+<p>The gray box on the histogram decides the range of PNR values. If you
+select the range 0.3 to 0.7 with it, the right bar chart will reflect
+that and show how many of the selected data are in that range.</p>
+
+<p>Nyaplotjs provides this interactivity using an event handler connected
+to a dataframe object. That allows us to handle unidirectional update
+method (<em>e.g.</em>, histogram updates bar chart, but bar chart does not
+update histogram).</p>
+
+<h2>Conclusion</h2>
+
+<p>I finished the first half term of Google Summer of Code 2014, but I
+still have a lot of things to do. I would like to continue to add
+interactivity to both the front-end and back-end libraries.</p>
+
+<p>I am developing those two libraries in separate repositories on
+GitHub. If you are interested, feel free to raise issues or send
+pull-requests, even during the GSoC term.</p>
+
+<ul>
+<li><a href="https://github.com/domitry/Nyaplot">Nyaplot - GitHub</a></li>
+<li><a href="https://github.com/domitry/Nyaplotjs">Nyaplotjs - GitHub</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>
