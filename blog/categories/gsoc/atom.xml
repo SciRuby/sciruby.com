@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: GSoC | SciRuby]]></title>
+  <title><![CDATA[Category: GSOC | SciRuby]]></title>
   <link href="http://sciruby.com/blog/categories/gsoc/atom.xml" rel="self"/>
   <link href="http://sciruby.com/"/>
-  <updated>2017-10-23T20:55:53+09:00</updated>
+  <updated>2017-10-26T13:59:31+09:00</updated>
   <id>http://sciruby.com/</id>
   <author>
     <name><![CDATA[SciRuby]]></name>
@@ -14,213 +14,405 @@
 
   
   <entry>
-    <title type="html"><![CDATA[GSoC 2017 : Data visualization using daru-view]]></title>
-    <link href="http://sciruby.com/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/"/>
-    <updated>2017-09-01T22:46:00+09:00</updated>
-    <id>http://sciruby.com/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view</id>
-    <content type="html"><![CDATA[<p>Hello, Rubyist! Are looking for good ruby gem for interactive data
-visualization? Then you must try <a href="https://github.com/Shekharrajak/daru-view"><code>daru-view</code></a>, a plugin gem for <a href="https://github.com/SciRuby/daru"><code>daru</code></a>.</p>
+    <title type="html"><![CDATA[GSoC 2017 : Support to Import & Export of more formats]]></title>
+    <link href="http://sciruby.com/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats/"/>
+    <updated>2017-08-29T17:16:00+09:00</updated>
+    <id>http://sciruby.com/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats</id>
+    <content type="html"><![CDATA[<h2>Introduction</h2>
 
-<h2>What makes daru-view different ?</h2>
+<blockquote><p>"Hello friend. Hello friend? That's lame." - S01E01 (Pilot), Mr.Robot</p></blockquote>
+
+<p>My name is Athitya Kumar, and I'm a 4th year undergrad from IIT Kharagpur, India. I
+was selected as a GSoC 2017 student developer by Ruby Science Foundation for project daru-io.</p>
+
+<p><a href="https://github.com/athityakumar/daru-io">Daru-IO</a> is a plugin-gem to
+<a href="https://github.com/SciRuby/daru">Daru</a> gem, that extends support for many Import and Export
+methods of <code>Daru::DataFrame</code>. This gem is intended to help Rubyists who are into Data Analysis
+or Web Development, by serving as a general purpose conversion library.</p>
+
+<p>Through this summer, I worked on adding support for various Importers and Exporters
+while also porting some existing modules. Feel free to find a comprehensive set
+of useful links in
+<a href="https://athityakumar.github.io/blog/posts/GSoC_2017_-_Final_Work_Submission/">Final Work Submission</a>
+and <a href="https://github.com/athityakumar/daru-io/blob/master/README.md">README</a>. Before proceeding any
+further, you might also be interested in checking out a sample showcase of
+<a href="https://daru-examples-io-view-rails.herokuapp.com/">Rails example</a> and
+<a href="https://github.com/Shekharrajak/daru_examples_io_view_rails">the code</a> making it work.</p>
+
+<h2>Mark Anthony's Speech (ft. daru)</h2>
+
+<blockquote><p>"Rubyists, Data Analysts and Web Developers, lend me your ears;</p>
+
+<p>I come to write about my GSoC project, not to earn praise for it."</p></blockquote>
+
+<p>For the uninitiated, Google Summer of Code (GSoC) 2017 is a 3-month program that
+focuses on introducing selected students to open-source software development.
+To know more about GSoC, feel free to click
+<a href="https://summerofcode.withgoogle.com/about/">here</a>.</p>
+
+<p><a href="https://github.com/SciRuby/daru">daru</a> is a Ruby gem that stands for Data Analysis in RUby. My
+<a href="https://drive.google.com/file/d/0B4shBmKvdinIZUNqcGwtWDZtb1NMMHg3SG51SFRqNlVqZkIw/">initial proposal</a>
+was to make daru easier to integrate with Ruby web frameworks through better import-export features
+(<a href="https://github.com/athityakumar/daru-io">daru-io</a>) and visualization methods
+(<a href="https://github.com/Shekharrajak/daru-view">daru-view</a>). However, as both
+<a href="https://github.com/Shekharrajak">Shekhar</a> and I
+were selected for the same proposal, we split this amongst ourselves : daru-io was allocated to me
+and daru-view was allocated to <a href="https://github.com/Shekharrajak">Shekhar</a>.</p>
+
+<h2></h2>
+
+<blockquote><p>"The open-source contributions that people do, live after them;</p>
+
+<p>But their private contributions, are oft interred with their bones."</p></blockquote>
+
+<p>This is one of the reasons why I (and all open-source developers) are enthusiastic
+about open-source. In open-source, one's work can be re-used in other projects
+in accordance with the listed LICENSE and attribution, compared to the restrictions
+and risk of Intellectual Property Right claims in private work.</p>
+
+<h2></h2>
+
+<blockquote><p>"So be it. The noble Pythonistas and R developers;</p>
+
+<p>Might not have chosen to try daru yet."</p></blockquote>
+
+<p>It is quite understandable that Pythonistas and R developers feel that their corresponding
+languages have sufficient tools for Data Analysis. So, why would they switch to Ruby and
+start using daru?</p>
+
+<h2></h2>
+
+<blockquote><p>"If it were so, it may have been a grievous fault;</p>
+
+<p>Give daru a try, with daru-io and daru-view."</p></blockquote>
+
+<p>First of all, I don't mean any offense when I say "grievous fault". But please, do give
+Ruby and daru family a try, with an open mind.</p>
+
+<p>Voila - the daru family has two new additions, namely
+<a href="https://github.com/athityakumar/daru-io">daru-io</a> and
+<a href="https://github.com/Shekharrajak/daru-view">daru-view</a>. Ruby is a language
+which is extensively used in Web Development with multiple frameworks such as Rails, Sinatra,
+Nanoc, Jekyll, etc. With such a background, it only makes sense for daru to have daru-io and
+daru-view as separate plugins, thus making the daru family easily integrable with Ruby web
+frameworks.</p>
+
+<h2></h2>
+
+<blockquote><p>"Here, for attention of Rubyists and the rest–</p>
+
+<p>For Pandas is an honourable library;</p>
+
+<p>So are they all, all honourable libraries and languages–</p>
+
+<p>Come I to speak about daru-io's inception."</p></blockquote>
+
+<p>Sure, the alternatives in other languages like Python, R and Hadoop are also good data analysis
+tools. But, how readily can they be integrated into any web application? R &amp; Hadoop don't have a
+battle-tested web framework yet, and are usually pipelined into the back-end of any application
+to perform any analysis. I'm no one to judge such pipelines, but I feel that pipelines are
+hackish workarounds rather than being a clean way of integrating.</p>
+
+<p>Meanwhile, though Python too has its own set of web frameworks (like Django, Flask and more),
+Pandas doesn't quite work out-of-the-box with these frameworks and requires the web developer
+to write lines and lines of code to integrate Pandas with parsing libraries and plotting
+libraries.</p>
+
+<h2></h2>
+
+<blockquote><p>"daru-io is a ruby gem, and open-sourced to all of us;</p>
+
+<p>But some might think it was an ambitious idea;</p>
+
+<p>And they are all honourable men."</p></blockquote>
+
+<p>As described above, daru-io is open-sourced under the MIT License with attribution to
+myself and Ruby Science Foundation. Being a ruby gem, daru-io follows the best practices
+mentioned in the Rubygems guides and is all geared up with a v0.1.0 release.</p>
+
+<p>Disclaimer - By "men", I'm not stereotyping "them" to be all male, but I'm just merely
+retaining the resemblence to the original speech of Mark Anthony.</p>
+
+<h2></h2>
+
+<blockquote><p>"daru-io helps convert data in many formats to Daru::DataFrame;</p>
+
+<p>Whose methods can be used to analyze huge amounts of data.</p>
+
+<p>Does this in daru-io seem ambitious?"</p></blockquote>
+
+<p><a href="https://github.com/SciRuby/daru">Daru</a> has done a great job of encapsulating the two main
+structures of Data Analysis - DataFrames and Vectors - with a ton of functionalities that are
+growing day by day. But obviously, the huge amounts of data aren't going to be manually fed into
+the DataFrames right?</p>
+
+<p>One part of <a href="https://github.com/athityakumar/daru-io">daru-io</a> is the battalion of Importers that
+ship along with it. Importers are used to read from a file / Ruby instance, and create DataFrame(s).
+These are the Importers being supported by v0.1.0 of daru-io :</p>
 
 <ul>
-<li><p><code>daru-view</code> is designed for interactive plotting of charts and tables.It
-provide different plotting tools like Nyaplot, HighCharts, GoogleCharts,
-DataTable. So you don't have to write any JavaScript code from these sites
-and no need to shift to other language to get charts.</p></li>
-<li><p>It can work with <strong>any ruby web application framework like Rails/Sinatra/Nanoc/Hanami</strong>. If you want to try few examples then please look into the
-<a href="https://github.com/Shekharrajak/daru-view/tree/master/spec"><code>daru-view/spec/dummy_*</code></a> examples of Rails, Sinatra, Nanoc web applications.</p></li>
-<li><p>Now Ruby developers are using IRuby notebook for interactive programming.
-<code>daru-view</code> support IRuby notebook as well. So if you just want to see chart
-for some DataFrame or Array of data, you can use <code>daru-view</code>.</p></li>
-<li><p><code>daru-view</code> can generate chart images to download and save.</p></li>
-<li><p><code>daru-view</code> adapters <code>googlecharts</code>, <code>highcharts</code> are able to geneate 3D charts as well.</p></li>
-<li><p><code>Table</code> have some main features like pagination, search and many more to be added.It is
-designed to load large data set smoothly.</p></li>
+<li>General file formats : CSV, Excel (xls and xlsx), HTML, JSON, Plaintext.</li>
+<li>Special file formats : Avro, RData, RDS.</li>
+<li>Database related : ActiveRecord, Mongo, Redis, SQLite, DBI.</li>
 </ul>
 
 
-<h2>Introduction</h2>
+<p>For more specific information about the Importers, please have a look at the
+<a href="https://github.com/athityakumar/daru-io/blob/master/README.md#table-of-contents">README</a>
+and <a href="http://www.rubydoc.info/github/athityakumar/daru-io/master/Daru/IO/Importers/">YARD Docs</a>.</p>
 
-<p>Daru is doing pretty good work as the data analysis &amp; manipulation in IRuby notebook as well as backend part of web application. Ruby web application frameworks like Ruby on Rails, Sinatra, Nanoc are popular frameworks. So if Ruby developers get the gem like daru which can do data analysis
-and visualization work in applications, then there is no need of shifting to another language or usage of other gem.</p>
+<p>Let's take a simple example of the JSON Importer, to import from GitHub's GraphQL API response. By
+default, the API response is paginated and 30 repositories are listed in the url :
+<code>https://api.github.com/users/#{username}/repos</code>.</p>
 
-<p>My project for <abbr title="Google Summer of Code 2017"> GSoC 2017</abbr> was to "make Daru more ready for integration with modern Web framework" in terms of visualization.</p>
+<p>```ruby
+require 'daru/io/importers/json'</p>
 
-<p>To improve in terms of viewing data,
-<a href="https://github.com/Shekharrajak/daru-view">daru-view</a>, a plugin gem for
-<a href="https://github.com/SciRuby/daru">daru</a> is created. <a href="https://github.com/Shekharrajak/daru-view">daru-view</a> is for easy and interactive plotting in web application &amp; IRuby notebook. It can work in frameworks like Rails, Sinatra, Nanoc and hopefully in others too.</p>
+<p>dataframe = %w[athityakumar zverok v0dro lokeshh].map do |username|
+  Daru::DataFrame.read_json(</p>
 
-<p>To see a quick overview of daru-view's features, have a look at these examples:</p>
+<pre><code>"https://api.github.com/users/#{username}/repos",
+RepositoryName: '$..full_name',
+Stars: '$..stargazers_count',
+Size: '$..size',
+Forks: '$..forks_count'
+</code></pre>
+
+<p>  )
+end.reduce(:concat)</p>
+
+<h1>=> #&lt;Daru::DataFrame(120x4)></h1>
+
+<h1>Repository   Stars   Size   Forks</h1>
+
+<h1>0  athityakum       0      6       0</h1>
+
+<h1>1  athityakum       0    212       0</h1>
+
+<h1>2  athityakum       0    112       0</h1>
+
+<h1>...    ...          ...   ...     ...</h1>
+
+<p>```</p>
+
+<h2></h2>
+
+<blockquote><p>"When working with a team of Pythonistas and R developers;</p>
+
+<p>daru-io helps convert Daru::DataFrame to multiple formats.</p>
+
+<p>Does this in daru-io seem ambitious?</p></blockquote>
+
+<p>The second part of <a href="https://github.com/athityakumar/daru-io">daru-io</a> is the collection of Exporters
+that ship with it. Exporters are used to write the data in a DataFrame, to a file / database. These
+are the Exporters being supported by v0.1.0 of daru-io :</p>
 
 <ul>
-<li><p><a href="http://nbviewer.jupyter.org/github/shekharrajak/daru-view/tree/master/spec/dummy_iruby/">IRuby Notebook Examples</a></p></li>
-<li><p><a href="https://github.com/Shekharrajak/daru_examples_io_view_rails">daru io and daru-view usage in Rails app</a></p></li>
-<li><p><a href="https://github.com/Shekharrajak/daru-view/blob/master/README.md">README of daru-view</a></p></li>
+<li>General file formats : CSV, Excel (xls), JSON.</li>
+<li>Special file formats : Avro, RData, RDS.</li>
+<li>Database related : SQL.</li>
 </ul>
 
 
-<h2>Examples</h2>
+<p>For more specific information about the Exporters, please have a look at the
+<a href="https://github.com/athityakumar/daru-io/blob/master/README.md#table-of-contents">README</a>
+and <a href="http://www.rubydoc.info/github/athityakumar/daru-io/master/Daru/IO/Exporters/">YARD Docs</a>.</p>
 
-<p>This is how we can create a Plot class object:</p>
+<p>Let's take a simple example of the RDS Exporter. Say, your best friend is a R developer who'd like
+to analyze a <code>Daru::DataFrame</code> that you have obtained, and perform further analysis. You don't want
+to break your friendship, and your friend is skeptical of learning Ruby. No issues, simply use the RDS
+Exporter to export your <code>Daru::DataFrame</code> into a .rds file, which can be easily loaded by your friend
+in R.</p>
+
+<p>```ruby
+require 'daru/io/exporters/rds'</p>
+
+<p>dataframe #! Say, the DataFrame is obtained from the above JSON Importer example</p>
+
+<h1>=> #&lt;Daru::DataFrame(120x4)></h1>
+
+<h1>Repository   Stars   Size   Forks</h1>
+
+<h1>0  athityakum       0      6       0</h1>
+
+<h1>1  athityakum       0    212       0</h1>
+
+<h1>2  athityakum       0    112       0</h1>
+
+<h1>...    ...          ...   ...     ...</h1>
+
+<p>dataframe.write_rds('github_api.rds', 'github.api.dataframe')
+```</p>
+
+<h2></h2>
+
+<blockquote><p>"You all did see that in the repository's README;</p>
+
+<p>Codeclimate presented a 4.0 GPA;</p>
+
+<p>Code and tests were humbly cleaned;</p>
+
+<p>with help of rubocop, rspec, rubocop-rspec and saharspec.</p>
+
+<p>Ambition shouldn't have been made of humble stuff.</p>
+
+<p>Yet some might think it is an ambitious idea;</p>
+
+<p>And sure, they are all honourable men."</p></blockquote>
+
+<p>Thanks to guidance from my mentors
+<a href="https://github.com/zverok">Victor Shepelev</a>, <a href="https://github.com/v0dro">Sameer Deshmukh</a>
+and <a href="https://github.com/lokeshh">Lokesh Sharma</a>, I've come to know about quite a lot
+of Ruby tools that could be used to keep the codebase sane and clean.</p>
+
+<ul>
+<li><a href="https://github.com/bbatsov/rubocop">rubocop</a> : A Ruby static code analyzer, which enforces
+specified Ruby style guidelines.</li>
+<li><a href="https://github.com/rspec/rspec">rspec</a> : A unit-testing framework, which makes sure that codes
+of block are doing what they're logically supposed to do.</li>
+<li><a href="https://github.com/backus/rubocop-rspec">rubocop-rspec</a> : A plugin gem to rubocop, that extends
+rspec-related rules.</li>
+<li><a href="https://github.com/zverok/saharspec">saharspec</a> : A gem with a
+<a href="https://github.com/zverok/saharspec/blob/master/README.md#saharspec-specs-dry-as-sahara">punny name</a>, that extends a few features to rspec-its that are more readable. For example, <code>its_call</code>.</li>
+</ul>
+
+
+<h2></h2>
+
+<blockquote><p>"I speak not to disapprove of what other libraries do;</p>
+
+<p>But here I am to speak what I do know.</p>
+
+<p>Give daru-io a try and y'all will love it, not without cause:</p>
+
+<p>Does anything withhold you then, from using daru-io?"</p></blockquote>
+
+<p>I really mean it, when I discretely specify "I speak not to disapprove of what other libraries do".
+In the world of open-source, there should never be hate among developers regarding languages,
+or libraries. Developers definitely have their (strong) opinions and preferences, and it's
+understandable that difference in opinion do arise. But, as long as there's mutual respect for
+each other's opinion and choice, all is well.</p>
+
+<h2></h2>
+
+<blockquote><p>"O Ruby community! Thou should definitely try out daru-io,</p>
+
+<p>With daru and daru-view. Bear with me;</p>
+
+<p>My heart is thankful to the community of Ruby Science Foundation,</p>
+
+<p>And I must pause till I write another blog post."</p></blockquote>
+
+<p>If you've read all the way till down here, I feel that you'd be interested in trying out the
+daru family, after having seen the impressive demonstration of Importers &amp; Exporters above, and
+the Rails example (<a href="https://daru-examples-io-view-rails.herokuapp.com/">Website</a> |
+<a href="https://github.com/Shekharrajak/daru_examples_io_view_rails">Code</a>). I'm very thankful to mentors
+<a href="https://github.com/zverok">Victor Shepelev</a>, <a href="https://github.com/v0dro">Sameer Deshmukh</a>
+and <a href="https://github.com/lokeshh">Lokesh Sharma</a> for their timely Pull Request reviews and open
+discussions regarding features. Daru-IO would not have been possible without them and the active
+community of Ruby Science Foundation, who provided their useful feedback(s) whenever they could.
+The community has been very supportive overall, and hence I'd definitely be interested to involve
+with SciRuby via more open-source projects.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2016: Adding Categorical Data Support]]></title>
+    <link href="http://sciruby.com/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/"/>
+    <updated>2016-11-25T02:54:00+09:00</updated>
+    <id>http://sciruby.com/blog/2016/11/25/gsoc-2016-adding-categorical-data-support</id>
+    <content type="html"><![CDATA[<p>Support for categorical data is important for any data analysis
+tool. This summer I implemented categorical data capabilities for:</p>
+
+<ul>
+<li>Convenient and efficient data wrangling for categorical data in <a href="https://github.com/v0dro/daru">Daru</a></li>
+<li>Visualization of categorical data</li>
+<li>Multiple linear regression and generalized linear models (GLM) with categorical variables in <a href="https://github.com/SciRuby/statsample">Statsample</a> and <a href="https://github.com/SciRuby/statsample-glm">Statsample-GLM</a></li>
+</ul>
+
+
+<p>Lets talk about each of them in detail.</p>
+
+<h4>Analyzing catgorical data with Daru</h4>
+
+<p>Categorical data is now readily recognized by
+<a href="https://github.com/v0dro/daru">Daru</a> and Daru has all the necessary
+procedures for dealing with it.</p>
+
+<p>To analyze categorical variable, simply turn the numerical vector to categorical and you are ready to go.</p>
+
+<p>We will use, for demonstration purposes, animal shelter data taken
+from the <a href="https://www.kaggle.com/c/shelter-animal-outcomes">Kaggle Competition</a>. It is
+stored in <code>shelter_data</code>.</p>
+
+<p><img src="http://i65.tinypic.com/xeliqs.png" alt="" /></p>
 
 <p>```ruby</p>
 
-<p>Daru::View::Plot.new(data, options)
+<h1>Tell Daru which variables are categorical</h1>
+
+<p>shelter_data.to_category 'OutcomeType', 'AnimalType', 'SexuponOutcome', 'Breed', 'Color'</p>
+
+<h1>Or quantize a numerical variable to categorical</h1>
+
+<p>shelter_data['AgeuponOutcome'] = shelter_data['AgeuponOutcome(Weeks)'].cut [0, 1, 4, 52, 260, 1500],</p>
+
+<pre><code>labels: [:less_than_week, :less_than_month, :less_than_year, :one_to_five_years, :more_than__five_years]
+</code></pre>
+
+<h1>Do your operations on categorical data</h1>
+
+<p>shelter_data['AgeuponOutcome'].frequencies.sort ascending: false
+```
+<img src="http://i67.tinypic.com/w1u3vs.png" alt="" /></p>
+
+<p>```ruby
+small['Breed'].categories.size</p>
+
+<h1>=> 1380</h1>
+
+<h1>Merge infrequent categories to make data analysis easy</h1>
+
+<p>other_cats = shelter_data['Breed'].categories.select { |i| shelter_data['Breed'].count(i) &lt; 10 }
+other_cats_hash = other_cats.zip(['other']*other_cats.size).to_h
+shelter_data['Breed'].rename_categories other_cats_hash
+shelter_data['Breed'].frequencies</p>
+
+<h1>View the data</h1>
+
+<p>small['Breed'].frequencies.sort(ascending: false).head(10)
+```
+<img src="http://i64.tinypic.com/25rcu8m.png" alt="" /></p>
+
+<p>Please refer to <a href="http://lokeshh.github.io/blog/2016/06/21/categorical-data/">this blog post</a> to know more.</p>
+
+<h4>Visualizing categorical data</h4>
+
+<p>With the help of <a href="https://github.com/SciRuby/nyaplot">Nyaplot</a>, <a href="https://github.com/SciRuby/gnuplotrb">GnuplotRB</a> and <a href="https://github.com/topfunky/gruff">Gruff</a>, Daru now provides ability to visualize categorical data as it does with numerical data.</p>
+
+<p>To plot a vector with Nyaplot one needs to call the function <code>#plot</code>.</p>
+
+<p>```ruby</p>
+
+<h1>dv is a caetgorical vector</h1>
+
+<p>dv = Daru::Vector.new ['III']<em>10 + ['II']</em>5 + ['I']*5, type: :category, categories: ['I', 'II', 'III']</p>
+
+<p>dv.plot(type: :bar, method: :fraction) do |p, d|
+  p.x_label 'Categories'
+  p.y_label 'Fraction'
+end
 ```</p>
 
-<ul>
-<li><p><code>data</code> can be <code>Daru::DataFrame</code>, data array or the format that the adapter support.</p></li>
-<li><p><code>options</code> is a hash that contains various options to customize the chart.
-If you have chosen a plotting library then you must use the options according
-to the options the library providing. Here is the library <code>daru-view</code> uses.
-Please check the examples options, they are passing in javascript code:</p>
+<p><img src="http://i64.tinypic.com/2s6onsw.png" alt="" /></p>
 
-<ul>
-<li><p>GoogleCharts: <a href="https://developers.google.com/chart/interactive/docs/gallery">https://developers.google.com/chart/interactive/docs/gallery</a></p></li>
-<li><p>HighCharts: <a href="https://www.highcharts.com/demo">https://www.highcharts.com/demo</a></p></li>
-<li><p>Nyaplot: <a href="https://github.com/SciRuby/nyaplot">https://github.com/SciRuby/nyaplot</a> (it works same as <code>daru</code>)</p></li>
-</ul>
-</li>
-</ul>
+<p>Given a dataframe, one can plot the scatter plot such that the points
+color, shape and size can be varied acording to a categorical
+variable.</p>
 
+<p>```ruby</p>
 
-<p>Note: User must have some knowledge about the plotting tool(that you want to
-use) to use it in <code>daru-view</code>. So that you can pass the correct options.</p>
-
-<h3>GoogleCharts:</h3>
-
-<p>Set the plotting library to <code>:googlecharts</code> to use this adapter. This will
-load the required js files in your webpage or IRuby notebook.</p>
-
-<p><code>ruby
-require 'daru/view'
-Daru::View.plotting_library = :googlecharts
-</code></p>
-
-<p>Let's create a DataFrame :</p>
-
-<p>```ruby
-idx = Daru::Index.new ['Year', 'Sales']
-data_rows = [</p>
-
-<pre><code>      ['2004',  1000],
-      ['2005',  1170],
-      ['2006',  660],
-      ['2007',  1030]
-</code></pre>
-
-<p>]
-df_sale_exp = Daru::DataFrame.rows(data_rows)
-df_sale_exp.vectors = idx</p>
-
-<h1>perform data manipulations, if you want.</h1>
-
-<p>```</p>
-
-<p>Now time to plot it:</p>
-
-<p><code>ruby
-line_basic_chart = Daru::View::Plot.new(df_sale_exp)
-line_basic_chart.chart
-</code></p>
-
-<p>This will return the chart object we created using GoogleCharts.
-In IRuby notebook, you will see this:</p>
-
-<p>{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlecharts_line1.png?raw=true 'Basic line chart using GoogleCharts' 'Basic line chart using GoogleCharts' %}</p>
-
-<p>You can find the IRuby notebook example in <a href="http://nbviewer.jupyter.org/github/shekharrajak/daru-view/blob/master/spec/dummy_iruby/Google%20Chart%20%7C%20%20Line%20Chart.ipynb">this link</a>.</p>
-
-<p>These are various charts type we can use e.g. line, area, bar, bubble,
-candlestick, combo, histogram, org, pie, stepped area chart, timeline, treemap,
-gauge, column, scatter, etc. We can find the customization options in the
-<a href="https://developers.google.com/chart/interactive/docs/gallery">google charts site</a>.</p>
-
-<p>Let me try another chart type Geo :</p>
-
-<p>```ruby
-country_population = [</p>
-
-<pre><code>      ['Germany', 200],
-      ['United States', 300],
-      ['Brazil', 400],
-      ['Canada', 500],
-      ['France', 600],
-      ['RU', 700]
-</code></pre>
-
-<p>]</p>
-
-<p>df_cp = Daru::DataFrame.rows(country_population)
-df_cp.vectors = Daru::Index.new(['Country', 'Population'])</p>
-
-<p>geochart = Daru::View::Plot.new(</p>
-
-<pre><code>df_cp, type: :geo, adapter: :googlecharts
-</code></pre>
-
-<p>)</p>
-
-<p>```</p>
-
-<p>Note: If you have already loaded the dependent JS files for the library then you can use <code>adapter: :googlecharts</code> in your Plot initialization.</p>
-
-<p>{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_geo1.png?raw=true 'Basic Geo chart using GoogleCharts' 'Basic Geo chart using GoogleCharts' %}</p>
-
-<h3>HighCharts:</h3>
-
-<p>Set the plotting library to <code>:highcharts</code> to use this adapter. This will
-load the required js files in your webpage or IRuby notebook.</p>
-
-<p><code>ruby
-require 'daru/view'
-Daru::View.plotting_library = :highcharts
-</code></p>
-
-<p>Let's pass the <code>data</code> as HighCharts support (we can pass a DataFrame as well):</p>
-
-<p>```
-data = [</p>
-
-<pre><code>['Firefox',   45.0],
-['IE',       26.8],
-{
-   :name=&gt; 'Chrome',
-   :y=&gt; 12.8,
-   :sliced=&gt; true,
-   :selected=&gt; true
-},
-['Safari',    8.5],
-['Opera',     6.2],
-['Others',   0.7]
-</code></pre>
-
-<p>]
-plt_pie = Daru::View::Plot.new data, type: :pie
-```</p>
-
-<p>This will return the <code>Plot</code> object we created.
-In IRuby notebook, you will see this:</p>
-
-<p>{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/highcharts_pie.png?raw=true 'Basic pie chart using HighCharts' 'Basic pie chart using HighCharts' %}</p>
-
-<p>You can find the IRuby notebook example in <a href="http://nbviewer.jupyter.org/github/shekharrajak/daru-view/blob/master/spec/dummy_iruby/HighCharts-%20Pie%20charts.ipynb">this link</a>.</p>
-
-<p>There are various charts type we can use e.g. line, area, bar, bubble,
-dynamic chart, pie, column, scatter, etc. We can find the customization options in the
-<a href="https://www.highcharts.com/demo">HighCharts site</a>.</p>
-
-<h3>Nyaplot</h3>
-
-<p>```ruby
-require 'daru/view'</p>
-
-<h1>set adapter</h1>
-
-<p>Daru::View.plotting_library = :nyaplot</p>
-
-<h1>define dataframe</h1>
+<h1>df is a dataframe with categorical variable :c</h1>
 
 <p>df = Daru::DataFrame.new({
   a: [1, 2, 4, -2, 5, 23, 0],
@@ -229,270 +421,1252 @@ require 'daru/view'</p>
   })
 df.to_category :c</p>
 
-<h1>creating scatter chart</h1>
+<p>df.plot(type: :scatter, x: :a, y: :b, categorized: {by: :c, method: :color}) do |p, d|
+  p.xrange [-10, 10]
+  p.yrange [-10, 10]
+end
+```</p>
 
-<p>scatter_chart = Daru::View::Plot.new(df, type: :scatter, x: :a, y: :b, categorized: {by: :c, method: :color})</p>
+<p><img src="http://i64.tinypic.com/2mcfx28.png" alt="" /></p>
+
+<p>In a similar manner Gnuplot and Gruff also support plotting of categorical variables.</p>
+
+<p>An additional work I did was to add Gruff with Daru. Now one can plot
+vectors and dataframes also using Gruff.</p>
+
+<p>See more notebooks on visualizing categorical data with Daru
+<a href="http://nbviewer.jupyter.org/github/SciRuby/sciruby-notebooks/tree/master/Data%20Analysis/Plotting/">here</a>.</p>
+
+<h4>Regression with categorical data</h4>
+
+<p>Now categorical data is supported in multiple linear regression and
+generalized linear models (GLM) in
+<a href="https://github.com/SciRuby/statsample">Statsample</a> and
+<a href="https://github.com/SciRuby/statsample-glm">Statsample-GLM</a>.</p>
+
+<p>A new formula language (like that used in R or
+<a href="https://github.com/pydata/patsy">Patsy</a>) has been introduced to ease
+the task of specifying regressions.</p>
+
+<p>Now there's no need to manually create a dataframe for regression.</p>
+
+<p>```ruby
+require 'statsample-glm'</p>
+
+<p>formula = 'OutcomeType_Adoption~AnimalType+Breed+AgeuponOutcome(Weeks)+Color+SexuponOutcome'
+glm_adoption = Statsample::GLM::Regression.new formula, train, :logistic
+glm_adoption.model.coefficients :hash</p>
+
+<h1>=> {:AnimalType_Cat=>0.8376443692275163, :"Breed_Pit Bull Mix"=>0.28200753488859803, :"Breed_German Shepherd Mix"=>1.0518504638731023, :"Breed_Chihuahua Shorthair Mix"=>1.1960242033878856, :"Breed_Labrador Retriever Mix"=>0.445803000000512, :"Breed_Domestic Longhair Mix"=>1.898703165797653, :"Breed_Siamese Mix"=>1.5248210169271197, :"Breed_Domestic Medium Hair Mix"=>-0.19504965010288533, :Breed_other=>0.7895601504638325, :"Color_Blue/White"=>0.3748263925801828, :Color_Tan=>0.11356334165122918, :"Color_Black/Tan"=>-2.6507089126322114, :"Color_Blue Tabby"=>0.5234717706465536, :"Color_Brown Tabby"=>0.9046099720184905, :Color_White=>0.07739310267363662, :Color_Black=>0.859906249787038, :Color_Brown=>-0.003740755055106689, :"Color_Orange Tabby/White"=>0.2336674067343927, :"Color_Black/White"=>0.22564205490196415, :"Color_Brown Brindle/White"=>-0.6744314269278774, :"Color_Orange Tabby"=>2.063785952843677, :"Color_Chocolate/White"=>0.6417921901449108, :Color_Blue=>-2.1969040091451704, :Color_Calico=>-0.08386525532631824, :"Color_Brown/Black"=>0.35936722899161305, :Color_Tricolor=>-0.11440457799048752, :"Color_White/Black"=>-2.3593561796090383, :Color_Tortie=>-0.4325130799770577, :"Color_Tan/White"=>0.09637439333330515, :"Color_Brown Tabby/White"=>0.12304448360566177, :"Color_White/Brown"=>0.5867441296328475, :Color_other=>0.08821407092892847, :"SexuponOutcome_Spayed Female"=>0.32626712478395975, :"SexuponOutcome_Intact Male"=>-3.971505056680895, :"SexuponOutcome_Intact Female"=>-3.619095491410668, :SexuponOutcome_Unknown=>-102.73807712615843, :"AgeuponOutcome(Weeks)"=>-0.006959545305620043}</h1>
 
 <p>```</p>
 
-<p>In IRuby notebook:</p>
+<p>Additionally, through the work of <a href="https://github.com/agisga">Alexej Grossmann</a>,
+one can also predict on new data using the model.</p>
 
-<p>{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/nyaplot_scatter.png?raw=true 'Basic scatter chart using Nyaplot' 'Basic scatter chart using Nyaplot' %}</p>
+<p><code>ruby
+predict = glm_adoption.predict test
+predict.map! { |i| i &lt; 0.5 ? 0 : 1 }
+predict.head 5
+</code>
+<img src="http://i67.tinypic.com/r1af7p.png" alt="" /></p>
 
-<h3>GoogleChart data table</h3>
+<p>This, I believe, makes Statsample-GLM very convenient to use.</p>
 
-<p>```ruby
-require 'daru/view'</p>
+<p>See <a href="http://nbviewer.jupyter.org/github/SciRuby/sciruby-notebooks/blob/master/Data%20Analysis/Categorical%20Data/examples/%5BExample%5D%20Formula%20language%20in%20Statsample-GLM.ipynb">this</a> for a complete example.</p>
 
-<h1>set adapter</h1>
+<h4>Other</h4>
 
-<h1>You don't need this line if you have already using google chart for plotting.</h1>
+<p>In addition to the aforementioned, there are some other considerable changes:</p>
 
-<h1>It is just for loading the dependent js files.</h1>
+<ul>
+<li>Improving overall structure of indexing in Daru and adding more capabilities. See <a href="http://nbviewer.jupyter.org/github/SciRuby/sciruby-notebooks/blob/master/Data%20Analysis/Categorical%20Data/Indexing%20in%20Vector.ipynb">this</a> and <a href="http://nbviewer.jupyter.org/github/SciRuby/sciruby-notebooks/blob/master/Data%20Analysis/Categorical%20Data/Indexing%20in%20DataFrame.ipynb">this</a>.</li>
+<li><code>CategoricalIndex</code> to handle the case when index column is a categorical data. <a href="http://lokeshh.github.io/blog/2016/06/14/categorical-index/">More about it here.</a></li>
+<li>Improving missing value API in Daru. <a href="http://lokeshh.github.io/blog/2016/08/18/improve-missing-values-api-in-daru/">Read more about it here.</a></li>
+<li>Configuring guard to enable automatic testing. <a href="https://github.com/v0dro/daru/blob/master/CONTRIBUTING.md#testing">More info here.</a></li>
+</ul>
 
-<p>Daru::View.table_library = :googlechart</p>
 
-<h1>Lets use array as <code>data</code> (we can pass Daru::DataFrame as well)</h1>
+<h4>Documentation</h4>
 
-<p>data = [
-  ['Galaxy', 'Distance', 'Brightness'],</p>
+<p><a href="http://lokeshh.github.io/blog/2016/06/21/categorical-data/">You can read about all my work in detail here.</a>. <a href="https://summerofcode.withgoogle.com/archive/2016/projects/5356167010189312/">Additionally, my project page can be found here.</a></p>
 
-<pre><code>      ['Canis Major Dwarf', 8000, 230.3],
-      ['Sagittarius Dwarf', 24000, 4000.5],
-      ['Ursa Major II Dwarf', 30000, 1412.3],
-      ['Lg. Magellanic Cloud', 50000, 120.9],
-      ['Bootes I', 60000, 1223.1]
-</code></pre>
+<p>I hope with these additions one will be able to see data more clearly with Daru.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2016: NMatrix and JRuby]]></title>
+    <link href="http://sciruby.com/blog/2016/10/25/gsoc-2016-port-nmatrix-to-jruby/"/>
+    <updated>2016-10-25T02:13:00+09:00</updated>
+    <id>http://sciruby.com/blog/2016/10/25/gsoc-2016-port-nmatrix-to-jruby</id>
+    <content type="html"><![CDATA[<h2>Introduction</h2>
 
-<p>  ]
-galaxy_table = Daru::View::Table.new(data)
-galaxy_table.table
-```</p>
+<p>I worked on "Port NMatrix to JRuby" in the context of the Google
+Summer of Code (GSoC) 2016 and I am pleased to announce that NMatrix
+can now be used in JRuby.</p>
 
-<p>This will return the table object we created using GoogleCharts tool.
-In IRuby notebook, you will see this:</p>
+<p>With JRuby NMatrix, a linear algebra library, wraps <a href="http://commons.apache.org/proper/commons-math/">Apache Commons Math</a> for its most
+basic functionalities. NMatrix supports dense matrices containing
+either doubles or Ruby objects as the data type. The performance of JRuby
+with Apache Commons Maths is quite satisfactory (see below for performance
+comparisons) even without making use of JRuby threading capabilities.</p>
 
-<p>{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_table1.png?raw=true 'Basic table using GoogleCharts' 'Basic table using GoogleCharts' %}</p>
+<p>I have also ported the <a href="https://github.com/agisga/mixed_models">mixed_models gem</a>, which
+uses NMatrix heavily at its core, to JRuby. This gem allowed us
+to test NMatrix-JRuby with real-life data.</p>
 
-<p>We can create table using Vectors as well.</p>
+<p>This blog post summarizes my work on the project with SciRuby, and
+reports the final status of the project.</p>
 
-<p>```ruby
-dv = Daru::Vector.new [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]</p>
+<p>The original GSoC proposal, plan and application can be found <a href="https://github.com/prasunanand/resume/blob/master/gsoc2016_application.md">here</a>. Until merging
+is complete, commits are available <a href="https://github.com/prasunanand/nmatrix/commits/jruby_port">here</a>.</p>
 
-<h1>adding pagination and some customization [optional]</h1>
+<h2>Performance</h2>
 
-<p>opts_pagination = {
-  width: '100%', height: '100%' ,
-  pageSize: 5,
-}</p>
+<p>I have benchmarked some of the NMatrix functionalities. The following
+plots compare the performance between NMatrix-JRuby, NMatrix-MRI, and
+NMatrix-MRI using LAPACK/ATLAS libraries. (Note: MRI refers to the
+reference implementation of Ruby, for those who are new.)</p>
 
-<p>table_vec = Daru::View::Table.new(dv, opts_pagination)</p>
-
-<p>```
-In Ruby Notebook:</p>
-
-<p>{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_vec_table1.png?raw=true 'Basic vector table using GoogleCharts' 'Basic vector table using GoogleCharts' %}</p>
-
-<h3>DataTable</h3>
-
-<p>```ruby
-require 'daru/view'</p>
-
-<h1>set adapter.</h1>
-
-<p>Daru::View.table_library = :datatables</p>
-
-<h1>Lets use Daru::DataFrame as <code>data</code> (we can pass Array as well)</h1>
-
-<p>df = Daru::DataFrame.new(
-  {</p>
-
-<pre><code>b: [11,12,13,14,15],
-a: [1,2,3,4,5],
-c: [11,22,33,44,55]
-</code></pre>
-
-<p>  },</p>
-
-<pre><code>order: [:a, :b, :c],
-index: [:one, :two, :three, :four, :five]
-</code></pre>
-
-<p>)
-df_datatable = Daru::View::Table.new(df, pageLength: 3)
-<code>``
-Currently there is some problem to diplay it in IRuby notebook, but in web application
-you can see something like this using</code>df_datatable.div` :</p>
-
-<p>{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/datatables_basic1.png?raw=true 'Basic table using Datatables' 'Basic table using Datatables' %}</p>
-
-<h2>How to use it in Ruby web application</h2>
-
-<p>As we know, we can get the HTML, JS code for the chart from the
-<code>Daru::View::Plot</code> or <code>Daru:View::Table</code> object using <code>#div</code> method. So just
-need to add that HTML, JS code in webpage in proper place.</p>
-
-<p>There is few things to be noted:</p>
+<p>Notes:</p>
 
 <ol>
-<li><p>In layout of the webpage, you have to load all the dependent JS files.
-So that HTML, JS code that is genearted work smoothly in that webpage. You
-can load the dependent js file for nyaplot library using <code>Daru::View.dependent_script(:nyaplot)</code>, similarly for other library.</p></li>
-<li><p>If you are using multiple library in one webpage then load multiple
-dependent JS files, in that webpage layout (generally in head tag).</p></li>
+<li>LAPACK and ATLAS aren't involved in most element-wise operations, such as addition and subtraction.</li>
+<li>NMatrix-MRI relies on LAPACK/ATLAS for calculating determinants and LU Decomposition (lud).</li>
 </ol>
 
 
-<p>We can set default adapter using <code>Daru::View.plotting_library = :googlecharts</code>
-and also we can change it for particular object while initializing object,
-i.e. <code>Daru::View::Plot.new(data, {adapter: :googlecharts})</code>. Just we have
-to make sure that dependent JS files are loaded for it.</p>
+<p><img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/plots/add.png?raw=true" title="Fig. 3: Matrix Addition" alt="Alt Matrix Addition" />
+<img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/plots/subt.png?raw=true" title="Fig. 4: Matrix Subtraction" alt="Alt Matrix Subtraction" />
+<img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/plots/mult.png?raw=true" title="Fig. 5: Matrix Multiplication" alt="Alt Matrix Multiplication" />
+<img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/plots/gamma.png?raw=true" title="Fig. 6: Gamma Operator" alt="Alt Gamma operator" />
+<img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/plots/det.png?raw=true" title="Fig. 7: Determinant" alt="Alt Determinant" />
+<img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/plots/lud.png?raw=true" title="Fig. 8: LU Facorization" alt="Alt LU Facorization" /></p>
 
-<p>To make it easy, we have defined <code>daru_chart</code> (that works same as Daru::View::Plot.new) , <code>daru_table</code> (works same as Daru::View::Table.new) for Rails application.</p>
+<h3>Result</h3>
 
-<p>So you can easily use it in controller or view of the application. For reference you can check the <a href="https://github.com/Shekharrajak/daru_examples_io_view_rails">demo Rails app</a>.</p>
-
-<h2>Design of daru-view</h2>
-
-<p><a href="https://github.com/Shekharrajak/daru-view">daru-view</a>, currently using
-<a href="https://github.com/SciRuby/nyaplot">Nyaplot</a>, <a href="https://www.highcharts.com/">HighCharts</a>, <a href="https://developers.google.com/chart/interactive/docs/gallery">GoogleCharts</a> for plotting the charts. It is also
-generating tables using <a href="https://datatables.net/">DataTables</a> and <a href="https://developers.google.com/chart/interactive/docs/gallery">GoogleCharts</a> with pagination, search and various features.</p>
-
-<h3>Design Pattern in daru-view</h3>
-
-<p>daru-view mainly uses the <a href="https://en.wikipedia.org/wiki/Adapter_pattern">adapter design pattern</a> and <a href="https://en.wikipedia.org/wiki/Composite_pattern">composite design pattern</a>.</p>
-
-<ul>
-<li><p><strong>Why Adapter design pattern:</strong></p>
-
-<ul>
-<li><p>Adapter pattern’s motivation is that we can reuse existing gems if we can modify the interface.</p></li>
-<li><p>daru-view joins functionalities of independent or incompatible interfaces of different gems.</p></li>
-<li><p><code>daru-view</code> have <a href="https://github.com/Shekharrajak/daru-view/blob/master/lib/daru/view/plot.rb"><code>Plot</code></a> and <a href="https://github.com/Shekharrajak/daru-view/blob/master/lib/daru/view/table.rb"><code>Table</code></a> class, which are using a <a href="https://github.com/Shekharrajak/daru-view/tree/master/lib/daru/view/adapters">adapter</a> when adapter(library to be used for plotting) is set for <code>Plot</code>, <code>Table</code> instance.</p></li>
-</ul>
-</li>
-<li><p><strong>Why Composite design pattern:</strong></p>
-
-<ul>
-<li><p>To define common objects and use it for defining composite objects.</p></li>
-<li><p>In <code>daru-view</code> we try to write common functions in a module and include it whenever needed.</p></li>
-</ul>
-</li>
-</ul>
+<ol>
+<li><p>For two-dimensional matrices, NMatrix-JRuby is currently slower than NMatrix-MRI for matrix multiplication and matrix decomposition functionalities (calculating determinant and factoring a matrix). NMatrix-JRuby is faster than NMatrix-MRI for other functionalities of a two-dimensional matrix &mdash; like addition, subtraction, trigonometric operations, etc.</p></li>
+<li><p>NMatrix-JRuby is a clear winner when we are working with matrices of arbitrary dimensions.</p></li>
+</ol>
 
 
 <h2>Implementation</h2>
 
-<p>daru-view ensure that it's functions are usable in both IRuby notebook as well
-as ruby web application frameworks.</p>
+<h3>Storing <em>n</em>-dimensional matrices as one-dimensional arrays</h3>
 
-<p>The main thing we need to display something in web application or IRuby
-notebook is <code>HTML</code> code of it. daru-view generates the <code>HTML</code> code of the
-chart, table and the same can be used to display in web application &amp; IRuby
-notebook.</p>
+<p>The major components of an <code>NMatrix</code> are shape, elements, dtype and
+stype. When initialized, the dense type stores the elements as a one-dimensional
+array; in the JRuby port, the <code>ArrayRealVector</code> class is used to store
+the elements.</p>
 
-<p>These are the libraries which is used in daru-view currently:</p>
+<p><code>@s</code> stores elements, <code>@shape</code> stores the shape of the matrix, while
+<code>@dtype</code> and <code>@stype</code> store the data type and storage type
+respectively. Currently, I have nmatrix-jruby implemented only for
+<code>:float64</code> (double) and Ruby <code>:object</code> data types.</p>
 
-<h3>Nyaplot</h3>
+<p>NMatrix-MRI uses <code>struct</code> as a <code>type</code> to store <code>dim</code>, <code>shape</code>, <code>offset</code>, <code>count</code>, <code>src</code>
+of an NMatrix. <code>ALLOC</code> and <code>xfree</code> are used to wrap the NMatrix attributes to C structs
+and release the unrequired memory.</p>
 
-<p><a href="https://github.com/SciRuby/nyaplot">Nyaplot</a> is good library for
-visualization in IRuby notebook only. When we use Nyaplot as the adapter in
-daru-view, it is usable in both IRuby notebook and web applications. Daru
-DataFrame or Vector is used as the data source of the chart. It works
-similar to the initial <code>daru</code> plotting system.</p>
+<p><img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/nmatrix.png?raw=true" title="Fig. 1: NMatrix" alt="NMatrix" /></p>
 
-<p>If user want to use the Nyaplot methods then it can be done on Nyaplot object.We
-can get nyplot object using <code>daru_plot_obj.chart</code>.</p>
+<h3>Slicing and Rank</h3>
 
-<p>i.e.</p>
+<p>Implementing slicing was the toughest part of NMatrix-JRuby
+implementation. <code>NMatrix@s</code> stores the elements of a matrix as a
+one-dimensional array. The elements along any dimension are accessed with the
+help of the stride. <code>NMatrix#get_stride</code> calculates the stride with
+the help of the dimension and shape and returns an Array.</p>
 
 <p>```ruby
-daru_view_obj = Daru::View::Plot.new(</p>
+def get_stride(nmatrix)
+  stride = Array.new()
+  (0...nmatrix.dim).each do |i|</p>
 
-<pre><code>              daru_dataframe, options={adapter: :nyaplot})
+<pre><code>stride[i] = 1;
+(i+1...dim).each do |j|
+  stride[i] *= nmatrix.shape[j]
+end
 </code></pre>
 
-<p>nyaplot_obj = daru_view_obj.chart</p>
+<p>  end
+  stride
+end
+```</p>
 
-<p>```</p>
+<p><code>NMatrix#[]</code> and <code>NMatrix#[]=</code> are thus able to read and write the
+elements of a matrix. NMatrix#MRI uses the <code>@s</code> object which stores
+the stride when the nmatrix is initialized.</p>
 
-<p>Now user can operate all the methods for Nyaplot object. Same thing is for
-all other adapter in daru-view.</p>
+<p><code>NMatrix#[]</code> calls the <code>#xslice</code> operator which calls <code>#get_slice</code>
+operator that use the stride to determine whether we are accessing a
+single element or multiple elements. If there are multiple elements,
+<code>#dense_storage_get</code> returns an NMatrix object with the elements along
+the dimension.</p>
 
-<h3>HighCharts</h3>
+<p>NMatrix-MRI differs from NMatrix-JRuby implementation as it makes sure
+that memory is properly utilized as the memory needs to be properly
+garbage collected.</p>
 
-<p>To add the <a href="https://www.highcharts.com/">HighCharts</a> features for plotting various chart types, daru-view uses the <a href="https://github.com/michelson/lazy_high_charts">lazy_high_charts</a> gem with additional features.</p>
+<p>```ruby
+def xslice(args)
+  result = nil</p>
 
-<p>In this adapter data source can be Array of data, Daru::DataFrame, Daru::Vector or HTML table code of the data.</p>
+<p>  if self.dim &lt; args.length</p>
 
-<p>There are various of options in HighCharts. One can see the options that can
-be used in <a href="https://www.highcharts.com/demo">HighCharts demo link</a>, which can
-be directly used in daru-view Plot.</p>
+<pre><code>raise(ArgumentError,"wrong number of arguments\
+   (#{args} for #{effective_dim(self)})")
+</code></pre>
 
-<p><strong>HighCharts adaptor can work offline as well in daru-view. Developers can update the saved the JS files (in daru-view) using rake task automatically.</strong></p>
+<p>  else</p>
 
-<p>If you is familiar with <code>lazy_high_chart</code> gem and want to use it for
-config the chart then user can access the <code>lazy_high_chart</code> object using
-<code>Daru::View::Plot#chart</code> and can do necessary operations.</p>
+<pre><code>result = Array.new()
+slice = get_slice(@dim, args, @shape)
+stride = get_stride(self)
+if slice[:single]
+  if (@dtype == :object)
+    result = @s[dense_storage_get(slice,stride)]
+  else
+    s = @s.toArray().to_a
+    result = @s.getEntry(dense_storage_get(slice,stride))
+  end
+else
+  result = dense_storage_get(slice,stride)
+end
+</code></pre>
 
-<h3>GoogleCharts</h3>
+<p>  end
+  return result
+end
+```</p>
 
-<p>To add the <a href="https://developers.google.com/chart/interactive/docs/gallery">GoogleCharts</a> features for plotting various chart types, daru-view uses the <a href="https://github.com/winston/google_visualr/">google_visualr</a> gem with additional features(in this module more new features are updated).</p>
+<p><code>NMatrix#[]=</code> calls the <code>#dense_storage_set</code> operator which calls
+ <code>#get_slice</code> operator that use the stride to find out whether we are
+ accessing a single element or multiple elements. If there are
+ multiple elements <code>#set_slice</code> recursively sets the elements of the
+ matrix then returns an NMatrix object with the elements along the
+ dimension.</p>
 
-<p>We want GoogleChart adapter to be very strong since Google chart tools always gets updated and it has amazing plotting features. Similar to the HighCharts module, here also we can use all the options described in Google Charts website.</p>
+<p>All the relevant code for slicing can be found <a href="https://github.com/prasunanand/nmatrix/blob/jruby_port/lib/nmatrix/jruby/slice.rb">here</a>.</p>
 
-<p>User can access the <code>google_visualr</code> object using <code>Daru::View::Plot#chart</code>, if
-they want to operate <code>google_visualr</code> methods.</p>
+<h3>Enumerators</h3>
 
-<h4>GoogleCharts as data table</h4>
+<p>NMatrix-MRI uses the C code for enumerating the elements of a
+matrix. Just as with slicing, the NMatrix-JRuby uses pure Ruby code in
+place of the C code. Currently, all the enumerators for dense matrices
+with real data-type have been implemented and are properly
+functional. Enumerators for objects have not yet been implemented.</p>
 
-<p>One of the good thing about google chart tool is, it can be used for generating table
-for web application and IRuby Notebook with pagination and other features.</p>
+<p>```ruby
+def each_with_indices
+  nmatrix = create_dummy_nmatrix
+  stride = get_stride(self)
+  offset = 0
+  #Create indices and initialize them to zero
+  coords = Array.new(dim){ 0 }</p>
 
-<p><strong><code>Daru::View::Plot</code> can take data Array, Daru::DataFrame, Daru::Vector,
-Daru::View::Table as data source.</strong></p>
+<p>  shape_copy =  Array.new(dim)
+  (0...size).each do |k|</p>
 
-<p><strong><code>Daru::View::Table</code> can take data Array, daru DataFrame, Daru Vector as data
- source.</strong></p>
+<pre><code>dense_storage_coords(nmatrix, k, coords, stride, offset)
+slice_index = dense_storage_pos(coords,stride)
+ary = Array.new
+if (@dtype == :object)
+  ary &lt;&lt; self.s[slice_index]
+else
+  ary &lt;&lt; self.s.toArray.to_a[slice_index]
+end
+(0...dim).each do |p|
+  ary &lt;&lt; coords[p]
+end
 
-<h3>DataTables</h3>
+# yield the array which now consists of the value and the indices
+yield(ary)
+</code></pre>
 
-<p><a href="https://datatables.net/">DataTables</a> has interaction controls to any HTML table. It can handle large set of data and have many cool features.</p>
+<p>  end if block_given?
+  nmatrix.s = @s</p>
 
-<p>To use it, daru-view uses <a href="https://github.com/Shekharrajak/data_tables">https://github.com/Shekharrajak/data_tables</a> gem. [Note: the gem name will be changed in near future]</p>
+<p>  return nmatrix
+ end
+```</p>
 
-<p>It basically uses the HTML table code and add features that user want. So internally HTML table code of Daru::DataFrame and Daru::Vector is passed as data source parameter.</p>
+<h3>Two-Dimensional Matrices</h3>
+
+<p>Linear algebra is mostly about two-dimensional matrices. In NMatrix,
+when performing calculations in a two-dimensional matrix, a one-dimensional array
+is converted to a two-dimensional matrix. A two-dimensional matrix is
+stored in the JRuby implementation as a <code>BlockRealMatrix</code> or
+<code>Array2DRowRealMatrix</code>. Each has its own advantages.</p>
+
+<h4>Getting a 2D Matrix</h4>
+
+<p><img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/matrixGenerate.png?raw=true" title="Fig. 2: Getting a 2D-matrix" alt="Alt Getting a 2D-matrix" /></p>
+
+<p>```java
+public class MatrixGenerator
+{
+  public static double[][] getMatrixDouble(double[] array, int row, int col)
+  {</p>
+
+<pre><code>double[][] matrix = new double[row][col];
+for (int index=0, i=0; i &lt; row ; i++){
+    for (int j=0; j &lt; col; j++){
+        matrix[i][j]= array[index];
+        index++;
+    }
+}
+return matrix;
+</code></pre>
+
+<p>  }
+}
+```</p>
+
+<h4>Convert a 2D-matrix to 1D-array</h4>
+
+<p>```java
+public class ArrayGenerator
+{
+  public static double[] getArrayDouble(double[][] matrix, int row, int col)
+  {</p>
+
+<pre><code>double[] array = new double[row * col];
+for (int index=0, i=0; i &lt; row ; i++){
+    for (int j=0; j &lt; col; j++){
+        array[index] = matrix[i][j];
+        index++;
+    }
+}
+return array;
+</code></pre>
+
+<p>  }
+}
+```</p>
+
+<h4>Why use a Java method instead of Ruby method?</h4>
+
+<ol>
+<li><p><em>Memory Usage and Garbage Collection:</em> A scientific library is memory intensive and hence, every step counts. The JRuby interpreter doesn't need to dynamically guess the data type and uses less memory, typically around one-tenth of it. If the memory is properly utilized, when the GC kicks in, the GC has to clear less used memory space.</p></li>
+<li><p><em>Speed:</em> Using java method greatly improves the speed &mdash; by around 1000 times, when compared to using the Ruby method.</p></li>
+</ol>
+
+
+<h2><strong>Operators</strong></h2>
+
+<p>All the operators from NMatrix-MRI have been implemented except
+modulus. The binary operators were easily implemented through Commons
+Math API and Java Math API.</p>
+
+<p>```ruby
+def +(other)
+  result = create_dummy_nmatrix
+  if (other.is_a?(NMatrix))</p>
+
+<pre><code>#check dimension
+raise(ShapeError, "Cannot add matrices with different dimension")\
+if (@dim != other.dim)
+#check shape
+(0...dim).each do |i|
+  raise(ShapeError, "Cannot add matrices with different shapes") \
+  if (@shape[i] != other.shape[i])
+end
+result.s = @s.copy.add(other.s)
+</code></pre>
+
+<p>  else</p>
+
+<pre><code>result.s = @s.copy.mapAddToSelf(other)
+</code></pre>
+
+<p>  end
+  result
+end
+```</p>
+
+<p>Unary Operators (Trigonometric, Exponentiation and Log operators) have been implemented using <code>#mapToSelf</code> method that takes a <a href="https://commons.apache.org/proper/commons-math/javadocs/api-3.6.1/org/apache/commons/math3/analysis/UnivariateFunction.html"><code>Univariate function</code></a> as an argument. <code>#mapToSelf</code> maps every element of ArrayRealVector object to the <code>Univariate function</code>, that is passed to it and returns <code>self</code> object.</p>
+
+<p><code>ruby
+def sin
+  result = create_dummy_nmatrix
+  result.s = @s.copy.mapToSelf(Sin.new())
+  result
+end
+</code></p>
+
+<p>NMatrix#method(arg) has been implemented using bivariate functions
+provided by Commons Math API and Java Math API.</p>
+
+<p><code>ruby
+def gamma
+  result = create_dummy_nmatrix
+  result.s = ArrayRealVector.new MathHelper.gamma(@s.toArray)
+  result
+end
+</code></p>
+
+<p>```java
+import org.apache.commons.math3.special.Gamma;</p>
+
+<p>public class MathHelper{
+  ...
+  public static double[] gamma(double[] arr){</p>
+
+<pre><code>double[] result = new double[arr.length];
+for(int i = 0; i&lt; arr.length; i++){
+  result[i] = Gamma.gamma(arr[i]);
+}
+return result;
+</code></pre>
+
+<p>  }
+  ...
+}
+```</p>
+
+<h3>Decomposition</h3>
+
+<p>NMatrix-MRI relies on LAPACK and ATLAS for matrix decomposition and
+solving functionalities. Apache Commons Math provides a different set
+of API for decomposing a matrix and solving an equation. For example,
+<code>#potrf</code> and other LAPACK specific functions have not been implemented
+as they are not required at all.</p>
+
+<p>Calculating determinant in NMatrix is tricky where a matrix is reduced
+either to a lower or upper matrix and the diagonal elements of the
+matrix are multiplied to get the result. Also, the correct sign of the
+result (whether positive or negative) is taken into account while
+calculating the determinant. However, NMatrix-JRuby uses Commons Math
+API to calculate the determinant.</p>
+
+<p>```ruby
+def det_exact
+  if (@dim != 2 || @shape[0] != @shape[1])</p>
+
+<pre><code>raise(ShapeError, "matrices must be square to have a determinant defined")
+return nil
+</code></pre>
+
+<p>  end
+  to_return = LUDecomposition.new(self.twoDMat).getDeterminant()
+end
+```</p>
+
+<p>Given below is code that shows how Cholesky decomposition has been
+implemented by using Commons Math API.</p>
+
+<h4>Cholesky Decomposition</h4>
+
+<p>```ruby
+  def factorize_cholesky</p>
+
+<pre><code>cholesky = CholeskyDecomposition.new(self.twoDMat)
+l = create_dummy_nmatrix
+twoDMat = cholesky.getL
+l.s = ArrayRealVector.new(ArrayGenerator.getArrayDouble\
+    (twoDMat.getData, @shape[0], @shape[1]))
+
+u = create_dummy_nmatrix
+twoDMat = cholesky.getLT
+u.s = ArrayRealVector.new(ArrayGenerator.getArrayDouble\
+  (twoDMat.getData, @shape[0], @shape[1]))
+return [u,l]
+</code></pre>
+
+<p>  end
+```
+Similarly, LU Decomposition and QR factorization have been implemented.</p>
+
+<h4>LU Decomposition</h4>
+
+<p><a href="https://github.com/prasunanand/nmatrix/blob/jruby_port/lib/nmatrix/jruby/math.rb#L365">Code</a></p>
+
+<h4>QR Factorization</h4>
+
+<p><a href="https://github.com/prasunanand/nmatrix/blob/jruby_port/lib/nmatrix/jruby/math.rb#L392">Code</a></p>
+
+<h4><code>NMatrix#solve</code></h4>
+
+<p>The solve method currently uses LU and Cholesky decomposition.</p>
+
+<p>```ruby
+  def solve(b, opts = {})</p>
+
+<pre><code>raise(ShapeError, "Must be called on square matrix")\
+   unless self.dim == 2 &amp;&amp; self.shape[0] == self.shape[1]
+raise(ShapeError, "number of rows of b must equal number\
+   of cols of self") if self.shape[1] != b.shape[0]
+raise(ArgumentError, "only works with dense matrices") if self.stype != :dense
+raise(ArgumentError, "only works for non-integer, non-object dtypes")\
+   if integer_dtype? or object_dtype? or b.integer_dtype? or b.object_dtype?
+
+opts = { form: :general }.merge(opts)
+x    = b.clone
+n    = self.shape[0]
+nrhs = b.shape[1]
+
+nmatrix = create_dummy_nmatrix
+case opts[:form]
+when :general, :upper_tri, :upper_triangular, :lower_tri, :lower_triangular
+  #LU solver
+  solver = LUDecomposition.new(self.twoDMat).getSolver
+  nmatrix.s = solver.solve(b.s)
+  return nmatrix
+when :pos_def, :positive_definite
+  solver = Choleskyecomposition.new(self.twoDMat).getSolver
+  nmatrix.s = solver.solve(b.s)
+  return nmatrix
+else
+  raise(ArgumentError, "#{opts[:form]} is not a valid form option")
+end
+</code></pre>
+
+<p>  end
+```</p>
+
+<h4><code>NMatrix#matrix_solve</code></h4>
+
+<p>Suppose we need to solve a system of linear equations:</p>
+
+<pre><code>                    AX = B
+</code></pre>
+
+<p>where A is an m×n matrix, B and X are n×p matrices, we need to solve this equation by iterating through B.</p>
+
+<p>NMatrix-MRI implements this functionality using <code>NMatrix::BLAS::cblas_trsm</code> method. However, for NMatrix-JRuby,  <code>NMatrix#matrix_solve</code> is the analogous method used.</p>
+
+<p>```ruby
+  def matrix_solve rhs</p>
+
+<pre><code>if rhs.shape[1] &gt; 1
+  nmatrix = NMatrix.new :copy
+  nmatrix.shape = rhs.shape
+  res = []
+  #Solve a matrix and store the vectors in a matrix
+  (0...rhs.shape[1]).each do |i|
+    res &lt;&lt; self.solve(rhs.col(i)).s.toArray.to_a
+  end
+  #res is in col major format
+  result = ArrayGenerator.getArrayColMajorDouble \
+     res.to_java :double, rhs.shape[0], rhs.shape[1]
+  nmatrix.s = ArrayRealVector.new result
+
+  return nmatrix
+else
+  return self.solve rhs
+end
+</code></pre>
+
+<p>  end
+```</p>
+
+<p>Currently, Hessenberg transformation for NMatrix-JRuby has not been implemented.</p>
+
+<h3>Other dtypes</h3>
+
+<p>I have tried implementing float dtypes using <code>FloatMatrix</code> class
+provide by jblas.  jblas was used instead of Commons Math as the
+latter uses <code>Field Elements</code> for Floats and it had some issues
+with <code>Reflection</code> and <code>Type Erasure</code>.
+However, using jblas resulted in errors due to precision.</p>
+
+<h2>Code Organisation and Deployment</h2>
+
+<p>To minimise conflict with the MRI codebase all the JRuby front end
+code has been placed in the <code>/lib/nmatrix/jruby</code>
+directory. <code>lib/nmatrix/nmatrix.rb</code> decides whether to load
+<code>nmatrix.so</code> or <code>nmatrix_jruby.rb</code> after detecting the Ruby platform.</p>
+
+<p>The added advantage is that the Ruby interpreter must not decide which
+function to call at run-time. The impact on performance can be seen
+when programs which intensively use NMatrix for linear algebraic
+computations (<em>e.g.</em>, mixed_models) are run.</p>
+
+<h2>Spec Report</h2>
+
+<p>After the port; this is the final report that summarizes the number of tests that successfully pass:</p>
+
+<h3>NMatrix</h3>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Spec file</th>
+<th align="center">Total Tests</th>
+<th align="center">Success</th>
+<th align="center">Failure</th>
+<th align="center">Pending</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>00_nmatrix_spec</td>
+<td align="center">188</td>
+<td align="center">139</td>
+<td align="center">43</td>
+<td align="center">6</td>
+</tr>
+<tr>
+<td></td>
+<td>01_enum_spec</td>
+<td align="center">17</td>
+<td align="center">8</td>
+<td align="center">09</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>02_slice_spec</td>
+<td align="center">144</td>
+<td align="center">116</td>
+<td align="center">28</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>03_nmatrix_monkeys_spec</td>
+<td align="center">12</td>
+<td align="center">11</td>
+<td align="center">01</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>elementwise_spec</td>
+<td align="center">38</td>
+<td align="center">21</td>
+<td align="center">17</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>homogeneous_spec.rb</td>
+<td align="center">07</td>
+<td align="center">06</td>
+<td align="center">01</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>math_spec</td>
+<td align="center">737</td>
+<td align="center">541</td>
+<td align="center">196</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>shortcuts_spec</td>
+<td align="center">81</td>
+<td align="center">57</td>
+<td align="center">24</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>stat_spec</td>
+<td align="center">72</td>
+<td align="center">40</td>
+<td align="center">32</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>slice_set_spec</td>
+<td align="center">6</td>
+<td align="center">2</td>
+<td align="center">04</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+
+
+<br>
+
+
+<h4>Why do some tests fail?</h4>
+
+<ol>
+<li>Complex dtype has not been implemented.</li>
+<li>Sparse matrices (list and yale) have not been implemented.</li>
+<li>Decomposition methods that are specific to LAPACK and ATLAS have not been implemented.</li>
+<li>Integer dtype is not properly assigned to <code>floor</code>, <code>ceil</code>, and <code>round</code> methods.</li>
+</ol>
+
+
+<h3>Mixed_Models</h3>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Spec file</th>
+<th align="center">Total Test</th>
+<th align="center">Success</th>
+<th align="center">Failure</th>
+<th align="center">Pending</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>Deviance_spec</td>
+<td align="center">04</td>
+<td align="center">04</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>LMM_spec</td>
+<td align="center">195</td>
+<td align="center">195</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>LMM_categorical_data_spec.rb</td>
+<td align="center">48</td>
+<td align="center">45</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>LMMFormula_spec.rb</td>
+<td align="center">05</td>
+<td align="center">05</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>LMM_interaction_effects_spec.rb</td>
+<td align="center">82</td>
+<td align="center">82</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>LMM_nested_effects_spec.rb</td>
+<td align="center">40</td>
+<td align="center">40</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>matrix_methods_spec.rb</td>
+<td align="center">52</td>
+<td align="center">52</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>ModelSpecification_spec.rb</td>
+<td align="center">07</td>
+<td align="center">07</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td></td>
+<td>NelderMeadWithConstraints_spec.rb</td>
+<td align="center">08</td>
+<td align="center">08</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+
 
 <h2>Future Work</h2>
 
-<p>daru-view will be more powerful and simple in near future. Developers can add
-more libraries in daru-view easily, if required. To add library follow the setups given in
-<a href="https://github.com/Shekharrajak/daru-view/blob/master/CONTRIBUTING.md">CONTRIBUTING.md</a></p>
+<p>NMatrix on JRuby offers comparable speeds to MRI. For specific
+computations it will be possible to leverage the threading support of
+JRuby and speed up things using multiple cores.</p>
+
+<p>Adding new functionality to NMatrix-JRuby will be easy from
+here. Personally, I am interested to add OpenCL support to leverage
+the GPU computational capacity available on most machines today.</p>
 
 <h2>Conclusion</h2>
 
-<p>The aim of the daru-view is to plot charts in IRuby notebook and ruby web
-application easily, so that developers need not have to use any other gem or
-language for visualization.</p>
+<p>The main goal of this project was to to gain from the performance JRuby offers,
+and bring a unified interface for linear algebra between MRI and JRuby.</p>
 
-<p>It can work smoothly in Rails/Sinatra/Nanoc web frameworks and I hope it can work in other ruby frameworks as well, because daru-view is generating the html code and javascript code for the chart, which is basic need of the webpage.</p>
+<p>By the end of GSoC, I have been able to successfully create a linear
+algebra library, NMatrix for JRuby users, which they can easily run on
+their machines &mdash; unless they want to use complex numbers, at
+least for now.</p>
 
-<p><strong>Why not use the plotting libraries directly?</strong></p>
-
-<p>If you are using daru gem for analyzing the data and want to visualize it, then it will be good if you have data-visualization within daru and can plot it directly using DataFrame/Vector objects of daru.</p>
-
-<p>daru-view will be helpful in plotting charts and tables directly from the Daru::DataFrame and Daru::Vector . daru-view using nyaplot, highcharts , google charts right now to plot the chart. So user can set the plotting library and get the chart accordingly.</p>
-
-<p>Most of the plotting libraries doesn't provide the features of plotting charts in iruby notebook. They are defined only for web applications (mostly for Rails). But daru-view can plot charts in any ruby web application as well as iruby notebook.</p>
+<p>I have mixed_models gem simultaneously ported to JRuby. Even here,
+NMatrix-JRuby is very close to NMatrix-MRI, considering the performance .</p>
 
 <h2>Acknowledgements</h2>
 
-<p>I would like to thank to my mentors <a href="https://github.com/v0dro">Sameer Deshmukh</a>
-,<a href="https://github.com/lokeshh">Lokesh Sharma</a> and <a href="https://github.com/zverok">Victor Shepelev</a> for their response and support and I am very grateful to the <a href="http://sciruby.com/">Ruby Science Foundation</a> for this golden opportunity.</p>
+<p>I would like to express my sincere gratitude to my mentor Pjotr Prins
+for the continuous support through the summers, and for his patience,
+motivation, enthusiasm, and immense knowledge. I could not have
+imagined having a better advisor and mentor, for this project.</p>
 
-<p>I thank my fellow GSoC participants <a href="https://github.com/athityakumar">Athitya Kumar</a> and <a href="https://github.com/prasunanand">Prasun Anand</a> for their support and discussions on various topics.</p>
+<p>I am very grateful to Google and the Ruby Science Foundation for this
+golden opportunity.</p>
 
-<p>Thanks to Google for conducting <a href="https://summerofcode.withgoogle.com">Google Summer of Code</a>.</p>
+<p>I am very thankful to Charles Nutter, John Woods, Sameer Deshmukh,
+Kenta Murata and Alexej Gossmann, who mentored me through the
+project. It has been a great learning experience.</p>
+
+<p>I thank my fellow GSoC participants Rajith, Lokesh and Gaurav who
+helped me with certain aspects of my project.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Statistical linear mixed models in Ruby with mixed_models (GSoC2015)]]></title>
+    <link href="http://sciruby.com/blog/2015/08/19/gsoc-2015-mixed-models/"/>
+    <updated>2015-08-19T12:00:00+09:00</updated>
+    <id>http://sciruby.com/blog/2015/08/19/gsoc-2015-mixed-models</id>
+    <content type="html"><![CDATA[<p>Google Summer of Code 2015 is coming to an end. During this summer, I have learned too many things to list here about statistical modeling, Ruby and software development in general, and I had a lot of fun in the process!</p>
+
+<h2>Linear mixed models</h2>
+
+<p>My GSoC project is the Ruby gem <a href="https://github.com/agisga/mixed_models">mixed_models</a>. Mixed models are statistical models which predict the value of a response variable as a result of fixed and random effects. The gem in its current version can be used to fit statistical linear mixed models and perform statistical inference on the model parameters as well as to predict future observations. A number of tutorials/examples in IRuby notebook format are accessible from the <code>mixed_models</code> <a href="https://github.com/agisga/mixed_models">github repository</a>.</p>
+
+<p>Linear mixed models are implemented in the class <code>LMM</code>. The constructor method <code>LMM#initialize</code> provides a flexible model specification interface, where an arbitrary covariance structure of the random effects terms can be passed as a <code>Proc</code> or a block.</p>
+
+<p>A convenient user-friendly interface to the basic model fitting algorithm is <code>LMM#from_formula</code>, which uses the formula language of the R mixed models package <code>lme4</code> for model specification. With the <code>#from_formula</code> method, the user can conveniently fit models with categorical predictor variables, interaction fixed or random effects, as well as multiple crossed or nested random effects, all with just one line of code.</p>
+
+<p>Examples are given in the sections below.</p>
+
+<h3>Implementation</h3>
+
+<p>The parameter estimation in <code>LMM#initialize</code> is largely based on the approach developed by the authors of the R mixed models package <code>lme4</code>, which is delineated in the <code>lme4</code> <a href="https://cran.r-project.org/web/packages/lme4/vignettes/lmer.pdf">vignette</a>. I have tried to make the code of the model fitting algorithm in <code>LMM#initialize</code> easy to read, especially compared to the corresponding implementation in <code>lme4</code>.</p>
+
+<p>The <code>lme4</code> code is largely written in C++, which is integrated in R via the packages <code>Rcpp</code> and <code>RcppEigen</code>. It uses <a href="https://developer.nvidia.com/cholmod">CHOLMOD</a> code for various sparse matrix tricks, and it involves passing pointers to C++ object to R (and vice versa) many times, and passing different R environments from function to function. All this makes the <code>lme4</code> code rather hard to read. Even Douglas Bates, the main developer of <code>lme4</code>, admits that <a href="https://stat.ethz.ch/pipermail/r-sig-mixed-models/2014q4/022791.html">"The end result is confusing (my fault entirely) and fragile"</a>, because of all the utilized performance improvements. I have analyzed the <code>lme4</code> code in three blog posts (<a href="http://agisga.github.io/Dissect_lmer_part1/">part 1</a>, <a href="http://agisga.github.io/Dissect_lmer_part2/">part 2</a> and <a href="http://agisga.github.io/Dissect_lmer_part3/">part 3</a>) before starting to work on my gem <code>mixed_models</code>.</p>
+
+<p>The method <code>LMM#initialize</code> is written in a more functional style, which makes the code shorter and (I find) easier to follow.  All matrix calculations are performed using the gem <a href="https://github.com/SciRuby/nmatrix"><code>nmatrix</code></a>, which has a quite intuitive syntax and contributes to the overall code readability as well.
+The Ruby gem loses with respect to memory consumption and speed in comparison to <code>lme4</code>, because it is written in pure Ruby and does not utilize any sparse matrix tricks. However, for the same reasons the <code>mixed_models</code> code is much shorter and easier to read than <code>lme4</code>. Moreover, the linear mixed model formulation in <code>mixed_models</code> is a little bit more general, because it does not assume that the random effects covariance matrix is sparse. More about the implementation of <code>LMM#initialize</code> can be found in <a href="http://agisga.github.io/First-linear-mixed-model-fit/">this blog post</a>.</p>
+
+<h3>Other existing tools</h3>
+
+<p>Popular existing software packages for mixed models include the R package <a href="https://cran.r-project.org/web/packages/lme4/index.html"><code>lme4</code></a> (which is arguably the standard software for linear mixed models), the R package <a href="https://cran.r-project.org/web/packages/nlme/index.html"><code>nlme</code></a> (an older package developed by the same author as <code>lme4</code>, still widely used), Python's <a href="https://github.com/statsmodels/statsmodels/blob/master/statsmodels/regression/mixed_linear_model.py"><code>statmodels</code></a>, and the Julia package <a href="https://github.com/dmbates/MixedModels.jl"><code>MixedModels.jl</code></a>.</p>
+
+<p>Below, I give a couple of examples illustrating some of the capabilities of <code>mixed_models</code> and explore how it compares to the alternatives.</p>
+
+<h3>A usage example and discussion</h3>
+
+<p>As an example, we use <a href="http://archive.ics.uci.edu/ml/datasets/BlogFeedback">data</a> from the UCI machine learning repository, which originate from blog posts from various sources in 2010-2012, in order to model (the logarithm of) the number of comments that a blog post receives. The linear predictors are the text length, the log-transform of the average number of comments at the hosting website, the average number of trackbacks at the hosting website, and the parent blog posts. We assume a random effect on the number of comments due to the day of the week on which the blog post was published. In <code>mixed_models</code> this model can be fit with</p>
+
+<p>```ruby
+model_fit = LMM.from_formula(formula: "log_comments ~ log_host_comments_avg + host_trackbacks_avg + length + has_parent_with_comments + (1 | day)",</p>
+
+<pre><code>                          data: blog_data)
+</code></pre>
+
+<p>```</p>
+
+<p>and we can display some information about the estimated fixed effects with</p>
+
+<p><code>ruby
+puts model_fit.fix_ef_summary.inspect(24)
+</code></p>
+
+<p>which produces the following output:</p>
+
+<p>```</p>
+
+<pre><code>                                         coef                       sd                  z_score            WaldZ_p_value 
+           intercept       1.2847896684307731     0.030380582281933178        42.28983027737477                      0.0 
+</code></pre>
+
+<p>   log_host_comments_avg        0.415586319225577     0.007848368759350875        52.95193586953086                      0.0</p>
+
+<pre><code> host_trackbacks_avg     -0.07551588997745964     0.010915623834434068       -6.918146971979714    4.575895218295045e-12 
+              length   1.8245853808280765e-05    2.981631039432429e-06        6.119420400102211    9.391631916599863e-10 
+</code></pre>
+
+<p>has_parent_with_comments      -0.4616662830553772      0.13936886611993773      -3.3125496095955715    0.0009244972814528296
+```</p>
+
+<p>We can also display the estimated random effects coefficients and the random effects standard deviation,</p>
+
+<p><code>ruby
+puts "Random effects coefficients:"
+puts model_fit.ran_ef
+puts "Random effects correlation structure:"
+puts model_fit.ran_ef_summary.inspect
+</code></p>
+
+<p>which produces</p>
+
+<p>```
+Random effects coefficients:
+{:intercept_fr=>0.0, :intercept_mo=>0.0, :intercept_sa=>0.0, :intercept_su=>0.0, :intercept_th=>0.0, :intercept_tu=>0.0, :intercept_we=>0.0}
+Random effects standard deviation:</p>
+
+<h1>&lt;Daru::DataFrame:70278348234580 @name = 8e11a27f-81b0-48a0-9771-085a8f30693d @size = 1></h1>
+
+<pre><code>              day 
+   day        0.0 
+</code></pre>
+
+<p>```</p>
+
+<p>Interestingly, the estimates of the random effects coefficients and standard deviation are all zero!
+That is, we have a singular fit. Thus, our results imply that the day of the week on which a blog post is published has no effect on the number of comments that the blog post will receive.</p>
+
+<p>It is worth pointing out that such a model fit with a singular covariance matrix is problematic with the current version of Python's <code>statmodels</code> (described as "numerically challenging" in the <a href="http://statsmodels.sourceforge.net/devel/mixed_linear.html">documentation</a>) and the R package <code>nlme</code> ("Singular covariance matrices correspond to infinite parameter values", a <a href="https://stat.ethz.ch/pipermail/r-sig-mixed-models/2014q4/022791.html">mailing list reply</a> by Douglas Bates, the author of <code>nlme</code>). However, <code>mixed_models</code>, <code>lme4</code> and <code>MixedModels.jl</code> can handle singular fits without problems.
+In fact, like <code>mixed_models</code> above, <code>lme4</code> estimates the random effects coefficients and standard deviation to be zero, as we can see from the following R output:</p>
+
+<p>```rconsole</p>
+
+<blockquote><p>mod &lt;- lmer(log_comments ~ log_host_comments_avg + host_trackbacks_avg + length + has_parent_with_comments + (1|day), data = df)
+Warning message:
+Some predictor variables are on very different scales: consider rescaling
+ranef(mod)
+$day
+   (Intercept)
+fr           0
+mo           0
+sa           0
+su           0
+th           0
+tu           0
+we           0</p>
+
+<p>VarCorr(mod)
+ Groups   Name        Std.Dev.
+ day      (Intercept) 0.0000<br/>
+ Residual             1.2614
+```</p></blockquote>
+
+<p>Unfortunately, <code>mixed_models</code> is rather slow when applied to such a large data set (<code>blog_data</code> is a data frame of size 22435&times;8), especially when compared to <code>lme4</code> which uses many sparse matrix tricks and is mostly written in C++ (integrated in R via <code>Rcpp</code>) to speed up computation. The difference in performance between <code>mixed_models</code> and <code>lme4</code> is on the order of hours for large data, and Julia's <code>MixedModels.jl</code> promises to be even faster than <code>lme4</code>. However, there is no noticeable difference in performance speed for smaller data sets.</p>
+
+<p><a href="http://nbviewer.ipython.org/github/agisga/mixed_models/blob/master/notebooks/blog_data.ipynb">The full data analysis of the blog post data can be found in this IRuby notebook</a>.</p>
+
+<h3>A second example and statistical inference on the parameter estimates</h3>
+
+<p>Often, the experimental design or the data suggests a linear mixed model whose random effects are associated with multiple grouping factors. A specification of multiple random effects terms which correspond to multiple grouping factors is often referred to as <em>crossed random effect</em>, or <em>nested random effects</em> if the corresponding grouping factors are nested in each other.
+A good reference on such models is <a href="http://lme4.r-forge.r-project.org/book/Ch2.pdf">Chapter 2</a> of Douglas Bates' <code>lme4</code> book.</p>
+
+<p>Like <code>lme4</code>, <code>mixed_models</code> is particularly well suited for models with crossed or nested random effects. The current release of <code>statmodels</code>, however, does not support crossed or nested random effects (according to the <a href="http://statsmodels.sourceforge.net/devel/mixed_linear.html">documentation</a>).</p>
+
+<p>As an example we fit a linear mixed model with nested random effects to a data frame with 100 rows, of the form:</p>
+
+<p>```ruby</p>
+
+<h1>&lt;Daru::DataFrame:69912847885160 @name = 2b161c5d-00de-4240-be50-8fa84f3aed24 @size = 5></h1>
+
+<pre><code>                a          b          x          y 
+     0         a3         b1 0.38842531 5.10364866 
+     1         a3         b2 0.44622300 6.23307061 
+     2         a3         b1 1.54993657 12.2050404 
+     3         a3         b1 1.52786614 12.0067595 
+     4         a3         b2 0.76011212 8.20054527
+</code></pre>
+
+<p>```</p>
+
+<p>We consider the following model:</p>
+
+<ul>
+<li>We take <code>y</code> to be the response and <code>x</code> its predictor.</li>
+<li>We consider the factor <code>b</code> to be nested within the factor <code>a</code>.</li>
+<li>We assume that the intercept varies due to variable <code>a</code>; that is, a different (random) intercept term for each level of <code>a</code>.</li>
+<li>Moreover, we assume that the intercept varies due to the factor <code>b</code> which is nested in <code>a</code>; that is, different (random) intercept for each combination of levels of <code>a</code> and <code>b</code>.</li>
+</ul>
+
+
+<p>That is, mathematically the model can be expressed as</p>
+
+<p><code>
+y = beta_0 + beta_1 * x + gamma(a) + delta(a,b) + epsilon
+</code></p>
+
+<p>where <code>gamma(a) ~ N(0, phi**2)</code> and <code>delta(a,b) ~ N(0, psi**2)</code> are normally distributed random variables which assume different realizations for different values of <code>a</code> and <code>b</code>, and where <code>epsilon</code> is a random Gaussian noise term with variance <code>sigma**2</code>. The goal is to estimate the parameters <code>beta_0</code>, <code>beta_1</code>, <code>phi</code>, <code>psi</code> and <code>sigma</code>.</p>
+
+<p>We fit this model in <code>mixed_models</code>, and display the estimated random effects correlation structure with</p>
+
+<p>```ruby
+mod = LMM.from_formula(formula: "y ~ x + (1|a) + (1|a:b)",</p>
+
+<pre><code>                   data: df, reml: false)
+</code></pre>
+
+<p>puts mod.ran_ef_summary.inspect
+```</p>
+
+<p>which produces the output</p>
+
+<p>```</p>
+
+<pre><code>                a    a_and_b 
+     a 1.34108300        nil 
+</code></pre>
+
+<p>   a_and_b        nil 0.97697500
+```</p>
+
+<p>The correlation between the factor <code>a</code> and the nested random effect <code>a_and_b</code> is denoted as <code>nil</code>, because the random effects in the model at hand are assumed to be independent.</p>
+
+<p>An advantage of <code>mixed_models</code> over some other tools is the simplicity with which p-values and confidence intervals for the parameter estimates can be calculated using a multitude of available methods. Such methods include a likelihood ratio test implementation, multiple bootstrap based methods (which run in parallel by default), and methods based on the Wald Z statistic.</p>
+
+<p>We can compute five types of 95% confidence intervals for the fixed effects coefficients with the following line of code:</p>
+
+<p><code>ruby
+mod.fix_ef_conf_int(method: :all, nsim: 1000)
+</code></p>
+
+<p>which yields the result</p>
+
+<p>```</p>
+
+<pre><code>                                      intercept                                        x 
+wald_z [-1.0442515623151203, 2.433416817887737]   [4.302419420148841, 5.038899876985704] 
+</code></pre>
+
+<p>boot_basic [-0.9676586601496888, 2.486799230544233]    [4.30540212917657, 5.028701160534481]
+ boot_norm [-1.0575520080398213, 2.4667867000424115   [4.295959190826356, 5.043382379744274]</p>
+
+<pre><code>boot_t [-0.9676586601496886, 2.486799230544233]    [4.30540212917657, 5.028701160534481] 
+</code></pre>
+
+<p> boot_perc [-1.0976339749716164, 2.3568239157223054   [4.312618136600064, 5.035917167957975]</p>
+
+<p>```</p>
+
+<p>For example, we see here that the intercept term is likely not significantly different from zero. We could proceed now by performing hypotheses tests using <code>#fix_ef_p</code> or <code>#likelihood_ratio_test</code>, or by refitting a model without an intercept using <code>#drop_fix_ef</code>.</p>
+
+<p>We can also test the nested random effect for significance, in order to decide whether we should drop that term from the model to reduce model complexity. We can use a bootstrap based version of likelihood ratio test as follows.</p>
+
+<p>```ruby
+mod.ran_ef_p(variable: :intercept, grouping: [:a, :b],</p>
+
+<pre><code>         method: :bootstrap, nsim: 1000)
+</code></pre>
+
+<p>```</p>
+
+<p>We get a p-value of 9.99e-4, suggesting that we probably should keep the term <code>(1|a:b)</code> in the model formula.</p>
+
+<h3>A third example &mdash; a less conventional model fit</h3>
+
+<p>Another advantage of <code>mixed_models</code> against comparable tools is the ease of fitting models with arbitrary covariance structures of the random effects, which are not covered by the formula interface of <code>lme4</code>. This can be done in a user-friendly manner by providing a block or a <code>Proc</code> to the <code>LMM</code> constructor. This unique feature of the Ruby language makes the implementation and usage of the method incredibly convenient. A danger of allowing for arbitrary covariance structures is, of course, that such a flexibility gives the user the freedom to specify degenerate and computationally unstable  models.</p>
+
+<p>As an example we look at an application to genetics, namely to SNP data (<a href="https://en.wikipedia.org/wiki/Single-nucleotide_polymorphism">single-nucleotide polymorphism</a>) with known pedigree structures (family relationships of the subjects). The family information is prior knowledge that we can model in the random effects of a linear mixed effects model.</p>
+
+<p>We model the quantitative trait <code>y</code> (a vector of length 1200) as</p>
+
+<p><code>
+y = X * beta + b + epsilon,
+</code></p>
+
+<p>where <code>X</code> is a <code>1200 x 130</code> matrix containing the genotypes (i.e. 130 SNPs for each of the 1200 subjects); <code>epsilon</code> is a vector of independent random noise terms with variances equal to <code>sigma**2</code>; <code>beta</code> is a vector of unknown fixed effects coefficients measuring the contribution of each SNP to the quantitative trait <code>y</code>; and <code>b</code> is a vector of random effects.</p>
+
+<p>If we denote the kinship matrix by <code>K</code>, then we can express the probability distribution of <code>b</code> as <code>b ~ N(0, delta**2 * 2 * K)</code>, where we multiply <code>K</code> by <code>2</code> because the diagonal of <code>K</code> is constant <code>0.5</code>, and where <code>delta**2</code> is a unknown scaling factor.</p>
+
+<p>The goal is to estimate the unknown parameters <code>beta</code>, <code>sigma</code>, and <code>delta</code>, and to determine which of the fixed effects coefficients are significantly different from 0 (i.e. which SNPs are possibly causing the variability in the trait <code>y</code>).</p>
+
+<p>In order to specify the covariance structure of the random effects, we need to pass a block or <code>Proc</code> that produces the upper triangular Cholesky factor of the covariance matrix of the random effects from an input Array. In this example, that would be the multiplication of the prior known Cholesky factor of the kinship matrix with a scaling factor.</p>
+
+<p>Having all the model matrices and vectors, we compute the Cholesky factor of the kinship matrix and fit the model with</p>
+
+<p>```ruby</p>
+
+<h1>upper triangulat Cholesky factor</h1>
+
+<p>kinship_mat_cholesky_factor = kinship_mat.factorize_cholesky[0]</p>
+
+<h1>Fit the model</h1>
+
+<p>model_fit = LMM.new(x: x, y: y, zt: z,</p>
+
+<pre><code>                x_col_names: x_names, 
+                start_point: [2.0], 
+                lower_bound: [0.0]) { |th| kinship_mat_cholesky_factor * th[0] }
+</code></pre>
+
+<p>```</p>
+
+<p>Then we can use the available hypotheses test and confidence interval methods to determine which SNPs are significant predictors of the quantitative trait. Out of the 130 SNPs in the model, we find 24 to be significant as linear predictors.</p>
+
+<p>See <a href="http://agisga.github.io/mixed_models_applied_to_family_SNP_data/">this blog post</a> for a full analysis of this data with <code>mixed_models</code>.</p>
+
+<h2>Room for improvement and future work</h2>
+
+<ul>
+<li><p>Writing the formula language interpretation code used by <code>LMM#from_formula</code> from scratch was not easy. Much of the code can be reorganized to be easier to read and to use in other projects. Possibly, the formula interface should be separated out, similar to how it is done with the Python package <a href="https://github.com/pydata/patsy">patsy</a>. Also, some shortcut symbols (namely <code>*</code>, <code>/</code>, and <code>||</code>) in the model specification formula language are currently not implemented.</p></li>
+<li><p>I plan to add linear mixed models for high-dimensional data (i.e. more predictors than observations) to <code>mixed_models</code>, because that work would be in line with my current PhD research.</p></li>
+<li><p>I plan to add generalized linear mixed models capabilities to <code>mixed_models</code>, which can be used to fit mixed models to discrete data (such as binary or count data).</p></li>
+</ul>
+
+
+<h2>Acknowledgement</h2>
+
+<p>I want to thank Google and the <a href="sciruby.com">Ruby Science Foundation</a> for giving me this excellent opportunity! I especially want to thank <a href="http://thebird.nl/">Pjotr Prins</a> who was my mentor for the project for much helpful advice and suggestions as well as his prompt responses to any of my concerns. I also want to thank my fellow GSoC participants <a href="https://github.com/wlevine">Will</a>, <a href="https://github.com/dilcom">Ivan</a>, and <a href="https://github.com/v0dro">Sameer</a> for their help with certain aspects of my project.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2015: New NMatrix gems for advanced linear algebra features]]></title>
+    <link href="http://sciruby.com/blog/2015/08/19/gsoc-2015-nmatrix/"/>
+    <updated>2015-08-19T09:57:00+09:00</updated>
+    <id>http://sciruby.com/blog/2015/08/19/gsoc-2015-nmatrix</id>
+    <content type="html"><![CDATA[<p>My Google Summer of Code project was working on the <a href="https://github.com/SciRuby/nmatrix">NMatrix project</a>, moving
+functionality that depends on external libraries from the core <code>nmatrix</code>
+gem to optional plugin gems. NMatrix is a Ruby library for linear algebra,
+used by many other projects.
+In addition to the code that was part of
+NMatrix proper, NMatrix previously required the <a href="http://math-atlas.sourceforge.net/">ATLAS library</a>, which
+implemented fast versions of common matrix operations like multiplication
+and inversion, as well as more advanced operations like eigenvalue
+decomposition and Cholesky decomposition.</p>
+
+<p>There were two separate but related motivations for my project. The
+first was to simplify the NMatrix installation
+process. ATLAS can be difficult to install, so the installation
+process for NMatrix was complicated, especially on
+OS X, and may have discouraged people from using NMatrix.
+The second motivation was that by separating out the ATLAS code from the
+main NMatrix code, it would be easier to add new linear algebra backends
+which provide similar features. Indeed, I implemented a second backend this
+summer.</p>
+
+<p>The end result of my summer's work:</p>
+
+<ul>
+<li>The core <code>nmatrix</code> gem does not depend on any external linear matrix
+libraries. It provides non-optimized implementations of common matrix
+operations.</li>
+<li>All code that requires ATLAS has been moved into the new <code>nmatrix-atlas</code>
+gem, so that
+those who are only interested in the core functionality are not required to
+install ATLAS. <code>nmatrix-atlas</code> provides optimized implementations of common matrix
+operations, as well as advanced functions not available in <code>nmatrix</code>.
+I wrote a blog post describing the setup for <a href="http://wlevine.github.io/2015/06/15/releasing-multiple-gems-with-c-extensions-from-the-same-repository.html">releasing multiple gems from the same repository</a>, which this required.</li>
+<li>A new gem <code>nmatrix-lapacke</code>, which provides the same features as
+<code>nmatrix-atlas</code>, but instead of depending specifically on the ATLAS
+library, requires any generic <a href="https://en.wikipedia.org/wiki/LAPACK">LAPACK</a> and
+<a href="https://en.wikipedia.org/wiki/Basic_Linear_Algebra_Subprograms">BLAS</a>
+implementation. This should be easier to use for many users as they may
+already have LAPACK installed (it comes pre-installed with OS X and is
+commonly used in Linux systems), but not ATLAS.</li>
+<li>The installation procedure is simplified, especially for those installing
+just the <code>nmatrix</code> gem. Compare the <a href="https://github.com/SciRuby/nmatrix/wiki/Installation">new installation instructions</a>
+to the <a href="https://github.com/SciRuby/nmatrix/wiki/Installation/2ac41c62d35c79468d3d8169be0ccba238c3c921">old ones</a>.</li>
+</ul>
+
+
+<p>The one deviation from my original proposal was that I originally intended to remove
+all the ATLAS code and release only the <code>nmatrix-lapacke</code> plugin, so that we
+would only have one interface to the advanced linear algebra functions, but I
+decided to keep the ATLAS code, since the <code>nmatrix-lapacke</code> code is new and
+has not had a chance to be thoroughly tested.</p>
+
+<h3>Usage</h3>
+
+<p>```ruby
+require 'nmatrix'</p>
+
+<h1>create a 3-by-3 matrix</h1>
+
+<p>a = NMatrix.new([3,3], [1,2,3, 4,5,6, 7,8,9], dtype: :float64)</p>
+
+<h1>invert it using non-optimized NMatrix-internal implementation</h1>
+
+<p>a.invert!
+```</p>
+
+<p>```ruby
+require 'nmatrix'
+require 'nmatrix/atlas' #or require 'nmatrix/lapacke'</p>
+
+<h1>create a 3-by-3 matrix</h1>
+
+<p>a = NMatrix.new([3,3], [1,2,3, 4,5,6, 7,8,9], dtype: :float64)</p>
+
+<h1>invert it using optimized implementation provided by ATLAS</h1>
+
+<p>a.invert!
+```</p>
+
+<p>For advanced functions not provided by the core <code>nmatrix</code> gem, for example
+<a href="http://sciruby.com/nmatrix/docs/NMatrix.html#method-i-gesvd"><code>gesvd</code></a>, <code>nmatrix-atlas</code> and <code>nmatrix-lapacke</code>
+provide a common interface:</p>
+
+<p><code>ruby
+require 'nmatrix'
+require 'nmatrix/atlas'
+a = NMatrix.new([4,5],[1,0,0,0,2, 0,0,3,0,0, 0,0,0,0,0, 0,4,0,0,0],
+dtype: dtype)
+u, s, vt = a.gesvd
+</code></p>
+
+<p>```ruby</p>
+
+<h1>Identical to the above, except for the require</h1>
+
+<p>require 'nmatrix'
+require 'nmatrix/lapacke'
+a = NMatrix.new([4,5],[1,0,0,0,2, 0,0,3,0,0, 0,0,0,0,0, 0,4,0,0,0],
+dtype: dtype)
+u, s, vt = a.gesvd
+```</p>
+
+<p>If the developer wants to use an advanced feature, but does not care
+whether the user is using <code>nmatrix-atlas</code>
+or <code>nmatrix-lapacke</code>, they can <code>require nmatrix/lapack_plugin</code>, which will
+require whichever of the two is available, instead of being forced to
+choose between the two.</p>
+
+<p>As a fun test of the new gems, I did a very simple benchmark, just
+testing how long it took to invert a
+1500-by-1500 matrix in place using <code>NMatix#invert!</code>:</p>
+
+<ul>
+<li><code>nmatrix</code> (no external libraries): 3.67s</li>
+<li><code>nmatrix-atlas</code>: 0.96s</li>
+<li><code>nmatrix-lapacke</code> with ATLAS: 0.99s</li>
+<li><code>nmatrix-lapacke</code> with OpenBLAS (multithreading enabled): 0.39s</li>
+<li><code>nmatrix-lapacke</code> with reference implementations of LAPACK and BLAS: 3.72s</li>
+</ul>
+
+
+<p>This is not supposed to be a thorough or realistic benchmark (performance will
+depend on your system, on how you built the libraries, and on the exact
+functions that you use), but there
+are still a few interesting conclusions we can draw from it:</p>
+
+<ul>
+<li>Performance is much better using the two highly optimized libraries
+(ATLAS and OpenBLAS) than using either the NMatrix
+internal implementation or the reference implementation.</li>
+<li>When using ATLAS, performance is similar whether using <code>nmatrix-atlas</code>
+and <code>nmatrix-lapacke</code> (this means we could consider deprecating
+the <code>nmatix-atlas</code> gem).</li>
+</ul>
+
+
+<p>Overall, my summer has been productive. I implemented everything that I
+proposed and feedback from testers so far has been positive.
+I plan to stay involved with NMatrix, especially to follow up on any issues
+related to my changes.
+Although I won't be a student next summer, I would certainly consider
+participating in Google Summer of Code in the future as a mentor.
+I'd like to
+thank my mentor John Woods and the rest of the SciRuby community for support
+and feedback throughout the summer.</p>
 ]]></content>
   </entry>
   
