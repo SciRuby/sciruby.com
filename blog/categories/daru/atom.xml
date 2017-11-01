@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Daru | SciRuby]]></title>
+  <title><![CDATA[Category: daru | SciRuby]]></title>
   <link href="http://sciruby.com/blog/categories/daru/atom.xml" rel="self"/>
   <link href="http://sciruby.com/"/>
-  <updated>2017-10-26T13:59:31+09:00</updated>
+  <updated>2017-11-01T22:22:01+09:00</updated>
   <id>http://sciruby.com/</id>
   <author>
     <name><![CDATA[SciRuby]]></name>
@@ -14,405 +14,213 @@
 
   
   <entry>
-    <title type="html"><![CDATA[GSoC 2017 : Support to Import & Export of more formats]]></title>
-    <link href="http://sciruby.com/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats/"/>
-    <updated>2017-08-29T17:16:00+09:00</updated>
-    <id>http://sciruby.com/blog/2017/08/29/gsoc-2017-support-to-import-export-of-more-formats</id>
-    <content type="html"><![CDATA[<h2>Introduction</h2>
+    <title type="html"><![CDATA[GSoC 2017 : Data visualization using daru-view]]></title>
+    <link href="http://sciruby.com/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/"/>
+    <updated>2017-09-01T22:46:00+09:00</updated>
+    <id>http://sciruby.com/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view</id>
+    <content type="html"><![CDATA[<p>Hello, Rubyist! Are looking for good ruby gem for interactive data
+visualization? Then you must try <a href="https://github.com/Shekharrajak/daru-view"><code>daru-view</code></a>, a plugin gem for <a href="https://github.com/SciRuby/daru"><code>daru</code></a>.</p>
 
-<blockquote><p>"Hello friend. Hello friend? That's lame." - S01E01 (Pilot), Mr.Robot</p></blockquote>
-
-<p>My name is Athitya Kumar, and I'm a 4th year undergrad from IIT Kharagpur, India. I
-was selected as a GSoC 2017 student developer by Ruby Science Foundation for project daru-io.</p>
-
-<p><a href="https://github.com/athityakumar/daru-io">Daru-IO</a> is a plugin-gem to
-<a href="https://github.com/SciRuby/daru">Daru</a> gem, that extends support for many Import and Export
-methods of <code>Daru::DataFrame</code>. This gem is intended to help Rubyists who are into Data Analysis
-or Web Development, by serving as a general purpose conversion library.</p>
-
-<p>Through this summer, I worked on adding support for various Importers and Exporters
-while also porting some existing modules. Feel free to find a comprehensive set
-of useful links in
-<a href="https://athityakumar.github.io/blog/posts/GSoC_2017_-_Final_Work_Submission/">Final Work Submission</a>
-and <a href="https://github.com/athityakumar/daru-io/blob/master/README.md">README</a>. Before proceeding any
-further, you might also be interested in checking out a sample showcase of
-<a href="https://daru-examples-io-view-rails.herokuapp.com/">Rails example</a> and
-<a href="https://github.com/Shekharrajak/daru_examples_io_view_rails">the code</a> making it work.</p>
-
-<h2>Mark Anthony's Speech (ft. daru)</h2>
-
-<blockquote><p>"Rubyists, Data Analysts and Web Developers, lend me your ears;</p>
-
-<p>I come to write about my GSoC project, not to earn praise for it."</p></blockquote>
-
-<p>For the uninitiated, Google Summer of Code (GSoC) 2017 is a 3-month program that
-focuses on introducing selected students to open-source software development.
-To know more about GSoC, feel free to click
-<a href="https://summerofcode.withgoogle.com/about/">here</a>.</p>
-
-<p><a href="https://github.com/SciRuby/daru">daru</a> is a Ruby gem that stands for Data Analysis in RUby. My
-<a href="https://drive.google.com/file/d/0B4shBmKvdinIZUNqcGwtWDZtb1NMMHg3SG51SFRqNlVqZkIw/">initial proposal</a>
-was to make daru easier to integrate with Ruby web frameworks through better import-export features
-(<a href="https://github.com/athityakumar/daru-io">daru-io</a>) and visualization methods
-(<a href="https://github.com/Shekharrajak/daru-view">daru-view</a>). However, as both
-<a href="https://github.com/Shekharrajak">Shekhar</a> and I
-were selected for the same proposal, we split this amongst ourselves : daru-io was allocated to me
-and daru-view was allocated to <a href="https://github.com/Shekharrajak">Shekhar</a>.</p>
-
-<h2></h2>
-
-<blockquote><p>"The open-source contributions that people do, live after them;</p>
-
-<p>But their private contributions, are oft interred with their bones."</p></blockquote>
-
-<p>This is one of the reasons why I (and all open-source developers) are enthusiastic
-about open-source. In open-source, one's work can be re-used in other projects
-in accordance with the listed LICENSE and attribution, compared to the restrictions
-and risk of Intellectual Property Right claims in private work.</p>
-
-<h2></h2>
-
-<blockquote><p>"So be it. The noble Pythonistas and R developers;</p>
-
-<p>Might not have chosen to try daru yet."</p></blockquote>
-
-<p>It is quite understandable that Pythonistas and R developers feel that their corresponding
-languages have sufficient tools for Data Analysis. So, why would they switch to Ruby and
-start using daru?</p>
-
-<h2></h2>
-
-<blockquote><p>"If it were so, it may have been a grievous fault;</p>
-
-<p>Give daru a try, with daru-io and daru-view."</p></blockquote>
-
-<p>First of all, I don't mean any offense when I say "grievous fault". But please, do give
-Ruby and daru family a try, with an open mind.</p>
-
-<p>Voila - the daru family has two new additions, namely
-<a href="https://github.com/athityakumar/daru-io">daru-io</a> and
-<a href="https://github.com/Shekharrajak/daru-view">daru-view</a>. Ruby is a language
-which is extensively used in Web Development with multiple frameworks such as Rails, Sinatra,
-Nanoc, Jekyll, etc. With such a background, it only makes sense for daru to have daru-io and
-daru-view as separate plugins, thus making the daru family easily integrable with Ruby web
-frameworks.</p>
-
-<h2></h2>
-
-<blockquote><p>"Here, for attention of Rubyists and the rest–</p>
-
-<p>For Pandas is an honourable library;</p>
-
-<p>So are they all, all honourable libraries and languages–</p>
-
-<p>Come I to speak about daru-io's inception."</p></blockquote>
-
-<p>Sure, the alternatives in other languages like Python, R and Hadoop are also good data analysis
-tools. But, how readily can they be integrated into any web application? R &amp; Hadoop don't have a
-battle-tested web framework yet, and are usually pipelined into the back-end of any application
-to perform any analysis. I'm no one to judge such pipelines, but I feel that pipelines are
-hackish workarounds rather than being a clean way of integrating.</p>
-
-<p>Meanwhile, though Python too has its own set of web frameworks (like Django, Flask and more),
-Pandas doesn't quite work out-of-the-box with these frameworks and requires the web developer
-to write lines and lines of code to integrate Pandas with parsing libraries and plotting
-libraries.</p>
-
-<h2></h2>
-
-<blockquote><p>"daru-io is a ruby gem, and open-sourced to all of us;</p>
-
-<p>But some might think it was an ambitious idea;</p>
-
-<p>And they are all honourable men."</p></blockquote>
-
-<p>As described above, daru-io is open-sourced under the MIT License with attribution to
-myself and Ruby Science Foundation. Being a ruby gem, daru-io follows the best practices
-mentioned in the Rubygems guides and is all geared up with a v0.1.0 release.</p>
-
-<p>Disclaimer - By "men", I'm not stereotyping "them" to be all male, but I'm just merely
-retaining the resemblence to the original speech of Mark Anthony.</p>
-
-<h2></h2>
-
-<blockquote><p>"daru-io helps convert data in many formats to Daru::DataFrame;</p>
-
-<p>Whose methods can be used to analyze huge amounts of data.</p>
-
-<p>Does this in daru-io seem ambitious?"</p></blockquote>
-
-<p><a href="https://github.com/SciRuby/daru">Daru</a> has done a great job of encapsulating the two main
-structures of Data Analysis - DataFrames and Vectors - with a ton of functionalities that are
-growing day by day. But obviously, the huge amounts of data aren't going to be manually fed into
-the DataFrames right?</p>
-
-<p>One part of <a href="https://github.com/athityakumar/daru-io">daru-io</a> is the battalion of Importers that
-ship along with it. Importers are used to read from a file / Ruby instance, and create DataFrame(s).
-These are the Importers being supported by v0.1.0 of daru-io :</p>
+<h2>What makes daru-view different ?</h2>
 
 <ul>
-<li>General file formats : CSV, Excel (xls and xlsx), HTML, JSON, Plaintext.</li>
-<li>Special file formats : Avro, RData, RDS.</li>
-<li>Database related : ActiveRecord, Mongo, Redis, SQLite, DBI.</li>
+<li><p><code>daru-view</code> is designed for interactive plotting of charts and tables.It
+provide different plotting tools like Nyaplot, HighCharts, GoogleCharts,
+DataTable. So you don't have to write any JavaScript code from these sites
+and no need to shift to other language to get charts.</p></li>
+<li><p>It can work with <strong>any ruby web application framework like Rails/Sinatra/Nanoc/Hanami</strong>. If you want to try few examples then please look into the
+<a href="https://github.com/Shekharrajak/daru-view/tree/master/spec"><code>daru-view/spec/dummy_*</code></a> examples of Rails, Sinatra, Nanoc web applications.</p></li>
+<li><p>Now Ruby developers are using IRuby notebook for interactive programming.
+<code>daru-view</code> support IRuby notebook as well. So if you just want to see chart
+for some DataFrame or Array of data, you can use <code>daru-view</code>.</p></li>
+<li><p><code>daru-view</code> can generate chart images to download and save.</p></li>
+<li><p><code>daru-view</code> adapters <code>googlecharts</code>, <code>highcharts</code> are able to geneate 3D charts as well.</p></li>
+<li><p><code>Table</code> have some main features like pagination, search and many more to be added.It is
+designed to load large data set smoothly.</p></li>
 </ul>
 
 
-<p>For more specific information about the Importers, please have a look at the
-<a href="https://github.com/athityakumar/daru-io/blob/master/README.md#table-of-contents">README</a>
-and <a href="http://www.rubydoc.info/github/athityakumar/daru-io/master/Daru/IO/Importers/">YARD Docs</a>.</p>
+<h2>Introduction</h2>
 
-<p>Let's take a simple example of the JSON Importer, to import from GitHub's GraphQL API response. By
-default, the API response is paginated and 30 repositories are listed in the url :
-<code>https://api.github.com/users/#{username}/repos</code>.</p>
+<p>Daru is doing pretty good work as the data analysis &amp; manipulation in IRuby notebook as well as backend part of web application. Ruby web application frameworks like Ruby on Rails, Sinatra, Nanoc are popular frameworks. So if Ruby developers get the gem like daru which can do data analysis
+and visualization work in applications, then there is no need of shifting to another language or usage of other gem.</p>
+
+<p>My project for <abbr title="Google Summer of Code 2017"> GSoC 2017</abbr> was to "make Daru more ready for integration with modern Web framework" in terms of visualization.</p>
+
+<p>To improve in terms of viewing data,
+<a href="https://github.com/Shekharrajak/daru-view">daru-view</a>, a plugin gem for
+<a href="https://github.com/SciRuby/daru">daru</a> is created. <a href="https://github.com/Shekharrajak/daru-view">daru-view</a> is for easy and interactive plotting in web application &amp; IRuby notebook. It can work in frameworks like Rails, Sinatra, Nanoc and hopefully in others too.</p>
+
+<p>To see a quick overview of daru-view's features, have a look at these examples:</p>
+
+<ul>
+<li><p><a href="http://nbviewer.jupyter.org/github/shekharrajak/daru-view/tree/master/spec/dummy_iruby/">IRuby Notebook Examples</a></p></li>
+<li><p><a href="https://github.com/Shekharrajak/daru_examples_io_view_rails">daru io and daru-view usage in Rails app</a></p></li>
+<li><p><a href="https://github.com/Shekharrajak/daru-view/blob/master/README.md">README of daru-view</a></p></li>
+</ul>
+
+
+<h2>Examples</h2>
+
+<p>This is how we can create a Plot class object:</p>
+
+<p>```ruby</p>
+
+<p>Daru::View::Plot.new(data, options)
+```</p>
+
+<ul>
+<li><p><code>data</code> can be <code>Daru::DataFrame</code>, data array or the format that the adapter support.</p></li>
+<li><p><code>options</code> is a hash that contains various options to customize the chart.
+If you have chosen a plotting library then you must use the options according
+to the options the library providing. Here is the library <code>daru-view</code> uses.
+Please check the examples options, they are passing in javascript code:</p>
+
+<ul>
+<li><p>GoogleCharts: <a href="https://developers.google.com/chart/interactive/docs/gallery">https://developers.google.com/chart/interactive/docs/gallery</a></p></li>
+<li><p>HighCharts: <a href="https://www.highcharts.com/demo">https://www.highcharts.com/demo</a></p></li>
+<li><p>Nyaplot: <a href="https://github.com/SciRuby/nyaplot">https://github.com/SciRuby/nyaplot</a> (it works same as <code>daru</code>)</p></li>
+</ul>
+</li>
+</ul>
+
+
+<p>Note: User must have some knowledge about the plotting tool(that you want to
+use) to use it in <code>daru-view</code>. So that you can pass the correct options.</p>
+
+<h3>GoogleCharts:</h3>
+
+<p>Set the plotting library to <code>:googlecharts</code> to use this adapter. This will
+load the required js files in your webpage or IRuby notebook.</p>
+
+<p><code>ruby
+require 'daru/view'
+Daru::View.plotting_library = :googlecharts
+</code></p>
+
+<p>Let's create a DataFrame :</p>
 
 <p>```ruby
-require 'daru/io/importers/json'</p>
+idx = Daru::Index.new ['Year', 'Sales']
+data_rows = [</p>
 
-<p>dataframe = %w[athityakumar zverok v0dro lokeshh].map do |username|
-  Daru::DataFrame.read_json(</p>
-
-<pre><code>"https://api.github.com/users/#{username}/repos",
-RepositoryName: '$..full_name',
-Stars: '$..stargazers_count',
-Size: '$..size',
-Forks: '$..forks_count'
+<pre><code>      ['2004',  1000],
+      ['2005',  1170],
+      ['2006',  660],
+      ['2007',  1030]
 </code></pre>
 
-<p>  )
-end.reduce(:concat)</p>
+<p>]
+df_sale_exp = Daru::DataFrame.rows(data_rows)
+df_sale_exp.vectors = idx</p>
 
-<h1>=> #&lt;Daru::DataFrame(120x4)></h1>
-
-<h1>Repository   Stars   Size   Forks</h1>
-
-<h1>0  athityakum       0      6       0</h1>
-
-<h1>1  athityakum       0    212       0</h1>
-
-<h1>2  athityakum       0    112       0</h1>
-
-<h1>...    ...          ...   ...     ...</h1>
+<h1>perform data manipulations, if you want.</h1>
 
 <p>```</p>
 
-<h2></h2>
+<p>Now time to plot it:</p>
 
-<blockquote><p>"When working with a team of Pythonistas and R developers;</p>
+<p><code>ruby
+line_basic_chart = Daru::View::Plot.new(df_sale_exp)
+line_basic_chart.chart
+</code></p>
 
-<p>daru-io helps convert Daru::DataFrame to multiple formats.</p>
+<p>This will return the chart object we created using GoogleCharts.
+In IRuby notebook, you will see this:</p>
 
-<p>Does this in daru-io seem ambitious?</p></blockquote>
+<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlecharts_line1.png?raw=true" title="Basic line chart using GoogleCharts" alt="Basic line chart using GoogleCharts"></p>
 
-<p>The second part of <a href="https://github.com/athityakumar/daru-io">daru-io</a> is the collection of Exporters
-that ship with it. Exporters are used to write the data in a DataFrame, to a file / database. These
-are the Exporters being supported by v0.1.0 of daru-io :</p>
+<p>You can find the IRuby notebook example in <a href="http://nbviewer.jupyter.org/github/shekharrajak/daru-view/blob/master/spec/dummy_iruby/Google%20Chart%20%7C%20%20Line%20Chart.ipynb">this link</a>.</p>
 
-<ul>
-<li>General file formats : CSV, Excel (xls), JSON.</li>
-<li>Special file formats : Avro, RData, RDS.</li>
-<li>Database related : SQL.</li>
-</ul>
+<p>These are various charts type we can use e.g. line, area, bar, bubble,
+candlestick, combo, histogram, org, pie, stepped area chart, timeline, treemap,
+gauge, column, scatter, etc. We can find the customization options in the
+<a href="https://developers.google.com/chart/interactive/docs/gallery">google charts site</a>.</p>
 
-
-<p>For more specific information about the Exporters, please have a look at the
-<a href="https://github.com/athityakumar/daru-io/blob/master/README.md#table-of-contents">README</a>
-and <a href="http://www.rubydoc.info/github/athityakumar/daru-io/master/Daru/IO/Exporters/">YARD Docs</a>.</p>
-
-<p>Let's take a simple example of the RDS Exporter. Say, your best friend is a R developer who'd like
-to analyze a <code>Daru::DataFrame</code> that you have obtained, and perform further analysis. You don't want
-to break your friendship, and your friend is skeptical of learning Ruby. No issues, simply use the RDS
-Exporter to export your <code>Daru::DataFrame</code> into a .rds file, which can be easily loaded by your friend
-in R.</p>
+<p>Let me try another chart type Geo :</p>
 
 <p>```ruby
-require 'daru/io/exporters/rds'</p>
+country_population = [</p>
 
-<p>dataframe #! Say, the DataFrame is obtained from the above JSON Importer example</p>
-
-<h1>=> #&lt;Daru::DataFrame(120x4)></h1>
-
-<h1>Repository   Stars   Size   Forks</h1>
-
-<h1>0  athityakum       0      6       0</h1>
-
-<h1>1  athityakum       0    212       0</h1>
-
-<h1>2  athityakum       0    112       0</h1>
-
-<h1>...    ...          ...   ...     ...</h1>
-
-<p>dataframe.write_rds('github_api.rds', 'github.api.dataframe')
-```</p>
-
-<h2></h2>
-
-<blockquote><p>"You all did see that in the repository's README;</p>
-
-<p>Codeclimate presented a 4.0 GPA;</p>
-
-<p>Code and tests were humbly cleaned;</p>
-
-<p>with help of rubocop, rspec, rubocop-rspec and saharspec.</p>
-
-<p>Ambition shouldn't have been made of humble stuff.</p>
-
-<p>Yet some might think it is an ambitious idea;</p>
-
-<p>And sure, they are all honourable men."</p></blockquote>
-
-<p>Thanks to guidance from my mentors
-<a href="https://github.com/zverok">Victor Shepelev</a>, <a href="https://github.com/v0dro">Sameer Deshmukh</a>
-and <a href="https://github.com/lokeshh">Lokesh Sharma</a>, I've come to know about quite a lot
-of Ruby tools that could be used to keep the codebase sane and clean.</p>
-
-<ul>
-<li><a href="https://github.com/bbatsov/rubocop">rubocop</a> : A Ruby static code analyzer, which enforces
-specified Ruby style guidelines.</li>
-<li><a href="https://github.com/rspec/rspec">rspec</a> : A unit-testing framework, which makes sure that codes
-of block are doing what they're logically supposed to do.</li>
-<li><a href="https://github.com/backus/rubocop-rspec">rubocop-rspec</a> : A plugin gem to rubocop, that extends
-rspec-related rules.</li>
-<li><a href="https://github.com/zverok/saharspec">saharspec</a> : A gem with a
-<a href="https://github.com/zverok/saharspec/blob/master/README.md#saharspec-specs-dry-as-sahara">punny name</a>, that extends a few features to rspec-its that are more readable. For example, <code>its_call</code>.</li>
-</ul>
-
-
-<h2></h2>
-
-<blockquote><p>"I speak not to disapprove of what other libraries do;</p>
-
-<p>But here I am to speak what I do know.</p>
-
-<p>Give daru-io a try and y'all will love it, not without cause:</p>
-
-<p>Does anything withhold you then, from using daru-io?"</p></blockquote>
-
-<p>I really mean it, when I discretely specify "I speak not to disapprove of what other libraries do".
-In the world of open-source, there should never be hate among developers regarding languages,
-or libraries. Developers definitely have their (strong) opinions and preferences, and it's
-understandable that difference in opinion do arise. But, as long as there's mutual respect for
-each other's opinion and choice, all is well.</p>
-
-<h2></h2>
-
-<blockquote><p>"O Ruby community! Thou should definitely try out daru-io,</p>
-
-<p>With daru and daru-view. Bear with me;</p>
-
-<p>My heart is thankful to the community of Ruby Science Foundation,</p>
-
-<p>And I must pause till I write another blog post."</p></blockquote>
-
-<p>If you've read all the way till down here, I feel that you'd be interested in trying out the
-daru family, after having seen the impressive demonstration of Importers &amp; Exporters above, and
-the Rails example (<a href="https://daru-examples-io-view-rails.herokuapp.com/">Website</a> |
-<a href="https://github.com/Shekharrajak/daru_examples_io_view_rails">Code</a>). I'm very thankful to mentors
-<a href="https://github.com/zverok">Victor Shepelev</a>, <a href="https://github.com/v0dro">Sameer Deshmukh</a>
-and <a href="https://github.com/lokeshh">Lokesh Sharma</a> for their timely Pull Request reviews and open
-discussions regarding features. Daru-IO would not have been possible without them and the active
-community of Ruby Science Foundation, who provided their useful feedback(s) whenever they could.
-The community has been very supportive overall, and hence I'd definitely be interested to involve
-with SciRuby via more open-source projects.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[GSoC 2016: Adding Categorical Data Support]]></title>
-    <link href="http://sciruby.com/blog/2016/11/25/gsoc-2016-adding-categorical-data-support/"/>
-    <updated>2016-11-25T02:54:00+09:00</updated>
-    <id>http://sciruby.com/blog/2016/11/25/gsoc-2016-adding-categorical-data-support</id>
-    <content type="html"><![CDATA[<p>Support for categorical data is important for any data analysis
-tool. This summer I implemented categorical data capabilities for:</p>
-
-<ul>
-<li>Convenient and efficient data wrangling for categorical data in <a href="https://github.com/v0dro/daru">Daru</a></li>
-<li>Visualization of categorical data</li>
-<li>Multiple linear regression and generalized linear models (GLM) with categorical variables in <a href="https://github.com/SciRuby/statsample">Statsample</a> and <a href="https://github.com/SciRuby/statsample-glm">Statsample-GLM</a></li>
-</ul>
-
-
-<p>Lets talk about each of them in detail.</p>
-
-<h4>Analyzing catgorical data with Daru</h4>
-
-<p>Categorical data is now readily recognized by
-<a href="https://github.com/v0dro/daru">Daru</a> and Daru has all the necessary
-procedures for dealing with it.</p>
-
-<p>To analyze categorical variable, simply turn the numerical vector to categorical and you are ready to go.</p>
-
-<p>We will use, for demonstration purposes, animal shelter data taken
-from the <a href="https://www.kaggle.com/c/shelter-animal-outcomes">Kaggle Competition</a>. It is
-stored in <code>shelter_data</code>.</p>
-
-<p><img src="http://i65.tinypic.com/xeliqs.png" alt="" /></p>
-
-<p>```ruby</p>
-
-<h1>Tell Daru which variables are categorical</h1>
-
-<p>shelter_data.to_category 'OutcomeType', 'AnimalType', 'SexuponOutcome', 'Breed', 'Color'</p>
-
-<h1>Or quantize a numerical variable to categorical</h1>
-
-<p>shelter_data['AgeuponOutcome'] = shelter_data['AgeuponOutcome(Weeks)'].cut [0, 1, 4, 52, 260, 1500],</p>
-
-<pre><code>labels: [:less_than_week, :less_than_month, :less_than_year, :one_to_five_years, :more_than__five_years]
+<pre><code>      ['Germany', 200],
+      ['United States', 300],
+      ['Brazil', 400],
+      ['Canada', 500],
+      ['France', 600],
+      ['RU', 700]
 </code></pre>
 
-<h1>Do your operations on categorical data</h1>
+<p>]</p>
 
-<p>shelter_data['AgeuponOutcome'].frequencies.sort ascending: false
-```
-<img src="http://i67.tinypic.com/w1u3vs.png" alt="" /></p>
+<p>df_cp = Daru::DataFrame.rows(country_population)
+df_cp.vectors = Daru::Index.new(['Country', 'Population'])</p>
 
-<p>```ruby
-small['Breed'].categories.size</p>
+<p>geochart = Daru::View::Plot.new(</p>
 
-<h1>=> 1380</h1>
+<pre><code>df_cp, type: :geo, adapter: :googlecharts
+</code></pre>
 
-<h1>Merge infrequent categories to make data analysis easy</h1>
+<p>)</p>
 
-<p>other_cats = shelter_data['Breed'].categories.select { |i| shelter_data['Breed'].count(i) &lt; 10 }
-other_cats_hash = other_cats.zip(['other']*other_cats.size).to_h
-shelter_data['Breed'].rename_categories other_cats_hash
-shelter_data['Breed'].frequencies</p>
+<p>```</p>
 
-<h1>View the data</h1>
+<p>Note: If you have already loaded the dependent JS files for the library then you can use <code>adapter: :googlecharts</code> in your Plot initialization.</p>
 
-<p>small['Breed'].frequencies.sort(ascending: false).head(10)
-```
-<img src="http://i64.tinypic.com/25rcu8m.png" alt="" /></p>
+<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_geo1.png?raw=true" title="Basic Geo chart using GoogleCharts" alt="Basic Geo chart using GoogleCharts"></p>
 
-<p>Please refer to <a href="http://lokeshh.github.io/blog/2016/06/21/categorical-data/">this blog post</a> to know more.</p>
+<h3>HighCharts:</h3>
 
-<h4>Visualizing categorical data</h4>
+<p>Set the plotting library to <code>:highcharts</code> to use this adapter. This will
+load the required js files in your webpage or IRuby notebook.</p>
 
-<p>With the help of <a href="https://github.com/SciRuby/nyaplot">Nyaplot</a>, <a href="https://github.com/SciRuby/gnuplotrb">GnuplotRB</a> and <a href="https://github.com/topfunky/gruff">Gruff</a>, Daru now provides ability to visualize categorical data as it does with numerical data.</p>
+<p><code>ruby
+require 'daru/view'
+Daru::View.plotting_library = :highcharts
+</code></p>
 
-<p>To plot a vector with Nyaplot one needs to call the function <code>#plot</code>.</p>
+<p>Let's pass the <code>data</code> as HighCharts support (we can pass a DataFrame as well):</p>
 
-<p>```ruby</p>
+<p>```
+data = [</p>
 
-<h1>dv is a caetgorical vector</h1>
+<pre><code>['Firefox',   45.0],
+['IE',       26.8],
+{
+   :name=&gt; 'Chrome',
+   :y=&gt; 12.8,
+   :sliced=&gt; true,
+   :selected=&gt; true
+},
+['Safari',    8.5],
+['Opera',     6.2],
+['Others',   0.7]
+</code></pre>
 
-<p>dv = Daru::Vector.new ['III']<em>10 + ['II']</em>5 + ['I']*5, type: :category, categories: ['I', 'II', 'III']</p>
-
-<p>dv.plot(type: :bar, method: :fraction) do |p, d|
-  p.x_label 'Categories'
-  p.y_label 'Fraction'
-end
+<p>]
+plt_pie = Daru::View::Plot.new data, type: :pie
 ```</p>
 
-<p><img src="http://i64.tinypic.com/2s6onsw.png" alt="" /></p>
+<p>This will return the <code>Plot</code> object we created.
+In IRuby notebook, you will see this:</p>
 
-<p>Given a dataframe, one can plot the scatter plot such that the points
-color, shape and size can be varied acording to a categorical
-variable.</p>
+<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/highcharts_pie.png?raw=true" title="Basic pie chart using HighCharts" alt="Basic pie chart using HighCharts"></p>
 
-<p>```ruby</p>
+<p>You can find the IRuby notebook example in <a href="http://nbviewer.jupyter.org/github/shekharrajak/daru-view/blob/master/spec/dummy_iruby/HighCharts-%20Pie%20charts.ipynb">this link</a>.</p>
 
-<h1>df is a dataframe with categorical variable :c</h1>
+<p>There are various charts type we can use e.g. line, area, bar, bubble,
+dynamic chart, pie, column, scatter, etc. We can find the customization options in the
+<a href="https://www.highcharts.com/demo">HighCharts site</a>.</p>
+
+<h3>Nyaplot</h3>
+
+<p>```ruby
+require 'daru/view'</p>
+
+<h1>set adapter</h1>
+
+<p>Daru::View.plotting_library = :nyaplot</p>
+
+<h1>define dataframe</h1>
 
 <p>df = Daru::DataFrame.new({
   a: [1, 2, 4, -2, 5, 23, 0],
@@ -421,77 +229,321 @@ variable.</p>
   })
 df.to_category :c</p>
 
-<p>df.plot(type: :scatter, x: :a, y: :b, categorized: {by: :c, method: :color}) do |p, d|
-  p.xrange [-10, 10]
-  p.yrange [-10, 10]
-end
-```</p>
+<h1>creating scatter chart</h1>
 
-<p><img src="http://i64.tinypic.com/2mcfx28.png" alt="" /></p>
-
-<p>In a similar manner Gnuplot and Gruff also support plotting of categorical variables.</p>
-
-<p>An additional work I did was to add Gruff with Daru. Now one can plot
-vectors and dataframes also using Gruff.</p>
-
-<p>See more notebooks on visualizing categorical data with Daru
-<a href="http://nbviewer.jupyter.org/github/SciRuby/sciruby-notebooks/tree/master/Data%20Analysis/Plotting/">here</a>.</p>
-
-<h4>Regression with categorical data</h4>
-
-<p>Now categorical data is supported in multiple linear regression and
-generalized linear models (GLM) in
-<a href="https://github.com/SciRuby/statsample">Statsample</a> and
-<a href="https://github.com/SciRuby/statsample-glm">Statsample-GLM</a>.</p>
-
-<p>A new formula language (like that used in R or
-<a href="https://github.com/pydata/patsy">Patsy</a>) has been introduced to ease
-the task of specifying regressions.</p>
-
-<p>Now there's no need to manually create a dataframe for regression.</p>
-
-<p>```ruby
-require 'statsample-glm'</p>
-
-<p>formula = 'OutcomeType_Adoption~AnimalType+Breed+AgeuponOutcome(Weeks)+Color+SexuponOutcome'
-glm_adoption = Statsample::GLM::Regression.new formula, train, :logistic
-glm_adoption.model.coefficients :hash</p>
-
-<h1>=> {:AnimalType_Cat=>0.8376443692275163, :"Breed_Pit Bull Mix"=>0.28200753488859803, :"Breed_German Shepherd Mix"=>1.0518504638731023, :"Breed_Chihuahua Shorthair Mix"=>1.1960242033878856, :"Breed_Labrador Retriever Mix"=>0.445803000000512, :"Breed_Domestic Longhair Mix"=>1.898703165797653, :"Breed_Siamese Mix"=>1.5248210169271197, :"Breed_Domestic Medium Hair Mix"=>-0.19504965010288533, :Breed_other=>0.7895601504638325, :"Color_Blue/White"=>0.3748263925801828, :Color_Tan=>0.11356334165122918, :"Color_Black/Tan"=>-2.6507089126322114, :"Color_Blue Tabby"=>0.5234717706465536, :"Color_Brown Tabby"=>0.9046099720184905, :Color_White=>0.07739310267363662, :Color_Black=>0.859906249787038, :Color_Brown=>-0.003740755055106689, :"Color_Orange Tabby/White"=>0.2336674067343927, :"Color_Black/White"=>0.22564205490196415, :"Color_Brown Brindle/White"=>-0.6744314269278774, :"Color_Orange Tabby"=>2.063785952843677, :"Color_Chocolate/White"=>0.6417921901449108, :Color_Blue=>-2.1969040091451704, :Color_Calico=>-0.08386525532631824, :"Color_Brown/Black"=>0.35936722899161305, :Color_Tricolor=>-0.11440457799048752, :"Color_White/Black"=>-2.3593561796090383, :Color_Tortie=>-0.4325130799770577, :"Color_Tan/White"=>0.09637439333330515, :"Color_Brown Tabby/White"=>0.12304448360566177, :"Color_White/Brown"=>0.5867441296328475, :Color_other=>0.08821407092892847, :"SexuponOutcome_Spayed Female"=>0.32626712478395975, :"SexuponOutcome_Intact Male"=>-3.971505056680895, :"SexuponOutcome_Intact Female"=>-3.619095491410668, :SexuponOutcome_Unknown=>-102.73807712615843, :"AgeuponOutcome(Weeks)"=>-0.006959545305620043}</h1>
+<p>scatter_chart = Daru::View::Plot.new(df, type: :scatter, x: :a, y: :b, categorized: {by: :c, method: :color})</p>
 
 <p>```</p>
 
-<p>Additionally, through the work of <a href="https://github.com/agisga">Alexej Grossmann</a>,
-one can also predict on new data using the model.</p>
+<p>In IRuby notebook:</p>
 
-<p><code>ruby
-predict = glm_adoption.predict test
-predict.map! { |i| i &lt; 0.5 ? 0 : 1 }
-predict.head 5
-</code>
-<img src="http://i67.tinypic.com/r1af7p.png" alt="" /></p>
+<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/nyaplot_scatter.png?raw=true" title="Basic scatter chart using Nyaplot" alt="Basic scatter chart using Nyaplot"></p>
 
-<p>This, I believe, makes Statsample-GLM very convenient to use.</p>
+<h3>GoogleChart data table</h3>
 
-<p>See <a href="http://nbviewer.jupyter.org/github/SciRuby/sciruby-notebooks/blob/master/Data%20Analysis/Categorical%20Data/examples/%5BExample%5D%20Formula%20language%20in%20Statsample-GLM.ipynb">this</a> for a complete example.</p>
+<p>```ruby
+require 'daru/view'</p>
 
-<h4>Other</h4>
+<h1>set adapter</h1>
 
-<p>In addition to the aforementioned, there are some other considerable changes:</p>
+<h1>You don't need this line if you have already using google chart for plotting.</h1>
+
+<h1>It is just for loading the dependent js files.</h1>
+
+<p>Daru::View.table_library = :googlechart</p>
+
+<h1>Lets use array as <code>data</code> (we can pass Daru::DataFrame as well)</h1>
+
+<p>data = [
+  ['Galaxy', 'Distance', 'Brightness'],</p>
+
+<pre><code>      ['Canis Major Dwarf', 8000, 230.3],
+      ['Sagittarius Dwarf', 24000, 4000.5],
+      ['Ursa Major II Dwarf', 30000, 1412.3],
+      ['Lg. Magellanic Cloud', 50000, 120.9],
+      ['Bootes I', 60000, 1223.1]
+</code></pre>
+
+<p>  ]
+galaxy_table = Daru::View::Table.new(data)
+galaxy_table.table
+```</p>
+
+<p>This will return the table object we created using GoogleCharts tool.
+In IRuby notebook, you will see this:</p>
+
+<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_table1.png?raw=true" title="Basic table using GoogleCharts" alt="Basic table using GoogleCharts"></p>
+
+<p>We can create table using Vectors as well.</p>
+
+<p>```ruby
+dv = Daru::Vector.new [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]</p>
+
+<h1>adding pagination and some customization [optional]</h1>
+
+<p>opts_pagination = {
+  width: '100%', height: '100%' ,
+  pageSize: 5,
+}</p>
+
+<p>table_vec = Daru::View::Table.new(dv, opts_pagination)</p>
+
+<p>```
+In Ruby Notebook:</p>
+
+<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_vec_table1.png?raw=true" title="Basic vector table using GoogleCharts" alt="Basic vector table using GoogleCharts"></p>
+
+<h3>DataTable</h3>
+
+<p>```ruby
+require 'daru/view'</p>
+
+<h1>set adapter.</h1>
+
+<p>Daru::View.table_library = :datatables</p>
+
+<h1>Lets use Daru::DataFrame as <code>data</code> (we can pass Array as well)</h1>
+
+<p>df = Daru::DataFrame.new(
+  {</p>
+
+<pre><code>b: [11,12,13,14,15],
+a: [1,2,3,4,5],
+c: [11,22,33,44,55]
+</code></pre>
+
+<p>  },</p>
+
+<pre><code>order: [:a, :b, :c],
+index: [:one, :two, :three, :four, :five]
+</code></pre>
+
+<p>)
+df_datatable = Daru::View::Table.new(df, pageLength: 3)
+<code>``
+Currently there is some problem to diplay it in IRuby notebook, but in web application
+you can see something like this using</code>df_datatable.div` :</p>
+
+<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/datatables_basic1.png?raw=true" title="Basic table using Datatables" alt="Basic table using Datatables"></p>
+
+<h2>How to use it in Ruby web application</h2>
+
+<p>As we know, we can get the HTML, JS code for the chart from the
+<code>Daru::View::Plot</code> or <code>Daru:View::Table</code> object using <code>#div</code> method. So just
+need to add that HTML, JS code in webpage in proper place.</p>
+
+<p>There is few things to be noted:</p>
+
+<ol>
+<li><p>In layout of the webpage, you have to load all the dependent JS files.
+So that HTML, JS code that is genearted work smoothly in that webpage. You
+can load the dependent js file for nyaplot library using <code>Daru::View.dependent_script(:nyaplot)</code>, similarly for other library.</p></li>
+<li><p>If you are using multiple library in one webpage then load multiple
+dependent JS files, in that webpage layout (generally in head tag).</p></li>
+</ol>
+
+
+<p>We can set default adapter using <code>Daru::View.plotting_library = :googlecharts</code>
+and also we can change it for particular object while initializing object,
+i.e. <code>Daru::View::Plot.new(data, {adapter: :googlecharts})</code>. Just we have
+to make sure that dependent JS files are loaded for it.</p>
+
+<p>To make it easy, we have defined <code>daru_chart</code> (that works same as Daru::View::Plot.new) , <code>daru_table</code> (works same as Daru::View::Table.new) for Rails application.</p>
+
+<p>So you can easily use it in controller or view of the application. For reference you can check the <a href="https://github.com/Shekharrajak/daru_examples_io_view_rails">demo Rails app</a>.</p>
+
+<h2>Design of daru-view</h2>
+
+<p><a href="https://github.com/Shekharrajak/daru-view">daru-view</a>, currently using
+<a href="https://github.com/SciRuby/nyaplot">Nyaplot</a>, <a href="https://www.highcharts.com/">HighCharts</a>, <a href="https://developers.google.com/chart/interactive/docs/gallery">GoogleCharts</a> for plotting the charts. It is also
+generating tables using <a href="https://datatables.net/">DataTables</a> and <a href="https://developers.google.com/chart/interactive/docs/gallery">GoogleCharts</a> with pagination, search and various features.</p>
+
+<h3>Design Pattern in daru-view</h3>
+
+<p>daru-view mainly uses the <a href="https://en.wikipedia.org/wiki/Adapter_pattern">adapter design pattern</a> and <a href="https://en.wikipedia.org/wiki/Composite_pattern">composite design pattern</a>.</p>
 
 <ul>
-<li>Improving overall structure of indexing in Daru and adding more capabilities. See <a href="http://nbviewer.jupyter.org/github/SciRuby/sciruby-notebooks/blob/master/Data%20Analysis/Categorical%20Data/Indexing%20in%20Vector.ipynb">this</a> and <a href="http://nbviewer.jupyter.org/github/SciRuby/sciruby-notebooks/blob/master/Data%20Analysis/Categorical%20Data/Indexing%20in%20DataFrame.ipynb">this</a>.</li>
-<li><code>CategoricalIndex</code> to handle the case when index column is a categorical data. <a href="http://lokeshh.github.io/blog/2016/06/14/categorical-index/">More about it here.</a></li>
-<li>Improving missing value API in Daru. <a href="http://lokeshh.github.io/blog/2016/08/18/improve-missing-values-api-in-daru/">Read more about it here.</a></li>
-<li>Configuring guard to enable automatic testing. <a href="https://github.com/v0dro/daru/blob/master/CONTRIBUTING.md#testing">More info here.</a></li>
+<li><p><strong>Why Adapter design pattern:</strong></p>
+
+<ul>
+<li><p>Adapter pattern’s motivation is that we can reuse existing gems if we can modify the interface.</p></li>
+<li><p>daru-view joins functionalities of independent or incompatible interfaces of different gems.</p></li>
+<li><p><code>daru-view</code> have <a href="https://github.com/Shekharrajak/daru-view/blob/master/lib/daru/view/plot.rb"><code>Plot</code></a> and <a href="https://github.com/Shekharrajak/daru-view/blob/master/lib/daru/view/table.rb"><code>Table</code></a> class, which are using a <a href="https://github.com/Shekharrajak/daru-view/tree/master/lib/daru/view/adapters">adapter</a> when adapter(library to be used for plotting) is set for <code>Plot</code>, <code>Table</code> instance.</p></li>
+</ul>
+</li>
+<li><p><strong>Why Composite design pattern:</strong></p>
+
+<ul>
+<li><p>To define common objects and use it for defining composite objects.</p></li>
+<li><p>In <code>daru-view</code> we try to write common functions in a module and include it whenever needed.</p></li>
+</ul>
+</li>
 </ul>
 
 
-<h4>Documentation</h4>
+<h2>Implementation</h2>
 
-<p><a href="http://lokeshh.github.io/blog/2016/06/21/categorical-data/">You can read about all my work in detail here.</a>. <a href="https://summerofcode.withgoogle.com/archive/2016/projects/5356167010189312/">Additionally, my project page can be found here.</a></p>
+<p>daru-view ensure that it's functions are usable in both IRuby notebook as well
+as ruby web application frameworks.</p>
 
-<p>I hope with these additions one will be able to see data more clearly with Daru.</p>
+<p>The main thing we need to display something in web application or IRuby
+notebook is <code>HTML</code> code of it. daru-view generates the <code>HTML</code> code of the
+chart, table and the same can be used to display in web application &amp; IRuby
+notebook.</p>
+
+<p>These are the libraries which is used in daru-view currently:</p>
+
+<h3>Nyaplot</h3>
+
+<p><a href="https://github.com/SciRuby/nyaplot">Nyaplot</a> is good library for
+visualization in IRuby notebook only. When we use Nyaplot as the adapter in
+daru-view, it is usable in both IRuby notebook and web applications. Daru
+DataFrame or Vector is used as the data source of the chart. It works
+similar to the initial <code>daru</code> plotting system.</p>
+
+<p>If user want to use the Nyaplot methods then it can be done on Nyaplot object.We
+can get nyplot object using <code>daru_plot_obj.chart</code>.</p>
+
+<p>i.e.</p>
+
+<p>```ruby
+daru_view_obj = Daru::View::Plot.new(</p>
+
+<pre><code>              daru_dataframe, options={adapter: :nyaplot})
+</code></pre>
+
+<p>nyaplot_obj = daru_view_obj.chart</p>
+
+<p>```</p>
+
+<p>Now user can operate all the methods for Nyaplot object. Same thing is for
+all other adapter in daru-view.</p>
+
+<h3>HighCharts</h3>
+
+<p>To add the <a href="https://www.highcharts.com/">HighCharts</a> features for plotting various chart types, daru-view uses the <a href="https://github.com/michelson/lazy_high_charts">lazy_high_charts</a> gem with additional features.</p>
+
+<p>In this adapter data source can be Array of data, Daru::DataFrame, Daru::Vector or HTML table code of the data.</p>
+
+<p>There are various of options in HighCharts. One can see the options that can
+be used in <a href="https://www.highcharts.com/demo">HighCharts demo link</a>, which can
+be directly used in daru-view Plot.</p>
+
+<p><strong>HighCharts adaptor can work offline as well in daru-view. Developers can update the saved the JS files (in daru-view) using rake task automatically.</strong></p>
+
+<p>If you is familiar with <code>lazy_high_chart</code> gem and want to use it for
+config the chart then user can access the <code>lazy_high_chart</code> object using
+<code>Daru::View::Plot#chart</code> and can do necessary operations.</p>
+
+<h3>GoogleCharts</h3>
+
+<p>To add the <a href="https://developers.google.com/chart/interactive/docs/gallery">GoogleCharts</a> features for plotting various chart types, daru-view uses the <a href="https://github.com/winston/google_visualr/">google_visualr</a> gem with additional features(in this module more new features are updated).</p>
+
+<p>We want GoogleChart adapter to be very strong since Google chart tools always gets updated and it has amazing plotting features. Similar to the HighCharts module, here also we can use all the options described in Google Charts website.</p>
+
+<p>User can access the <code>google_visualr</code> object using <code>Daru::View::Plot#chart</code>, if
+they want to operate <code>google_visualr</code> methods.</p>
+
+<h4>GoogleCharts as data table</h4>
+
+<p>One of the good thing about google chart tool is, it can be used for generating table
+for web application and IRuby Notebook with pagination and other features.</p>
+
+<p><strong><code>Daru::View::Plot</code> can take data Array, Daru::DataFrame, Daru::Vector,
+Daru::View::Table as data source.</strong></p>
+
+<p><strong><code>Daru::View::Table</code> can take data Array, daru DataFrame, Daru Vector as data
+ source.</strong></p>
+
+<h3>DataTables</h3>
+
+<p><a href="https://datatables.net/">DataTables</a> has interaction controls to any HTML table. It can handle large set of data and have many cool features.</p>
+
+<p>To use it, daru-view uses <a href="https://github.com/Shekharrajak/data_tables">https://github.com/Shekharrajak/data_tables</a> gem. [Note: the gem name will be changed in near future]</p>
+
+<p>It basically uses the HTML table code and add features that user want. So internally HTML table code of Daru::DataFrame and Daru::Vector is passed as data source parameter.</p>
+
+<h2>Future Work</h2>
+
+<p>daru-view will be more powerful and simple in near future. Developers can add
+more libraries in daru-view easily, if required. To add library follow the setups given in
+<a href="https://github.com/Shekharrajak/daru-view/blob/master/CONTRIBUTING.md">CONTRIBUTING.md</a></p>
+
+<h2>Conclusion</h2>
+
+<p>The aim of the daru-view is to plot charts in IRuby notebook and ruby web
+application easily, so that developers need not have to use any other gem or
+language for visualization.</p>
+
+<p>It can work smoothly in Rails/Sinatra/Nanoc web frameworks and I hope it can work in other ruby frameworks as well, because daru-view is generating the html code and javascript code for the chart, which is basic need of the webpage.</p>
+
+<p><strong>Why not use the plotting libraries directly?</strong></p>
+
+<p>If you are using daru gem for analyzing the data and want to visualize it, then it will be good if you have data-visualization within daru and can plot it directly using DataFrame/Vector objects of daru.</p>
+
+<p>daru-view will be helpful in plotting charts and tables directly from the Daru::DataFrame and Daru::Vector . daru-view using nyaplot, highcharts , google charts right now to plot the chart. So user can set the plotting library and get the chart accordingly.</p>
+
+<p>Most of the plotting libraries doesn't provide the features of plotting charts in iruby notebook. They are defined only for web applications (mostly for Rails). But daru-view can plot charts in any ruby web application as well as iruby notebook.</p>
+
+<h2>Acknowledgements</h2>
+
+<p>I would like to thank to my mentors <a href="https://github.com/v0dro">Sameer Deshmukh</a>
+,<a href="https://github.com/lokeshh">Lokesh Sharma</a> and <a href="https://github.com/zverok">Victor Shepelev</a> for their response and support and I am very grateful to the <a href="http://sciruby.com/">Ruby Science Foundation</a> for this golden opportunity.</p>
+
+<p>I thank my fellow GSoC participants <a href="https://github.com/athityakumar">Athitya Kumar</a> and <a href="https://github.com/prasunanand">Prasun Anand</a> for their support and discussions on various topics.</p>
+
+<p>Thanks to Google for conducting <a href="https://summerofcode.withgoogle.com">Google Summer of Code</a>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Summary of work on daru this summer for GSOC 2015]]></title>
+    <link href="http://sciruby.com/blog/2015/08/16/summary-of-work-on-daru-this-summer-for-gsoc-2015/"/>
+    <updated>2015-08-16T23:53:00+09:00</updated>
+    <id>http://sciruby.com/blog/2015/08/16/summary-of-work-on-daru-this-summer-for-gsoc-2015</id>
+    <content type="html"><![CDATA[<p>Over this summer as a part of <a href="www.google-melange.com">Google Summer of Code 2015</a>, <a href="www.github.com/v0dro/daru/">daru</a> received a lot of upgrades and new features which have it made a pretty robust tool for data analysis in pure Ruby. Of course, a lot of work still remains for bringing daru at par with the other data analysis solutions on offer today, but I feel the work done this summer has put daru on that path.</p>
+
+<p>The new features led to the inclusion of daru in many of SciRuby's gems, which use daru's data storage, access and indexing features for storing and carrying around data. <a href="https://github.com/SciRuby/statsample">Statsample</a>, <a href="https://github.com/SciRuby/statsample-glm">statsample-glm</a>, <a href="https://github.com/SciRuby/statsample-timeseries">statsample-timeseries</a>, <a href="https://github.com/SciRuby/statsample-bivariate-extension">statsample-bivariate-extensions</a> are all now compatible with daru and use <code>Daru::Vector</code> and <code>Daru::DataFrame</code> as their primary data structures. I also overhauled Daru's <a href="http://nbviewer.ipython.org/github/SciRuby/sciruby-notebooks/blob/master/Visualization/Visualizing%20data%20with%20daru%20DataFrame.ipynb">plotting functionality</a>, that interfaced with <a href="https://github.com/domitry/nyaplot">nyaplot</a> for creating interactive plots directly from the data.</p>
+
+<p>Also, new gems developed by other GSOC students, notably <a href="https://github.com/dilcom/gnuplotrb">Ivan's GnuplotRB gem</a> and <a href="https://github.com/agisga/mixed_models">Alexej's mixed_models gem</a> both now accept data from daru data structures. Do see their repo pages for seeing interesting ways of using daru.</p>
+
+<p>The work on daru is also proving to be quite useful for other people, which led to a talk/presentation at <a href="http://www.deccanrubyconf.org/">DeccanRubyConf 2015</a>, which is one of the three major Ruby conferences in India. You can see the slides and notebooks presented at the talk <a href="https://github.com/v0dro/talks/tree/master/DeccanRubyConf15">here</a>. Given the current interest in data analysis and the need for a viable solution in Ruby, I plan to take daru much further. Keep watching the repo for interesting updates :)</p>
+
+<p>In the rest of this post I'll elaborate on all the work done this summer.</p>
+
+<h2>Pre-mid term submissions</h2>
+
+<p>Daru as a gem before GSOC was not exactly user friendly. There were many cases, particularly the iterators, that required some thinking before anybody used them. This is against the design philosophy of daru, or even Ruby general, where surprising programmers with ubiqtuos constructs is usually frowned down upon by the community. So the first thing that I did mainly concerned overhauling the daru's many iterators for both <code>Vector</code> and <code>DataFrame</code>.</p>
+
+<p>For example, the <code>#map</code> iterator from <code>Enumerable</code> returns an <code>Array</code> no matter object you call it on. This was not the case before, where <code>#map</code> would a <code>Daru::Vector</code> or <code>Daru::DataFrame</code>. This behaviour was changed, and now <code>#map</code> returns an <code>Array</code>. If you want a <code>Vector</code> or a <code>DataFrame</code> of the modified values, you should call <code>#recode</code> on <code>Vector</code> or <code>DataFrame</code>.</p>
+
+<p>Each of these iterators also accepts an optional argument, <code>:row</code> or <code>:vector</code>, which will define the axis over which iteration is supposed to be carried out. So now there are the <code>#each</code>, <code>#map</code>, <code>#map!</code>, <code>#recode</code>, <code>#recode!</code>, <code>#collect</code>, <code>#collect_matrix</code>, <code>#all?</code>, <code>#any?</code>, <code>#keep_vector_if</code> and <code>#keep_row_if</code>. To iterate over elements along with their respective indexes (or labels), you can likewise use <code>#each_row_with_index</code>, <code>#each_vector_with_index</code>, <code>#map_rows_with_index</code>, <code>#map_vector_with_index</code>, <code>#collect_rows_with_index</code>, <code>#collect_vector_with_index</code> or <code>#each_index</code>. I urge you to go over the docs of each of these methods to utilize the full power of daru.</p>
+
+<p>Apart from the improvements to iterators there was also quite a bit of refactoring involved for many methods (courtesy <a href="https://github.com/agisga">Alexej</a>). The refactoring of certain core methods has made daru much faster than previous versions.</p>
+
+<p>The next (major) thing to do was making daru compatible with Statsample. This was very essential since statsample is very important tool for statistics in Ruby and it was using its own <code>Vector</code> and <code>Dataset</code> classes, which weren't very robust as computation tools and very difficult to use when it came to cleaning or munging data. So I replaced statsample's Vector and Dataset clases with <code>Daru::Vector</code> and <code>Daru::DataFrame</code>. It involved a significant amount of work on both statsample and daru &mdash; Statsample because many constructs had to be changed to make them compatible with daru, and daru because there was a lot of essential functionality in these classes that had to be ported to daru.</p>
+
+<p>Porting code from statsample to daru improved daru significantly. There were a whole of statistics methods in statsample that were imported into daru and you can now use all them from daru. Statsample also works well with <a href="https://github.com/clbustos/rubyvis">rubyvis</a>, a great tool for visualization. <a href="https://github.com/SciRuby/statsample#visualizations">You can now do that with daru as well</a>.</p>
+
+<p>Many new methods for reading and writing data to and from files were also added to daru. You can now read and write data to and from CSV, Excel, plain text files or even SQL databases.</p>
+
+<p>In effect, daru is now completely compatible with Statsample (and all the other Statsample extensions). You can use daru data structures for storing data and pass them to statsample for performing computations. The biggest advantage of this approach is that the analysed data can be passed around to other scientific Ruby libraries (some of which listed above) that use daru as well. Since daru offers in-built functions to better 'see' your data, better visualization is possible.</p>
+
+<p>See these <a href="https://github.com/v0dro/daru#blog-posts">blogs</a> and <a href="https://github.com/v0dro/daru#notebooks">notebooks</a> for a complete overview of daru's new features.</p>
+
+<p>Also see the <a href="https://github.com/SciRuby/statsample#notebooks">notebooks in the statsample README</a> for using daru with statsample.</p>
+
+<h2>Post-mid term submissions</h2>
+
+<p>Most of time post the mid term submissions was spent in implementing the time series functions for daru.</p>
+
+<p>I implemented a new index, the DateTimeIndex, which can used for indexing data on time stamps. It enables users to query data based on time stamps. Time stamps can either be specified with precise Ruby DateTime objects or can be specified as strings, which will lead to retrival of all the data falling under that time. For example specifying '2012' returns all data that falls in the year 2012. See detailed usage of <code>DateTimeIndex</code> and <code>DateTime</code> in conjunction with other daru constructs <a href="https://github.com/v0dro/daru/blob/master/README.md">in the daru README</a>.</p>
+
+<p>An essential utility in implementing <code>DateTimeIndex</code> was <code>DateOffset</code>, which is a new set of classes that offsets dates based on certain rules or business logic. It can advance or lag a Ruby <code>DateTime</code> to the nearest day, or any day of the week, or the end or beginning of the month, etc. <code>DateOffset</code> is an essential part of <code>DateTimeIndex</code> and can also be used as a stand-alone utility for advancing/lagging <code>DateTime</code> objects. <a href="http://v0dro.github.io/blog/2015/07/27/date-offsets-in-daru/">This blog post</a> elaborates more on the nuances of <code>DateOffset</code> and its usage.</p>
+
+<p>The last thing done during the post mid term was complete compatibility with <a href="https://github.com/AnkurGel">Ankur Goel</a>'s <a href="https://github.com/SciRuby/statsample-timeseries">statsample-timeseries</a>, which was created by  during GSOC 2013. Statsample-timeseries is a comprehensive suite offering various functions for statistical analysis of time sries data. It now works with daru containers and can be used for statistical analysis of data indexed on <code>Daru::DateTimeIndex</code>. See some use cases <a href="https://github.com/SciRuby/statsample-timeseries/blob/master/README.rdoc">in the README</a>.</p>
+
+<p>I'd like to conclude by thanking all the people directly and indirectly involved in making this project a success - My mentor <a href="https://github.com/agarie">Carlos</a> for his help and support throughout the summer, <a href="https://github.com/dilcom">Ivan</a>, <a href="https://github.com/agisga">Alexej</a> and <a href="https://github.com/wlevine">Will</a> for their support and feedback in various stages of developing daru. Also a big thank you to all the <a href="https://github.com/orgs/SciRuby/teams">SciRuby maintainers</a> for making this happen!</p>
 ]]></content>
   </entry>
   
