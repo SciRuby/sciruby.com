@@ -9,7 +9,8 @@
   <meta name="author" content="SciRuby">
 
   
-  <meta name="description" content="Introduction This summer I&#8217;ve been participating in Google Summer of Code with GnuplotRB project (plotting tool for Ruby users based on Gnuplot &hellip;">
+  <meta name="description" content="My Google Summer of Code project was working on the NMatrix project, moving
+functionality that depends on external libraries from the core nmatrix &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +83,206 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/19/gsoc-2015-nmatrix/">GSoC 2015: New NMatrix Gems for Advanced Linear Algebra Features</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Will Levine</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-19T09:57:00+09:00" pubdate data-updated="true">Aug 19<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>My Google Summer of Code project was working on the <a href="https://github.com/SciRuby/nmatrix">NMatrix project</a>, moving
+functionality that depends on external libraries from the core <code>nmatrix</code>
+gem to optional plugin gems. NMatrix is a Ruby library for linear algebra,
+used by many other projects.
+In addition to the code that was part of
+NMatrix proper, NMatrix previously required the <a href="http://math-atlas.sourceforge.net/">ATLAS library</a>, which
+implemented fast versions of common matrix operations like multiplication
+and inversion, as well as more advanced operations like eigenvalue
+decomposition and Cholesky decomposition.</p>
+
+<p>There were two separate but related motivations for my project. The
+first was to simplify the NMatrix installation
+process. ATLAS can be difficult to install, so the installation
+process for NMatrix was complicated, especially on
+OS X, and may have discouraged people from using NMatrix.
+The second motivation was that by separating out the ATLAS code from the
+main NMatrix code, it would be easier to add new linear algebra backends
+which provide similar features. Indeed, I implemented a second backend this
+summer.</p>
+
+<p>The end result of my summer&#8217;s work:</p>
+
+<ul>
+<li>The core <code>nmatrix</code> gem does not depend on any external linear matrix
+libraries. It provides non-optimized implementations of common matrix
+operations.</li>
+<li>All code that requires ATLAS has been moved into the new <code>nmatrix-atlas</code>
+gem, so that
+those who are only interested in the core functionality are not required to
+install ATLAS. <code>nmatrix-atlas</code> provides optimized implementations of common matrix
+operations, as well as advanced functions not available in <code>nmatrix</code>.
+I wrote a blog post describing the setup for <a href="http://wlevine.github.io/2015/06/15/releasing-multiple-gems-with-c-extensions-from-the-same-repository.html">releasing multiple gems from the same repository</a>, which this required.</li>
+<li>A new gem <code>nmatrix-lapacke</code>, which provides the same features as
+<code>nmatrix-atlas</code>, but instead of depending specifically on the ATLAS
+library, requires any generic <a href="https://en.wikipedia.org/wiki/LAPACK">LAPACK</a> and
+<a href="https://en.wikipedia.org/wiki/Basic_Linear_Algebra_Subprograms">BLAS</a>
+implementation. This should be easier to use for many users as they may
+already have LAPACK installed (it comes pre-installed with OS X and is
+commonly used in Linux systems), but not ATLAS.</li>
+<li>The installation procedure is simplified, especially for those installing
+just the <code>nmatrix</code> gem. Compare the <a href="https://github.com/SciRuby/nmatrix/wiki/Installation">new installation instructions</a>
+to the <a href="https://github.com/SciRuby/nmatrix/wiki/Installation/2ac41c62d35c79468d3d8169be0ccba238c3c921">old ones</a>.</li>
+</ul>
+
+
+<p>The one deviation from my original proposal was that I originally intended to remove
+all the ATLAS code and release only the <code>nmatrix-lapacke</code> plugin, so that we
+would only have one interface to the advanced linear algebra functions, but I
+decided to keep the ATLAS code, since the <code>nmatrix-lapacke</code> code is new and
+has not had a chance to be thoroughly tested.</p>
+
+<h3>Usage</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;nmatrix&#39;</span>
+</span><span class='line'><span class="c1"># create a 3-by-3 matrix</span>
+</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="no">NMatrix</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="o">]</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="ss">:float64</span><span class="p">)</span>
+</span><span class='line'><span class="c1">#invert it using non-optimized NMatrix-internal implementation</span>
+</span><span class='line'><span class="n">a</span><span class="o">.</span><span class="n">invert!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;nmatrix&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;nmatrix/atlas&#39;</span> <span class="c1">#or require &#39;nmatrix/lapacke&#39;</span>
+</span><span class='line'><span class="c1"># create a 3-by-3 matrix</span>
+</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="no">NMatrix</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="o">]</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="ss">:float64</span><span class="p">)</span>
+</span><span class='line'><span class="c1">#invert it using optimized implementation provided by ATLAS</span>
+</span><span class='line'><span class="n">a</span><span class="o">.</span><span class="n">invert!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For advanced functions not provided by the core <code>nmatrix</code> gem, for example
+<a href="http://sciruby.com/nmatrix/docs/NMatrix.html#method-i-gesvd"><code>gesvd</code></a>, <code>nmatrix-atlas</code> and <code>nmatrix-lapacke</code>
+provide a common interface:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;nmatrix&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;nmatrix/atlas&#39;</span>
+</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="no">NMatrix</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'><span class="n">dtype</span><span class="p">:</span> <span class="n">dtype</span><span class="p">)</span>
+</span><span class='line'><span class="n">u</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">vt</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">gesvd</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#Identical to the above, except for the require</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;nmatrix&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;nmatrix/lapacke&#39;</span>
+</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="no">NMatrix</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'><span class="n">dtype</span><span class="p">:</span> <span class="n">dtype</span><span class="p">)</span>
+</span><span class='line'><span class="n">u</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">vt</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">gesvd</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If the developer wants to use an advanced feature, but does not care
+whether the user is using <code>nmatrix-atlas</code>
+or <code>nmatrix-lapacke</code>, they can <code>require nmatrix/lapack_plugin</code>, which will
+require whichever of the two is available, instead of being forced to
+choose between the two.</p>
+
+<p>As a fun test of the new gems, I did a very simple benchmark, just
+testing how long it took to invert a
+1500-by-1500 matrix in place using <code>NMatix#invert!</code>:</p>
+
+<ul>
+<li><code>nmatrix</code> (no external libraries): 3.67s</li>
+<li><code>nmatrix-atlas</code>: 0.96s</li>
+<li><code>nmatrix-lapacke</code> with ATLAS: 0.99s</li>
+<li><code>nmatrix-lapacke</code> with OpenBLAS (multithreading enabled): 0.39s</li>
+<li><code>nmatrix-lapacke</code> with reference implementations of LAPACK and BLAS: 3.72s</li>
+</ul>
+
+
+<p>This is not supposed to be a thorough or realistic benchmark (performance will
+depend on your system, on how you built the libraries, and on the exact
+functions that you use), but there
+are still a few interesting conclusions we can draw from it:</p>
+
+<ul>
+<li>Performance is much better using the two highly optimized libraries
+(ATLAS and OpenBLAS) than using either the NMatrix
+internal implementation or the reference implementation.</li>
+<li>When using ATLAS, performance is similar whether using <code>nmatrix-atlas</code>
+and <code>nmatrix-lapacke</code> (this means we could consider deprecating
+the <code>nmatix-atlas</code> gem).</li>
+</ul>
+
+
+<p>Overall, my summer has been productive. I implemented everything that I
+proposed and feedback from testers so far has been positive.
+I plan to stay involved with NMatrix, especially to follow up on any issues
+related to my changes.
+Although I won&#8217;t be a student next summer, I would certainly consider
+participating in Google Summer of Code in the future as a mentor.
+I&#8217;d like to
+thank my mentor John Woods and the rest of the SciRuby community for support
+and feedback throughout the summer.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1476,83 +1677,6 @@ pull-requests, even during the GSoC term.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/06/24/updates-minimization-and-integration/">Updates: Minimization and Integration</a></h1>
-    
-    
-      <p class="meta">
-        
-  
-
-<span class="byline author vcard"><span class="fn">Rajat Kapoor</span></span>
- &bull; 
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-24T14:32:00+09:00" pubdate data-updated="true">Jun 24<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Minimization</h2>
-
-<p>The Minimization gem now supports the following unidimensional function minimizations
-provided by GSL. The supported methods include the pure Ruby implementations of:</p>
-
-<ol>
-<li>Newton&ndash;Raphson</li>
-<li>Golden Section</li>
-<li>Brent</li>
-<li>Quad Golden</li>
-</ol>
-
-
-<p>Of these, the Golden Section, Brent, and Quad Golden are also
-available via Minimization&#8217;s GSL interface (and are thus
-faster). Everything is organized in such a way that the faster C code
-(i.e., GSL) will be executed when GSL is available, but that otherwise
-the Ruby implementation will be used. I still have to beautify the
-code and add documentation.</p>
-
-<h2>Integration</h2>
-
-<p>The Integration gem has been transitioned from Hoe to Bundler. For
-Gauss&ndash;Kronrod Quadrature, I have hard-coded the values of nodes
-and weights (for 15, 21, 31, 41, and 61 points) &#8212; which were already
-hardcoded in the case of the Gauss quadrature.</p>
-
-<p>Additionally, I added basic methods like Simpson&#8217;s Three-Eighths
-Method, Milne&#8217;s Method, Boole&#8217;s Quadrature and Open Trapezoid.</p>
-
-<p>This week, I will be reviewing a <a href="https://github.com/clbustos/integration/pull/3">pull request</a> which aims to change the structure of the whole Integration gem.</p>
-
-<p>After that I plan to implement more adaptive methods and incorporate
-the non-adaptive methods under a single Newton&ndash;Cotes function.</p>
-
-<p>Lastly, I am brainstorming designs for symbolic integration using
-JScience and JRuby.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -1576,6 +1700,10 @@ JScience and JRuby.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2017/09/15/gsoc-2017-fastest-ruby-math-libraries/">GSoC 2017 : Creating the fastest Math libraries for Ruby by using the GPU through OpenCL, CUDA and ArrayFire.</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/">GSoC 2017 : Data visualization using daru-view</a>
       </li>
     
@@ -1589,10 +1717,6 @@ JScience and JRuby.</p>
     
       <li class="post">
         <a href="/blog/2016/11/25/spicerub-kernelpool-and-kernels/">GSoC 2016: SpiceRub::KernelPool and Kernels</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/">GSoC 2016 : A Look at SpiceRub::Body</a>
       </li>
     
   </ul>
@@ -1652,7 +1776,7 @@ JScience and JRuby.</p>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2017 - SciRuby -
+  Copyright &copy; 2018 - SciRuby -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

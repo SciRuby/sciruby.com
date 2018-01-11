@@ -9,7 +9,8 @@
   <meta name="author" content="SciRuby">
 
   
-  <meta name="description" content="Current Progress on Minimization Gem In the first half of the summer, I plan to introduce some new numerical minimization methods to SciRuby&#8217;s &hellip;">
+  <meta name="description" content="Minimization The Minimization gem now supports the following unidimensional function minimizations
+provided by GSL. The supported methods include the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +83,83 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/24/updates-minimization-and-integration/">Updates: Minimization and Integration</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Rajat Kapoor</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-24T14:32:00+09:00" pubdate data-updated="true">Jun 24<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Minimization</h2>
+
+<p>The Minimization gem now supports the following unidimensional function minimizations
+provided by GSL. The supported methods include the pure Ruby implementations of:</p>
+
+<ol>
+<li>Newton&ndash;Raphson</li>
+<li>Golden Section</li>
+<li>Brent</li>
+<li>Quad Golden</li>
+</ol>
+
+
+<p>Of these, the Golden Section, Brent, and Quad Golden are also
+available via Minimization&#8217;s GSL interface (and are thus
+faster). Everything is organized in such a way that the faster C code
+(i.e., GSL) will be executed when GSL is available, but that otherwise
+the Ruby implementation will be used. I still have to beautify the
+code and add documentation.</p>
+
+<h2>Integration</h2>
+
+<p>The Integration gem has been transitioned from Hoe to Bundler. For
+Gauss&ndash;Kronrod Quadrature, I have hard-coded the values of nodes
+and weights (for 15, 21, 31, 41, and 61 points) &#8212; which were already
+hardcoded in the case of the Gauss quadrature.</p>
+
+<p>Additionally, I added basic methods like Simpson&#8217;s Three-Eighths
+Method, Milne&#8217;s Method, Boole&#8217;s Quadrature and Open Trapezoid.</p>
+
+<p>This week, I will be reviewing a <a href="https://github.com/clbustos/integration/pull/3">pull request</a> which aims to change the structure of the whole Integration gem.</p>
+
+<p>After that I plan to implement more adaptive methods and incorporate
+the non-adaptive methods under a single Newton&ndash;Cotes function.</p>
+
+<p>Lastly, I am brainstorming designs for symbolic integration using
+JScience and JRuby.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -985,64 +1063,6 @@ have access to tons of money.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/10/25/mentoring-future-computational-power-women-for-gci-2013/">Mentoring Future Computational Power Women for GCI 2013</a></h1>
-    
-    
-      <p class="meta">
-        
-  
-
-<span class="byline author vcard"><span class="fn">Anna Belak</span></span>
- &bull; 
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-25T14:09:00+09:00" pubdate data-updated="true">Oct 25<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>My name is Anna, and I&#8217;m an engineer and a scientist. I study Materials Science and Engineering at the University of
-Michigan; and I graduated from Virginia Tech with a degree in Physics. My thesis project deals with computationally
-predicting the properties of materials used in lithium-ion batteries and airplane turbine blades.</p>
-
-<p><img src="/images/anna_belak.jpg" title="Anna Belak coding like a boss" /></p>
-
-<p>I&#8217;m writing this blog post for SciRuby, but I&#8217;m really writing it for the young women out there. SciRuby is applying to
-participate in <a href="https://developers.google.com/open-source/gci/">Google&#8217;s Code-In 2013</a>, which aims to get high school
-students involved in the open source movement, and specifically in coding. It&#8217;s great preparation for college and
-beyond — whatever you might choose to study.</p>
-
-<p>I became involved in science because I love figuring stuff out and working with smart, interesting people, and I want
-you to get involved, too. Modern science wouldn&#8217;t be possible without open source software. Moreover, if you learn how
-to code, you&#8217;ll always have a job. Always.</p>
-
-<p>And the cool part is that you don&#8217;t have to know how to code in order to participate. Many of the tasks involve research
-and documentation in science and mathematics — which is a great way to obtain valuable experience for college
-applications.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -1066,6 +1086,10 @@ applications.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2017/09/15/gsoc-2017-fastest-ruby-math-libraries/">GSoC 2017 : Creating the fastest Math libraries for Ruby by using the GPU through OpenCL, CUDA and ArrayFire.</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/">GSoC 2017 : Data visualization using daru-view</a>
       </li>
     
@@ -1079,10 +1103,6 @@ applications.</p>
     
       <li class="post">
         <a href="/blog/2016/11/25/spicerub-kernelpool-and-kernels/">GSoC 2016: SpiceRub::KernelPool and Kernels</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/">GSoC 2016 : A Look at SpiceRub::Body</a>
       </li>
     
   </ul>
@@ -1142,7 +1162,7 @@ applications.</p>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2017 - SciRuby -
+  Copyright &copy; 2018 - SciRuby -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

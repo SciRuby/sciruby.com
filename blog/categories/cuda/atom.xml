@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: CUDA | SciRuby]]></title>
+  <link href="http://sciruby.com/blog/categories/cuda/atom.xml" rel="self"/>
+  <link href="http://sciruby.com/"/>
+  <updated>2018-01-11T11:22:17+09:00</updated>
+  <id>http://sciruby.com/</id>
+  <author>
+    <name><![CDATA[SciRuby]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2017 : Creating the fastest Math libraries for Ruby by using the GPU through OpenCL, CUDA and ArrayFire.]]></title>
+    <link href="http://sciruby.com/blog/2017/09/15/gsoc-2017-fastest-ruby-math-libraries/"/>
+    <updated>2017-09-15T22:46:00+09:00</updated>
+    <id>http://sciruby.com/blog/2017/09/15/gsoc-2017-fastest-ruby-math-libraries</id>
+    <content type="html"><![CDATA[<p>GSoC 2017 is about to end. This post summarises my work during the course of summer.</p>
+
+<p>ArrayFire-rb now supports linear algebra on GPU and CPU. Currently only double dtype has been implemented.
+It supports dense and sparse matrices. It has multiple backends namely, CUDA, OpenCL and CPU.</p>
+
+<p><img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/arrayfire/add.png?raw=true" title="Fig. 1: Matrix Addition" alt="Matrix Addition" />
+<img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/arrayfire/sub.png?raw=true" title="Fig. 2: Matrix Subtraction" alt="Matrix Subtraction" />
+<img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/arrayfire/mult.png?raw=true" title="Fig. 3: Matrix Multiplication" alt="Matrix Multiplication" />
+<img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/arrayfire/det.png?raw=true" title="Fig. 4: Matrix Determinant" alt="Matrix Determinant" />
+<img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/arrayfire/lu.png?raw=true" title="Fig. 5: LU Decomposition" alt="LU Decomposition" /></p>
+
+<p>(Note: The above benchmarks have been done on an AMD FX 8350 octacore processor and Nvidia GTX 750Ti GPU. CUDA backend of ArrayFire was used with double floating points.)</p>
+
+<p>The figure shows that ArrayFire takes the least computation time of all. For elementwise arithmetic operations, ArrayFire is 2 e 4 times faster than NMatrix for Ruby whereas 2 e 3 times faster than NMatrix for JRuby.</p>
+
+<p>The figure shows that ArrayFire takes the least computation time of all. ArrayFire is 3 e +6 times faster than NMatrix for JRuby and NMatrix for Ruby(not BLAS) whereas 7 e +5 times faster than NMatrix for Ruby(using BLAS).</p>
+
+<p>For LAPACK routines, like calculating determinant and lower-upper factorization, ArrayFire is 100 times faster than NMatrix for JRuby whereas 6 times faster than NMatrix for Ruby(using LAPACKE).</p>
+
+<h1>Application</h1>
+
+<p>The GSoC 2017 application can be found <a href="https://github.com/prasunanand/resume/wiki/GSoC-2017-proposal">here</a>.</p>
+
+<h1>Code</h1>
+
+<p><a href="https://github.com/prasunanand/arrayfire-rb">ArrayFire-rb</a>: The <a href="https://github.com/arrayfire/arrayfire-rb/pull/3">pull request</a> is undergoing a review.</p>
+
+<p>ArrayFire-rb Benchmarks: Codebase can be found <a href="https://github.com/prasunanand/arrayfire-rb-benchmark-suite">here</a>.</p>
+
+<p>Bio::FasterLmmD : Codebase can be found <a href="https://github.com/prasunanand/bio-faster_lmm_d">here</a></p>
+
+<p>The work on creating the bindings have been explained in the following nine blog posts:</p>
+
+<ol>
+<li><a href="http://www.prasunanand.com/ruby-c-extensions/2017/06/23/gsoc17-ruby-c-extensions-for-complex-projects.html">Ruby C extensions for complex projects</a></li>
+<li><a href="http://www.prasunanand.com/arrayfire/2017/06/23/gsoc17-arrayfire-ruby-bindings-part-1-installation.html">Installation</a></li>
+<li><a href="http://www.prasunanand.com/arrayfire/2017/07/04/gsoc17-arrayfire-ruby-bindings-part-2-af_array.html">Af_Array</a>(see performance)</li>
+<li><a href="http://www.prasunanand.com/arrayfire/2017/07/22/gsoc17-arrayfire-ruby-bindings-part-3-minitest-algorithm.html">Test-suite and Algorithm class</a></li>
+<li><a href="http://www.prasunanand.com/arrayfire/2017/08/16/gsoc17-arrayfire-ruby-bindings-part-4-blas-lapack.html">BLAS and LAPACK routines</a>(see performance)</li>
+<li><a href="http://www.prasunanand.com/arrayfire/2017/08/17/gsoc17-arrayfire-ruby-bindings-part-4-statistics-and-random-engine.html">Statistics and Random Engine routines</a></li>
+<li><a href="http://www.prasunanand.com/arrayfire/2017/08/22/gsoc17-arrayfire-ruby-bindings-part-6-device.html">Device and Util</a></li>
+<li><a href="http://www.prasunanand.com/arrayfire/2017/08/24/gsoc17-arrayfire-ruby-bindings-part-7-backend-cuda-and-opencl.html">Multiple Backends: CUDA, OpenCL and CPU</a></li>
+<li><a href="http://www.prasunanand.com/arrayfire/2017/08/24/gsoc17-arrayfire-ruby-bindings-part-8-nmatrix-interface.html">ArrayFire-NMatrix Interface</a></li>
+</ol>
+
+
+<p>I took a side-track working on <code>Bio::FasterLmmD</code> . This work is not complete and still in progress.
+It is an effort to <code>call D from Ruby</code>. The work has been explained in a previous <a href="/gpu-computing/2017/07/25/gsoc17-calling-d-from-ruby-for-gpu-computing.html">blog post</a>.</p>
+
+<p>The work on ArrayFire-rb - JRuby has been postponed for now as I wanted to concentrate on MRI for
+the best results.</p>
+
+<h1>Future Work</h1>
+
+<p>The future work involves improving the ArrayFire-rb code and writing tutorials. ArrayFire is not limited to
+linear algebra so I will create bindings for Signal Processing, Computer Vision, etc. I will also add support
+for data types other than <code>double</code>.</p>
+
+<p>The work on ArrayFire-rb - JRuby will begin as soon as ArrayFire gem is published.</p>
+
+<h1>FOSS</h1>
+
+<p>This has been my second GSoC with SciRuby. It has been more than an year contibuting extensively to FOSS.</p>
+
+<p>I really appreciate the effort by Google Open Source Committee for conducting GSoC every year. It is the
+best platform for the aspiring programmers improve their skill and give back to society by developing free
+and open source software.</p>
+
+<p>Last year's GSoC work helped me to present a talk at FOSDEM 2017 and Ruby Conf India 2017.  I got active
+in the Indian Ruby Community. Recently, I have been invited as a speaker to Ruby World Conference 2017, Matsue, Japan
+and RubyConf 2017, New Orleans, to talk on "GPU computing with Ruby".</p>
+
+<p>I plan to continue contributing to open source, strive for improving my skills, and help new programmers
+contribute to FOSS. I would be glad if I could mentor students for upcoming GSoCs.</p>
+
+<h1>Acknowledgements</h1>
+
+<p>I would like to express my sincere gratitude to my mentor Pjotr Prins, for his guidance, patience and support.
+I have learn a lot from him since my last GSoC and still learning. I couldn't have hoped for a better mentor.</p>
+
+<p>I am grateful to Google and the Ruby Science Foundation for this golden opportunity.</p>
+
+<p>I am very thankful to John Woods, Sameer Deshmukh, Alexej Gossmann, Gaurav Tamba and Pradeep Garigipati
+who mentored me through the project.</p>
+]]></content>
+  </entry>
+  
+</feed>

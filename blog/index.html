@@ -9,8 +9,7 @@
   <meta name="author" content="SciRuby">
 
   
-  <meta name="description" content="Hello, Rubyist! Are looking for good ruby gem for interactive data
-visualization? Then you must try daru-view, a plugin gem for daru. What makes daru &hellip;">
+  <meta name="description" content="GSoC 2017 is about to end. This post summarises my work during the course of summer. ArrayFire-rb now supports linear algebra on GPU and CPU. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -83,6 +82,130 @@ visualization? Then you must try daru-view, a plugin gem for daru. What makes da
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/09/15/gsoc-2017-fastest-ruby-math-libraries/">GSoC 2017 : Creating the Fastest Math Libraries for Ruby by Using the GPU Through OpenCL, CUDA and ArrayFire.</a></h1>
+    
+    
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard"><span class="fn">Prasun Anand</span></span>
+ &bull; 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-09-15T22:46:00+09:00" pubdate data-updated="true">Sep 15<span>th</span>, 2017</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>GSoC 2017 is about to end. This post summarises my work during the course of summer.</p>
+
+<p>ArrayFire-rb now supports linear algebra on GPU and CPU. Currently only double dtype has been implemented.
+It supports dense and sparse matrices. It has multiple backends namely, CUDA, OpenCL and CPU.</p>
+
+<p><img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/arrayfire/add.png?raw=true" title="Fig. 1: Matrix Addition" alt="Matrix Addition" />
+<img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/arrayfire/sub.png?raw=true" title="Fig. 2: Matrix Subtraction" alt="Matrix Subtraction" />
+<img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/arrayfire/mult.png?raw=true" title="Fig. 3: Matrix Multiplication" alt="Matrix Multiplication" />
+<img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/arrayfire/det.png?raw=true" title="Fig. 4: Matrix Determinant" alt="Matrix Determinant" />
+<img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/arrayfire/lu.png?raw=true" title="Fig. 5: LU Decomposition" alt="LU Decomposition" /></p>
+
+<p>(Note: The above benchmarks have been done on an AMD FX 8350 octacore processor and Nvidia GTX 750Ti GPU. CUDA backend of ArrayFire was used with double floating points.)</p>
+
+<p>The figure shows that ArrayFire takes the least computation time of all. For elementwise arithmetic operations, ArrayFire is 2 e 4 times faster than NMatrix for Ruby whereas 2 e 3 times faster than NMatrix for JRuby.</p>
+
+<p>The figure shows that ArrayFire takes the least computation time of all. ArrayFire is 3 e +6 times faster than NMatrix for JRuby and NMatrix for Ruby(not BLAS) whereas 7 e +5 times faster than NMatrix for Ruby(using BLAS).</p>
+
+<p>For LAPACK routines, like calculating determinant and lower-upper factorization, ArrayFire is 100 times faster than NMatrix for JRuby whereas 6 times faster than NMatrix for Ruby(using LAPACKE).</p>
+
+<h1>Application</h1>
+
+<p>The GSoC 2017 application can be found <a href="https://github.com/prasunanand/resume/wiki/GSoC-2017-proposal">here</a>.</p>
+
+<h1>Code</h1>
+
+<p><a href="https://github.com/prasunanand/arrayfire-rb">ArrayFire-rb</a>: The <a href="https://github.com/arrayfire/arrayfire-rb/pull/3">pull request</a> is undergoing a review.</p>
+
+<p>ArrayFire-rb Benchmarks: Codebase can be found <a href="https://github.com/prasunanand/arrayfire-rb-benchmark-suite">here</a>.</p>
+
+<p>Bio::FasterLmmD : Codebase can be found <a href="https://github.com/prasunanand/bio-faster_lmm_d">here</a></p>
+
+<p>The work on creating the bindings have been explained in the following nine blog posts:</p>
+
+<ol>
+<li><a href="http://www.prasunanand.com/ruby-c-extensions/2017/06/23/gsoc17-ruby-c-extensions-for-complex-projects.html">Ruby C extensions for complex projects</a></li>
+<li><a href="http://www.prasunanand.com/arrayfire/2017/06/23/gsoc17-arrayfire-ruby-bindings-part-1-installation.html">Installation</a></li>
+<li><a href="http://www.prasunanand.com/arrayfire/2017/07/04/gsoc17-arrayfire-ruby-bindings-part-2-af_array.html">Af_Array</a>(see performance)</li>
+<li><a href="http://www.prasunanand.com/arrayfire/2017/07/22/gsoc17-arrayfire-ruby-bindings-part-3-minitest-algorithm.html">Test-suite and Algorithm class</a></li>
+<li><a href="http://www.prasunanand.com/arrayfire/2017/08/16/gsoc17-arrayfire-ruby-bindings-part-4-blas-lapack.html">BLAS and LAPACK routines</a>(see performance)</li>
+<li><a href="http://www.prasunanand.com/arrayfire/2017/08/17/gsoc17-arrayfire-ruby-bindings-part-4-statistics-and-random-engine.html">Statistics and Random Engine routines</a></li>
+<li><a href="http://www.prasunanand.com/arrayfire/2017/08/22/gsoc17-arrayfire-ruby-bindings-part-6-device.html">Device and Util</a></li>
+<li><a href="http://www.prasunanand.com/arrayfire/2017/08/24/gsoc17-arrayfire-ruby-bindings-part-7-backend-cuda-and-opencl.html">Multiple Backends: CUDA, OpenCL and CPU</a></li>
+<li><a href="http://www.prasunanand.com/arrayfire/2017/08/24/gsoc17-arrayfire-ruby-bindings-part-8-nmatrix-interface.html">ArrayFire-NMatrix Interface</a></li>
+</ol>
+
+
+<p>I took a side-track working on <code>Bio::FasterLmmD</code> . This work is not complete and still in progress.
+It is an effort to <code>call D from Ruby</code>. The work has been explained in a previous <a href="/gpu-computing/2017/07/25/gsoc17-calling-d-from-ruby-for-gpu-computing.html">blog post</a>.</p>
+
+<p>The work on ArrayFire-rb - JRuby has been postponed for now as I wanted to concentrate on MRI for
+the best results.</p>
+
+<h1>Future Work</h1>
+
+<p>The future work involves improving the ArrayFire-rb code and writing tutorials. ArrayFire is not limited to
+linear algebra so I will create bindings for Signal Processing, Computer Vision, etc. I will also add support
+for data types other than <code>double</code>.</p>
+
+<p>The work on ArrayFire-rb - JRuby will begin as soon as ArrayFire gem is published.</p>
+
+<h1>FOSS</h1>
+
+<p>This has been my second GSoC with SciRuby. It has been more than an year contibuting extensively to FOSS.</p>
+
+<p>I really appreciate the effort by Google Open Source Committee for conducting GSoC every year. It is the
+best platform for the aspiring programmers improve their skill and give back to society by developing free
+and open source software.</p>
+
+<p>Last year&#8217;s GSoC work helped me to present a talk at FOSDEM 2017 and Ruby Conf India 2017.  I got active
+in the Indian Ruby Community. Recently, I have been invited as a speaker to Ruby World Conference 2017, Matsue, Japan
+and RubyConf 2017, New Orleans, to talk on &#8220;GPU computing with Ruby&#8221;.</p>
+
+<p>I plan to continue contributing to open source, strive for improving my skills, and help new programmers
+contribute to FOSS. I would be glad if I could mentor students for upcoming GSoCs.</p>
+
+<h1>Acknowledgements</h1>
+
+<p>I would like to express my sincere gratitude to my mentor Pjotr Prins, for his guidance, patience and support.
+I have learn a lot from him since my last GSoC and still learning. I couldn&#8217;t have hoped for a better mentor.</p>
+
+<p>I am grateful to Google and the Ruby Science Foundation for this golden opportunity.</p>
+
+<p>I am very thankful to John Woods, Sameer Deshmukh, Alexej Gossmann, Gaurav Tamba and Pradeep Garigipati
+who mentored me through the project.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -3522,206 +3645,6 @@ A good reference on such models is <a href="http://lme4.r-forge.r-project.org/bo
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/19/gsoc-2015-nmatrix/">GSoC 2015: New NMatrix Gems for Advanced Linear Algebra Features</a></h1>
-    
-    
-      <p class="meta">
-        
-  
-
-<span class="byline author vcard"><span class="fn">Will Levine</span></span>
- &bull; 
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-08-19T09:57:00+09:00" pubdate data-updated="true">Aug 19<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>My Google Summer of Code project was working on the <a href="https://github.com/SciRuby/nmatrix">NMatrix project</a>, moving
-functionality that depends on external libraries from the core <code>nmatrix</code>
-gem to optional plugin gems. NMatrix is a Ruby library for linear algebra,
-used by many other projects.
-In addition to the code that was part of
-NMatrix proper, NMatrix previously required the <a href="http://math-atlas.sourceforge.net/">ATLAS library</a>, which
-implemented fast versions of common matrix operations like multiplication
-and inversion, as well as more advanced operations like eigenvalue
-decomposition and Cholesky decomposition.</p>
-
-<p>There were two separate but related motivations for my project. The
-first was to simplify the NMatrix installation
-process. ATLAS can be difficult to install, so the installation
-process for NMatrix was complicated, especially on
-OS X, and may have discouraged people from using NMatrix.
-The second motivation was that by separating out the ATLAS code from the
-main NMatrix code, it would be easier to add new linear algebra backends
-which provide similar features. Indeed, I implemented a second backend this
-summer.</p>
-
-<p>The end result of my summer&#8217;s work:</p>
-
-<ul>
-<li>The core <code>nmatrix</code> gem does not depend on any external linear matrix
-libraries. It provides non-optimized implementations of common matrix
-operations.</li>
-<li>All code that requires ATLAS has been moved into the new <code>nmatrix-atlas</code>
-gem, so that
-those who are only interested in the core functionality are not required to
-install ATLAS. <code>nmatrix-atlas</code> provides optimized implementations of common matrix
-operations, as well as advanced functions not available in <code>nmatrix</code>.
-I wrote a blog post describing the setup for <a href="http://wlevine.github.io/2015/06/15/releasing-multiple-gems-with-c-extensions-from-the-same-repository.html">releasing multiple gems from the same repository</a>, which this required.</li>
-<li>A new gem <code>nmatrix-lapacke</code>, which provides the same features as
-<code>nmatrix-atlas</code>, but instead of depending specifically on the ATLAS
-library, requires any generic <a href="https://en.wikipedia.org/wiki/LAPACK">LAPACK</a> and
-<a href="https://en.wikipedia.org/wiki/Basic_Linear_Algebra_Subprograms">BLAS</a>
-implementation. This should be easier to use for many users as they may
-already have LAPACK installed (it comes pre-installed with OS X and is
-commonly used in Linux systems), but not ATLAS.</li>
-<li>The installation procedure is simplified, especially for those installing
-just the <code>nmatrix</code> gem. Compare the <a href="https://github.com/SciRuby/nmatrix/wiki/Installation">new installation instructions</a>
-to the <a href="https://github.com/SciRuby/nmatrix/wiki/Installation/2ac41c62d35c79468d3d8169be0ccba238c3c921">old ones</a>.</li>
-</ul>
-
-
-<p>The one deviation from my original proposal was that I originally intended to remove
-all the ATLAS code and release only the <code>nmatrix-lapacke</code> plugin, so that we
-would only have one interface to the advanced linear algebra functions, but I
-decided to keep the ATLAS code, since the <code>nmatrix-lapacke</code> code is new and
-has not had a chance to be thoroughly tested.</p>
-
-<h3>Usage</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;nmatrix&#39;</span>
-</span><span class='line'><span class="c1"># create a 3-by-3 matrix</span>
-</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="no">NMatrix</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="o">]</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="ss">:float64</span><span class="p">)</span>
-</span><span class='line'><span class="c1">#invert it using non-optimized NMatrix-internal implementation</span>
-</span><span class='line'><span class="n">a</span><span class="o">.</span><span class="n">invert!</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;nmatrix&#39;</span>
-</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;nmatrix/atlas&#39;</span> <span class="c1">#or require &#39;nmatrix/lapacke&#39;</span>
-</span><span class='line'><span class="c1"># create a 3-by-3 matrix</span>
-</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="no">NMatrix</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="o">]</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="ss">:float64</span><span class="p">)</span>
-</span><span class='line'><span class="c1">#invert it using optimized implementation provided by ATLAS</span>
-</span><span class='line'><span class="n">a</span><span class="o">.</span><span class="n">invert!</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>For advanced functions not provided by the core <code>nmatrix</code> gem, for example
-<a href="http://sciruby.com/nmatrix/docs/NMatrix.html#method-i-gesvd"><code>gesvd</code></a>, <code>nmatrix-atlas</code> and <code>nmatrix-lapacke</code>
-provide a common interface:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;nmatrix&#39;</span>
-</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;nmatrix/atlas&#39;</span>
-</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="no">NMatrix</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span>
-</span><span class='line'><span class="n">dtype</span><span class="p">:</span> <span class="n">dtype</span><span class="p">)</span>
-</span><span class='line'><span class="n">u</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">vt</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">gesvd</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#Identical to the above, except for the require</span>
-</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;nmatrix&#39;</span>
-</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;nmatrix/lapacke&#39;</span>
-</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="no">NMatrix</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span>
-</span><span class='line'><span class="n">dtype</span><span class="p">:</span> <span class="n">dtype</span><span class="p">)</span>
-</span><span class='line'><span class="n">u</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">vt</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">gesvd</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If the developer wants to use an advanced feature, but does not care
-whether the user is using <code>nmatrix-atlas</code>
-or <code>nmatrix-lapacke</code>, they can <code>require nmatrix/lapack_plugin</code>, which will
-require whichever of the two is available, instead of being forced to
-choose between the two.</p>
-
-<p>As a fun test of the new gems, I did a very simple benchmark, just
-testing how long it took to invert a
-1500-by-1500 matrix in place using <code>NMatix#invert!</code>:</p>
-
-<ul>
-<li><code>nmatrix</code> (no external libraries): 3.67s</li>
-<li><code>nmatrix-atlas</code>: 0.96s</li>
-<li><code>nmatrix-lapacke</code> with ATLAS: 0.99s</li>
-<li><code>nmatrix-lapacke</code> with OpenBLAS (multithreading enabled): 0.39s</li>
-<li><code>nmatrix-lapacke</code> with reference implementations of LAPACK and BLAS: 3.72s</li>
-</ul>
-
-
-<p>This is not supposed to be a thorough or realistic benchmark (performance will
-depend on your system, on how you built the libraries, and on the exact
-functions that you use), but there
-are still a few interesting conclusions we can draw from it:</p>
-
-<ul>
-<li>Performance is much better using the two highly optimized libraries
-(ATLAS and OpenBLAS) than using either the NMatrix
-internal implementation or the reference implementation.</li>
-<li>When using ATLAS, performance is similar whether using <code>nmatrix-atlas</code>
-and <code>nmatrix-lapacke</code> (this means we could consider deprecating
-the <code>nmatix-atlas</code> gem).</li>
-</ul>
-
-
-<p>Overall, my summer has been productive. I implemented everything that I
-proposed and feedback from testers so far has been positive.
-I plan to stay involved with NMatrix, especially to follow up on any issues
-related to my changes.
-Although I won&#8217;t be a student next summer, I would certainly consider
-participating in Google Summer of Code in the future as a mentor.
-I&#8217;d like to
-thank my mentor John Woods and the rest of the SciRuby community for support
-and feedback throughout the summer.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -3743,6 +3666,10 @@ and feedback throughout the summer.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2017/09/15/gsoc-2017-fastest-ruby-math-libraries/">GSoC 2017 : Creating the fastest Math libraries for Ruby by using the GPU through OpenCL, CUDA and ArrayFire.</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/09/01/gsoc-2017-data-visualization-using-daru-view/">GSoC 2017 : Data visualization using daru-view</a>
       </li>
     
@@ -3756,10 +3683,6 @@ and feedback throughout the summer.</p>
     
       <li class="post">
         <a href="/blog/2016/11/25/spicerub-kernelpool-and-kernels/">GSoC 2016: SpiceRub::KernelPool and Kernels</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/11/25/gsoc-2016-a-look-at-spicerub-body/">GSoC 2016 : A Look at SpiceRub::Body</a>
       </li>
     
   </ul>
@@ -3819,7 +3742,7 @@ and feedback throughout the summer.</p>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2017 - SciRuby -
+  Copyright &copy; 2018 - SciRuby -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: GSoC | SciRuby]]></title>
   <link href="http://sciruby.com/blog/categories/gsoc/atom.xml" rel="self"/>
   <link href="http://sciruby.com/"/>
-  <updated>2017-11-01T22:22:01+09:00</updated>
+  <updated>2018-01-11T11:22:17+09:00</updated>
   <id>http://sciruby.com/</id>
   <author>
     <name><![CDATA[SciRuby]]></name>
@@ -12,6 +12,98 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2017 : Creating the fastest Math libraries for Ruby by using the GPU through OpenCL, CUDA and ArrayFire.]]></title>
+    <link href="http://sciruby.com/blog/2017/09/15/gsoc-2017-fastest-ruby-math-libraries/"/>
+    <updated>2017-09-15T22:46:00+09:00</updated>
+    <id>http://sciruby.com/blog/2017/09/15/gsoc-2017-fastest-ruby-math-libraries</id>
+    <content type="html"><![CDATA[<p>GSoC 2017 is about to end. This post summarises my work during the course of summer.</p>
+
+<p>ArrayFire-rb now supports linear algebra on GPU and CPU. Currently only double dtype has been implemented.
+It supports dense and sparse matrices. It has multiple backends namely, CUDA, OpenCL and CPU.</p>
+
+<p><img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/arrayfire/add.png?raw=true" title="Fig. 1: Matrix Addition" alt="Matrix Addition" />
+<img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/arrayfire/sub.png?raw=true" title="Fig. 2: Matrix Subtraction" alt="Matrix Subtraction" />
+<img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/arrayfire/mult.png?raw=true" title="Fig. 3: Matrix Multiplication" alt="Matrix Multiplication" />
+<img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/arrayfire/det.png?raw=true" title="Fig. 4: Matrix Determinant" alt="Matrix Determinant" />
+<img src="https://github.com/prasunanand/gsoc_blog/blob/master/img/sciruby_blog/arrayfire/lu.png?raw=true" title="Fig. 5: LU Decomposition" alt="LU Decomposition" /></p>
+
+<p>(Note: The above benchmarks have been done on an AMD FX 8350 octacore processor and Nvidia GTX 750Ti GPU. CUDA backend of ArrayFire was used with double floating points.)</p>
+
+<p>The figure shows that ArrayFire takes the least computation time of all. For elementwise arithmetic operations, ArrayFire is 2 e 4 times faster than NMatrix for Ruby whereas 2 e 3 times faster than NMatrix for JRuby.</p>
+
+<p>The figure shows that ArrayFire takes the least computation time of all. ArrayFire is 3 e +6 times faster than NMatrix for JRuby and NMatrix for Ruby(not BLAS) whereas 7 e +5 times faster than NMatrix for Ruby(using BLAS).</p>
+
+<p>For LAPACK routines, like calculating determinant and lower-upper factorization, ArrayFire is 100 times faster than NMatrix for JRuby whereas 6 times faster than NMatrix for Ruby(using LAPACKE).</p>
+
+<h1>Application</h1>
+
+<p>The GSoC 2017 application can be found <a href="https://github.com/prasunanand/resume/wiki/GSoC-2017-proposal">here</a>.</p>
+
+<h1>Code</h1>
+
+<p><a href="https://github.com/prasunanand/arrayfire-rb">ArrayFire-rb</a>: The <a href="https://github.com/arrayfire/arrayfire-rb/pull/3">pull request</a> is undergoing a review.</p>
+
+<p>ArrayFire-rb Benchmarks: Codebase can be found <a href="https://github.com/prasunanand/arrayfire-rb-benchmark-suite">here</a>.</p>
+
+<p>Bio::FasterLmmD : Codebase can be found <a href="https://github.com/prasunanand/bio-faster_lmm_d">here</a></p>
+
+<p>The work on creating the bindings have been explained in the following nine blog posts:</p>
+
+<ol>
+<li><a href="http://www.prasunanand.com/ruby-c-extensions/2017/06/23/gsoc17-ruby-c-extensions-for-complex-projects.html">Ruby C extensions for complex projects</a></li>
+<li><a href="http://www.prasunanand.com/arrayfire/2017/06/23/gsoc17-arrayfire-ruby-bindings-part-1-installation.html">Installation</a></li>
+<li><a href="http://www.prasunanand.com/arrayfire/2017/07/04/gsoc17-arrayfire-ruby-bindings-part-2-af_array.html">Af_Array</a>(see performance)</li>
+<li><a href="http://www.prasunanand.com/arrayfire/2017/07/22/gsoc17-arrayfire-ruby-bindings-part-3-minitest-algorithm.html">Test-suite and Algorithm class</a></li>
+<li><a href="http://www.prasunanand.com/arrayfire/2017/08/16/gsoc17-arrayfire-ruby-bindings-part-4-blas-lapack.html">BLAS and LAPACK routines</a>(see performance)</li>
+<li><a href="http://www.prasunanand.com/arrayfire/2017/08/17/gsoc17-arrayfire-ruby-bindings-part-4-statistics-and-random-engine.html">Statistics and Random Engine routines</a></li>
+<li><a href="http://www.prasunanand.com/arrayfire/2017/08/22/gsoc17-arrayfire-ruby-bindings-part-6-device.html">Device and Util</a></li>
+<li><a href="http://www.prasunanand.com/arrayfire/2017/08/24/gsoc17-arrayfire-ruby-bindings-part-7-backend-cuda-and-opencl.html">Multiple Backends: CUDA, OpenCL and CPU</a></li>
+<li><a href="http://www.prasunanand.com/arrayfire/2017/08/24/gsoc17-arrayfire-ruby-bindings-part-8-nmatrix-interface.html">ArrayFire-NMatrix Interface</a></li>
+</ol>
+
+
+<p>I took a side-track working on <code>Bio::FasterLmmD</code> . This work is not complete and still in progress.
+It is an effort to <code>call D from Ruby</code>. The work has been explained in a previous <a href="/gpu-computing/2017/07/25/gsoc17-calling-d-from-ruby-for-gpu-computing.html">blog post</a>.</p>
+
+<p>The work on ArrayFire-rb - JRuby has been postponed for now as I wanted to concentrate on MRI for
+the best results.</p>
+
+<h1>Future Work</h1>
+
+<p>The future work involves improving the ArrayFire-rb code and writing tutorials. ArrayFire is not limited to
+linear algebra so I will create bindings for Signal Processing, Computer Vision, etc. I will also add support
+for data types other than <code>double</code>.</p>
+
+<p>The work on ArrayFire-rb - JRuby will begin as soon as ArrayFire gem is published.</p>
+
+<h1>FOSS</h1>
+
+<p>This has been my second GSoC with SciRuby. It has been more than an year contibuting extensively to FOSS.</p>
+
+<p>I really appreciate the effort by Google Open Source Committee for conducting GSoC every year. It is the
+best platform for the aspiring programmers improve their skill and give back to society by developing free
+and open source software.</p>
+
+<p>Last year's GSoC work helped me to present a talk at FOSDEM 2017 and Ruby Conf India 2017.  I got active
+in the Indian Ruby Community. Recently, I have been invited as a speaker to Ruby World Conference 2017, Matsue, Japan
+and RubyConf 2017, New Orleans, to talk on "GPU computing with Ruby".</p>
+
+<p>I plan to continue contributing to open source, strive for improving my skills, and help new programmers
+contribute to FOSS. I would be glad if I could mentor students for upcoming GSoCs.</p>
+
+<h1>Acknowledgements</h1>
+
+<p>I would like to express my sincere gratitude to my mentor Pjotr Prins, for his guidance, patience and support.
+I have learn a lot from him since my last GSoC and still learning. I couldn't have hoped for a better mentor.</p>
+
+<p>I am grateful to Google and the Ruby Science Foundation for this golden opportunity.</p>
+
+<p>I am very thankful to John Woods, Sameer Deshmukh, Alexej Gossmann, Gaurav Tamba and Pradeep Garigipati
+who mentored me through the project.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[GSoC 2017 : Data visualization using daru-view]]></title>
@@ -128,7 +220,7 @@ line_basic_chart.chart
 <p>This will return the chart object we created using GoogleCharts.
 In IRuby notebook, you will see this:</p>
 
-<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlecharts_line1.png?raw=true" title="Basic line chart using GoogleCharts" alt="Basic line chart using GoogleCharts"></p>
+<p>{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlecharts_line1.png?raw=true 'Basic line chart using GoogleCharts' 'Basic line chart using GoogleCharts' %}</p>
 
 <p>You can find the IRuby notebook example in <a href="http://nbviewer.jupyter.org/github/shekharrajak/daru-view/blob/master/spec/dummy_iruby/Google%20Chart%20%7C%20%20Line%20Chart.ipynb">this link</a>.</p>
 
@@ -166,7 +258,7 @@ df_cp.vectors = Daru::Index.new(['Country', 'Population'])</p>
 
 <p>Note: If you have already loaded the dependent JS files for the library then you can use <code>adapter: :googlecharts</code> in your Plot initialization.</p>
 
-<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_geo1.png?raw=true" title="Basic Geo chart using GoogleCharts" alt="Basic Geo chart using GoogleCharts"></p>
+<p>{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_geo1.png?raw=true 'Basic Geo chart using GoogleCharts' 'Basic Geo chart using GoogleCharts' %}</p>
 
 <h3>HighCharts:</h3>
 
@@ -203,7 +295,7 @@ plt_pie = Daru::View::Plot.new data, type: :pie
 <p>This will return the <code>Plot</code> object we created.
 In IRuby notebook, you will see this:</p>
 
-<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/highcharts_pie.png?raw=true" title="Basic pie chart using HighCharts" alt="Basic pie chart using HighCharts"></p>
+<p>{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/highcharts_pie.png?raw=true 'Basic pie chart using HighCharts' 'Basic pie chart using HighCharts' %}</p>
 
 <p>You can find the IRuby notebook example in <a href="http://nbviewer.jupyter.org/github/shekharrajak/daru-view/blob/master/spec/dummy_iruby/HighCharts-%20Pie%20charts.ipynb">this link</a>.</p>
 
@@ -237,7 +329,7 @@ df.to_category :c</p>
 
 <p>In IRuby notebook:</p>
 
-<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/nyaplot_scatter.png?raw=true" title="Basic scatter chart using Nyaplot" alt="Basic scatter chart using Nyaplot"></p>
+<p>{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/nyaplot_scatter.png?raw=true 'Basic scatter chart using Nyaplot' 'Basic scatter chart using Nyaplot' %}</p>
 
 <h3>GoogleChart data table</h3>
 
@@ -272,7 +364,7 @@ galaxy_table.table
 <p>This will return the table object we created using GoogleCharts tool.
 In IRuby notebook, you will see this:</p>
 
-<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_table1.png?raw=true" title="Basic table using GoogleCharts" alt="Basic table using GoogleCharts"></p>
+<p>{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_table1.png?raw=true 'Basic table using GoogleCharts' 'Basic table using GoogleCharts' %}</p>
 
 <p>We can create table using Vectors as well.</p>
 
@@ -291,7 +383,7 @@ dv = Daru::Vector.new [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175
 <p>```
 In Ruby Notebook:</p>
 
-<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_vec_table1.png?raw=true" title="Basic vector table using GoogleCharts" alt="Basic vector table using GoogleCharts"></p>
+<p>{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_vec_table1.png?raw=true 'Basic vector table using GoogleCharts' 'Basic vector table using GoogleCharts' %}</p>
 
 <h3>DataTable</h3>
 
@@ -324,7 +416,7 @@ df_datatable = Daru::View::Table.new(df, pageLength: 3)
 Currently there is some problem to diplay it in IRuby notebook, but in web application
 you can see something like this using</code>df_datatable.div` :</p>
 
-<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/datatables_basic1.png?raw=true" title="Basic table using Datatables" alt="Basic table using Datatables"></p>
+<p>{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/datatables_basic1.png?raw=true 'Basic table using Datatables' 'Basic table using Datatables' %}</p>
 
 <h2>How to use it in Ruby web application</h2>
 

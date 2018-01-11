@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Data Visualization | SciRuby]]></title>
   <link href="http://sciruby.com/blog/categories/data-visualization/atom.xml" rel="self"/>
   <link href="http://sciruby.com/"/>
-  <updated>2017-11-01T22:22:01+09:00</updated>
+  <updated>2018-01-11T11:22:17+09:00</updated>
   <id>http://sciruby.com/</id>
   <author>
     <name><![CDATA[SciRuby]]></name>
@@ -128,7 +128,7 @@ line_basic_chart.chart
 <p>This will return the chart object we created using GoogleCharts.
 In IRuby notebook, you will see this:</p>
 
-<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlecharts_line1.png?raw=true" title="Basic line chart using GoogleCharts" alt="Basic line chart using GoogleCharts"></p>
+<p>{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlecharts_line1.png?raw=true 'Basic line chart using GoogleCharts' 'Basic line chart using GoogleCharts' %}</p>
 
 <p>You can find the IRuby notebook example in <a href="http://nbviewer.jupyter.org/github/shekharrajak/daru-view/blob/master/spec/dummy_iruby/Google%20Chart%20%7C%20%20Line%20Chart.ipynb">this link</a>.</p>
 
@@ -166,7 +166,7 @@ df_cp.vectors = Daru::Index.new(['Country', 'Population'])</p>
 
 <p>Note: If you have already loaded the dependent JS files for the library then you can use <code>adapter: :googlecharts</code> in your Plot initialization.</p>
 
-<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_geo1.png?raw=true" title="Basic Geo chart using GoogleCharts" alt="Basic Geo chart using GoogleCharts"></p>
+<p>{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_geo1.png?raw=true 'Basic Geo chart using GoogleCharts' 'Basic Geo chart using GoogleCharts' %}</p>
 
 <h3>HighCharts:</h3>
 
@@ -203,7 +203,7 @@ plt_pie = Daru::View::Plot.new data, type: :pie
 <p>This will return the <code>Plot</code> object we created.
 In IRuby notebook, you will see this:</p>
 
-<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/highcharts_pie.png?raw=true" title="Basic pie chart using HighCharts" alt="Basic pie chart using HighCharts"></p>
+<p>{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/highcharts_pie.png?raw=true 'Basic pie chart using HighCharts' 'Basic pie chart using HighCharts' %}</p>
 
 <p>You can find the IRuby notebook example in <a href="http://nbviewer.jupyter.org/github/shekharrajak/daru-view/blob/master/spec/dummy_iruby/HighCharts-%20Pie%20charts.ipynb">this link</a>.</p>
 
@@ -237,7 +237,7 @@ df.to_category :c</p>
 
 <p>In IRuby notebook:</p>
 
-<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/nyaplot_scatter.png?raw=true" title="Basic scatter chart using Nyaplot" alt="Basic scatter chart using Nyaplot"></p>
+<p>{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/nyaplot_scatter.png?raw=true 'Basic scatter chart using Nyaplot' 'Basic scatter chart using Nyaplot' %}</p>
 
 <h3>GoogleChart data table</h3>
 
@@ -272,7 +272,7 @@ galaxy_table.table
 <p>This will return the table object we created using GoogleCharts tool.
 In IRuby notebook, you will see this:</p>
 
-<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_table1.png?raw=true" title="Basic table using GoogleCharts" alt="Basic table using GoogleCharts"></p>
+<p>{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_table1.png?raw=true 'Basic table using GoogleCharts' 'Basic table using GoogleCharts' %}</p>
 
 <p>We can create table using Vectors as well.</p>
 
@@ -291,7 +291,7 @@ dv = Daru::Vector.new [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175
 <p>```
 In Ruby Notebook:</p>
 
-<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_vec_table1.png?raw=true" title="Basic vector table using GoogleCharts" alt="Basic vector table using GoogleCharts"></p>
+<p>{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/googlechart_vec_table1.png?raw=true 'Basic vector table using GoogleCharts' 'Basic vector table using GoogleCharts' %}</p>
 
 <h3>DataTable</h3>
 
@@ -324,7 +324,7 @@ df_datatable = Daru::View::Table.new(df, pageLength: 3)
 Currently there is some problem to diplay it in IRuby notebook, but in web application
 you can see something like this using</code>df_datatable.div` :</p>
 
-<p><img src="https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/datatables_basic1.png?raw=true" title="Basic table using Datatables" alt="Basic table using Datatables"></p>
+<p>{% img https://github.com/Shekharrajak/gsoc_2017_blog/blob/master/img/datatables_basic1.png?raw=true 'Basic table using Datatables' 'Basic table using Datatables' %}</p>
 
 <h2>How to use it in Ruby web application</h2>
 
