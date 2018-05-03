@@ -18,7 +18,7 @@ Currently, there are many languages which provide excellent support for BI tools
 #### My project
 
 
-![2](/img/image_7_4.png){:.img-responsive}
+![2](https://rohitner.github.io/img/image_7_4.png){:.img-responsive}
 
 This summer, I have been given a great opportunity to make Ruby more usable for BI. I will be working with the [**Ruby Science Foundation**](http://sciruby.com/) in this edition of GSoC!
 
@@ -26,7 +26,7 @@ We live in a world where people *Google* before they shop. If customers can’t 
 
 My project involves developing daru-based load-analyze-process-visualise data tools for deriving Business Intelligence out of log data of web frameworks.
 
-![3](/img/image_7_1.svg){:.img-responsive}
+![3](https://rohitner.github.io/img/image_7_1.svg){:.img-responsive}
 
 I plan to accomplish four milestones by the end of summer which are as follows.
 
