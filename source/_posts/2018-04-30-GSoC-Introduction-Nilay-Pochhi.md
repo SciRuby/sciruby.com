@@ -12,7 +12,7 @@ The day before the dreaded DBMS end semester exam, I got the news that my propos
 
 I'll be working for project `NetworkX.rb` which falls under the aegis of SciRuby organization. Primarily, my work would be to build a graph analysis library for Ruby. My mentors are [Sameer](https://github.com/v0dro/), [Athitya](https://github.com/athityakumar/) and [Mridul](https://github.com/MridulS). You can follow the project [here](https://github.com/athityakumar/networkx.rb) and possibly give us a star :P.
 
-Ruby lacked a proper graph analysis library. Python has it in NetworkX. Using NetworkX as a guidance point, I decided to fill in the gap or atleast try to (since NetworkX is a pretty huge library) during this GSoC period. A proper complex network analysis library would be a good addition to the arsenal.
+Ruby lacks a proper graph analysis library. Python has it in NetworkX. Using NetworkX as a guidance point, I decided to fill in the gap or atleast try to (since NetworkX is a pretty huge library) during this GSoC period. A proper complex network analysis library would be a good addition to the arsenal.
 
 ### Journey before GSoC Acceptance
 
