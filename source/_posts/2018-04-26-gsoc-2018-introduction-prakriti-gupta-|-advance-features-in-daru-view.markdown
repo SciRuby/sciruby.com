@@ -26,6 +26,8 @@ All of my contributions in daru-view can be tracked [here](https://github.com/Sc
 
 ## The Plan and expected outputs
 
+Now, as I have entered into the Hogwarts :P , I plan to accomplish the following tasks during my way. My first lesson of the wizardy world would be on:
+
 ### HighCharts
 
 HighCharts uses lazy_high_charts as the dependent gem to access the features of [HighCharts](https://www.highcharts.com/demo) JS. In the HighCharts section, I plan to work on some of the feature additions like:
@@ -37,6 +39,8 @@ HighCharts uses lazy_high_charts as the dependent gem to access the features of 
 
 * Export the chart in various formats.
 * I will also implement some advance HighCharts such as circular gauge chart.
+
+Every wizard must know how to use the spell of:
 
 ### GoogleCharts
 
@@ -51,6 +55,8 @@ GoogleCharts uses GoogleVisualr as the dependent gem to access the features of [
 * Adding some more methods in Google DataTables to make it more user-friendly.
 * Right now, I am working on the idea to import the data from google spreadsheets.
 
+Now, Datatables as a part of defence against the dark arts class:
+
 ### DataTables
 
 [DataTables](https://datatables.net/examples/index) uses daru-data_tables as the dependent gem. In DataTables I plan to work on some features like:
@@ -58,8 +64,12 @@ GoogleCharts uses GoogleVisualr as the dependent gem to access the features of [
 * Exporting the chart in HTML format and some code restructuring.
 * Implementation of the server-side processing in the Datatables in order to load large amount of data, piece by piece.
 
-Apart from these, I will put my effort in removing a bunch of lines at the source html file because of js and will work on completing the basic structure of the plugin to add a new adapter. I will also add numerous examples to demonstrate the capabilities of daru-view.
+Its the strength and determination that makes a wizard strong. Apart from these spells, I will put my effort in removing a bunch of lines at the source html file because of js and will work on completing the basic structure of the plugin to add a new adapter. I will also add numerous examples to demonstrate the capabilities of daru-view.
 
 This project might involve a number of challenges but never letting my spirit down, I will be at my best effort to achieve them during the summer.
 
 To get in touch and add more of your ideas, do visit this discourse discussion [topic](https://discourse.ruby-data.org/t/gsoc-2108-project-advance-features-in-daru-view-discussion/43).
+
+All set to be a master wizard! ;)
+
+![4](https://github.com/Prakriti-nith/Daru-view-examples/blob/master/images/dumbledore.gif)
