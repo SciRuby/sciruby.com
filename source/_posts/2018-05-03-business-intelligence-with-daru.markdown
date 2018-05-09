@@ -9,7 +9,7 @@ categories: [GSOC 2018, GSOC, Daru, Business, Intelligence]
 
 #### What is Business Intelligence?
 
-Business Intelligence is nothing but a way how business firms get smarter, smarter by analyzing information which concerns them. *“If you torture the data long enough, Nature will confess,”* said 1991 Nobel-winning economist Ronald Coase. BI helps easily achieve this lofty goal. Companies design strategies by figuring out bottlenecks from the data they have using BI.
+Business Intelligence is nothing but a way how business firms get smarter, smarter by analyzing information which concerns them. *“If you torture the data long enough, Nature will confess.”* said 1991 Nobel-winning economist Ronald Coase. BI helps easily achieve this lofty goal. Companies design strategies by figuring out bottlenecks from the data they have using BI.
 
 #### BI with Ruby
 
@@ -34,7 +34,7 @@ I plan to accomplish four milestones by the end of summer which are as follows.
 
 * **Data Cleaning** : A data cleaning module is one of the important things missing in the daru-based ecosystem. I plan to make this module akin to its counterparts in other languages along with additions from pre-existing data cleaning gems.
 
-* **Data Analysis** : Methods used for getting a statistical insight of the data are scattered in daru. I plan to relocate all these methods in a single module along with useful methods for sampling and clustering.
+* **Business Analysis** : Methods used for getting a statistical insight of the data are scattered in daru. I plan to relocate all these methods in a single module along with useful methods for sampling and clustering.
 
 * **Dashboard App** : To exhibit the abilities of daru’s infrastructure, it is necessary to provide an end product to the users. The dashboard app will be a demonstration of the combined result of all the other modules.
 
