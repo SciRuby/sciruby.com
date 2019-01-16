@@ -18,7 +18,7 @@ Daru-view now presents data in some more visualizations like HighMap and HighSto
 ![Data from spreadsheet](https://camo.githubusercontent.com/c6145397f1bf1756bb2f2921ce35ea0d88b51099/68747470733a2f2f33327465657468676c69747465722e66696c65732e776f726470726573732e636f6d2f323031382f30362f696d706f72745f73707265616473686565742e706e67 "Fig. 4: Importing Data from Google spreadsheet")
 ![Multiple visualizations](https://camo.githubusercontent.com/5c9e5453dcf25cadceca7f558152bb0f75cdc737/68747470733a2f2f33327465657468676c69747465722e66696c65732e776f726470726573732e636f6d2f323031382f30372f6d756c7469706c655f67635f68632e706e67 "Fig. 5: Comparing data using different visualizations side by side")
 
-These figures describe some of the features implemented in daru-view during GSoC.
+These figures describes the usage of some of the features implemented in daru-view during GSoC.
 
 # Application
 
@@ -26,9 +26,9 @@ The GSoC 2018 application can be found [here](https://docs.google.com/document/d
 
 # Code
 
-GSoC 2018 work done summary – [Progress Report](https://github.com/SciRuby/daru-view/wiki/GSoC-2018---Progress-Report)
-GSoC 2018 work presentation – [Advance Features in daru-view](https://docs.google.com/presentation/d/1lhf3QA5SmqA9YbMAjd6JnSJuZBuAfRKFBYs7JPKPRis/edit?usp=sharing)
-Discourse Discussion – [daru-view discussion](https://discourse.ruby-data.org/t/gsoc-2108-project-advance-features-in-daru-view-discussion/43/50)
+* GSoC 2018 work done summary – [Progress Report](https://github.com/SciRuby/daru-view/wiki/GSoC-2018---Progress-Report)
+* GSoC 2018 work presentation – [Advance Features in daru-view](https://docs.google.com/presentation/d/1lhf3QA5SmqA9YbMAjd6JnSJuZBuAfRKFBYs7JPKPRis/edit?usp=sharing)
+* Discourse Discussion – [daru-view discussion](https://discourse.ruby-data.org/t/gsoc-2108-project-advance-features-in-daru-view-discussion/43/50)
 
 The work done during this GSoC has been explained in the following eight blog posts:
 
