@@ -11,9 +11,9 @@ categories: [GSoC, GSoC 2018, RubyPlot, Data Visualization, Ruby, Matplotlib, GR
 
 For my summer of code Project I decided to create a plotting library.
 
-From the scratch.
+From scratch.
 
-in Ruby.
+In Ruby.
 
 ### 2. Application
 
