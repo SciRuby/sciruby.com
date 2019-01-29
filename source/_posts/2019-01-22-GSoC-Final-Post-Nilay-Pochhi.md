@@ -6,13 +6,27 @@ comments: true
 author: Nilay Pochhi
 ---
 
-The GSoC 2018 coding period is about to end. This post summarizes my journey throughout the period.
+The GSoC 2018 coding period has ended. This post summarizes my journey throughout the period.
 
 <!--more-->
 
 ### GSoC Proposal
 
 You can find my GSoC proposal [here](https://docs.google.com/document/d/1_gUCa1LNPZmkKkqCEXR7eJu-IZ9DiiA-n0kG660hLIE/edit?usp=sharing) and the link to the project repository [here](https://github.com/sciruby/networkx.rb).
+
+### What is this thing?
+
+NetworkX.rb is a graph analysis library for Ruby. It is named after the popular Python package named NetworkX.
+
+### Why in the world do we need this library?
+
+You can find graphs everywhere. From studying molecular biology to studying the way internet functions, graphs find a place in our everyday lives. A ubiquitous example is the one of Google Search. PageRank Algorithm, which governs the importance given to a particular webpage and is widely used in the Google Search, is a graph based algorithm. Analysis of the graphs is of prime importance and there is heavy research going on in the scientific community on the said topic.
+Ruby lacked a proper graph analysis library and hence to fill the vacuum, we decided to make a library of our own.
+
+### Architecture of the library
+
+There are four main classes; Graph, DiGraph, MultiGraph and MultiDiGraph. DiGraph inherits from Graph, MultiGraph inherits from Graph and MultiDiGraph inherits from DiGraph. The classes have various graph modification methods implemented. To get a detailed look at the methods, please check my GSoC proposal.
+Several graph analysis algorithms have been implemented. These algorithms are graph type agnostic i.e. the implementation handles all cases of graphs. Some algorithms however, have support for only a subset of types because they simply aren't defined for other types.
 
 ### Finished, unfinished and future goals
 
@@ -51,9 +65,7 @@ Most of the goals that were proposed have been reached. NetworkX.rb supports fol
     * Difference of two/more graphs
     * Symmetric difference of two/more graphs
 
-There was one algorithm, Network Simplex, in my proposal which I haven't implemented. I plan to do it soon.
-
-The GSoC goals though reached, are missing many algorithms like assortativity finding etc. which are important for analysis of complex networks. I'm also thinking of including a visualization/interative tool which may be useful for community as it would make the library language agnostic i.e. one would not require the knowledge of Ruby language to model networks and perfom analysis on it.
+The GSoC goals though reached, are missing many algorithms like assortativity finding etc. which are important for analysis of complex networks. I'm also thinking of including a visualization/interactive tool which may be useful for community as it would make the library language agnostic i.e. one would not require the knowledge of Ruby language to model networks and perfom analysis on it.
 
 ### Acknowledgements
 
