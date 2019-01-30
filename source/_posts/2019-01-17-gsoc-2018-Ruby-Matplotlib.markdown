@@ -60,7 +60,7 @@ Our ultimate goal is to make this project similar to a matplotlib equivalent for
 
 I have been an active contributor to a few open source projects and I have started a few
 nice ones of my own and I feel really glad to have been introduced to the open
-source community. I really appreciate the effort by Google Open Source Committee for conducting GSoC every year. It is the best platform for the aspiring programmers to improve their skill and give back to society by developing free and open source software.
+source community. I really appreciate the effort by Google Open Source Committee for conducting GSoC every year. It is the best platform for aspiring programmers to improve their skill and give back to society by developing free and open source software.
 
 ## Acknowledgements
 
