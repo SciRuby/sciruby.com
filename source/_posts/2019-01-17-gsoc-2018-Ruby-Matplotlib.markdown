@@ -11,7 +11,7 @@ This is a wrap of my Gsoc project at Sciruby where I worked on builing Matplotli
 
 At Sciruby, we came across the ambitious task of designing the next Matplotlib for Ruby and so we examined quite a few different plotting libraries and figured that if we could put together ideas from all of these libraries then we can make something really amazing.Primarily our main source of inspiration was Matplotlib. The Matplotlib Architecture is be broadly divided into three layers. The Backend, The Artist and the scripting layer.
 
-Matplotlib architecture is mostly written in Python with some of its backend (the renderer AGG and Figure canvas ) written in C++ ( The original AGG backend and helper scripts, which is quite tightly bound to python). But the recently the backends are also written in Python using the renderers which have Python APIs. The finer details of the Architecture can be found [here](https://www.aosabook.org/en/matplotlib.html).
+Matplotlib architecture is mostly written in Python with some of its backend (the renderer AGG and Figure canvas ) written in C++ ( The original AGG backend and helper scripts, which is quite tightly bound to python). But recently the backends are also written in Python using the renderers which have Python APIs. The finer details of the Architecture can be found [here](https://www.aosabook.org/en/matplotlib.html).
 
 
 Based on Matplotlib our initial plans for the library can be described in this visual.
