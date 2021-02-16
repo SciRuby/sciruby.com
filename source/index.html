@@ -1,91 +1,29 @@
 ---
-layout: page
-footer: false
+layout: default
 ---
-<h2>The SciRuby Manifesto</h2>
-<p><a href="http://www.ruby-lang.org/">Ruby</a> has for some time lacked libraries implementing the basic tools needed for scientific computing and data visualization.</p>
 
-<p>We believe that the time for a Ruby science and visualization package has come. Sometimes when a solution of sugar and water becomes super-saturated, from it precipitates a pure, delicious, and diabetes-causing crystal of sweetness, induced by no more than the tap of a finger. So it is, we believe, with the need for numeric and visualization libraries in Ruby.</p>
-
-<img src="images/logo.png" alt="SciRuby logo" height="256" width="256" />
-
-<p>We are not the first with this idea, but we are bringing it to life.</p>
-
-<h2>Project Status</h2>
-<p>A few months ago, we shipped our first beta release of <a href="nmatrix/">NMatrix</a>, the SciRuby linear algebra library. NMatrix includes both dense and sparse matrix storage, and we are working on including full ATLAS and LAPACK support.</p>
-
-<p>Our key goals in the short term are improved visualization software and continued development of our linear algebra software (NMatrix and MDArray). We have several experimental plotting libraries &mdash; such as Rubyvis, Plotrb, and Nyaplot &mdash; and are interested in improving existing APIs, such as for Gnuplot.</p>
-
-<h3 id="googlegroup">Subscribe to the SciRuby Google Group</h3>
-<form action="http://groups.google.com/group/sciruby-dev/boxsubscribe">
-<p>To subscribe to our <a href="http://groups.google.com/group/sciruby-dev">Google Group</a>, please enter your email below.
-  <div style="padding-left: 3em;">
-    <input type="text" name="email"><input type="submit" name="sub" value="Subscribe">
+<div class="blog-index">
+  {% assign index = true %}
+  {% for post in paginator.posts %}
+  {% assign content = post.content %}
+    <article>
+      {% include article.html %}
+    </article>
+  {% endfor %}
+  <div class="pagination">
+    {% if paginator.next_page %}
+      <a class="prev" href="{{paginator.next_page}}">&larr; Older</a>
+    {% endif %}
+    <a href="/blog/archives">Blog Archives</a>
+    {% if paginator.previous_page %}
+    <a class="next" href="{{paginator.previous_page}}">Newer &rarr;</a>
+    {% endif %}
   </div>
-</p>
-</form>
-
-<h3 id="irc">SciRuby on IRC</h3>
-
-<p>Our IRC channel is most active during the months of Google Summer of Code, but generally there are always a few people around. You can find us on Freenode.net in <tt>#sciruby</tt>.</p>
-
-<h2 id="installation">Getting SciRuby</h3>
-
-<p class="warning"><strong>Word to the wise:</strong> These gems have been tested, but are not battle-hardened. If you're thinking of using NMatrix (or other SciRuby components) to write mission critical code, such as for a self-driving car or controlling an ARKYD 100 satellite, you should expect to encounter a few bugs --- and be prepared for them.</p>
-
-<p><a href="/docs">Instructions for installing various SciRuby components are available in our docs.</a></p>
-
-<p><a href="/nmatrix/">You can find our NMatrix documentation here.</a></p>
-
-<h2 id="developers">Developers</h2>
-
-<p>You can find the <a href="https://github.com/SciRuby/sciruby/wiki/Roster">full roster</a> on our <a href="https://github.com/SciRuby/sciruby/wiki/">project wiki</a>.</p>
-
-<h3 id="get-involved">Want to get involved?</h3>
-
-<p><strong>Say you have a few hours and are itching to get your hands dirty.</strong> The best place to look right now is <a href="https://github.com/sciruby/nmatrix/issues?sort=created&direction=desc&state=open">the NMatrix issue tracker</a> on Github. Pick something that interests you and fork us!</p>
-
-<p>You might also check out the <a href="https://github.com/sciruby/sciruby/issues?sort=created&direction=desc&state=open">SciRuby issue tracker</a> if matrices don't interest you much.</p>
-
-<h2 id="license">License</h2>
-
-<p>SciRuby and NMatrix are <a href="https://github.com/SciRuby/sciruby/wiki/License">available under the BSD three-clause license</a>.</p>
-
-<h2 id="acknowledgements">Acknowledgements</h2>
-
-<ul>
-    <li>
-        Google Summer of Code <a href="https://www.google-melange.com/gsoc/org2/google/gsoc2013/sciruby">2013</a>, <a href="https://www.google-melange.com/gsoc/org2/google/gsoc2014/sciruby">2014</a>, <a href="https://www.google-melange.com/gsoc/org2/google/gsoc2015/sciruby">2015</a>, 2016 and 2017,<a href="https://developers.google.com/open-source/">Google's Open Source Programs Office</a>, and all of our wonderful students and mentors.<br/>
-    </li>
-    <li><a href="http://brighterplanet.com/">Brighter Planet</a> for their sponsorship of our first ever <a href="/blog/2012/05/08/sciruby-summer-of-code/">SciRuby Summer of Code</a> in 2012.
-        <a href="http://brighterplanet.com"><img src="http://static.brighterplanet.com/assets/logos/flush-left/inline/green/rasterized/brighter_planet-140.png" alt="Brighter Planet logo" /></a>
-    </li>
-    <li>
-        <a href="http://www.jetbrains.com">JetBrains</a> has kindly provided our project with an open source license for <a href="https://www.jetbrains.com/ruby/">RubyMine</a>.
-    </li>
-    <li>
-        <a href="http://www.ruby.or.jp">The Ruby Association</a> generously awarded us with a <a href="http://www.ruby.or.jp/en/news/20120717.html">rather large grant</a> to fund a couple of SciRuby fellows in 2012. Thanks, Ruby Association!
-    </li>
-    <li>
-        <a href="http://www.ruby.or.jp/en/news/20141106.html">The Ruby Association Grant 2014</a> awarded to <a href="https://github.com/domitry">@domitry</a> for The Mikon Project.
-    </li>
-    <li>
-        <a href="http://www.ruby.or.jp/en/news/20151116.html">The Ruby Association Grant 2015</a> awarded to <a href="https://github.com/v0dro">@v0dro</a> for further development of NMatrix plugins. 
-    </li>
-    <li>
-      <a href="http://www.ruby.or.jp/en/news/20161121.html">The Ruby Association Grant 2016</a> awarded to <a href="https://github.com/v0dro">@v0dro</a> for further development of Rubex.    </li>
-    <li>
-      <a href="http://www.ruby.or.jp/en/news/20171206">The Ruby Association Grant 2017</a> awarded to <a href="https://github.com/prasunanand/">@prasunanand</a> for development of GPU-accelerated Ruby libraries for handling large datasets.
-    </li>
-    <li>
-        <a href="http://www.symora.com">Symora Networks</a> gave a major portion of the funding toward our eventual application for 501(c)(3) (U.S. educational charity) status.<br/>
-        <a href="http://www.symora.com"><img src="/images/symora.png" alt="Symora Networks logo" /></a>
-    </li>
-    <li>
-        Masahiro Tanaka, the creator of NArray, without which NMatrix would not be possible.
-    </li>
-    <li>
-        The several individual donors to our project.
-    </li>
-</ul>
-
+</div>
+<aside class="sidebar">
+  {% if site.blog_index_asides.size %}
+    {% include_array blog_index_asides %}
+  {% else %}
+    {% include_array default_asides %}
+  {% endif %}
+</aside>
