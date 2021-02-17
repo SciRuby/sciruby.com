@@ -1,3 +1,11 @@
+## SciRuby Octopress Blog
+
+Please make a PR to add your blogs here.
+
+The web content generated is then added to `sciruby.github.com` repo.
+
+
+
 ## What is Octopress?
 
 Octopress is [Jekyll](https://github.com/mojombo/jekyll) blogging at its finest.
