@@ -7,7 +7,7 @@ comments: true
 categories: [GSoC, GSoC 2019, Ruby, NMatrix, NumRuby]
 ---
 
-The GSoC coding period has come to an end. It's been quite a learning experience for me and has given me an opportunity to come out of my comfort zone and explore new things. I feel quite delighted knowing that I have contributed a significant amount to the project. This post summarizes my work on [NumRuby]() during the GSoC period.
+The GSoC coding period has come to an end. It's been quite a learning experience for me and has given me an opportunity to come out of my comfort zone and explore new things. I feel quite delighted knowing that I have contributed a significant amount to the project. This post summarizes my work on [NumRuby](https://github.com/sciruby/numruby) during the GSoC period.
 
 GSoC 2019 proposal - [https://docs.google.com/document/d/1MR01QZeX_8h7a16nmkOYlyrVt--osB1Yg9Vo0xXYtSw/edit?usp=sharing](https://docs.google.com/document/d/1MR01QZeX_8h7a16nmkOYlyrVt--osB1Yg9Vo0xXYtSw/edit?usp=sharing)
 
