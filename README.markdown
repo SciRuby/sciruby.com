@@ -21,6 +21,8 @@ cd ..
 git clone github.com/sciruby/sciruby.github.com
 cp -rf sciruby.com/public/*  sciruby.github.com/
 cd sciruby.github.com
+git add --all
+git commit -m "modified the website"
 git push -u origin master
 ```
 
