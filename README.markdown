@@ -2,7 +2,27 @@
 
 Please make a PR to add your blogs here.
 
+To generate site
+
+```
+rake preview
+```
+
 The web content generated is then added to `sciruby.github.com` repo.
+
+
+## How to publish
+
+```
+git clone sciruby.com
+bundle install
+rake preview
+cd ..
+git clone github.com/sciruby/sciruby.github.com
+cp -rf sciruby.com/public/*  sciruby.github.com/
+cd sciruby.github.com
+git push -u origin master
+```
 
 
 
