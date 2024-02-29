@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 group :development do
   gem 'rake', '~> 0.9.2'
-  gem 'rack', '~> 1.6.13'
+  gem 'rack', '~> 3.0.9'
   gem 'jekyll', '~> 0.11.2'
   gem 'rdiscount', '~> 1.6.8'
   gem 'pygments.rb', '~> 0.6.3'
@@ -15,4 +15,4 @@ group :development do
   gem 'liquid', '~> 2.3.0'
 end
 
-gem 'sinatra', '~> 1.4.5'
+gem 'sinatra', '~> 4.0.0'
